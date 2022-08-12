@@ -1,0 +1,15 @@
+{
+  "name": "y-ui",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "build": "vite build & esno build/buildLess",
+    "createc": "plop createc"
+  },
+  "files": ["es", "lib"],
+  "keywords": ["y-ui", "vue3组件库"],
+  "author": "JJYang",
+  "license": "MIT",
+  "description": "",
+  "typings": "lib/index.d.ts"
+}
