@@ -1,139 +1,130 @@
+@import "../../assets//_variables.less";
 button {
-    position: relative;
-    margin-right: 8px;
-    display: inline-block;
-    font-weight: 400;
-    white-space: nowrap;
-    text-align: center;
-    background-image: none;
-    border: 1px solid transparent;
-    box-shadow: 0 2px #00000004;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    touch-action: manipulation;
-    border-radius: 2px;
+  position: relative;
+  user-select: none;
+  outline: 0;
+  border-radius: 3px;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  border: none;
 }
 
-.y-button {
-    color: #000000d9;
-    border-color: #d9d9d9;
-    background: #fff;
+button::before {
+  user-select: none;
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  transition: 0.2s;
+  background: #fff;
+  opacity: 0;
+}
+
+button:active {
+  user-select: none;
+  opacity: 0.7;
+}
+
+button :active::before {
+  user-select: none;
+  opacity: 0.2;
+}
+button ::after {
+  user-select: none;
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: var(--x, 0);
+  top: var(--y, 0);
+  background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: translate(-50%, -50%) scale(10);
+  opacity: 0;
+  transition: transform 0.8s, opacity 0.8s;
+}
+button :active::after {
+  user-select: none;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0.3;
+  transition: 0s;
+}
+
+.button-default {
+  color: #000000d9;
+  
+  background: #fff;
+  border: 1px solid #c0c4ccbd;
+}
+
+.button-default:active{
+    border: 1px solid @primary;
+    background-color:#0066ff25;
+    color: @primary;
 }
 
 .y-button-disabled {
-    color: #0000003e;
-    border-color: #d9d9d9;
-    background: #eeeeee;
-    text-shadow: none;
-    box-shadow: none;
-    cursor: not-allowed;
-}
-
-.y-button:hover {
-    color: #1890ff;
-    border-color: #1890ff;
-}
-
-.y-button:active {
-    top: -1px;
-    background-color: #188fff18;
+  color: #0000003e;
+  border-color: #d9d9d9;
+  background: #eeeeee;
+  text-shadow: none;
+  box-shadow: none;
+  cursor: not-allowed;
 }
 
 .button-primary {
-    border-color: #409eff;
-    background-color: #409eff;
-    color: #ffff;
-}
-
-.button-primary:hover {
-    color: #fff;
-    border-color: #1890ff;
-}
-
-.button-primary:active {
-    border-color: #188fff00;
-    background-color: #188fffae;
+  border-color: @primary;
+  background-color: @primary;
+  color: #ffff;
 }
 
 .button-success {
-    background-color: #67c23a;
-    border-color: #67c23a;
-    color: #fff;
-}
-
-.button-success:hover {
-    color: #fff;
-    border-color: #67c23a;
-}
-
-.button-success:active {
-    border-color: #67c23a00;
-    background-color: #67c23ad6;
+  background-color: @success;
+  border-color: @success;
+  color: #fff;
 }
 
 .button-warning {
-    background-color: #e6a23c;
-    border-color: #e6a23c;
-    color: #fff;
-}
-
-.button-warning:hover {
-    color: #fff;
-    border-color: #e6a23c;
-}
-
-.button-warning:active {
-    border-color: #e6a23c00;
-    background-color: #e6a23cbe;
+  background-color: @warning;
+  border-color: @warning;
+  color: #fff;
 }
 
 .button-danger {
-    background-color: #ff4d4f;
-    color: #ffff;
-    border-color: #ff4d4f;
-}
-
-.button-danger:hover {
-    color: #fff;
-    border-color: #ff4d4f;
-}
-
-.button-danger:active {
-    border-color: #ff4d5000;
-    background-color: #ff4d50b7;
+  background-color: @danger;
+   border-color: @danger;
+  color: #ffff;
+ 
 }
 
 .button-info {
-    background-color: #909399;
-    border-color: #909399;
-    color: #fff;
+  background-color: @info;
+  border-color: @info;
+  color: #fff;
 }
 
-.button-info:hover {
-    color: #fff;
-    border-color: #909399;
-}
 
-.button-info:active {
-    border-color: #90939900;
-    background-color: #909399b0;
-}
 
 .size-small {
-    padding: 2px 8px;
-    font-size: 12px;
+  padding: 5px 11px;
+  font-size: 12px;
 }
 
 .size-default {
-    height: 28px;
-    padding: 4px 11px;
-    font-size: 12px;
+  padding: 8px 15px;
+  font-size: 14px;
 }
 
 .size-large {
-    height: 32px;
-    padding: 4px 14px;
-    font-size: 13px;
+  padding: 12px 19px;
+  font-size: 14px;
 }

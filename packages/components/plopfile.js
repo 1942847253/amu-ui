@@ -16,6 +16,11 @@ module.exports = (plop) => {
       },
       {
         type: "add",
+        path: "src/{{name}}/style/index.ts",
+        templateFile: "plop-template/component.less-index.hbs",
+      },
+      {
+        type: "add",
         path: "src/{{name}}/{{name}}.vue",
         templateFile: "plop-template/component.hbs",
       },

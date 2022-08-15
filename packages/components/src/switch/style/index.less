@@ -1,0 +1,57 @@
+.switch-content {
+  display: inline-block;
+  .switch-component {
+    position: relative;
+    background-color: #cfcfcf;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .switch-disable {
+    cursor: not-allowed;
+    background-color: #e4e4e4;
+  }
+
+  /* 按钮 */
+  .switch-component::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 1px;
+    width: 47%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 50%;
+
+    transition: all 0.2s ease;
+  }
+
+  /* checked状态时，背景颜色改变 */
+  .switch-component:checked {
+    background-color: #007dfb;
+  }
+
+  /* checked状态时，按钮位置改变 */
+  .switch-component:checked::after {
+    left: 52%;
+  }
+
+  .size-default {
+    width: 42px;
+    height: 20px;
+  }
+
+  .size-small {
+    width: 34px;
+    height: 17px;
+  }
+
+  .size-large {
+    width: 50px;
+    height: 22.5px;
+  }
+}
