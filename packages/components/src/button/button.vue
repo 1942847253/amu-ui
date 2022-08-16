@@ -1,13 +1,12 @@
 <template>
   <button
+    v-waterRipple=""
     :disabled="disabled"
-    :class="`y-button-${times} ${disabled && 'y-button-disabled'} ${
+    :class="`${disabled && 'y-button-disabled'} ${
       !disabled && 'y-button'
     } ${!disabled && getButtonType(type)} ${getButtonSize(size)}`"
   >
-    <span>
-      <slot></slot>
-    </span>
+   <slot></slot>
   </button>
 </template>
 
@@ -15,16 +14,15 @@
 import "./style/index.less";
 import { defineComponent, onMounted } from "vue";
 import { buttonProps } from "./types";
-import { uuid } from "@/utils";
+import waterRipple from "../assets/directives/water-ripple";
 
 export default defineComponent({
   name: "YButton",
   props: buttonProps,
+  directives: {
+    waterRipple,
+  },
   setup(props, { emit }) {
-    const times = uuid();
-    onMounted(() => {
-      waterRipplePositon();
-    });
     const getButtonType = (type: string | undefined) => {
       switch (type) {
         case "primary":
@@ -54,16 +52,7 @@ export default defineComponent({
           return "size-default";
       }
     };
-
-    const waterRipplePositon = () => {
-      const el = document.querySelector(`.y-button-${times}`) as any;
-      el.addEventListener("mousedown", (e: any) => {
-        const { left, top } = el.getBoundingClientRect();
-        el.style = `--x:${e.clientX - left}px;--y:${e.clientY - top}px`;
-      });
-    };
     return {
-      times,
       getButtonType,
       getButtonSize,
     };

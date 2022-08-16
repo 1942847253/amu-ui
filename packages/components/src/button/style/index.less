@@ -1,4 +1,4 @@
-@import "../../assets//_variables.less";
+@import "../../assets/style/_variables.less";
 button {
   position: relative;
   user-select: none;
@@ -10,58 +10,23 @@ button {
   justify-content: center;
   text-align: center;
   cursor: pointer;
-  border: none;
+  color: @text-color-white;
+  margin-right: 12px;
 }
 
-button::before {
-  user-select: none;
-  content: "";
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  transition: 0.2s;
-  background: #fff;
-  opacity: 0;
+
+button:hover{
+   opacity: 0.7;
 }
 
 button:active {
-  user-select: none;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
-button :active::before {
-  user-select: none;
-  opacity: 0.2;
-}
-button ::after {
-  user-select: none;
-  content: "";
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: var(--x, 0);
-  top: var(--y, 0);
-  background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
-  background-repeat: no-repeat;
-  background-position: 50%;
-  transform: translate(-50%, -50%) scale(10);
-  opacity: 0;
-  transition: transform 0.8s, opacity 0.8s;
-}
-button :active::after {
-  user-select: none;
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0.3;
-  transition: 0s;
-}
+
 
 .button-default {
-  color: #000000d9;
-  
+  color: @text-color-black;
   background: #fff;
   border: 1px solid #c0c4ccbd;
 }
@@ -78,37 +43,38 @@ button :active::after {
   background: #eeeeee;
   text-shadow: none;
   box-shadow: none;
+  color: rgba(0, 0, 0, 0.31);
   cursor: not-allowed;
 }
 
 .button-primary {
-  border-color: @primary;
+  border: 1px solid @primary;
   background-color: @primary;
   color: #ffff;
 }
 
 .button-success {
+  border: 1px solid @success;
   background-color: @success;
-  border-color: @success;
   color: #fff;
 }
 
 .button-warning {
+  border: 1px solid @warning;
   background-color: @warning;
-  border-color: @warning;
   color: #fff;
 }
 
 .button-danger {
-  background-color: @danger;
-   border-color: @danger;
+   border: 1px solid @danger;
+   background-color: @danger;
   color: #ffff;
  
 }
 
 .button-info {
+  border: 1px solid @info;
   background-color: @info;
-  border-color: @info;
   color: #fff;
 }
 
