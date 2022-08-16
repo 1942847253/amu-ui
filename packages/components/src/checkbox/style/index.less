@@ -1,10 +1,11 @@
+@import '../../assets/style/_variables.less';
 .y-checked-content {
   cursor: pointer;
   display: inline-flex;
   white-space: nowrap;
   user-select: none;
   margin-right: 16px;
-  height: 32px;
+
   input {
     width: 15px;
     height: 15px;
@@ -13,9 +14,9 @@
   .label {
     margin-left: 3px;
     font-size: 14px;
-    margin-top: 0.5px;
+    color: @text-color-black
   }
   .checked {
-    color: #2a6ef8;
+    color: @primary;
   }
 }
