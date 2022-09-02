@@ -1,1 +1,0 @@
-import { ExtractPropTypes } from 'vue'

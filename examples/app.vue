@@ -1,22 +1,18 @@
 <template>
   <div style="width:100vw">
     <YButton type="primary">primary</YButton>
-   <YButton type="danger">danger</YButton> 
-    <YButton type="success">success</YButton>
-   
-    <YButton type="warning">warning</YButton>
-   
-    <YButton type="info">info
+    <YButton type="danger" @click="showError">danger</YButton>
+    <YButton type="success" @click="showSuccess">success</YButton>
+
+    <YButton type="warning" @click="showWarning">warning</YButton>
+
+    <YButton type="info" @click="showMessage">info
     </YButton>
-   
+
     <YButton>default</YButton>
 
     <YCheckbox>我已经阅读并同意此协议</YCheckbox>
-    <YCheckboxGroup
-      v-model="checkedList"
-      :options="options"
-      :column="true"
-    ></YCheckboxGroup>
+    <YCheckboxGroup v-model="checkedList" :options="options" :column="true"></YCheckboxGroup>
     <YSwitch size="large" v-model="value"></YSwitch>
     <YSwitch v-model="value"></YSwitch>
     <YSwitch size="small" v-model="value"></YSwitch>
@@ -24,9 +20,9 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { YButton, YCheckbox, YCheckboxGroup, YSwitch } from "y-ui";
+import { YButton, YCheckbox, YCheckboxGroup, YSwitch, YMessage, YMessageBox } from "y-ui";
 
-const value= ref(true)
+const value = ref(true)
 const value1 = ref(2);
 const checkedList = ref([1, 2]);
 const options = ref([
@@ -43,5 +39,37 @@ const options = ref([
     value: 3,
   },
 ]);
+
+const showError = () => {
+  YMessage.error({
+    message:'this is a error message'
+  })
+}
+
+const showSuccess = () => {
+  YMessageBox({
+    title:'测试',
+    content:'点击确定按钮将会出现一个成功的message 他会返回一个成功的Promise',
+    showCancelBtn:true
+  }).then(()=>{
+    YMessage.success({
+      message: 'this is a success message'
+    })
+  })
+}
+
+const showWarning = () => {
+  YMessage.warning({
+    message: 'this is a warning message'
+  })
+}
+
+const showMessage = () => {
+  YMessage.message({
+    message: 'this is a info message'
+  })
+}
+
 </script>
-<style lang="less"></style>
+<style lang="less">
+</style>
