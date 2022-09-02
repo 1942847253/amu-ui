@@ -1,0 +1,52 @@
+.y-table {
+  border-collapse: collapse;
+  tr {
+    color: #606266;
+    height: 44px;
+    border: none;
+    border-bottom: 1px solid #ebeef5;
+
+    td {
+      position: relative;
+      text-align: left;
+
+      font-size: 13px;
+      cursor: pointer;
+
+      div {
+        padding: 10px 10px;
+        word-break: break-all;
+      }
+    }
+  }
+  thead {
+    th {
+      position: relative;
+      color: #909399;
+      font-size: 14px;
+      text-align: left;
+      padding: 0 8px;
+      background-color: #fafafa;
+    }
+    th:not(:last-child)::before {
+      position: absolute;
+      top: 50%;
+      right: 5px;
+      width: 1.4px;
+      height: 1.6em;
+      background-color: #0000000f;
+      transform: translateY(-50%);
+      content: "";
+    }
+  }
+  tbody {
+    tr:hover {
+      background-color: #fafafa;
+    }
+  }
+}
+.td-ediit {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
