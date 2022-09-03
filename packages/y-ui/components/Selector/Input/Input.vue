@@ -1,6 +1,6 @@
 <template>
   <div class="selector-input">
-    <label class="placeholder">{{ placeholder }}</label>
+    <label @click="blurInput" class="placeholder">{{ placeholder }}</label>
     <input
       class="input"
       type="text"
@@ -8,8 +8,8 @@
       ref="input"
       :readonly="!isSearch"
       @input="searchOptions"
-      @focus="searchOptions"
-      @blur="setValue(inputValue)"
+      @focus="firstBurlSearch"
+      @blur="setValue(inputValue!)"
     />
     <span
       style="transform: translateX(-50 %) rotate(-90deg)"
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, onMounted } from "vue";
+import { defineComponent, getCurrentInstance } from "vue";
 export default defineComponent({
   name: "SelectorInput",
   props: {
@@ -37,57 +37,34 @@ export default defineComponent({
   emits: ["searchOptions"],
   setup(props, { emit }) {
     const instance = getCurrentInstance();
-    const searchOptions = (event) => {
-      const val = event.target.value as string;
+    const searchOptions = (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      const val = target.value as string;
       emit("searchOptions", val);
     };
+    const firstBurlSearch = () => {
+      emit("searchOptions", "");
+    };
 
-    const setValue = (value) => {
-      const input: any = instance!.refs.input;
-      if (input.value.length > 0) {
-        input.value = value;
-      }
+    const setValue = (value: string) => {
+      const input = instance!.refs.input as HTMLInputElement;
+      input.value = value;
+    };
+
+    const blurInput = () => {
+      const input = instance!.refs.input as HTMLInputElement;
+      input.focus();
     };
     return {
       setValue,
+      blurInput,
       searchOptions,
+      firstBurlSearch,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-@import "../../../iconfont/iconfont.css";
-.selector-input {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .input {
-    background-color: #fff;
-    border: 1px solid #d9d9d9;
-    border-radius: 2px;
-    height: 30px;
-    width: 100%;
-    padding: 0 10px;
-    outline: invert;
-    outline-color: #409eff;
-    outline-offset: 0.5px;
-  }
-  .placeholder {
-    position: absolute;
-    left: calc(10px);
-    color: #c2c2c2;
-    font-size: 13px;
-  }
-  .iconfont {
-    position: absolute;
-    right: calc(10px);
-    color: #c2c2c2;
-    pointer-events: none;
-  }
-  .iconfont-transform {
-    transform: translateX(-50%) rotate(-90deg);
-  }
-}
+@import "./index.scss";
 </style>

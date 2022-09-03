@@ -19,5 +19,8 @@
     "vite-plugin-dts": "^1.2.1",
     "vite-plugin-libcss": "^1.0.5",
     "vue": "^3.2.36"
+  },
+  "dependencies": {
+    "@vueuse/core": "^9.1.1"
   }
 }

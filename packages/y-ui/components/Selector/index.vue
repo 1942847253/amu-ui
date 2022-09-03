@@ -1,5 +1,5 @@
 <template>
-  <div class="selector" v-focus>
+  <div class="y-selector" ref="selectRef" v-focus>
     <SelectorInput
       :placeholder="placeholder"
       :inputValue="inputValue"
@@ -10,13 +10,14 @@
       @setItemValue="setItemValue"
       :options="options"
       :searchValue="searchValue"
+      :inputValue="inputValue"
       :isSearch="isSearch"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, toRefs } from "vue";
+import { defineComponent, PropType, reactive, ref, toRefs } from "vue";
 import SelectorInput from "./Input/Input.vue";
 import Menu from "./Menu/Menu.vue";
 import focus from "../../directives/focus";
@@ -44,12 +45,13 @@ export default defineComponent({
   },
   emits: ["setItemValue"],
   setup(props, { emit }) {
+    const selectRef = ref(null);
     const state = reactive({
       inputValue: "",
       searchValue: "",
     });
-    const setItemValue = (item) => {
-      state.inputValue = item.text + " ";
+    const setItemValue = (item: IOptionItem) => {
+      state.inputValue = item.text + "  ";
       setTimeout(() => {
         state.inputValue = item.text;
       });
@@ -61,6 +63,7 @@ export default defineComponent({
     };
 
     return {
+      selectRef,
       setItemValue,
       searchOptions,
       ...toRefs(state),
@@ -70,8 +73,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.selector {
-  position: relative;
-  width: 300px;
-}
+@import './index.scss';
 </style>
