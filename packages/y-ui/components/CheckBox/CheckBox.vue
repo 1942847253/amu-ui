@@ -34,8 +34,6 @@ export default defineComponent({
       } else {
         checked.value = props.modelValue;
       }
-
-      console.log();
       if (instance.slots.default) {
         valueSlot.value = instance.slots.default()[0].children as string;
       }
