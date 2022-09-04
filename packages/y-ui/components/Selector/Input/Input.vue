@@ -1,6 +1,8 @@
 <template>
   <div class="selector-input">
-    <label @click="blurInput" class="placeholder">{{ placeholder }}</label>
+    <label v-show="!inputValue" @click="blurInput" class="placeholder">{{
+      placeholder
+    }}</label>
     <input
       class="input"
       type="text"

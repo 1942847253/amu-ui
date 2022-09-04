@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100vw">
-    <YButton type="primary">primary</YButton>
+    <YButton @click="value1 = 1" type="primary">primary</YButton>
     <YButton type="danger" @click="showError">danger</YButton>
     <YButton type="success" @click="showSuccess">success</YButton>
 
@@ -20,14 +20,16 @@
     <YSwitch v-model="value"></YSwitch>
     <YSwitch size="small" v-model="value"></YSwitch>
     <YSelector
+      v-model="value1"
       :options="options1"
+      isSearch
       @setItemValue="setItemValue"
       placeholder="请选择一个小可爱"
     ></YSelector>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import {
   YButton,
   YCheckbox,
@@ -40,7 +42,7 @@ import {
 import { IOptionItem } from "packages/y-ui/components/Selector/baseData";
 
 const value = ref(true);
-const value1 = ref(2);
+const value1 = ref(3);
 const checkedList = ref([1, 2]);
 const options = ref([
   {
@@ -59,31 +61,31 @@ const options = ref([
 
 const options1 = ref<IOptionItem[]>([
   {
- 
     value: 1,
     text: "杨俊杰",
   },
   {
-
     value: 2,
     text: "Big龙",
   },
   {
-
     value: 3,
     text: "嘿毛",
   },
   {
-
     value: 4,
     text: "嫖瓜",
   },
   {
-
     value: 5,
     text: "吊毛",
   },
 ]);
+
+watch(()=>value1.value,(val)=>{
+  console.log(val);
+  
+})
 
 const showError = () => {
   YMessage.error({
