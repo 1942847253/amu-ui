@@ -17,7 +17,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, ref, toRefs } from "vue";
+import {
+  defineComponent,
+  onBeforeMount,
+  PropType,
+  reactive,
+  ref,
+  toRefs,
+  watch,
+} from "vue";
 import SelectorInput from "./Input/Input.vue";
 import Menu from "./Menu/Menu.vue";
 import focus from "../../directives/focus";
@@ -32,6 +40,10 @@ export default defineComponent({
     focus,
   },
   props: {
+    modelValue: {
+      type: [String, Number],
+      default: "",
+    },
     placeholder: {
       type: String,
     },
@@ -43,18 +55,40 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ["setItemValue"],
+  emits: ["setItemValue", "update:modelValue"],
   setup(props, { emit }) {
     const selectRef = ref(null);
     const state = reactive({
       inputValue: "",
       searchValue: "",
     });
+
+    onBeforeMount(() => {
+      initInputValue();
+    });
+
+    const initInputValue = () => {
+      const targetOptionsItem = props.options!.find(
+        (item) => item.value === props.modelValue
+      );
+      if (targetOptionsItem) {
+        state.inputValue = targetOptionsItem.text;
+      }
+    };
+
+    watch(
+      () => props.modelValue,
+      () => {
+        initInputValue();
+      }
+    );
+
     const setItemValue = (item: IOptionItem) => {
       state.inputValue = item.text + "  ";
       setTimeout(() => {
         state.inputValue = item.text;
       });
+      emit("update:modelValue", item.value);
       emit("setItemValue", item);
     };
 
@@ -73,5 +107,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import './index.scss';
+@import "./index.scss";
 </style>
