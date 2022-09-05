@@ -1,0 +1,34 @@
+@import "../../assets/index.scss";
+.tabs-content {
+  display: flex;
+  flex-direction: column;
+  .tabs {
+    .tabs-nav-wrap {
+      position: relative;
+      border-bottom: 1px solid #dcdee2;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+    .tabs-tab {
+      user-select: none;
+      display: inline-block;
+      margin-right: 30px;
+      padding: 8px 5px;
+      cursor: pointer;
+    }
+    .tabs-tab:hover {
+      color: $primary-color;
+    }
+    .tabs-tab-active {
+      color: $primary-color;
+    }
+    .tabs-inv-bar {
+      position: absolute;
+      left: 0;
+      bottom: -1.5px;
+      background-color: $primary-color;
+      height: 2px;
+      transition: transform 300ms ease-in-out;
+    }
+  }
+}

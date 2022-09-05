@@ -1,31 +1,32 @@
 <template>
-  <div style="width: 100vw">
-    <YButton @click="value1 = 1" type="primary">primary</YButton>
-    <YButton type="danger" @click="showError">danger</YButton>
-    <YButton type="success" @click="showSuccess">success</YButton>
-
-    <YButton type="warning" @click="showWarning">warning</YButton>
-
-    <YButton type="info" @click="showMessage">info </YButton>
-
-    <YButton>default</YButton>
-
-    <YCheckbox>我已经阅读并同意此协议</YCheckbox>
-    <YCheckboxGroup
-      v-model="checkedList"
-      :options="options"
-      :column="true"
-    ></YCheckboxGroup>
-    <YSwitch size="large" v-model="value"></YSwitch>
-    <YSwitch v-model="value"></YSwitch>
-    <YSwitch size="small" v-model="value"></YSwitch>
-    <YSelector
-      v-model="value1"
-      :options="options1"
-      isSearch
-      @setItemValue="setItemValue"
-      placeholder="请选择一个小可爱"
-    ></YSelector>
+  <div>
+    <YTabs default-active-key="1" @change="onTabsChange">
+      <YTabsPanel key="1" title="Button组件">
+        <YButton @click="value1 = 1" type="primary">primary</YButton>
+        <YButton type="danger" @click="showError">danger</YButton>
+        <YButton type="success" @click="showSuccess">success</YButton>
+        <YButton type="warning" @click="showWarning">warning</YButton>
+        <YButton type="info" @click="showMessage">info </YButton>
+        <YButton>default</YButton>
+      </YTabsPanel>
+      <YTabsPanel key="2" title="Checkbox组件">
+        <YCheckbox>我已经阅读并同意此协议</YCheckbox>
+      </YTabsPanel>
+      <YTabsPanel key="3" title="Switch组件">
+        <YSwitch size="large" v-model="value"></YSwitch>
+        <YSwitch v-model="value"></YSwitch>
+        <YSwitch size="small" v-model="value"></YSwitch>
+      </YTabsPanel>
+      <YTabsPanel key="4" title="Selector组件">
+        <YSelector
+          v-model="value1"
+          :options="options1"
+          isSearch
+          @setItemValue="setItemValue"
+          placeholder="请选择一个小可爱"
+        ></YSelector>
+      </YTabsPanel>
+    </YTabs>
   </div>
 </template>
 <script lang="ts" setup>
@@ -38,8 +39,9 @@ import {
   YMessage,
   YMessageBox,
   YSelector,
-} from "y-ui";
-import { IOptionItem } from "packages/y-ui/components/Selector/baseData";
+  YTabs,
+  YTabsPanel,
+} from "./dist";
 
 const value = ref(true);
 const value1 = ref(3);
@@ -59,7 +61,7 @@ const options = ref([
   },
 ]);
 
-const options1 = ref<IOptionItem[]>([
+const options1 = ref([
   {
     value: 1,
     text: "杨俊杰",
@@ -82,10 +84,12 @@ const options1 = ref<IOptionItem[]>([
   },
 ]);
 
-watch(()=>value1.value,(val)=>{
-  console.log(val);
-  
-})
+watch(
+  () => value1.value,
+  (val) => {
+    console.log(val);
+  }
+);
 
 const showError = () => {
   YMessage.error({
@@ -117,7 +121,11 @@ const showMessage = () => {
   });
 };
 
-const setItemValue = (item: IOptionItem) => {
+const setItemValue = (item) => {
+  console.log(item);
+};
+
+const onTabsChange = (item: any) => {
   console.log(item);
 };
 </script>
