@@ -1,7 +1,7 @@
 <template>
   <div>
-    <YTabs default-active-key="1" @change="onTabsChange">
-      <YTabsPanel key="1" title="Button组件">
+    <YTabs default-active-key="1" position="left" @change="onTabsChange">
+      <YTabsPanel key="1" title="Button 按钮">
         <YButton @click="value1 = 1" type="primary">primary</YButton>
         <YButton type="danger" @click="showError">danger</YButton>
         <YButton type="success" @click="showSuccess">success</YButton>
@@ -9,15 +9,15 @@
         <YButton type="info" @click="showMessage">info </YButton>
         <YButton>default</YButton>
       </YTabsPanel>
-      <YTabsPanel key="2" title="Checkbox组件">
+      <YTabsPanel key="2" title="Checkbox 复选框">
         <YCheckbox>我已经阅读并同意此协议</YCheckbox>
       </YTabsPanel>
-      <YTabsPanel key="3" title="Switch组件">
+      <YTabsPanel key="3" title="Switch 开关">
         <YSwitch size="large" v-model="value"></YSwitch>
         <YSwitch v-model="value"></YSwitch>
         <YSwitch size="small" v-model="value"></YSwitch>
       </YTabsPanel>
-      <YTabsPanel key="4" title="Selector组件">
+      <YTabsPanel key="4" title="Selector 选择器">
         <YSelector
           v-model="value1"
           :options="options1"
@@ -41,7 +41,7 @@ import {
   YSelector,
   YTabs,
   YTabsPanel,
-} from "./dist";
+} from "y-ui";
 
 const value = ref(true);
 const value1 = ref(3);

@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3470517 */
-  src: url('iconfont.woff2?t=1659015834896') format('woff2'),
-       url('iconfont.woff?t=1659015834896') format('woff'),
-       url('iconfont.ttf?t=1659015834896') format('truetype');
+  src: url('//at.alicdn.com/t/c/font_3470517_mhhn9x23xqq.woff2?t=1662559396057') format('woff2'),
+       url('//at.alicdn.com/t/c/font_3470517_mhhn9x23xqq.woff?t=1662559396057') format('woff'),
+       url('//at.alicdn.com/t/c/font_3470517_mhhn9x23xqq.ttf?t=1662559396057') format('truetype');
 }
 
 .iconfont {
@@ -24,4 +24,3 @@
 .icon-xiangxia:before {
   content: "\e600";
 }
-
