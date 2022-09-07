@@ -15,7 +15,13 @@ export interface IPanelProps {
 }
 export default defineComponent({
   name: "YTabs",
-  props: ["defaultActiveKey"],
+  props: {
+    defaultActiveKey: [String, Number],
+    position: {
+      type: String,
+      default: () => "top",
+    },
+  },
   emits: ["change"],
   setup(props, ctx) {
     const state = reactive({
@@ -35,11 +41,14 @@ export default defineComponent({
     }) as IPanelProps[];
     // 当前 actKey
     const actKey = ref(props.defaultActiveKey);
-
+    const isTop = props.position === "top" || props.position !== "left";
     const barStyle = computed(() => {
+      const transform = isTop
+        ? `translate3d(${state.barOffset}px,0px,0px)`
+        : `translate3d(0px,${state.barOffset}px,0px)`;
       return {
         width: `${state.barWidth}px`,
-        transform: `translate3d(${state.barOffset}px,0px,0px)`,
+        transform: transform,
       };
     });
 
@@ -59,13 +68,17 @@ export default defineComponent({
         );
         //获取当前选中的元素
         const elemTab = elemTabs[index] as HTMLElement;
-        state.barWidth = elemTab ? elemTab.offsetWidth : 0;
+        state.barWidth = elemTab
+          ? isTop
+            ? elemTab.offsetWidth
+            : elemTab.offsetHeight
+          : 0;
         //计算需要移动的距离,当index > 0时进行累加
         if (index > 0) {
           let offset = 0;
           for (let i = 0; i < index; i++) {
             const currentEl = elemTabs[i] as HTMLElement;
-            offset += currentEl.offsetWidth + 32;
+            offset += isTop ? currentEl.offsetWidth : currentEl.offsetHeight;
           }
           state.barOffset = offset;
         } else {
@@ -80,31 +93,56 @@ export default defineComponent({
     };
 
     return () => (
-      <div class="tabs-content">
+      <div
+        class="tabs-content"
+        style={isTop ? { flexDirection: "column" } : ""}
+      >
         <div class="tabs">
-          <div ref={navWrap} class="tabs-nav-wrap">
-            <div class="tabs-inv-bar" style={barStyle.value}></div>
-            {titles.map((titleInfo) => {
-              const { key, title } = titleInfo;
-              return (
-                <div
-                  class={`tabs-tab ${key === actKey.value? "tabs-tab-active":''}`}
-                  key={key}
-                  onClick={() => changeActKey(key)}
-                >
-                  {title}
-                </div>
-              );
-            })}
+          <div
+            ref={navWrap}
+            class="tabs-nav-wrap"
+            style={
+              isTop
+                ? { borderBottom: "1px solid #dcdee2" }
+                : { borderRight: "1px solid #dcdee2" }
+            }
+          >
+            <div
+              class={isTop ? "tabs-inv-bar-top" : "tabs-inv-bar-left"}
+              style={barStyle.value}
+            ></div>
+            <div
+              class="tab-list"
+              style={
+                isTop ? "" : { flexDirection: "column", alignItems: "flex-end" }
+              }
+            >
+              {titles.map((titleInfo) => {
+                const { key, title } = titleInfo;
+                return (
+                  <div
+                    class={`tabs-tab ${
+                      key === actKey.value ? "tabs-tab-active" : ""
+                    }`}
+                    key={key}
+                    onClick={() => changeActKey(key)}
+                  >
+                    {title}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         <div class="pane-content">
-          {panels.filter((panelComponent: DefineComponent) => {
-            const { props } = panelComponent;
-            const { key } = props;
-            return actKey.value === key && panelComponent;
-          })}
+          <div>
+            {panels.filter((panelComponent: DefineComponent) => {
+              const { props } = panelComponent;
+              const { key } = props;
+              return actKey.value === key && <panelComponent />;
+            })}
+          </div>
         </div>
       </div>
     );
