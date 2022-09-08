@@ -28,7 +28,7 @@ export default {
         onSelectorMenu.style.height = 185 + "px";
         onSelectorMenu.style.overflowY = "scroll";
       } else {
-        onSelectorMenu.style.height = menuChildHeight + 5 + "px";
+        onSelectorMenu.style.height = menuChildHeight + "px";
         onSelectorMenu.style.overflowY = "hidden";
       }
       readOnly && (onIconfont.style.transform = "rotate(-180deg)");

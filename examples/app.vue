@@ -10,7 +10,22 @@
         <YButton>default</YButton>
       </YTabsPanel>
       <YTabsPanel key="2" title="Checkbox 复选框">
-        <YCheckbox>我已经阅读并同意此协议</YCheckbox>
+        <YCheckbox v-model="value">Shanghai</YCheckbox>
+        <YCheckbox v-model="value">Beijing</YCheckbox>
+        <YCheckbox v-model="value">Guangzhou</YCheckbox>
+        <YCheckbox v-model="value">Shenzhen</YCheckbox>
+        <YCheckbox v-model="value">Shanghai</YCheckbox>
+        <YCheckbox v-model="value">Beijing</YCheckbox>
+        <YCheckbox v-model="value">Guangzhou</YCheckbox>
+        <YCheckbox v-model="value">Shenzhen</YCheckbox>
+        <YCheckbox v-model="value">Shanghai</YCheckbox>
+        <YCheckbox v-model="value">Beijing</YCheckbox>
+        <YCheckbox v-model="value">Guangzhou</YCheckbox>
+        <YCheckbox v-model="value">Shenzhen</YCheckbox>
+        <YCheckbox v-model="value">Shanghai</YCheckbox>
+        <YCheckbox v-model="value">Beijing</YCheckbox>
+        <YCheckbox v-model="value">Guangzhou</YCheckbox>
+        <YCheckbox v-model="value">Shenzhen</YCheckbox>
       </YTabsPanel>
       <YTabsPanel key="3" title="Switch 开关">
         <YSwitch size="large" v-model="value"></YSwitch>
@@ -81,6 +96,18 @@ const options1 = ref([
   {
     value: 5,
     text: "吊毛",
+  },
+  {
+    value: 6,
+    text: "吴彦祖",
+  },
+  {
+    value: 7,
+    text: "陈冠希",
+  },
+  {
+    value: 8,
+    text: "林俊杰",
   },
 ]);
 
