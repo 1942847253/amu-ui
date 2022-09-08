@@ -134,7 +134,7 @@ defineExpose({
   background-color: rgba(0, 0, 0, 0.5);
   .y-message-box-wrapper {
     padding: 15px;
-    padding-right: 5px;
+    padding-right: 0px;
     padding-bottom: 8px;
     margin: 12% auto;
     display: flex;

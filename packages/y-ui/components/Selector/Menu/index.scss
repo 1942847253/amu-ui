@@ -26,3 +26,19 @@
     font-weight: 550;
   }
 }
+ .selector-menu::-webkit-scrollbar {
+    width: 7px;
+    background: white;
+  }
+  .selector-menu::-webkit-scrollbar-corner, /* 滚动条角落 */
+  .selector-menu::-webkit-scrollbar-thumb,
+  .selector-menu::-webkit-scrollbar-track {
+    border-radius: 3px;
+  }
+  .selector-menu::-webkit-scrollbar-corner,
+  .selector-menu::-webkit-scrollbar-track { /* 滚动条轨道 */
+    background-color: rgba(89, 88, 85, 0.041);
+  }
+  .selector-menu::-webkit-scrollbar-thumb { /* 滚动条手柄 */
+   background-color: rgba(151, 151, 150, 0.201);
+  }

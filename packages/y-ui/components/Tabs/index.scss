@@ -7,9 +7,12 @@
       position: relative;
       margin-bottom: 16px;
       font-size: 14px;
+     
       .tab-list {
         display: flex;
+        width: max-content;
         .tabs-tab {
+       
           user-select: none;
           display: inline-block;
           height: 40px;
@@ -45,5 +48,6 @@
   }
   .pane-content {
     padding: 0 10px;
+  
   }
 }

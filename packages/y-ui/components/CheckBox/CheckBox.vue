@@ -1,11 +1,15 @@
 <template>
-  <div class="y-checked-content" @click="changeChecked">
-    <span>
-      <input class="checkbox" :id="valueSlot" type="checkbox" :checked="checked"
-    /></span>
-    <div :class="`label ${checked ? 'checked' : ''}`">
-      <slot>{{ valueSlot && valueSlot }}</slot>
-    </div>
+  <div class="main">
+    <input
+      @click="changeChecked"
+      class="checkbox"
+      :id="valueSlot"
+      type="checkbox"
+      :checked="checked"
+    />
+    <label :for="valueSlot">
+      <span style="margin-left: 4px">{{ valueSlot && valueSlot }}</span>
+    </label>
   </div>
 </template>
 
@@ -30,7 +34,8 @@ export default defineComponent({
 
     onMounted(() => {
       if (Array.isArray(props.modelValue)) {
-        checked.value = props.modelValue.indexOf(props.value) !== -1 ? true : false;
+        checked.value =
+          props.modelValue.indexOf(props.value) !== -1 ? true : false;
       } else {
         checked.value = props.modelValue;
       }
@@ -56,25 +61,83 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.y-checked-content {
-  cursor: pointer;
+@import "../../assets/index.scss";
+.main {
   display: inline-flex;
-  white-space: nowrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   user-select: none;
-  margin-right: 16px;
-  height: 32px;
-  input {
-    width: 15px;
-    height: 15px;
-    cursor: pointer;
-  }
-  .label {
-    margin-left: 3px;
-    font-size: 14px;
-    margin-top: 0.5px;
-  }
-  .checked {
-    color: #2a6ef8;
-  }
+  font-size: 14px;
+  margin-right: 25px;
+}
+input[type="checkbox"] {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+}
+
+input[type="checkbox"] + label {
+  cursor: pointer;
+  position: relative;
+  line-height: 13px;
+  user-select: none;
+  color: $text-color-black;
+}
+input[type="checkbox"] + label:not(:nth-of-type(1)) {
+  margin-top: 29px;
+  margin-bottom: 29px;
+}
+input[type="checkbox"]:checked + label {
+  color: $primary-color;
+}
+input[type="checkbox"]:disabled + label {
+  cursor: not-allowed;
+  color: #999;
+}
+input[type="checkbox"] + label::before {
+  content: "";
+  display: inline-block;
+  box-sizing: content-box;
+  width: 13px;
+  height: 13px;
+  border-radius: 2px;
+  vertical-align: top;
+  margin-right: 0.2em;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+input[type="checkbox"]:not(:disabled) + label:hover::before {
+  border-color: $primary-color;
+}
+input[type="checkbox"] + label::after {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 8px;
+  border: 1px solid #fff;
+  border-top: 0;
+  border-left: 0;
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  transform: rotate(45deg) scale(0);
+  transition: all 0.2s ease-in-out;
+}
+input[type="checkbox"]:checked + label::before {
+  border-color: $primary-color !important;
+  background-color: $primary-color;
+}
+input[type="checkbox"]:checked + label::after {
+  transform: rotate(45deg) scale(1);
+  transition: all 0.2s ease-in-out;
+}
+input[type="checkbox"]:disabled + label::before,
+input[type="checkbox"]:disabled.checked + label::before {
+  background-color: #f2f2f2;
+}
+input[type="checkbox"]:disabled.checked + label::after {
+  border-color: #ccc;
+  transform: rotate(45deg) scale(1);
 }
 </style>

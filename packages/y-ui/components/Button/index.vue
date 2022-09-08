@@ -86,12 +86,8 @@ button {
   text-align: center;
   cursor: pointer;
   margin-right: 12px;
-  color: #ffffff42;
   color: rgba(29, 29, 29, 0.165);
-  box-shadow: 1.1px 3.6px 4.4px -11px rgba(0, 0, 0, 0.035),
-    3px 9.9px 12.3px -11px rgba(0, 0, 0, 0.05),
-    7.2px 23.8px 29.5px -11px rgba(0, 0, 0, 0.165),
-    24px 79px 98px -11px rgba(0, 0, 0, 0.2);
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 button:hover {
@@ -139,7 +135,7 @@ button:active {
 }
 
 .button-warning {
-  border: 1px solid $warning-color;
+  border: none;
   background-color: $warning-color;
   color: $text-color-white;
 }
