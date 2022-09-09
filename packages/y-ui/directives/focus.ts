@@ -24,8 +24,8 @@ export default {
       }
       menuChildHeight = menuChild[0].offsetHeight * menuChild.length;
       // onSelectorMenu.style.height = 285 + "px";
-      if (menuChildHeight > 185) {
-        onSelectorMenu.style.height = 185 + "px";
+      if (menuChildHeight > 215) {
+        onSelectorMenu.style.height = 215 + "px";
         onSelectorMenu.style.overflowY = "scroll";
       } else {
         onSelectorMenu.style.height = menuChildHeight + "px";

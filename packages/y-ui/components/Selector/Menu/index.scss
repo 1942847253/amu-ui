@@ -1,11 +1,11 @@
-@import '../../../assets/index.scss';
+@import "../../../assets/index.scss";
 .selector-menu {
   z-index: 1000;
   position: absolute;
   width: 100%;
   height: 0;
   overflow-y: hidden;
-  transition: height 0.28s ease;
+  transition: height 0.22s ease-in-out;
   cursor: pointer;
   user-select: none;
   background-color: #fff;
@@ -26,19 +26,21 @@
     font-weight: 550;
   }
 }
- .selector-menu::-webkit-scrollbar {
-    width: 7px;
-    background: white;
-  }
-  .selector-menu::-webkit-scrollbar-corner, /* 滚动条角落 */
+.selector-menu::-webkit-scrollbar {
+  width: 7px;
+  background: white;
+}
+.selector-menu::-webkit-scrollbar-corner, /* 滚动条角落 */
   .selector-menu::-webkit-scrollbar-thumb,
   .selector-menu::-webkit-scrollbar-track {
-    border-radius: 3px;
-  }
-  .selector-menu::-webkit-scrollbar-corner,
-  .selector-menu::-webkit-scrollbar-track { /* 滚动条轨道 */
-    background-color: rgba(89, 88, 85, 0.041);
-  }
-  .selector-menu::-webkit-scrollbar-thumb { /* 滚动条手柄 */
-   background-color: rgba(151, 151, 150, 0.201);
-  }
+  border-radius: 5px;
+}
+.selector-menu::-webkit-scrollbar-corner,
+.selector-menu::-webkit-scrollbar-track {
+  /* 滚动条轨道 */
+  background-color: rgba(89, 88, 85, 0.041);
+}
+.selector-menu::-webkit-scrollbar-thumb {
+  /* 滚动条手柄 */
+  background-color: rgba(151, 151, 150, 0.141);
+}
