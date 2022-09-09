@@ -10,22 +10,10 @@
         <YButton>default</YButton>
       </YTabsPanel>
       <YTabsPanel key="2" title="Checkbox 复选框">
-        <YCheckbox v-model="value">Shanghai</YCheckbox>
-        <YCheckbox v-model="value">Beijing</YCheckbox>
-        <YCheckbox v-model="value">Guangzhou</YCheckbox>
-        <YCheckbox v-model="value">Shenzhen</YCheckbox>
-        <YCheckbox v-model="value">Shanghai</YCheckbox>
-        <YCheckbox v-model="value">Beijing</YCheckbox>
-        <YCheckbox v-model="value">Guangzhou</YCheckbox>
-        <YCheckbox v-model="value">Shenzhen</YCheckbox>
-        <YCheckbox v-model="value">Shanghai</YCheckbox>
-        <YCheckbox v-model="value">Beijing</YCheckbox>
-        <YCheckbox v-model="value">Guangzhou</YCheckbox>
-        <YCheckbox v-model="value">Shenzhen</YCheckbox>
-        <YCheckbox v-model="value">Shanghai</YCheckbox>
-        <YCheckbox v-model="value">Beijing</YCheckbox>
-        <YCheckbox v-model="value">Guangzhou</YCheckbox>
-        <YCheckbox v-model="value">Shenzhen</YCheckbox>
+        <YCheckboxGroup
+          v-model="checkedList"
+          :options="options"
+        ></YCheckboxGroup>
       </YTabsPanel>
       <YTabsPanel key="3" title="Switch 开关">
         <YSwitch size="large" v-model="value"></YSwitch>
@@ -117,6 +105,11 @@ watch(
     console.log(val);
   }
 );
+
+watch(() => checkedList.value,(val)=>{
+  console.log(val);
+  
+});
 
 const showError = () => {
   YMessage.error({

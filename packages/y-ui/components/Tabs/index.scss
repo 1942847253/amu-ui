@@ -1,18 +1,15 @@
 @import "../../assets/index.scss";
 .tabs-content {
   display: flex;
-
   .tabs {
     .tabs-nav-wrap {
       position: relative;
       margin-bottom: 16px;
       font-size: 14px;
-     
       .tab-list {
         display: flex;
         width: max-content;
         .tabs-tab {
-       
           user-select: none;
           display: inline-block;
           height: 40px;
@@ -34,7 +31,8 @@
         background-color: $primary-color;
         width: 2px !important;
         height: 40px;
-        transition: transform 300ms ease-in-out;
+        border-radius: 5%;
+        transition: transform 250ms ease-in-out;
       }
       .tabs-inv-bar-top {
         position: absolute;
@@ -42,12 +40,11 @@
         bottom: -1.5px;
         background-color: $primary-color;
         height: 2px;
-        transition: transform 300ms ease-in-out;
+        transition: transform 250ms ease-in-out;
       }
     }
   }
   .pane-content {
     padding: 0 10px;
-  
   }
 }
