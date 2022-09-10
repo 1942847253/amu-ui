@@ -4,6 +4,7 @@
       v-for="(item, index) in options"
       :key="index"
       :value="item.value"
+      :disabled="item.disabled"
       v-model="modelValue"
       @updateCheckedGroup="updateCheckedGroup"
     >
@@ -13,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { TCheckboxGroupItem } from "typings";
+import { TOptionsItem } from "typings";
 import { defineComponent, PropType } from "vue";
 import YCheckbox from "../CheckBox/CheckBox.vue";
 
@@ -27,21 +28,19 @@ export default defineComponent({
       default: [],
     },
     options: {
-      type: Array as PropType<TCheckboxGroupItem[]>,
+      type: Array as PropType<TOptionsItem[]>,
       default: [],
     },
   },
   emits: ["update:modelValue", "change"],
   setup(props, { emit }) {
-    const ChangeValue = (item: TCheckboxGroupItem) => {
+    const ChangeValue = (item: TOptionsItem) => {
       let valueList = [...props.modelValue];
       if (valueList.indexOf(item.value) === -1) {
         valueList.push(item.value);
       } else {
         valueList = valueList.filter((itemValue) => itemValue !== item.value);
       }
-      console.log(valueList);
-
       emit("update:modelValue", valueList);
       emit("change", item);
     };

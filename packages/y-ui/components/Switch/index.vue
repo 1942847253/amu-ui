@@ -1,12 +1,21 @@
 <template>
   <div class="switch-content">
     <input
-      :disabled="disable"
       type="checkbox"
+      @click="switchChange"
+      :id="uuid"
       :checked="modelValue"
-      @input="switchChange"
-      :class="`switch-component ${getSwitchSize(size)} ${disable && 'switch-disable'}`"
+      :disabled="disabled"
+      hidden
     />
+    <label
+      :style="`cursor: ${disabled ? 'not-allowed' : 'pointer'};opacity:${
+        disabled && modelValue ? '0.5' : '1'
+      }`"
+      :openTitle="openTitle"
+      :offTitle="offTitle"
+      :for="uuid"
+    ></label>
   </div>
 </template>
 
@@ -18,7 +27,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    disable: {
+    disabled: {
       type: Boolean,
       default: false,
     },
@@ -26,10 +35,20 @@ export default defineComponent({
       type: String,
       default: "default",
     },
+    openTitle: {
+      type: String,
+      default: "",
+    },
+    offTitle: {
+      type: String,
+      default: "",
+    },
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const getSwitchSize = (size) => {
+    const uuid = Date.now() + Math.random() + "";
+    const test = "是";
+    const getSwitchSize = (size: string) => {
       switch (size) {
         case "small":
           return "size-small";
@@ -42,11 +61,14 @@ export default defineComponent({
       }
     };
 
-    const switchChange = (e) => {
-      emit("update:modelValue", e.target.checked);
+    const switchChange = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      emit("update:modelValue", target.checked);
     };
 
     return {
+      test,
+      uuid,
       switchChange,
       getSwitchSize,
     };
@@ -55,60 +77,64 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import "../../assets/index.scss";
 .switch-content {
-  .switch-component {
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  user-select: none;
+  font: 12px / 1 Helvetica, sans-serif;
+  label {
     position: relative;
-    background-color: #cfcfcf;
-    border-radius: 25px;
-    border: none;
-    outline: none;
-    -webkit-appearance: none;
-    transition: all 0.2s ease;
-    cursor: pointer;
-  }
-
-  .switch-disable {
-    cursor: not-allowed;
-    background-color: #e4e4e4;
-  }
-
-  /* 按钮 */
-  .switch-component::after {
-    content: "";
-    position: absolute;
-    top: 0px;
-    left: 1px;
-    width: 47%;
-    height: 100%;
-    background-color: #fff;
-    border-radius: 50%;
-
-    transition: all 0.2s ease;
-  }
-
-  /* checked状态时，背景颜色改变 */
-  .switch-component:checked {
-    background-color: #007dfb;
-  }
-
-  /* checked状态时，按钮位置改变 */
-  .switch-component:checked::after {
-    left: 52%;
-  }
-
-  .size-default {
-    width: 42px;
+    width: 40px;
     height: 20px;
+    background: lightgrey;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
   }
-
-  .size-small {
-    width: 34px;
-    height: 17px;
+  label[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
-
-  .size-large {
-    width: 50px;
-    height: 22.5px;
+  label::before,
+  label::after {
+    transition: all 0.3s;
+    position: absolute;
+  }
+  label::before {
+    content: attr(offTitle);
+    top: 4px;
+    left: 22px;
+    color: white;
+  }
+  label::after {
+    content: "";
+    top: 1px;
+    left: 1px;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background: white;
+  }
+  input[type="checkbox"]:checked + label {
+    background: $primary-color;
+  }
+  input[type="checkbox"]:checked + label::before {
+    content: attr(openTitle);
+    left: 6px;
+  }
+  input[type="checkbox"]:active + label::after {
+    width: 23px;
+  }
+  input[type="checkbox"]:checked + label::after {
+    left: 21px;
+  }
+  input[type="checkbox"]:checked:active + label::after {
+    left: 16px;
   }
 }
 </style>

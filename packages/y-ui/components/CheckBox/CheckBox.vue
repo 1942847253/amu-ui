@@ -2,13 +2,14 @@
   <div class="main">
     <input
       @click="changeChecked"
-      class="checkbox"
+      :class="disabled && checked ? 'checked' : ''"
       :id="valueSlot"
       type="checkbox"
       :checked="checked"
+      :disabled="disabled"
     />
     <label :for="valueSlot">
-      <span style="margin-left: 4px">{{ valueSlot && valueSlot }}</span>
+      <span style="margin-left: 3px">{{ valueSlot && valueSlot }}</span>
     </label>
   </div>
 </template>
@@ -25,8 +26,12 @@ export default defineComponent({
     value: {
       type: [String, Number],
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ["update:modelValue",'updateCheckedGroup'],
+  emits: ["update:modelValue", "updateCheckedGroup"],
   setup(props, { emit }) {
     const instance = getCurrentInstance()!;
     const valueSlot = ref<string>("");
@@ -108,6 +113,11 @@ input[type="checkbox"]:checked + label {
   color: $primary-color;
 }
 
+input[type="checkbox"] + label:not(:nth-of-type(6)) {
+  margin-top: 13px;
+  margin-bottom: 13px;
+}
+
 input[type="checkbox"]:disabled + label {
   cursor: not-allowed;
   color: #999;
@@ -158,6 +168,7 @@ input[type="checkbox"]:checked + label::after {
 
 input[type="checkbox"]:disabled + label::before,
 input[type="checkbox"]:disabled.checked + label::before {
+  border-color: #ccc !important;
   background-color: #f2f2f2;
 }
 

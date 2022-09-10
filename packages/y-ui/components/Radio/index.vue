@@ -1,21 +1,29 @@
 <template>
-  <div class="y-radio-content">
+  <div class="radio-main">
     <input
-      class="radio_type"
+      :class="disabled && checked ? 'checked' : ''"
       type="radio"
-      name="type"
+      @click="changeChecked"
       :id="valueSlot"
+      name="radio"
       :checked="checked"
+      :disabled="disabled"
     />
-
-    <div @click="changeChecked" :class="`label ${checked && 'checked'}`">
-      <slot></slot>
-    </div>
+    <label :for="valueSlot">
+      <span style="margin-left: 3px">{{ valueSlot && valueSlot }}</span>
+    </label>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, onMounted, ref, watch } from "vue";
+import {
+  defineComponent,
+  getCurrentInstance,
+  onMounted,
+  ref,
+  watch,
+  inject,
+} from "vue";
 
 export default defineComponent({
   props: {
@@ -23,16 +31,22 @@ export default defineComponent({
       type: Number,
     },
     value: {
-      type: Number,
+      type: [Number, String],
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
+  emits: ["updateRadioValue"],
   setup(props, { emit }) {
-    const instance = getCurrentInstance();
+    const modelValue = inject("modelValue");
+    const instance = getCurrentInstance()!;
     const valueSlot = ref<string>("");
     const checked = ref<boolean>(false);
     onMounted(() => {
-      checked.value = props.modelValue === props.value ? true : false;
-      valueSlot.value = instance.slots.default()[0].children as string;
+      checked.value = modelValue === props.value ? true : false;
+      valueSlot.value = instance.slots.default!()[0].children as string;
     });
 
     watch(
@@ -43,9 +57,7 @@ export default defineComponent({
     );
 
     const changeChecked = () => {
-      if (!checked.value) {
-        checked.value = true;
-      }
+      emit("updateRadioValue", props.value);
     };
 
     return {
@@ -58,70 +70,84 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.y-radio-content {
+@import "../../assets/index.scss";
+.radio-main {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   user-select: none;
-  display: flex;
-  margin-right: 15px;
-  cursor: pointer;
-  .checked {
-    color: #2a6ef8;
-  }
-  .label {
-    margin-left: 3px;
-    font-size: 14px;
-    margin-top: 1px;
-  }
+  font-size: 14px;
+  margin-right: 25px;
+  color: $text-color-black;
 }
-
-.radio_type {
-  width: 15px;
-  height: 15px;
-  appearance: none;
-  position: relative;
-
-  transition: all 0.3s ease-out;
-  cursor: pointer;
-}
-
-.radio_type:before {
-  content: "";
-  width: 15px;
-  height: 15px;
-  border: 1px solid #7d7d7d;
-  display: inline-block;
-  border-radius: 50%;
-  vertical-align: middle;
-}
-
-.radio_type:checked:before {
-  content: "";
-  width: 15px;
-  height: 15px;
-  border: 1px solid #2a6ef8;
-  background: #2a6ef8;
-  display: inline-block;
-  border-radius: 50%;
-  vertical-align: middle;
-  opacity: 1;
-}
-
-.radio_type:checked:after {
-  content: "";
-  width: 7.5px;
-  height: 4px;
-  border: 2px solid white;
-  border-top: transparent;
-  border-right: transparent;
-  text-align: center;
-  display: block;
+input[type="radio"] {
   position: absolute;
-  top: 4.5px;
-  left: 4px;
-  transform: rotate(-45deg);
+  clip: rect(0, 0, 0, 0);
 }
-
-.radio_type:checked + label {
-  color: #2a6ef8;
-  font-size: 15px;
+input[type="radio"] + label {
+  display: inline-block;
+  height: 13px;
+  line-height: 13px;
+  /* 小写英文开头 */
+  /* line-height: 10px; */
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+input[type="radio"] + label:not(:nth-of-type(6)) {
+  margin-top: 13px;
+  margin-bottom: 13px;
+}
+input[type="radio"]:disabled + label {
+  cursor: not-allowed;
+  color: #999;
+  border-color: #ccc !important;
+}
+input[type="radio"] + label::before {
+  content: "";
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border-radius: 8px;
+  vertical-align: top;
+  margin-right: 0.2em;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+input[type="radio"]:not(:disabled) + label:hover::before {
+  border-color: $primary-color;
+}
+input[type="radio"]:checked + label::before {
+  border-color: $primary-color;
+  background-color: $primary-color;
+}
+input[type="radio"] + label::after {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background-color: #fff;
+  border-radius: 4px;
+  position: absolute;
+  left: 5.5px;
+  top: 58%;
+  transform: translateY(-50%) scale(0);
+  transition: transform 0.2s ease-in-out;
+}
+input[type="radio"]:checked + label::after {
+  transform: translateY(-50%) scale(1);
+  transition: transform 0.2s ease-in-out;
+}
+input[type="radio"]:disabled + label::before,
+input[type="radio"]:disabled.checked + label::before {
+  border-color: #ccc;
+  background-color: #f2f2f2;
+}
+input[type="radio"]:disabled.checked + label::after {
+  border-color: #ccc;
+  background-color: #ccc;
+  transform: translateY(-50%) scale(1);
 }
 </style>

@@ -1,38 +1,44 @@
 <template>
   <div class="y-radio-group">
     <YRadio
-      @click="onChange(item)"
       v-for="(item, index) in options"
       :key="index"
       :value="item.value"
-      v-model="modelValue"
+      :disabled="item.disabled"
+      @updateRadioValue="updateRadioValue"
       >{{ item.label }}
     </YRadio>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { TOptionsItem } from "typings";
+import { provide } from "vue";
+import { defineComponent, onMounted, PropType } from "vue";
+import YRadio from "../Radio/index.vue";
 
 export default defineComponent({
   props: {
     modelValue: {
-      type: Number,
+      type: [Number, String],
     },
     options: {
-      type: Array as any,
+      type: Array as PropType<TOptionsItem[]>,
       default: [],
     },
   },
-  components: {},
+  components: {
+    YRadio,
+  },
   emits: ["update:modelValue", "change"],
   setup(props, { emit }) {
-    const onChange = (item) => {
-      emit("update:modelValue", item.value);
-      emit("change", item);
+    const updateRadioValue = (value: string | number) => {
+      emit("update:modelValue", value);
+      emit("change", value);
     };
+    provide("modelValue", props.modelValue);
     return {
-      onChange,
+      updateRadioValue,
     };
   },
 });
