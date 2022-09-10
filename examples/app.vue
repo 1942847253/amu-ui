@@ -16,9 +16,20 @@
         ></YCheckboxGroup>
       </YTabsPanel>
       <YTabsPanel key="3" title="Switch 开关">
-        <YSwitch size="large" v-model="value"></YSwitch>
-        <YSwitch v-model="value"></YSwitch>
-        <YSwitch size="small" v-model="value"></YSwitch>
+        <YSwitch
+          size="large"
+          v-model="value"
+          open-title="是"
+          off-title="否"
+          :disabled="true"
+        ></YSwitch>
+        <YSwitch v-model="value" open-title="开" off-title="关"></YSwitch>
+        <YSwitch
+          size="small"
+          v-model="value"
+          open-title="上"
+          off-title="下"
+        ></YSwitch>
       </YTabsPanel>
       <YTabsPanel key="4" title="Selector 选择器">
         <YSelector
@@ -28,6 +39,9 @@
           @setItemValue="setItemValue"
           placeholder="请选择一个小可爱"
         ></YSelector>
+      </YTabsPanel>
+      <YTabsPanel key="5" title="Radio 单选框">
+        <YRadioGroup v-model="value1" :options="options"></YRadioGroup>
       </YTabsPanel>
     </YTabs>
   </div>
@@ -44,15 +58,17 @@ import {
   YSelector,
   YTabs,
   YTabsPanel,
+  YRadioGroup,
 } from "y-ui";
 
-const value = ref(true);
-const value1 = ref(3);
+const value = ref(false);
+const value1 = ref(2);
 const checkedList = ref([1, 2]);
 const options = ref([
   {
     label: "杨俊杰",
     value: 1,
+    disabled: true,
   },
   {
     label: "big龍",
@@ -106,10 +122,12 @@ watch(
   }
 );
 
-watch(() => checkedList.value,(val)=>{
-  console.log(val);
-  
-});
+watch(
+  () => checkedList.value,
+  (val) => {
+    console.log(val);
+  }
+);
 
 const showError = () => {
   YMessage.error({
