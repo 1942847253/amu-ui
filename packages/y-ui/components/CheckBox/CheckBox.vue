@@ -89,6 +89,7 @@ export default defineComponent({
   user-select: none;
   font-size: 14px;
   margin-right: 25px;
+  width: max-content;
 }
 
 input[type="checkbox"] {
@@ -151,7 +152,7 @@ input[type="checkbox"] + label::after {
   border-left: 0;
   position: absolute;
   left: 5px;
-  top: 2px;
+  top: 1.5px;
   transform: rotate(45deg) scale(0);
   transition: all 0.2s ease-in-out;
 }

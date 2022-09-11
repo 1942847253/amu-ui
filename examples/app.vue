@@ -42,6 +42,21 @@
       </YTabsPanel>
       <YTabsPanel key="5" title="Radio 单选框">
         <YRadioGroup v-model="value1" :options="options"></YRadioGroup>
+        <span class="iconfont icon-close2"></span>
+      </YTabsPanel>
+      <YTabsPanel key="6" title="Rotation 轮播图">
+        <YRotation
+          :autoplay="true"
+          :duration="3000"
+          :initial="1"
+          :hasDot="true"
+          dotPositon="center"
+          :hasDirector="true"
+        >
+          <YRotationItem v-for="(item, index) in picList" :key="index">
+            <img height="300" width="700" :src="item.path" alt="" />
+          </YRotationItem>
+        </YRotation>
       </YTabsPanel>
     </YTabs>
   </div>
@@ -59,6 +74,8 @@ import {
   YTabs,
   YTabsPanel,
   YRadioGroup,
+  YRotation,
+  YRotationItem,
 } from "y-ui";
 
 const value = ref(false);
@@ -114,6 +131,21 @@ const options1 = ref([
     text: "林俊杰",
   },
 ]);
+
+const picList = [
+  {
+    id: 1,
+    path: "http://img.netbian.com/file/2020/0904/7cab180eca805cce596b6870cb4e1379.jpg",
+  },
+  {
+    id: 2,
+    path: "https://pic.netbian.com/uploads/allimg/220909/000538-16626531386489.jpg",
+  },
+  {
+    id: 3,
+    path: "http://img.netbian.com/file/2021/0821/a49d58bea940c16ea6e5b2b2e159f687.jpg",
+  },
+];
 
 watch(
   () => value1.value,
