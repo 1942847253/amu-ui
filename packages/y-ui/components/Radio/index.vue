@@ -80,6 +80,7 @@ export default defineComponent({
   font-size: 14px;
   margin-right: 25px;
   color: $text-color-black;
+  width: max-content;
 }
 input[type="radio"] {
   position: absolute;

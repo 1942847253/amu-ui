@@ -1,59 +1,89 @@
 <template>
-  <div class="director">
-    <span @click="clickDirector('pre')" class="director-left">
-      <a>&lt;</a>
-    </span>
-    <span @click="clickDirector('next')" class="director-right"
-      ><a> > </a></span
-    >
-  </div>
+  <transition name="fade">
+    <div ref="directorRef" class="director" v-show="showDirector">
+      <div @click="clickDirector('pre')" class="directorContent director-left">
+        <span class="iconfont icon-left"></span>
+      </div>
+      <div
+        @click="clickDirector('next')"
+        class="directorContent director-right"
+      >
+        <span class="iconfont icon-right"></span>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 export default defineComponent({
   name: "Director",
-
+  props: {
+    showDirector: {
+      type: Boolean,
+      default: false,
+    },
+  },
   emits: ["clickDirector"],
   setup(props, { emit }) {
+    const directorRef = ref(null);
     const clickDirector = (dir: "pre" | "next") => {
       emit("clickDirector", dir);
     };
+
+    onMounted(() => {});
+
     return {
       clickDirector,
+      directorRef,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+@import "../../../iconfont/iconfont.css";
 .director {
   cursor: pointer;
   font-size: 20px;
   span {
-    background-color: rgba(157, 156, 156, 0.356);
-    border-radius: 5px;
+    color: rgb(210, 204, 204);
+    font-size: 20px;
+  }
+  .directorContent {
+    background-color: rgba(157, 156, 156, 0.556);
+    border-radius: 50%;
     width: 30px;
     height: 30px;
-    line-height: 28 px;
+    line-height: 28px;
     text-align: center;
-
-    a {
-      color: #fff;
-      font-size: 17px;
-      font-weight: 550;
-      user-select: none;
-    }
   }
   .director-left {
     position: absolute;
-    left: 8px;
-    top: 45%;
+    left: 20px;
+    top: 43%;
   }
   .director-right {
     position: absolute;
-    right: 8px;
-    top: 45%;
+    right: 20px;
+    top: 43%;
   }
+}
+.fade-enter {
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.fade-leave {
+  opacity: 1;
+}
+
+.fade-enter-active {
+  transition: opacity 0.4s;
+}
+
+.fade-leave-active {
+  opacity: 0;
+  transition: opacity 0.4s;
 }
 </style>

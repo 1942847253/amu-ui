@@ -60,7 +60,6 @@ export default defineComponent({
           return "size-default";
       }
     };
-
     const switchChange = (e: Event) => {
       const target = e.target as HTMLInputElement;
       emit("update:modelValue", target.checked);
