@@ -50,7 +50,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.dot-wrapper-left {
+.dot-wrapper-right {
   position: absolute;
   right: 15px;
   bottom: 15px;
@@ -63,9 +63,9 @@ export default defineComponent({
   display: flex;
 }
 
-.dot-wrapper-right {
+.dot-wrapper-left {
   position: absolute;
-  left: 50%;
+  left: 15px;
   bottom: 15px;
   display: flex;
 }
@@ -74,7 +74,7 @@ export default defineComponent({
   height: 10px;
   margin-right: 5px;
   border-radius: 50%;
-  opacity: 0.5;
+  opacity: 0.7;
   cursor: pointer;
 }
 </style>

@@ -17,7 +17,10 @@
         :dotPositon="dotPositon"
         @dotClick="dotClick"
       />
-      <Director :showDirector="showDirector" @clickDirector="clickDirector" />
+      <Director
+        :showDirector="hasDirector && showDirector"
+        @clickDirector="clickDirector"
+      />
     </div>
   </div>
 </template>

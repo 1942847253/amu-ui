@@ -7,56 +7,47 @@
         <YButton type="success" @click="showSuccess">success</YButton>
         <YButton type="warning" @click="showWarning">warning</YButton>
         <YButton type="info" @click="showMessage">info </YButton>
-        <YButton>default</YButton>
+        <YButton size="small">编辑</YButton>
+        <YButton type="danger" size="small">删除</YButton>
       </YTabsPanel>
       <YTabsPanel key="2" title="Checkbox 复选框">
-        <YCheckboxGroup
-          v-model="checkedList"
-          :options="options"
-        ></YCheckboxGroup>
+        <YCheckboxGroup v-model="checkedList" :options="options"></YCheckboxGroup>
       </YTabsPanel>
       <YTabsPanel key="3" title="Switch 开关">
-        <YSwitch
-          size="large"
-          v-model="value"
-          open-title="是"
-          off-title="否"
-          :disabled="true"
-        ></YSwitch>
+        <YSwitch size="large" v-model="value" open-title="是" off-title="否" :disabled="true"></YSwitch>
         <YSwitch v-model="value" open-title="开" off-title="关"></YSwitch>
-        <YSwitch
-          size="small"
-          v-model="value"
-          open-title="上"
-          off-title="下"
-        ></YSwitch>
+        <YSwitch size="small" v-model="value" open-title="上" off-title="下"></YSwitch>
       </YTabsPanel>
       <YTabsPanel key="4" title="Selector 选择器">
-        <YSelector
-          v-model="value1"
-          :options="options1"
-          isSearch
-          @setItemValue="setItemValue"
-          placeholder="请选择一个小可爱"
-        ></YSelector>
+        <YSelector v-model="value1" :options="options1" isSearch @setItemValue="setItemValue" placeholder="请选择一个小可爱">
+        </YSelector>
       </YTabsPanel>
       <YTabsPanel key="5" title="Radio 单选框">
         <YRadioGroup v-model="value1" :options="options"></YRadioGroup>
         <span class="iconfont icon-close2"></span>
       </YTabsPanel>
       <YTabsPanel key="6" title="Rotation 轮播图">
-        <YRotation
-          :autoplay="true"
-          :duration="3000"
-          :initial="1"
-          :hasDot="true"
-          dotPositon="center"
-          :hasDirector="true"
-        >
+        <YRotation :autoplay="true" :duration="3000" :initial="1" :hasDot="true" dotPositon="center"
+          :hasDirector="true">
           <YRotationItem v-for="(item, index) in picList" :key="index">
             <img height="300" width="700" :src="item.path" alt="" />
           </YRotationItem>
         </YRotation>
+      </YTabsPanel>
+      <YTabsPanel key="7" title="Table 表格">
+        <YTable border width="1000px"  :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+          <template #table="{ tableColumn, tableData }">
+            <!-- <img v-if="tableColumn.key === 'name'" width="70" height="70"
+              src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp" alt="" /> -->
+            <y-tag type="success" v-if="tableColumn.key === 'age'">{{
+              tableData.age + " 岁"
+              }}</y-tag>
+          </template>
+          <template #operation="{ item, index }">
+            <y-button type="info" size="small">Edit</y-button>
+            <y-button type="danger" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</y-button>
+          </template>
+        </YTable>
       </YTabsPanel>
     </YTabs>
   </div>
@@ -76,6 +67,7 @@ import {
   YRadioGroup,
   YRotation,
   YRotationItem,
+  YTable,
 } from "y-ui";
 
 const value = ref(false);
@@ -147,6 +139,80 @@ const picList = [
   },
 ];
 
+const tableData = ref({
+  tHead: [
+    {
+      key: "id",
+      text: "学号",
+      
+    },
+    {
+      key: "name",
+      text: "姓名",
+    },
+    {
+      key: "age",
+      text: "年龄",
+   
+    },
+    {
+      key: "chinese",
+      text: "语文",
+      editable: true,
+   
+    },
+    {
+      key: "math",
+      text: "数学",
+      editable: true,
+    },
+    {
+      key: "english",
+      text: "英语",
+      editable: true,
+      
+    },
+    {
+      key: "operation",
+      text: "操作",
+    },
+  ],
+  tBody: [
+    {
+      id: 1,
+      name: "Yjj",
+      age: 21,
+      chinese: 121,
+      math: 90,
+      english: 138,
+    },
+    {
+      id: 2,
+      name: "嘿毛",
+      age: 20,
+      chinese: 111,
+      math: 32,
+      english: 43,
+    },
+    {
+      id: 3,
+      name: "big龙",
+      age: 19,
+      chinese: 44,
+      math: 21,
+      english: 11,
+    },
+    {
+      id: 4,
+      name: "嫖瓜",
+      age: 21,
+      chinese: 80,
+      math: 40,
+      english: 45,
+    },
+  ],
+});
+
 watch(
   () => value1.value,
   (val) => {
@@ -197,6 +263,23 @@ const setItemValue = (item) => {
 
 const onTabsChange = (item: any) => {
   console.log(item);
+};
+
+const editData = ({ index, key, value, text }) => {
+  tableData.value.tBody[index][key] = value;
+};
+const deleteItem = (id) => {
+  YMessageBox({
+    showCancelBtn: true,
+    title: "提示",
+    confirmBtnText: "确认",
+    cancelBtnText: "取消",
+    content: "确认删除当前学生吗？",
+  }).then(() => {
+    tableData.value.tBody = tableData.value.tBody.filter(
+      (item) => item.id !== id
+    );
+  });
 };
 </script>
 <style lang="less"></style>
