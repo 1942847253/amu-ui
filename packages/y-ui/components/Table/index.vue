@@ -1,35 +1,57 @@
 <template>
-  <table class="y-table" :style="`width:${props.width}`">
-    <thead>
+  <table class="y-table" :style="`width:${props.width}`" ref="tableRef">
+    <thead :class="`${props.border ? '' : 't-head-falg'}`">
       <tr>
-        <th v-for="info of props.tableColumn" :key="info.key">
+        <th
+          :style="`width: ${
+            props.tableData.length > 0 ? '' : '100vw'
+          }; border: ${props.border && '1px solid #ebeef5'};`"
+          v-for="info of props.tableColumn"
+          :key="info.key"
+        >
           {{ info.text }}
         </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody v-if="props.tableData.length > 0">
       <tr v-for="(item, index) of props.tableData" :key="item.id">
-        <td v-for="(value, key) in item" :key="key">
-          <div
-            class="td-content"
-            :style="{ width: getWidth(key) ? getWidth(key) + 'px' : '' }"
-            @click.stop="showEditInput($event, key, index)"
+        <td
+          v-for="(value, key) in item"
+          :key="key"
+          @click.stop="showEditInput($event, key, index)"
+          :style="`width: ${
+            getWidth(key) ? getWidth(key) + 'px' : ` calc(100vw)`
+          }; border: ${props.border && '1px solid #ebeef5'};`"
+        >
+          <slot
+            name="table"
+            :tableColumn="getTargetColumn(key)"
+            :tableData="item"
           >
-            <slot name="table" :tableColumn="getTargetColumn(key)" :tableData="item">
-              {{ !editInputApp && value }}</slot
-            >
-          </div>
+            {{ !editInputApp && value }}</slot
+          >
         </td>
-        <td>
+        <td
+          :style="`white-space: nowrap;border: ${
+            props.border && '1px solid #ebeef5'
+          };`"
+        >
           <slot name="operation" :item="item" :index="index">无</slot>
         </td>
       </tr>
     </tbody>
+    <div
+      v-else
+      class="no-data"
+      :style="`border: ${props.border && '1px solid #ebeef5'};border-top:none`"
+    >
+      暂无数据
+    </div>
   </table>
 </template>
 
 <script lang="ts" setup>
-import { App, createApp, reactive, ref } from "vue";
+import { App, createApp, onMounted, reactive, ref, nextTick } from "vue";
 import { editTdStat, initTdStats } from "./baseData";
 import EditInput from "./EditInput/EditInput.vue";
 
@@ -51,6 +73,10 @@ const props = defineProps({
     tpye: String,
     default: "100%",
   },
+  border: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(["editData"]);
@@ -62,7 +88,8 @@ const state = reactive({
   index: -1,
   text: "",
 });
-
+const tableRef = ref<null | HTMLTableElement>(null);
+  
 // 用于指定th表头宽度
 const getWidth = (key) => {
   return props.tableColumn.find((item) => item.key === key).width || null;
