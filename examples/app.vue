@@ -35,7 +35,7 @@
         </YRotation>
       </YTabsPanel>
       <YTabsPanel key="7" title="Table 表格">
-        <YTable border width="1000px"  :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+        <YTable border width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
           <template #table="{ tableColumn, tableData }">
             <!-- <img v-if="tableColumn.key === 'name'" width="70" height="70"
               src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp" alt="" /> -->
@@ -48,6 +48,14 @@
             <y-button type="danger" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</y-button>
           </template>
         </YTable>
+      </YTabsPanel>
+      <YTabsPanel key="8" title="Tag 标签">
+      <YTag closeable>test</YTag>
+        <YTag closeable type="success">YJJ</YTag> 
+        <YTag closeable type="warning">Big龙</YTag>
+        <YTag closeable type="danger">嘿毛</YTag>
+        <YTag closeable type="info">嫖瓜</YTag>
+
       </YTabsPanel>
     </YTabs>
   </div>
@@ -68,6 +76,7 @@ import {
   YRotation,
   YRotationItem,
   YTable,
+  YTag
 } from "y-ui";
 
 const value = ref(false);
