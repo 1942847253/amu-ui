@@ -1,7 +1,11 @@
 <template>
-    <div v-if="!closeable" :class="`tag ${getTagType(props.type)}`">
+    <div :style="`padding-right:${props.closeable?'20px':'9px'};`" v-if="!closeable"
+        :class="`tag ${getTagType(props.type)}`">
         <slot></slot>
-        <span v-if="props.closeable" @click.stop="closeTag">X</span>
+        <div v-if="props.closeable" :class="`close-content ${mouseEnter&&`close-${props.type}`}`" @mouseleave="mouseEnter = false"
+            @mouseenter="mouseEnter=true">
+            <span class="iconfont icon-close" v-if="props.closeable" @click.stop="closeTag"></span>
+        </div>
     </div>
 
 </template>
@@ -11,11 +15,11 @@
 const props = defineProps({
     type: {
         type: String,
-        default: () => ''
+        default: 'default'
     },
     closeable: {
         type: Boolean,
-        default: () => false
+        default: false
     }
 
 
@@ -23,19 +27,19 @@ const props = defineProps({
 
 const emit = defineEmits(['closeEvent'])
 const closeable = ref<boolean>(false)
+const mouseEnter = ref<boolean>(false)
 const closeTag = () => {
-
     emit('closeEvent');
     closeable.value = true
 }
-const getTagType = (type) => {
+const getTagType = (type: string) => {
     switch (type) {
         case 'success':
             return 'tag-success'
-        case 'processing':
-            return 'tag-processing'
-        case 'error':
-            return 'tag-error'
+        case 'info':
+            return 'tag-info'
+        case 'danger':
+            return 'tag-danger'
         case 'warning':
             return 'tag-warning'
         default:
@@ -46,31 +50,62 @@ const getTagType = (type) => {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/index.scss";
+@import '../../iconfont/iconfont.css';
+
 .tag {
-    display: inline-block;
-    height: auto;
-    padding: 1px 7px;
+    position: relative;
+    display: inline-flex;
     font-size: 12px;
     line-height: 20px;
     white-space: nowrap;
-    border-radius: 2px;
+    padding: 0.5px 9px;
+    border-radius: 3px;
     border-width: 1px;
     border-style: solid;
-    opacity: 1;
     transition: all .3s;
     margin: 0 8px 0 0;
 
-
-
-    span {
+    .close-content {
+        position: absolute;
+        right: 2px;
+        top: 4.3px;
         user-select: none;
-        color: #ffffffe4;
-        margin-left: 5px;
-        cursor: pointer;
+        border-radius: 50%;
+        height: 13px;
+        width: 13px;
+
+        span {
+            position: absolute;
+            font-size: 10px;
+            top: -3.3px;
+            left: 0.5px;
+            cursor: pointer;
+        }
+
+        span:hover {
+            color: #fff;
+        }
     }
 
-    span:hover {
-        color: #e9e9e973
+    .close-success {
+        background-color: $success-color;
+    }
+
+    .close-info {
+        background-color: $info-color;
+    }
+
+    .close-danger {
+        background-color: $danger-color;
+    }
+
+    .close-warning {
+        background-color: $warning-color;
+    }
+
+    .close-default {
+        background-color: rgba(0, 0, 0, 0.385);
     }
 }
 
@@ -80,39 +115,32 @@ const getTagType = (type) => {
     border-color: #c6c6c6;
     color: #000000;
 
-    span {
-        user-select: none;
-        color: #000000;
-        margin-left: 5px;
-        cursor: pointer;
-    }
-
     span:hover {
         color: #00000073
     }
 }
 
 .tag-success {
-    background: #67c23a;
-    border-color: #67c23a;
-    color: #ffff;
+    background: #e3f4f1;
+    border-color: #02c39913;
+    color: #02c39a;
 }
 
-.tag-processing {
-    background: #409eff;
-    border-color: #409eff;
-    color: #ffff;
+.tag-info {
+    background: #dfe9f3e0;
+    border-color: #3f5e7d12;
+    color: #3f5e7de0;
 }
 
-.tag-error {
-    background: #f56c6c;
-    border-color: #f56c6c;
-    color: #ffff;
+.tag-danger {
+    background: #f5e6e1;
+    border-color: #ff400018;
+    color: #FF3F00;
 }
 
 .tag-warning {
-    background: #e6a23c;
-    border-color: #e6a23c;
-    color: #ffff;
+    background: #f4eedf;
+    border-color: #d699001a;
+    color: #D69800;
 }
 </style>

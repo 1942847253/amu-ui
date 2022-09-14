@@ -99,7 +99,7 @@ button:active {
 }
 
 .button-default {
-  color: $text-color-black;
+  color: black;
   border: none;
   background-color: $default-color;
 }
