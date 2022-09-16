@@ -111,19 +111,19 @@ const getTagType = (type: string) => {
 
 
 .tag-default {
-    background-color: #e6e6e6;
-    border-color: #c6c6c6;
-    color: #000000;
+    background-color: #dedede8d;
+    border-color: #c6c6c678;
+    color: #1d1d1d;
 
     span:hover {
-        color: #00000073
+        color: #0000000c
     }
 }
 
 .tag-success {
-    background: #e3f4f1;
-    border-color: #02c39913;
-    color: #02c39a;
+    background: #32a94617;
+    border-color: #32a94665;
+    color: #32a946;
 }
 
 .tag-info {
@@ -133,9 +133,9 @@ const getTagType = (type: string) => {
 }
 
 .tag-danger {
-    background: #f5e6e1;
-    border-color: #ff400018;
-    color: #FF3F00;
+    background: #e5383513;
+    border-color: #e5383526;
+    color: #E53935;
 }
 
 .tag-warning {

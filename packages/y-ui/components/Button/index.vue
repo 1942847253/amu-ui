@@ -158,7 +158,7 @@ button:active {
 }
 
 .size-default {
-  padding: 8px 15px;
+  padding: 9px 15px;
   font-size: 14px;
 }
 
