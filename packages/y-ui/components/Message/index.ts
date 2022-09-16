@@ -21,6 +21,7 @@ Object.values(Types).forEach((type) => {
 const showMessage = (app: any, duration: number) => {
   const oFragment: DocumentFragment = document.createDocumentFragment();
   const vm = app.mount(oFragment);
+
   messageArrList.value.push(vm);
   document.body.appendChild(oFragment);
   // 初始时设置一次高度
@@ -33,11 +34,23 @@ const showMessage = (app: any, duration: number) => {
       $setMessageTop(vm);
     }
   );
+  watch(
+    () => vm.isHover,
+    (val) => {
+      !val && hideMessage(app, vm, duration);
+    },
+    { deep: true }
+  );
   hideMessage(app, vm, duration);
 };
 
 const hideMessage = (app: any, vm: any, duration: number) => {
   vm.timer = setTimeout(() => {
+    if (vm.isHover) {
+      clearTimeout(vm.timer);
+      vm.timer = null;
+      return;
+    }
     vm.setMessageVisible(false).then(() => {
       app.unmount();
       // 卸载组件后重新记录存放组件实例的队列

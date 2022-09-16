@@ -1,15 +1,21 @@
 <template>
   <transition name="y-message-fade">
-    <div v-if="messageVisible" :style="{ top: top + 'px' }" :class="styleClass">
-      {{ props.message }}
+    <div ref="messageRef" v-if="messageVisible" :style="{ top: top + 'px' }" class="y-message">
+      <div class="y-message-content" @mouseenter="onMouseActiveMessage(true)" @mouseleave="onMouseActiveMessage(false)">
+        <span style="margin-right: 10px;font-size: 18px;" :class="`iconfont ${getIconType()} ${props.type}`"></span>
+        <div>{{
+        props.message
+        }}</div>
+      </div>
     </div>
   </transition>
 </template>
 
 <script setup lang="ts">
 import types from "./types.js";
-import { computed, reactive, ref, toRefs } from "vue";
-let timer = null;
+import { reactive, ref, toRefs } from "vue";
+
+let timer = null as any;
 
 const props = defineProps({
   type: {
@@ -28,6 +34,7 @@ const props = defineProps({
   },
 });
 
+const isHover = ref(false);
 const state = reactive({
   messageVisible: false,
   top: 0,
@@ -35,7 +42,20 @@ const state = reactive({
 
 const { messageVisible, top } = toRefs(state);
 
-const styleClass = computed(() => ["y-message", props.type]);
+const getIconType = () => {
+  switch (props.type) {
+    case 'error':
+      return 'icon-cuowu'
+    case 'success':
+      return 'icon-chenggong'
+    case 'warning':
+      return 'icon-tixingshixin'
+    case 'info':
+      return 'icon-xinxi-yuankuang'
+    default:
+      return 'icon-xinxi-yuankuang'
+  }
+}
 
 const setMessageVisible = (visible: boolean): Promise<any> => {
   messageVisible.value = visible;
@@ -48,52 +68,77 @@ const setMessageVisible = (visible: boolean): Promise<any> => {
   });
 };
 
-const setMessageTop = (top) => {
+const onMouseActiveMessage = (hover: boolean) => {
+  isHover.value = hover
+  if (isHover.value) {
+
+  }
+}
+
+const setMessageTop = (top: number) => {
   state.top = top;
   return top;
 };
 
 defineExpose({
+  isHover,
   setMessageVisible,
   setMessageTop,
   height: 45,
-  margin: 20,
+  margin: 10,
 });
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/index.scss';
+@import '../../iconfont/iconfont.css';
+
 .y-message {
   position: fixed;
-  top: 10px;
-  left: 50%;
-  width: 380px;
-  height: 45px;
-  margin-left: -190px;
-  text-align: left;
-  line-height: 45px;
-  font-size: 14px;
-  border-radius: 5px;
-  padding-left: 15px;
+  width: 100%;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
   transition: top 0.3s ease-out;
-  &.success {
-    color: #67c23a;
-    background-color: #e1f3d8;
+  user-select: none;
+}
+
+.y-message>.y-message-content {
+  display: flex;
+  align-items: center;
+  padding: 13px 20px;
+  pointer-events: all;
+  background: #fff;
+  width: max-content;
+  max-width: 720px;
+  color: #333639;
+  margin: auto;
+  font-size: 14px;
+  user-select: contain !important;
+  border-radius: 3px;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+    0 6px 16px 0 rgba(0, 0, 0, 0.08),
+    0 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+  .success {
+    color: $success-color;
   }
 
-  &.warning {
-    background-color: #faecd8;
-    color: #e6a23c;
+  .warning {
+    color: $warning-color;
   }
 
-  &.message {
-    color: #909399;
-    background-color: #e9e9eb;
+  .message {
+    color: $primary-color;
   }
 
-  &.error {
-    color: #f56c6c;
-    background-color: #fde2e2;
+  .error {
+    color: $danger-color;
   }
+}
+
+.y-message-content:hover {
+  user-select: text;
 }
 
 .y-message-fade-enter-from,
@@ -105,6 +150,7 @@ defineExpose({
 .y-message-fade-enter-active {
   transition: all 0.3s ease-in;
 }
+
 .y-message-fade-leave-active {
   transition: all 0.3s ease-out;
 }

@@ -2,11 +2,11 @@
   <div>
     <YTabs default-active-key="1" position="left" @change="onTabsChange">
       <YTabsPanel key="1" title="Button 按钮">
-        <YButton @click="value1 = 1" type="primary">primary</YButton>
-        <YButton type="danger" @click="showError">danger</YButton>
-        <YButton type="success" @click="showSuccess">success</YButton>
-        <YButton type="warning" @click="showWarning">warning</YButton>
-        <YButton type="info" @click="showMessage">info </YButton>
+        <YButton @click="value1 = 1" type="primary">Primary</YButton>
+        <YButton type="danger" @click="showError">Danger</YButton>
+        <YButton type="success" @click="showSuccess">Success</YButton>
+        <YButton type="warning" @click="showWarning">Warning</YButton>
+        <YButton type="info" @click="showMessage">Info </YButton>
         <YButton size="small">编辑</YButton>
         <YButton type="danger" size="small">删除</YButton>
       </YTabsPanel>
@@ -238,7 +238,7 @@ watch(
 
 const showError = () => {
   YMessage.error({
-    message: "this is a error message",
+    message: "this is a error message when you click the button error message when you click the button",
   });
 };
 
@@ -249,7 +249,7 @@ const showSuccess = () => {
     showCancelBtn: true,
   }).then(() => {
     YMessage.success({
-      message: "this is a success message",
+      message: "success",
     });
   });
 };
