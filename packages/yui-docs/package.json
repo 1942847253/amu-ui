@@ -1,0 +1,19 @@
+{
+  "name": "yui-docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "element-plus": "^2.2.17"
+  }
+}

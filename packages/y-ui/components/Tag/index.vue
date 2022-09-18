@@ -121,7 +121,7 @@ const getTagType = (type: string) => {
 }
 
 .tag-success {
-    background: #32a94617;
+    background: #32a94622;
     border-color: #32a94665;
     color: #32a946;
 }

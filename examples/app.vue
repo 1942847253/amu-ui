@@ -24,7 +24,7 @@
       </YTabsPanel>
       <YTabsPanel key="5" title="Radio 单选框">
         <YRadioGroup v-model="value1" :options="options"></YRadioGroup>
-        <span class="iconfont icon-close2"></span>
+      
       </YTabsPanel>
       <YTabsPanel key="6" title="Rotation 轮播图">
         <YRotation :autoplay="true" :duration="3000" :initial="1" :hasDot="true" dotPositon="center"
@@ -64,7 +64,6 @@
 import { ref, watch } from "vue";
 import {
   YButton,
-  YCheckbox,
   YCheckboxGroup,
   YSwitch,
   YMessage,
@@ -220,7 +219,7 @@ const tableData = ref({
       english: 45,
     },
   ],
-});
+}) as any;
 
 watch(
   () => value1.value,
@@ -274,7 +273,7 @@ const onTabsChange = (item: any) => {
   console.log(item);
 };
 
-const editData = ({ index, key, value, text }) => {
+const editData = ({ index, key, value, text }:any) => {
   tableData.value.tBody[index][key] = value;
 };
 const deleteItem = (id) => {

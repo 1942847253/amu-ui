@@ -1,12 +1,13 @@
 <template>
   <div class="radio-main">
     <input
-      :class="disabled && checked ? 'checked' : ''"
+      :class="disabled && isChecked ? 'checked' : ''"
       type="radio"
       @click="changeChecked"
       :id="valueSlot"
       name="radio"
-      :checked="checked"
+      :checked="isChecked"
+      :value="value"
       :disabled="disabled"
     />
     <label :for="valueSlot">
@@ -19,7 +20,7 @@
 import {
   defineComponent,
   getCurrentInstance,
-  onMounted,
+  onBeforeMount,
   ref,
   watch,
   inject,
@@ -43,17 +44,18 @@ export default defineComponent({
     const modelValue = inject("modelValue");
     const instance = getCurrentInstance()!;
     const valueSlot = ref<string>("");
-    const checked = ref<boolean>(false);
-    onMounted(() => {
-      checked.value = modelValue === props.value ? true : false;
+    const isChecked = ref<boolean>(false);
+    onBeforeMount(() => {
+      isChecked.value = modelValue === props.value ? true : false;
       valueSlot.value = instance.slots.default!()[0].children as string;
     });
 
     watch(
       () => props.modelValue,
       () => {
-        checked.value = props.modelValue === props.value ? true : false;
-      }
+        isChecked.value = props.modelValue === props.value ? true : false;
+      },
+      {deep:true}
     );
 
     const changeChecked = () => {
@@ -61,7 +63,7 @@ export default defineComponent({
     };
 
     return {
-      checked,
+      isChecked,
       valueSlot,
       changeChecked,
     };

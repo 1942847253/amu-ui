@@ -95,7 +95,7 @@ button:hover {
 }
 
 button:active {
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .button-default {
@@ -126,6 +126,9 @@ button:active {
   border: none;
   background-color: $primary-color;
   color: $text-color-white;
+}
+.button-primary:active{
+  background-color: #0c50a8;
 }
 
 .button-success {
