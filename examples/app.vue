@@ -79,7 +79,7 @@ import {
 } from "y-ui";
 
 const value = ref(false);
-const value1 = ref(2);
+const value1 = ref();
 const checkedList = ref([1, 2]);
 const options = ref([
   {

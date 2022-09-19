@@ -1,38 +1,16 @@
-<style>
-  .prev-next{
-   border-top:none;
-  }
-   h2{
-    border:none;
-   }
-    .example{
-        border: 1px solid #dcdfe6ba;
-        border-radius: 5px;
-        padding:20px
-    }
-    .y-button {
-        margin:10px 5px
-    }
-    
-    details > summary:first-of-type {
-        font-size: 10px;
-        padding: 8px 0;
-        cursor: pointer;
-        color: #1989fa;
-    }
-</style>
-
 <script setup>
 import Basic from './component/Basic.vue'
+import Disabled from './component/Disabled.vue'
+import Title from './component/Title.vue'
 </script>
 
-# Button 按钮
+# Switch 开关
 
-常用的操作按钮。
+表示两种相互对立的状态间的切换，多用于触发「开/关」。
 
 ## 基础用法
 
-使用 `type` 来定义按钮的样式。
+绑定 `v-model` 到一个 `Boolean` 类型的变量。
 
 <div class="example">
  <Basic/>
@@ -43,17 +21,78 @@ import Basic from './component/Basic.vue'
 
 ```vue
 <template>
-  <div>
-    <y-button>default</y-button>
-    <y-button type="primary">primary</y-button>
-    <y-button type="success">success</y-button>
-    <y-button type="warning">warning</y-button>
-    <y-button type="danger">error</y-button>
-    <y-button type="info">info</y-button>
-  </div>
+  <y-switch v-model="value"></y-switch>
+  <y-switch></y-switch>
 </template>
+
 <script lang="ts" setup>
-import { YButton } from "y-ui";
+import { ref } from "vue";
+
+const value = ref(true);
+</script>
+```
+
+</details>
+
+## 禁用状态
+
+使用 `disabled` 属性来禁用开关。
+
+<div class="example">
+ <Disabled/>
+</div>
+
+<details>
+<summary>展开示例代码</summary>
+
+```vue
+<template>
+  <y-switch v-model="value" disabled></y-switch>
+  <y-switch disabled></y-switch>
+</template>
+
+<script lang="ts" setup>
+import { ref } from "vue";
+
+const value = ref(true);
+</script>
+```
+
+</details>
+
+## 文字描述
+
+使用 `openTitle` 与 `offTitle` 设置一组单个字的反义词
+
+<div class="example">
+ <Title/>
+</div>
+
+<details>
+<summary>展开示例代码</summary>
+
+```vue
+<template>
+  <y-switch
+    size="large"
+    v-model="value"
+    open-title="是"
+    off-title="否"
+    :disabled="true"
+  ></y-switch>
+  <y-switch v-model="value" open-title="开" off-title="关"></y-switch>
+  <y-switch
+    size="small"
+    v-model="value"
+    open-title="上"
+    off-title="下"
+  ></y-switch>
+</template>
+
+<script lang="ts" setup>
+import { ref } from "vue";
+
+const value = ref(true);
 </script>
 ```
 
