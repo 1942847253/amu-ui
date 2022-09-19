@@ -3,9 +3,10 @@
   z-index: 1000;
   position: absolute;
   width: 100%;
+  border-radius: 5px;
   height: 0;
   overflow-y: hidden;
-  transition: height 0.15s ease-in-out;
+  transition: height 0.2s ease-in-out;
   cursor: pointer;
   user-select: none;
   background-color: #fff;

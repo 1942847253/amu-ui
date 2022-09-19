@@ -78,10 +78,9 @@ export default defineComponent({
 <style scoped lang="scss">
 @import "../../assets/index.scss";
 .switch-content {
-  width: 100%;
+  margin-right: 10px;
   padding: 10px 0;
-  display: flex;
-  justify-content: space-around;
+  display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
   user-select: none;

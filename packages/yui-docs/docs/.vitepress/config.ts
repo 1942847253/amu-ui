@@ -59,8 +59,8 @@ export default {
               link: "/examples/radio/",
             },
             {
-              text: "Select 选择器",
-              link: "/examples/select/",
+              text: "Selector 选择器",
+              link: "/examples/Selector/",
             },
             {
               text: "Switch 开关",
