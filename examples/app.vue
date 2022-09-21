@@ -35,7 +35,7 @@
         </YRotation>
       </YTabsPanel>
       <YTabsPanel key="7" title="Table 表格">
-        <YTable border width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+        <YTable  width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
           <template #table="{ tableColumn, tableData }">
             <!-- <img v-if="tableColumn.key === 'name'" width="70" height="70"
               src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp" alt="" /> -->

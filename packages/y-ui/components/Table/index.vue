@@ -32,11 +32,12 @@
           >
         </td>
         <td
-          :style="`white-space: nowrap;border: ${
+        v-show="operationTd"
+          :style="`white-space: nowrap;width:calc(100vw);border: ${
             props.border && '1px solid #ebeef5'
           };`"
         >
-          <slot name="operation" :item="item" :index="index">无</slot>
+          <slot name="operation" :item="item" :index="index"></slot>
         </td>
       </tr>
     </tbody>
@@ -51,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import { App, createApp, onMounted, reactive, ref, nextTick } from "vue";
+import { App, createApp, onMounted, reactive, ref, nextTick, computed } from "vue";
 import { editTdStat, initTdStats } from "./baseData";
 import EditInput from "./EditInput/EditInput.vue";
 
@@ -89,7 +90,18 @@ const state = reactive({
   text: "",
 });
 const tableRef = ref<null | HTMLTableElement>(null);
+
+const operationTd = computed(()=>{
+  let isOperationTd = false
+  props.tableColumn.forEach((item:any)=>{
+    if (item.key === 'operation'){
+      isOperationTd = true
+    }
+  })
+  console.log(isOperationTd);
   
+  return isOperationTd;
+})
 // 用于指定th表头宽度
 const getWidth = (key) => {
   return props.tableColumn.find((item) => item.key === key).width || null;
