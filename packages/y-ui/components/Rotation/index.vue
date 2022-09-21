@@ -110,9 +110,9 @@ export default defineComponent({
     const setSlotContentStyle = () => {
       setTimeout(() => {
         const slotItem = slotContent.value!.children[0] as HTMLDivElement;
-        state.contentHeight = slotItem.offsetHeight;
-        state.contentWidth = slotItem.offsetWidth;
-      });
+        state.contentHeight = slotItem.clientHeight;
+        state.contentWidth = slotItem.clientWidth;
+      },10);
     };
 
     const autoplay = () => {

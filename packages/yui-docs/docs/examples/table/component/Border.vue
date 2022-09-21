@@ -1,5 +1,5 @@
 <template>
-    <y-table  :tableData="tableData.tBody" :tableColumn="tableData.tHead">
+    <y-table border :tableData="tableData.tBody" :tableColumn="tableData.tHead">
     </y-table>
 </template>
 

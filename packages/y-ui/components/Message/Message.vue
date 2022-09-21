@@ -95,6 +95,7 @@ defineExpose({
 
 .y-message {
   position: fixed;
+  z-index: 9999;
   width: 100%;
   pointer-events: none;
   display: flex;

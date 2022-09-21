@@ -34,6 +34,12 @@ export const config ={
     },
     outDir: "./dist",
   },
+  server: {
+    fs: {
+      strict: false,
+      allow: [],
+    },
+}
 }
 
 export default defineConfig(config as UserConfig);
