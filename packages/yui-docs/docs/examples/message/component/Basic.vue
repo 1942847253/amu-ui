@@ -8,6 +8,7 @@ import { YMessage } from '../../../../../y-ui';
 
 const messageInfo = () => {
     YMessage({
+        type:'info',
         message: "this is a message."
     })
 }

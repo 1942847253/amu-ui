@@ -1,8 +1,6 @@
 <template>
-    <y-button>default</y-button>
-    <y-button type="primary">primary</y-button>
-    <y-button type="success">success</y-button> 
-    <y-button type="warning">warning</y-button>
-    <y-button type="danger">error</y-button>
-    <y-button type="info">info</y-button>
+    <YTag  type="success">YJJ</YTag>
+    <YTag  type="warning">Big龙</YTag>
+    <YTag  type="danger">嘿毛</YTag>
+    <YTag  type="info">嫖瓜</YTag>
 </template>

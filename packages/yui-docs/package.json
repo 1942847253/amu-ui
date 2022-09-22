@@ -11,8 +11,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-  },
   "dependencies": {
+    "y-ui": "workspace:^1.0.0"
   }
 }

@@ -98,8 +98,6 @@ const operationTd = computed(()=>{
       isOperationTd = true
     }
   })
-  console.log(isOperationTd);
-  
   return isOperationTd;
 })
 // 用于指定th表头宽度
