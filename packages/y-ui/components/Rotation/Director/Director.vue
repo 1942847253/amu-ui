@@ -55,7 +55,7 @@ export default defineComponent({
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    line-height: 28px;
+    line-height: 30px;
     text-align: center;
   }
   .director-left {

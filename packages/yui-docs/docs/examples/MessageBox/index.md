@@ -1,15 +1,16 @@
+
 <script setup>
 import Basic from './component/Basic.vue'
-import Closeable from './component/Closeable.vue'
+import DiffType from './component/DiffType.vue'
 </script>
 
-# Tag 标签
+# MessageBox 消息弹框
 
-用于标记和选择。
+模拟系统的消息提示框而实现的一套模态对话框组件，用于消息提示、确认消息和提交内容。
 
-## 基础用法
+## 消息提示
 
-使用 `type` 来定义选择 tag 的类型。
+当用户进行操作时会被触发，该对话框中断用户操作，直到用户确认知晓后才可关闭。
 
 <div class="example">
  <Basic/>
@@ -36,12 +37,13 @@ import { YButton } from "y-ui";
 
 </details>
 
-## 可移除标签
 
-设置 `closable` 属性可以定义一个标签是否可移除。
+## 不同状态
+
+用来显示「成功、警告、消息、错误」类的操作反馈。
 
 <div class="example">
- <Closeable />
+ <DiffType/>
 </div>
 
 <details>
@@ -64,4 +66,3 @@ import { YButton } from "y-ui";
 ```
 
 </details>
-

@@ -74,7 +74,7 @@ export default defineComponent({
   height: 10px;
   margin-right: 5px;
   border-radius: 50%;
-  opacity: 0.7;
+  opacity: 0.5;
   cursor: pointer;
 }
 </style>
