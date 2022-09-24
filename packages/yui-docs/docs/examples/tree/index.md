@@ -1,16 +1,15 @@
-
 <script setup>
-import Basic from './component/Basic.vue';
-import Confirm from './component/Confirm.vue'
+import Basic from './component/Basic.vue'
+import Closeable from './component/Closeable.vue'
 </script>
 
-# MessageBox 消息弹框
+# Tree 树形控件
 
-模拟系统的消息提示框而实现的一套模态对话框组件，用于消息提示、确认消息和提交内容。
+用清晰的层级结构展示信息，可展开或折叠。
 
-## 消息提示
+## 基础用法
 
-当用户进行操作时会被触发，该对话框中断用户操作，直到用户确认知晓后才可关闭。
+基础的树形结构展示
 
 <div class="example">
  <Basic/>
@@ -37,13 +36,12 @@ import { YButton } from "y-ui";
 
 </details>
 
+## 可移除标签
 
-## 确认消息
-
-提示用户确认其已经触发的动作，并询问是否进行此操作时会用到此对话框。
+设置 `closable` 属性可以定义一个标签是否可移除。
 
 <div class="example">
- <Confirm/>
+ <Closeable />
 </div>
 
 <details>
@@ -66,3 +64,4 @@ import { YButton } from "y-ui";
 ```
 
 </details>
+

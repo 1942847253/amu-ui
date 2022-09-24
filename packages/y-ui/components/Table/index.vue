@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import { App, createApp, onMounted, reactive, ref, nextTick, computed } from "vue";
+import { App, createApp, reactive, ref, computed } from "vue";
 import { editTdStat, initTdStats } from "./baseData";
 import EditInput from "./EditInput/EditInput.vue";
 
@@ -71,7 +71,7 @@ const props = defineProps({
     default: () => [],
   },
   width: {
-    tpye: String,
+    type: String,
     default: "100%",
   },
   border: {

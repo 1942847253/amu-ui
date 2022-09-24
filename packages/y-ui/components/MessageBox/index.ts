@@ -46,7 +46,7 @@ const showMessageBox = (app: any, { resolve, reject }: any) => {
     if (!state.visible) {
       switch (state.btnType) {
         case "cancel":
-          reject();
+          reject(false);
           break;
         case "confirm":
           resolve(state.promptValue);
@@ -54,7 +54,9 @@ const showMessageBox = (app: any, { resolve, reject }: any) => {
         default:
           break;
       }
-      app.unmount(vm);
+      setTimeout(()=>{
+        app.unmount(vm);
+      },100)
       vmList = [];
     }
   });

@@ -1,3 +1,6 @@
+import {App} from "vue";
+import YMessageBox from "./components/MessageBox/index";
+import YMessage from "./components/Message/index";
 import YSelector from "./components/Selector/index.vue";
 import YRotation from "./components/Rotation/index.vue";
 import YRotationItem from "./components/Rotation/RotationItem/RotationItem.vue";
@@ -9,50 +12,50 @@ import YRadio from "./components/Radio/index.vue";
 import YRadioGroup from "./components/RadioGroup/RadioGroup.vue";
 import YCheckbox from "./components/CheckBox/CheckBox.vue";
 import YCheckboxGroup from "./components/CheckBoxGroup/CheckBoxGroup.vue";
-import YMessageBox from "./components/MessageBox/index";
-import YMessage from "./components/Message/index";
 import YTabs from "./components/Tabs";
 import YTabsPanel from "./components/Tabs/Panel/index.vue";
-import { App, Component } from "vue";
+import YTree from './components/Tree/index.vue';
 
 export {
-  YMessageBox,
-  YMessage,
-  YSelector,
-  YRotation,
-  YRotationItem,
-  YTable,
-  YTag,
-  YButton,
-  YSwitch,
-  YRadio,
-  YRadioGroup,
-  YCheckbox,
-  YCheckboxGroup,
-  YTabs,
-  YTabsPanel
+    YMessageBox,
+    YMessage,
+    YSelector,
+    YRotation,
+    YRotationItem,
+    YTable,
+    YTag,
+    YButton,
+    YSwitch,
+    YRadio,
+    YRadioGroup,
+    YCheckbox,
+    YCheckboxGroup,
+    YTabs,
+    YTabsPanel,
+    YTree,
 };
 
 const components = {
-  YSelector,
-  YRotation,
-  YRotationItem,
-  YTable,
-  YTag,
-  YButton,
-  YSwitch,
-  YRadio,
-  YRadioGroup,
-  YCheckbox,
-  YCheckboxGroup,
-  YTabs,
-  YTabsPanel,
+    YSelector,
+    YRotation,
+    YRotationItem,
+    YTable,
+    YTag,
+    YButton,
+    YSwitch,
+    YRadio,
+    YRadioGroup,
+    YCheckbox,
+    YCheckboxGroup,
+    YTabs,
+    YTabsPanel,
+    YTree
 };
 
 export default {
-  install(Vue: App<Element>) {
-    Object.keys(components).forEach((key) => {
-      Vue.component(key, components[key]);
-    });
-  },
+    install(Vue: App<Element>) {
+        Object.keys(components).forEach((key) => {
+            Vue.component(key, components[key]);
+        });
+    },
 };
