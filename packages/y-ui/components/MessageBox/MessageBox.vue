@@ -7,15 +7,17 @@
           <span class="iconfont icon-close2" @click="cancelBtnClick"></span>
         </div>
         <div class="y-message-content">
-          <ContentView :fied="props.field" />
+          <ContentView :fied="props.field"/>
         </div>
         <div class="y-message-footer">
           <y-button type="primary" @click="confirmBtnClick">{{
-          confirmBtnText
-          }}</y-button>
+              confirmBtnText
+            }}
+          </y-button>
           <y-button v-if="showCancelBtn" @click="cancelBtnClick">{{
-          cancelBtnText
-          }}</y-button>
+              cancelBtnText
+            }}
+          </y-button>
         </div>
       </div>
     </div>
@@ -24,9 +26,9 @@
 
 <script lang="ts" setup>
 
-import { h, reactive, toRefs } from "vue";
+import {h, reactive, toRefs} from "vue";
 import YButton from "../Button/index.vue";
-import { fields } from "./index";
+import {fields} from "./index";
 
 const props = defineProps({
   title: {
@@ -71,11 +73,16 @@ const state = reactive({
   promptValue: "",
   btnType: "confirm",
 });
-const { visible } = toRefs(state);
+const {visible} = toRefs(state);
 
 const setVisible = (isVisible) => {
 
   state.visible = isVisible;
+  if (state.visible) {
+    openMaskFun();
+  }else {
+    closeMaskFun();
+  }
 };
 
 const confirmBtnClick = () => {
@@ -94,7 +101,7 @@ const cancelMantleClose = () => {
   }
 };
 
-const ContentView = ({ fied }) => {
+const ContentView = ({fied}) => {
   switch (fied) {
     case !fied || "confirm":
       return h("span", null, props.content);
@@ -106,6 +113,18 @@ const ContentView = ({ fied }) => {
       });
   }
 };
+
+
+const openMaskFun = () => {
+  document.body.style.borderRight = '5px solid transparent'
+  document.body.style.overflow = 'hidden'
+}
+
+const  closeMaskFun = ()=>{
+  document.body.style.borderRight = 'none'
+  document.body.style.overflow = 'auto'
+}
+
 defineExpose({
   setVisible,
   state,
@@ -134,20 +153,20 @@ defineExpose({
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-
+  user-select: none;
   .y-message-box-wrapper {
-    padding: 15px;
-    padding-right: 0px;
-    padding-bottom: 8px;
+    user-select: text;
     margin: 12% auto;
     display: flex;
     flex-direction: column;
     width: 400px;
     background-color: #fff;
     border-radius: 3px;
-
+    padding: 15px;
+    padding-right: 0px;
+    padding-bottom: 8px;
     .y-message-title {
       display: flex;
       align-items: center;

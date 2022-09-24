@@ -66,6 +66,11 @@ export default {
               text: "Switch 开关",
               link: "/examples/switch/",
             },
+
+            {
+              text: "Tree 树形控件",
+              link: "/examples/tree/",
+            },
           ],
         },
         {
