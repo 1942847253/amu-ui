@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-const isSelect = ref(true)
+const isSelect = ref(false)
 const treeData = ref( [
   {
     key: 1,

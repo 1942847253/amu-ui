@@ -57,6 +57,10 @@
         <YTag closeable type="info">嫖瓜</YTag>
 
       </YTabsPanel>
+      <YTabsPanel key="9" title="Tree 树形控件">
+      <YTree :isSelect="isSelect" :data="treeData"></YTree>
+      
+      </YTabsPanel>
     </YTabs>
   </div>
 </template>
@@ -75,7 +79,8 @@ import {
   YRotation,
   YRotationItem,
   YTable,
-  YTag
+  YTag,
+  YTree
 } from "y-ui";
 
 const value = ref(false);
@@ -96,6 +101,50 @@ const options = ref([
     value: 3,
   },
 ]);
+
+const isSelect = ref(false)
+const treeData = ref([
+  {
+    key: 1,
+    title: '一级机构部门',
+    children: [
+      {
+        key: 90001,
+        title: '测试机构111',
+        children: [
+          {
+            key: 90019,
+            title: '测试机构111-2',
+          },
+          {
+            key: 90025,
+            title: '机构机构',
+            children: [
+              {
+                key: 90026,
+                title: '机构机构-2',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        key: 90037,
+        title: '另一个机构部门',
+      },
+    ],
+  },
+  {
+    key: 2,
+    title: '小卖部总舵',
+    children: [
+      {
+        key: 90037,
+        title: '小卖部河边分部',
+      },
+    ],
+  },
+])
 
 const options1 = ref([
   {
