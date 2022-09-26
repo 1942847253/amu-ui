@@ -1,11 +1,12 @@
 <template>
-  <Tree :data="data" :isSelect="isSelect" :props="props" />
+<Tree :data="data" :isSelect="isSelect" :props="props" />
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, onBeforeUnmount, reactive, toRefs } from "vue";
+import { defineComponent, onBeforeMount, onBeforeUnmount, provide } from "vue";
 import Tree from './Tree.vue';
 import $bus from "../../bus/bus";
+import { uuid } from "./../../shared/utils";
 
 export default defineComponent({
   name: "YTree",
@@ -34,6 +35,7 @@ export default defineComponent({
   },
   emits: ['operation', 'node-click', 'change', 'checked'],
   setup(props, { emit }) {
+    const uniKey = uuid()
     onBeforeMount(() => {
       initEvent();
     })
@@ -46,26 +48,26 @@ export default defineComponent({
     })
 
     const initEvent = () => {
-      $bus.$on('operation', ({ type, treeNode }: any) => {
+      $bus.$on('operation' + uniKey, ({ type, treeNode }: any) => {
         emit('operation', { type, treeNode })
       })
 
-      $bus.$on('node-click', (item: any) => {
+      $bus.$on('node-click' + uniKey, (item: any) => {
         emit('node-click', item)
       })
 
-      $bus.$on('change', (item: any) => {
+      $bus.$on('change' + uniKey, (item: any) => {
         emit('change', item)
       })
 
-      $bus.$on('checked', (item: any) => {
+      $bus.$on('checked' + uniKey, (item: any) => {
         emit('checked', item)
       })
 
     }
-    return {
-    }
-  }
+    provide('uniKey', uniKey)
+  },
+  
 
 })
 </script>
