@@ -1,6 +1,6 @@
 <template>
    <div>
-    <y-checkbox v-model="checked1">我已阅读并同意此协议</y-checkbox>
+    <y-checkbox v-model="checked1.value">我已阅读并同意此协议</y-checkbox>
     <y-checkbox v-model="checked2">选项 1</y-checkbox>
     <y-checkbox v-model="checked3">选项 2</y-checkbox>
     <y-checkbox v-model="checked4">选项 3</y-checkbox>
@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-const checked1 = ref(true)
+import { reactive, ref } from 'vue'
+const checked1 = reactive({ value:true })
 const checked2 = ref(false)
 const checked3 = ref(false)
 const checked4 = ref(false)
