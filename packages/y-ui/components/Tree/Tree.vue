@@ -1,14 +1,14 @@
 <template>
     <div class="y-tree-menu">
-        <div class="y-tree-list" v-for="(item, index) in data" :key="item[props.key]">
+        <div :class="`y-tree-list tree-ref-${uid}`" ref="treeRef" :node-key="item[nodeKey]"
+            v-for="(item, index) in treeData" :key="item[props.key]">
             <button class="y-tree-item" @click="changeStatus(index)"
                 :class="['treeNode', { 'treeNode--select': item.onSelect }]">
                 <i v-show="item[props.children]"
-                    :class="['iconfont icon-tree-retract', state.carets[state.tapScopes[index]]]" />
-                <label class="checkbox-wrap" @click="checked(item)">
-                    <input v-if="isSelect" v-model="item.checked" type="checkbox" class="checkbox" />
-                </label>
-                <span class="title" @click="tap(item, index)">{{ item[props.label] }}</span>
+                    :class="['iconfont icon-tree-retract', state.carets[state.tapScopes[index]]] " />
+                <YCheckBox style="margin-left:5px" v-model="item.checked"><span class="title"
+                        @click="tap(item, index)">{{ item[props.label] }}</span></YCheckBox>
+
             </button>
             <y-tree v-show="state.scopes[index]" :isSelect="isSelect" :data="item[props.children]"></y-tree>
         </div>
@@ -16,10 +16,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, inject } from "vue";
+import { defineComponent, reactive, inject, PropType, ref, onBeforeMount, onMounted, watch } from "vue";
 import $bus from "../../bus/bus";
-import { uuid } from '../../shared/utils'
-import { YCheckbox } from "index";
+import YCheckBox from '../CheckBox/CheckBox.vue'
+import { deepClone, uuid } from '../../shared/utils'
+
 
 let test: HTMLDivElement;
 const CARETS = { open: 'caret-down', close: 'caret-right' }
@@ -34,6 +35,10 @@ export default defineComponent({
             type: Boolean,
             default: false
         },
+        expand: {
+            type: Boolean,
+            default: false
+        },
         props: {
             type: Object,
             default: () => {
@@ -44,12 +49,18 @@ export default defineComponent({
                 }
             }
         },
-        bus: {
-            type: Object as any
-        }
+    },
+    emits: ['checkedItem'],
+    components: {
+        YCheckBox
     },
     setup(props, { emit }) {
         const uniKey = inject("uniKey")
+        const uid = uuid();
+        const nodeKey = inject('node-key') as string;
+        const treeData = reactive(props.data) as any
+        console.log(treeData);
+
         const state = reactive({
             carets: CARETS,
             tapScopes: {},
@@ -57,15 +68,33 @@ export default defineComponent({
             height: 0
         }) as any
 
+        onBeforeMount(() => {
+        })
+
+        onMounted(() => {
+
+        })
+
+        watch(() => treeData, (val: any) => {
+           
+       
+        }, { deep: true })
+
         const operation = (type, treeNode) => {
             $bus.$emit('operation' + uniKey, { type, treeNode })
         }
 
         const tap = (item, index) => {
+            changeStatus(index)
             $bus.$emit('node-click' + uniKey, item)
         }
 
+        const test = (index) => {
+            changeStatus(index);
+        }
+
         const changeStatus = (index) => {
+
             $bus.$emit('change' + uniKey, props.data[index])
             // 图标变化
             state.tapScopes[index] = state.tapScopes[index] ? (state.tapScopes[index] === 'open' ? 'close' : 'open') : 'open';
@@ -74,17 +103,17 @@ export default defineComponent({
 
         }
 
-        const checked = (item) => {
-            $bus.$emit('checked' + uniKey, item)
-        }
 
         return {
+            treeData,
             uniKey,
+            nodeKey,
             state,
             operation,
             tap,
             changeStatus,
-            checked,
+            uid,
+            test
         }
     }
 

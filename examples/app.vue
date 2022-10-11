@@ -40,8 +40,8 @@
             <!-- <img v-if="tableColumn.key === 'name'" width="70" height="70"
               src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp" alt="" /> -->
             <y-tag type="success" v-if="tableColumn.key === 'age'">{{
-              tableData.age + " 岁"
-              }}</y-tag>
+            tableData.age + " 岁"
+            }}</y-tag>
           </template>
           <template #operation="{ item, index }">
             <y-button type="info" size="small">Edit</y-button>
@@ -58,7 +58,7 @@
 
       </YTabsPanel>
       <YTabsPanel key="9" title="Tree 树形控件">
-      <YTree :isSelect="isSelect" :data="treeData"></YTree>
+      <YTree :default-checked-keys="[90001]" node-key="key" :expand="true" :isSelect="isSelect" :data="treeData"></YTree>
       
       </YTabsPanel>
     </YTabs>
@@ -102,7 +102,7 @@ const options = ref([
   },
 ]);
 
-const isSelect = ref(false)
+const isSelect = ref(true)
 const treeData = ref([
   {
     key: 1,

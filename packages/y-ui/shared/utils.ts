@@ -35,3 +35,27 @@ export const uuid = () => {
     Date.now()
   );
 };
+
+export const deepClone = (option: any, map = new Map()) => {
+  if (typeof option === "object" && option !== null) {
+    const cache = map.get(option);
+    if (cache) {
+      return cache;
+    }
+    const isArray = Array.isArray(option);
+    const result: any = isArray ? [] : {};
+    map.set(option, result);
+    if (isArray) {
+      option.forEach((item, index) => {
+        result[index] = deepClone(option[index], map);
+      });
+    } else {
+      Object.keys(option).forEach((key) => {
+        result[key] = deepClone(option[key], map);
+      });
+    }
+    return result;
+  } else {
+    return option;
+  }
+};
