@@ -67,8 +67,6 @@ export default defineComponent({
     }
 
     initDefaultChecked(treeData);
-    console.log(treeData);
-
     onBeforeMount(() => {
       initEvent();
     })

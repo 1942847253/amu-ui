@@ -1,5 +1,5 @@
 <template>
-  <y-tree :isSelect="isSelect" :data="treeData" @node-click="handle" @change="loadData" @checked="checked" ></y-tree>
+  <y-tree :isSelect="isSelect" :data="treeData" @node-click="handle" @checked="checked" ></y-tree>
 </template>
 
 <script lang="ts" setup>
