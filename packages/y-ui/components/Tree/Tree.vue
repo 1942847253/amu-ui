@@ -6,8 +6,11 @@
                 :class="['treeNode', { 'treeNode--select': item.onSelect }]">
                 <i v-show="item[props.children]"
                     :class="['iconfont icon-tree-retract', state.carets[state.tapScopes[index]]] " />
-                <YCheckBox style="margin-left:5px" v-model="item.checked"><span class="title"
-                        @click="tap(item, index)">{{ item[props.label] }}</span></YCheckBox>
+                <YCheckBox style="margin-left:5px" :default-value="item.checked"
+                    @updateDefaultValue="(checked)=>{updateDefaultValue(item,checked)}" @treeChecked="tap(item,index)">
+                    <span @click="tap(item, index)" class="title">{{ item[props.label]
+                    }}</span>
+                </YCheckBox>
 
             </button>
             <y-tree v-show="state.scopes[index]" :isSelect="isSelect" :data="item[props.children]"></y-tree>
@@ -21,8 +24,6 @@ import $bus from "../../bus/bus";
 import YCheckBox from '../CheckBox/CheckBox.vue'
 import { deepClone, uuid } from '../../shared/utils'
 
-
-let test: HTMLDivElement;
 const CARETS = { open: 'caret-down', close: 'caret-right' }
 export default defineComponent({
     name: "YTree",
@@ -59,8 +60,6 @@ export default defineComponent({
         const uid = uuid();
         const nodeKey = inject('node-key') as string;
         const treeData = reactive(props.data) as any
-        console.log(treeData);
-
         const state = reactive({
             carets: CARETS,
             tapScopes: {},
@@ -75,23 +74,33 @@ export default defineComponent({
 
         })
 
-        watch(() => treeData, (val: any) => {
-           
-       
-        }, { deep: true })
+        const updateDefaultValue = (item: any, checked: boolean) => {
+            item.checked = checked
+            if (item.checked) {
+                if (item.children && item.children.length > 0) {
+                    item.children.forEach(node => {
+                        updateDefaultValue(node, true)
+                    })
+                }
+            } else {
+                if (item.children && item.children.length > 0) {
+                    item.children.forEach(node => {
+                        updateDefaultValue(node, false)
+                    })
+                }
+            }
+
+        }
 
         const operation = (type, treeNode) => {
             $bus.$emit('operation' + uniKey, { type, treeNode })
         }
 
         const tap = (item, index) => {
-            changeStatus(index)
+            // changeStatus(index)
             $bus.$emit('node-click' + uniKey, item)
         }
 
-        const test = (index) => {
-            changeStatus(index);
-        }
 
         const changeStatus = (index) => {
 
@@ -113,7 +122,7 @@ export default defineComponent({
             tap,
             changeStatus,
             uid,
-            test
+            updateDefaultValue,
         }
     }
 
