@@ -24,7 +24,7 @@
       </YTabsPanel>
       <YTabsPanel key="5" title="Radio 单选框">
         <YRadioGroup v-model="value1" :options="options"></YRadioGroup>
-      
+
       </YTabsPanel>
       <YTabsPanel key="6" title="Rotation 轮播图">
         <YRotation :autoplay="true" :duration="3000" :initial="1" :hasDot="true" dotPositon="center"
@@ -35,7 +35,7 @@
         </YRotation>
       </YTabsPanel>
       <YTabsPanel key="7" title="Table 表格">
-        <YTable  width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+        <YTable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
           <template #table="{ tableColumn, tableData }">
             <!-- <img v-if="tableColumn.key === 'name'" width="70" height="70"
               src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp" alt="" /> -->
@@ -50,16 +50,54 @@
         </YTable>
       </YTabsPanel>
       <YTabsPanel key="8" title="Tag 标签">
-      <YTag closeable>test</YTag>
-        <YTag closeable type="success">YJJ</YTag> 
+        <YTag closeable>test</YTag>
+        <YTag closeable type="success">YJJ</YTag>
         <YTag closeable type="warning">Big龙</YTag>
         <YTag closeable type="danger">嘿毛</YTag>
         <YTag closeable type="info">嫖瓜</YTag>
 
       </YTabsPanel>
       <YTabsPanel key="9" title="Tree 树形控件">
-      <YTree :default-checked-keys="[90001]" node-key="key" :expand="true" :isSelect="isSelect" :data="treeData"></YTree>
-      
+        <YTree :default-checked-keys="[90001]" node-key="key" :expand="true" :isSelect="isSelect" :data="treeData">
+        </YTree>
+
+      </YTabsPanel>
+      <YTabsPanel key="10" title="Collapes 折叠面板">
+        <YCollapes>
+          <YCollapesItem title="Consistency" name="1">
+            <div>
+              Consistent with real life: in line with the process and logic of real
+              life, and comply with languages and habits that the users are used to;
+            </div>
+            <div>
+              Consistent within interface: all elements should be consistent, such
+              as: design style, icons and texts, position of elements, etc.
+            </div>
+          </YCollapesItem>
+          <YCollapesItem title="Feedback" name="2">
+            <div>
+              Operation feedback: enable the users to clearly perceive their
+              operations by style updates and interactive effects;
+            </div>
+            <div>
+              Visual feedback: reflect current state by updating or rearranging
+              elements of the page.
+            </div>
+          </YCollapesItem>
+          <YCollapesItem title="Efficiency" name="3">
+            <div>
+              Simplify the process: keep operating process simple and intuitive;
+            </div>
+            <div>
+              Definite and clear: enunciate your intentions clearly so that the
+              users can quickly understand and make decisions;
+            </div>
+            <div>
+              Easy to identify: the interface should be straightforward, which helps
+              the users to identify and frees them from memorizing and recalling.
+            </div>
+          </YCollapesItem>
+        </YCollapes>
       </YTabsPanel>
     </YTabs>
   </div>
@@ -80,7 +118,9 @@ import {
   YRotationItem,
   YTable,
   YTag,
-  YTree
+  YTree,
+  YCollapes,
+  YCollapesItem
 } from "y-ui";
 
 const value = ref(false);
@@ -201,7 +241,7 @@ const tableData = ref({
     {
       key: "id",
       text: "学号",
-      
+
     },
     {
       key: "name",
@@ -210,13 +250,13 @@ const tableData = ref({
     {
       key: "age",
       text: "年龄",
-   
+
     },
     {
       key: "chinese",
       text: "语文",
       editable: true,
-   
+
     },
     {
       key: "math",
@@ -227,7 +267,7 @@ const tableData = ref({
       key: "english",
       text: "英语",
       editable: true,
-      
+
     },
     {
       key: "operation",
@@ -322,7 +362,7 @@ const onTabsChange = (item: any) => {
   console.log(item);
 };
 
-const editData = ({ index, key, value, text }:any) => {
+const editData = ({ index, key, value, text }: any) => {
   tableData.value.tBody[index][key] = value;
 };
 const deleteItem = (id) => {
@@ -339,4 +379,6 @@ const deleteItem = (id) => {
   });
 };
 </script>
-<style lang="less"></style>
+<style lang="less">
+
+</style>

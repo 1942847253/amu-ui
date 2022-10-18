@@ -1,0 +1,23 @@
+.y-collapse-item {
+     font-size: 13px;
+    color: #303133;
+  .y-collapse-item-head {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ebeef5;
+    line-height: 48px;
+    color: #303133;
+    padding: 0 5px;
+    cursor: pointer;
+  }
+  .y-collapse-item-head:hover{
+    background-color: #b1b1b116;
+  }
+  .y-collapse-item-content {
+     
+     padding: 0 5px;
+     transition: height 0.3s ease-in-out;
+     overflow: hidden;
+    line-height: 1.7692307692;
+  }
+}
