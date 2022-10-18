@@ -1,4 +1,4 @@
-import {App} from "vue";
+import { App } from "vue";
 import YMessageBox from "./components/MessageBox/index";
 import YMessage from "./components/Message/index";
 import YSelector from "./components/Selector/index.vue";
@@ -14,48 +14,54 @@ import YCheckbox from "./components/CheckBox/CheckBox.vue";
 import YCheckboxGroup from "./components/CheckBoxGroup/CheckBoxGroup.vue";
 import YTabs from "./components/Tabs";
 import YTabsPanel from "./components/Tabs/Panel/index.vue";
-import YTree from './components/Tree/index.vue';
+import YTree from "./components/Tree/index.vue";
+import YCollapes from "./components/Collapse";
+import YCollapesItem from "./components/Collapse/CollapesItem/index.vue";
 
 export {
-    YMessageBox,
-    YMessage,
-    YSelector,
-    YRotation,
-    YRotationItem,
-    YTable,
-    YTag,
-    YButton,
-    YSwitch,
-    YRadio,
-    YRadioGroup,
-    YCheckbox,
-    YCheckboxGroup,
-    YTabs,
-    YTabsPanel,
-    YTree,
+  YMessageBox,
+  YMessage,
+  YSelector,
+  YRotation,
+  YRotationItem,
+  YTable,
+  YTag,
+  YButton,
+  YSwitch,
+  YRadio,
+  YRadioGroup,
+  YCheckbox,
+  YCheckboxGroup,
+  YTabs,
+  YTabsPanel,
+  YTree,
+  YCollapes,
+  YCollapesItem,
 };
 
 const components = {
-    YSelector,
-    YRotation,
-    YRotationItem,
-    YTable,
-    YTag,
-    YButton,
-    YSwitch,
-    YRadio,
-    YRadioGroup,
-    YCheckbox,
-    YCheckboxGroup,
-    YTabs,
-    YTabsPanel,
-    YTree
+  YSelector,
+  YRotation,
+  YRotationItem,
+  YTable,
+  YTag,
+  YButton,
+  YSwitch,
+  YRadio,
+  YRadioGroup,
+  YCheckbox,
+  YCheckboxGroup,
+  YTabs,
+  YTabsPanel,
+  YTree,
+  YCollapes,
+  YCollapesItem,
 };
 
 export default {
-    install(Vue: App<Element>) {
-        Object.keys(components).forEach((key) => {
-            Vue.component(key, components[key]);
-        });
-    },
+  install(Vue: App<Element>) {
+    Object.keys(components).forEach((key) => {
+      Vue.component(key, components[key]);
+    });
+  },
 };

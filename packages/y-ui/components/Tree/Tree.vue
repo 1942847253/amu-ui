@@ -60,6 +60,7 @@ export default defineComponent({
         const uid = uuid();
         const nodeKey = inject('node-key') as string;
         const treeData = reactive(props.data) as any
+        const TtreeData = inject('tree-data')
         const state = reactive({
             carets: CARETS,
             tapScopes: {},
@@ -78,33 +79,49 @@ export default defineComponent({
             item.checked = checked
             if (item.checked) {
                 if (item.children && item.children.length > 0) {
-                    item.children.forEach(node => {
+                    item.children.forEach((node: any) => {
                         updateDefaultValue(node, true)
                     })
                 }
             } else {
                 if (item.children && item.children.length > 0) {
-                    item.children.forEach(node => {
+                    item.children.forEach((node: any) => {
                         updateDefaultValue(node, false)
                     })
                 }
             }
-
+            updataParentChecked(TtreeData, item, item.checked)
         }
 
-        const operation = (type, treeNode) => {
+        const updataParentChecked = (date: any, currentItem: any, currentChecked: boolean) => {
+            date.forEach((item: any) => {
+                if (item.key === currentItem.pid) {
+                    let hasFalse = false
+                    if (item.children) {
+                        item.children.forEach((i: any) => {
+                            i.checked === false && (hasFalse = true)
+                        })
+                    }
+                    item.checked = hasFalse ? false : currentChecked
+                    updataParentChecked(TtreeData, item, item.checked)
+                }
+                item.children && updataParentChecked(item.children, currentItem, currentChecked)
+            })
+        }
+
+        const operation = (type: any, treeNode: any) => {
             $bus.$emit('operation' + uniKey, { type, treeNode })
         }
 
-        const tap = (item, index) => {
+        const tap = (item: any, index: any) => {
             // changeStatus(index)
             $bus.$emit('node-click' + uniKey, item)
         }
 
 
-        const changeStatus = (index) => {
+        const changeStatus = (index: string | number) => {
 
-            $bus.$emit('change' + uniKey, props.data[index])
+            $bus.$emit('change' + uniKey, props.data[index as any])
             // 图标变化
             state.tapScopes[index] = state.tapScopes[index] ? (state.tapScopes[index] === 'open' ? 'close' : 'open') : 'open';
             // 展开闭合

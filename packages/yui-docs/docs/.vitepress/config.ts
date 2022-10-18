@@ -1,8 +1,12 @@
 export default {
+  
   themeConfig: {
     smoothScroll: true,
     siteTitle: false,
     logo: "/logo.png",
+    footer: {
+      copyright: "本文档仅供个人娱乐学习使用，切勿私自分享",
+    },
     nav: [
       { text: "指南", link: "/guild/installation" },
       { text: "组件", link: "/examples/button/" },
