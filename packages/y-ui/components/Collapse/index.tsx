@@ -1,33 +1,82 @@
+import $bus from "../../bus/bus";
 import {
-  computed,
   DefineComponent,
   defineComponent,
-  nextTick,
-  onMounted,
-  reactive,
+  onBeforeMount,
+  onBeforeUnmount,
+  provide,
   ref,
 } from "vue";
 import "./index.scss";
 
-export interface IPanelProps {
-  key: number | string;
-  title: string;
+export enum EAction {
+  OPEN = "open",
+  CLOSE = "close",
 }
+
+export enum EventName {
+  UPDATE_MODEL_VALUE = "update-modelValue",
+}
+
 export default defineComponent({
   name: "YCollapse",
-  emits: [],
-  setup(props, ctx) {
-    // 获取 slots 里的 key 和 title
-    const panels = ctx.slots.default!() as any;
+  props: {
+    modelValue: {
+      type: [Array<string>, String],
+      default: [],
+    },
+    accordion: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ["update:modelValue"],
+  setup(props, { emit, slots }) {
+    const panels = slots.default!() as any;
+    const currentName = ref("");
 
-    onMounted(() => {
-
+    onBeforeMount(() => {
+      initEvent();
     });
 
+    onBeforeUnmount(() => {
+      $bus.$off(EventName.UPDATE_MODEL_VALUE);
+    });
+
+    const initEvent = () => {
+      $bus.$on(EventName.UPDATE_MODEL_VALUE, updataValue);
+    };
+
+    const updataValue = (flag: string, value: string | []) => {
+      let result: string | string[] = [];
+      if (Array.isArray(props.modelValue)) {
+        switch (flag) {
+          case EAction.OPEN:
+            result = [...new Set([...props.modelValue, ...value])];
+            break;
+          case EAction.CLOSE:
+            result = props.modelValue;
+            result.forEach((item, index) => {
+              if (item === value) {
+                (result as []).splice(index, 1);
+              }
+            });
+            break;
+        }
+      } else {
+        result = value;
+        props.accordion && (currentName.value = value as string);
+      }
+      emit("update:modelValue", result);
+    };
+
+    provide("model-value", props.modelValue);
+    provide("accordion", props.accordion);
+    
     return () => (
       <div class="y-collapse-content">
         {panels.map((panelComponent: DefineComponent) => {
-          return <panelComponent />;
+          return <panelComponent currentName={currentName.value} />;
         })}
       </div>
     );

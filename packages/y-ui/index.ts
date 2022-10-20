@@ -15,7 +15,7 @@ import YCheckboxGroup from "./components/CheckBoxGroup/CheckBoxGroup.vue";
 import YTabs from "./components/Tabs";
 import YTabsPanel from "./components/Tabs/Panel/index.vue";
 import YTree from "./components/Tree/index.vue";
-import YCollapes from "./components/Collapse";
+import YCollapse from "./components/Collapse";
 import YCollapesItem from "./components/Collapse/CollapesItem/index.vue";
 
 export {
@@ -35,7 +35,7 @@ export {
   YTabs,
   YTabsPanel,
   YTree,
-  YCollapes,
+  YCollapse,
   YCollapesItem,
 };
 
@@ -54,7 +54,7 @@ const components = {
   YTabs,
   YTabsPanel,
   YTree,
-  YCollapes,
+  YCollapse,
   YCollapesItem,
 };
 
