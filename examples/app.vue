@@ -62,8 +62,10 @@
         </YTree>
 
       </YTabsPanel>
+
       <YTabsPanel key="10" title="Collapes 折叠面板">
-        <YCollapes>
+        {{activatCollapes}}
+        <YCollapse v-model="activatCollapes" accordion>
           <YCollapesItem title="Consistency" name="1">
             <div>
               Consistent with real life: in line with the process and logic of real
@@ -97,7 +99,7 @@
               the users to identify and frees them from memorizing and recalling.
             </div>
           </YCollapesItem>
-        </YCollapes>
+        </YCollapse>
       </YTabsPanel>
     </YTabs>
   </div>
@@ -119,7 +121,7 @@ import {
   YTable,
   YTag,
   YTree,
-  YCollapes,
+  YCollapse,
   YCollapesItem
 } from "y-ui";
 
@@ -141,6 +143,7 @@ const options = ref([
     value: 3,
   },
 ]);
+const activatCollapes = ref('2')
 
 const isSelect = ref(true)
 const treeData = ref([
@@ -309,6 +312,11 @@ const tableData = ref({
     },
   ],
 }) as any;
+
+watch(() => activatCollapes.value, (val) => {
+ 
+
+})
 
 watch(
   () => value1.value,
