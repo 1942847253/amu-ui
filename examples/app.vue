@@ -60,21 +60,16 @@
       <YTabsPanel key="9" title="Tree 树形控件">
         <YTree :default-checked-keys="[90001]" node-key="key" :expand="true" :isSelect="isSelect" :data="treeData">
         </YTree>
-
       </YTabsPanel>
-
       <YTabsPanel key="10" title="Collapes 折叠面板">
         {{activatCollapes}}
         <YCollapse v-model="activatCollapes" accordion>
           <YCollapesItem title="Consistency" name="1">
-            <div>
-              Consistent with real life: in line with the process and logic of real
-              life, and comply with languages and habits that the users are used to;
-            </div>
-            <div>
-              Consistent within interface: all elements should be consistent, such
-              as: design style, icons and texts, position of elements, etc.
-            </div>
+            <YTag closeable>test</YTag>
+            <YTag closeable type="success">YJJ</YTag>
+            <YTag closeable type="warning">Big龙</YTag>
+            <YTag closeable type="danger">嘿毛</YTag>
+            <YTag closeable type="info">嫖瓜</YTag>
           </YCollapesItem>
           <YCollapesItem title="Feedback" name="2">
             <div>
@@ -101,6 +96,9 @@
           </YCollapesItem>
         </YCollapse>
       </YTabsPanel>
+      <YTabsPanel key="11" title="Rate 评分">
+        <YRate></YRate>   
+      </YTabsPanel>
     </YTabs>
   </div>
 </template>
@@ -122,7 +120,8 @@ import {
   YTag,
   YTree,
   YCollapse,
-  YCollapesItem
+  YCollapesItem,
+  YRate
 } from "y-ui";
 
 const value = ref(false);
