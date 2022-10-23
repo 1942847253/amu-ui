@@ -17,6 +17,7 @@ import YTabsPanel from "./components/Tabs/Panel/index.vue";
 import YTree from "./components/Tree/index.vue";
 import YCollapse from "./components/Collapse";
 import YCollapesItem from "./components/Collapse/CollapesItem/index.vue";
+import YRate from "./components/Rate/index";
 
 export {
   YMessageBox,
@@ -37,6 +38,7 @@ export {
   YTree,
   YCollapse,
   YCollapesItem,
+  YRate,
 };
 
 const components = {
@@ -56,6 +58,7 @@ const components = {
   YTree,
   YCollapse,
   YCollapesItem,
+  YRate,
 };
 
 export default {
