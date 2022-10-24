@@ -51,8 +51,6 @@ export default defineComponent({
       flag === EMouseFlag.CLICK && emit("update:modelValue", Number(nodeIndex));
     };
 
-    const mouseClickStar = (node: Event) => {};
-
     const mouseActionDom = (
       flag: string,
       startItemList: HTMLDivElement[],
