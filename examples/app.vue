@@ -97,7 +97,7 @@
         </YCollapse>
       </YTabsPanel>
       <YTabsPanel key="11" title="Rate 评分">
-        <YRate></YRate>   
+        <YRate v-model="rateValue"></YRate>   
       </YTabsPanel>
     </YTabs>
   </div>
@@ -126,6 +126,7 @@ import {
 
 const value = ref(false);
 const value1 = ref();
+const rateValue = ref(3)
 const checkedList = ref([1, 2]);
 const options = ref([
   {
