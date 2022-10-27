@@ -47,7 +47,7 @@ export default defineComponent({
   cursor: pointer;
   font-size: 20px;
   span {
-    color: rgb(210, 204, 204);
+    color: rgb(236, 236, 236);
     font-size: 20px;
   }
   .directorContent {
