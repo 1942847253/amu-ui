@@ -30,7 +30,7 @@
         <YRotation :autoplay="true" :duration="3000" :initial="1" :hasDot="true" dotPositon="center"
           :hasDirector="true">
           <YRotationItem v-for="(item, index) in picList" :key="index">
-            <img height="300" width="700" :src="item.path" alt="" />
+            <img height="460" width="1226"  :src="item.path" alt="" />
           </YRotationItem>
         </YRotation>
       </YTabsPanel>
@@ -97,7 +97,7 @@
         </YCollapse>
       </YTabsPanel>
       <YTabsPanel key="11" title="Rate 评分">
-        <YRate v-model="rateValue"></YRate>   
+        <YRate color="blue" v-model="rateValue"></YRate>   
       </YTabsPanel>
     </YTabs>
   </div>
@@ -227,15 +227,15 @@ const options1 = ref([
 const picList = [
   {
     id: 1,
-    path: "http://img.netbian.com/file/2020/0904/7cab180eca805cce596b6870cb4e1379.jpg",
+    path: "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/a7f4917c0a8eb1dc952baa2f0a75e509.jpg?w=2452&h=920",
   },
   {
     id: 2,
-    path: "https://pic.netbian.com/uploads/allimg/220909/000538-16626531386489.jpg",
+    path: "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/cc04061612b77ff4112c399ce461dc58.jpg?thumb=1&w=2452&h=920&f=webp&q=90",
   },
   {
     id: 3,
-    path: "http://img.netbian.com/file/2021/0821/a49d58bea940c16ea6e5b2b2e159f687.jpg",
+    path: "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/cc7066c191db41583516f8b49c78c503.jpg?thumb=1&w=2452&h=920&f=webp&q=90",
   },
 ];
 
