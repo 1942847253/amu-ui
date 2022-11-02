@@ -37,8 +37,6 @@
       <YTabsPanel key="7" title="Table 表格">
         <YTable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
           <template #table="{ tableColumn, tableData }">
-            <!-- <img v-if="tableColumn.key === 'name'" width="70" height="70"
-              src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp" alt="" /> -->
             <y-tag type="success" v-if="tableColumn.key === 'age'">{{
             tableData.age + " 岁"
             }}</y-tag>
@@ -97,7 +95,7 @@
         </YCollapse>
       </YTabsPanel>
       <YTabsPanel key="11" title="Rate 评分">
-        <YRate color="blue" v-model="rateValue"></YRate>   
+        <YRate  v-model="rateValue"></YRate>   
       </YTabsPanel>
     </YTabs>
   </div>
@@ -121,12 +119,12 @@ import {
   YTree,
   YCollapse,
   YCollapesItem,
-  YRate
+  YRate,
 } from "y-ui";
 
 const value = ref(false);
 const value1 = ref();
-const rateValue = ref(3)
+const rateValue = ref(3);
 const checkedList = ref([1, 2]);
 const options = ref([
   {
@@ -143,29 +141,29 @@ const options = ref([
     value: 3,
   },
 ]);
-const activatCollapes = ref('2')
+const activatCollapes = ref("2");
 
-const isSelect = ref(true)
+const isSelect = ref(true);
 const treeData = ref([
   {
     key: 1,
-    title: '一级机构部门',
+    title: "一级机构部门",
     children: [
       {
         key: 90001,
-        title: '测试机构111',
+        title: "测试机构111",
         children: [
           {
             key: 90019,
-            title: '测试机构111-2',
+            title: "测试机构111-2",
           },
           {
             key: 90025,
-            title: '机构机构',
+            title: "机构机构",
             children: [
               {
                 key: 90026,
-                title: '机构机构-2',
+                title: "机构机构-2",
               },
             ],
           },
@@ -173,21 +171,21 @@ const treeData = ref([
       },
       {
         key: 90037,
-        title: '另一个机构部门',
+        title: "另一个机构部门",
       },
     ],
   },
   {
     key: 2,
-    title: '小卖部总舵',
+    title: "小卖部总舵",
     children: [
       {
         key: 90037,
-        title: '小卖部河边分部',
+        title: "小卖部河边分部",
       },
     ],
   },
-])
+]);
 
 const options1 = ref([
   {
@@ -244,7 +242,6 @@ const tableData = ref({
     {
       key: "id",
       text: "学号",
-
     },
     {
       key: "name",
@@ -253,13 +250,11 @@ const tableData = ref({
     {
       key: "age",
       text: "年龄",
-
     },
     {
       key: "chinese",
       text: "语文",
       editable: true,
-
     },
     {
       key: "math",
@@ -270,7 +265,6 @@ const tableData = ref({
       key: "english",
       text: "英语",
       editable: true,
-
     },
     {
       key: "operation",
@@ -313,10 +307,10 @@ const tableData = ref({
   ],
 }) as any;
 
-watch(() => activatCollapes.value, (val) => {
- 
-
-})
+watch(
+  () => activatCollapes.value,
+  (val) => {}
+);
 
 watch(
   () => value1.value,
@@ -334,7 +328,8 @@ watch(
 
 const showError = () => {
   YMessage.error({
-    message: "this is a error message when you click the button error message when you click the button",
+    message:
+      "this is a error message when you click the button error message when you click the button",
   });
 };
 
@@ -387,6 +382,4 @@ const deleteItem = (id) => {
   });
 };
 </script>
-<style lang="less">
-
-</style>
+<style lang="less"></style>
