@@ -91,7 +91,7 @@ export default defineComponent({
     };
     const setItemValue = (item: IOptionItem) => {
       setTimeout(() => {
-        menuListRef.value.style.height = "0";
+        menuListRef.value.style.transform = 'scaleY(0)'
         const onIconfont = menuListRef.value.parentNode
           .querySelector(".selector-input")
           .querySelector("span")!;

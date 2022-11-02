@@ -1,7 +1,8 @@
-@import '../../../iconfont/iconfont.css';
+@import "../../../iconfont/iconfont.css";
 .y-collapse-item {
-     font-size: 13px;
-    color: #303133;
+  padding-right: 3px;
+  font-size: 13px;
+  color: #303133;
   .y-collapse-item-head {
     display: flex;
     align-items: center;
@@ -10,20 +11,20 @@
     color: #303133;
     padding: 0 5px;
     cursor: pointer;
-    .y-collapse-item-head-title{
+    .y-collapse-item-head-title {
       flex-grow: 1;
     }
-    .y-collapse-item-head-icon{
+    .y-collapse-item-head-icon {
       transition: all 0.3s ease-in-out;
     }
   }
-  .y-collapse-item-head:hover{
+  .y-collapse-item-head:hover {
     background-color: #b1b1b10b;
   }
-  .y-collapse-item-content {    
-     padding: 0 5px;
-     transition: height 0.3s ease-in-out;
-     overflow: hidden;
+  .y-collapse-item-content {
+    padding: 0 5px;
+    transition: height 0.3s ease-in-out;
+    overflow: hidden;
     line-height: 1.7692307692;
   }
 }
