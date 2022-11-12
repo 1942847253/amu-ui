@@ -2,6 +2,22 @@ export const findIndex = (array: Array<any>, value: any) => {
   return array.findIndex((item) => item === value);
 };
 
+export const chunk = (arr: Array<any>, size: number) => {
+  let bigArr = [] as any[];
+  let smallArr = [] as any[];
+  arr.forEach((item) => {
+    if (smallArr.length === 0) {
+      bigArr.push(smallArr);
+    }
+    smallArr.push(item);
+    if (smallArr.length === size) {
+      smallArr = [];
+    }
+    
+  });
+  return bigArr;
+};
+
 export const debounce = (callback, time) => {
   let timeId = null;
   return (e) => {

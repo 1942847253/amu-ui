@@ -11,39 +11,74 @@
         <YButton type="danger" size="small">删除</YButton>
       </YTabsPanel>
       <YTabsPanel key="2" title="Checkbox 复选框">
-        <YCheckboxGroup v-model="checkedList" :options="options"></YCheckboxGroup>
+        <YCheckboxGroup
+          v-model="checkedList"
+          :options="options"
+        ></YCheckboxGroup>
       </YTabsPanel>
       <YTabsPanel key="3" title="Switch 开关">
-        <YSwitch size="large" v-model="value" open-title="是" off-title="否" :disabled="true"></YSwitch>
+        <YSwitch
+          size="large"
+          v-model="value"
+          open-title="是"
+          off-title="否"
+          :disabled="true"
+        ></YSwitch>
         <YSwitch v-model="value" open-title="开" off-title="关"></YSwitch>
-        <YSwitch size="small" v-model="value" open-title="上" off-title="下"></YSwitch>
+        <YSwitch
+          size="small"
+          v-model="value"
+          open-title="上"
+          off-title="下"
+        ></YSwitch>
       </YTabsPanel>
       <YTabsPanel key="4" title="Selector 选择器">
-        <YSelector v-model="value1" :options="options1" isSearch @setItemValue="setItemValue" placeholder="请选择一个小可爱">
+        <YSelector
+          v-model="value1"
+          :options="options1.slice(0, 6)"
+          @setItemValue="setItemValue"
+          placeholder="请选择一个小可爱"
+        >
         </YSelector>
       </YTabsPanel>
       <YTabsPanel key="5" title="Radio 单选框">
         <YRadioGroup v-model="value1" :options="options"></YRadioGroup>
-
       </YTabsPanel>
       <YTabsPanel key="6" title="Rotation 轮播图">
-        <YRotation :autoplay="true" :duration="3000" :initial="1" :hasDot="true" dotPositon="center"
-          :hasDirector="true">
+        <YRotation
+          :autoplay="true"
+          :duration="3000"
+          :initial="1"
+          :hasDot="true"
+          dotPositon="center"
+          :hasDirector="true"
+        >
           <YRotationItem v-for="(item, index) in picList" :key="index">
-            <img height="460" width="1226"  :src="item.path" alt="" />
+            <img height="460" width="1226" :src="item.path" alt="" />
           </YRotationItem>
         </YRotation>
       </YTabsPanel>
       <YTabsPanel key="7" title="Table 表格">
-        <YTable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+        <YTable
+          width="1000px"
+          :tableData="tableData.tBody"
+          :tableColumn="tableData.tHead"
+          @editData="editData"
+        >
           <template #table="{ tableColumn, tableData }">
             <y-tag type="success" v-if="tableColumn.key === 'age'">{{
-            tableData.age + " 岁"
+              tableData.age + " 岁"
             }}</y-tag>
           </template>
           <template #operation="{ item, index }">
             <y-button type="info" size="small">Edit</y-button>
-            <y-button type="danger" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</y-button>
+            <y-button
+              type="danger"
+              size="small"
+              :disabled="false"
+              @click="deleteItem(item.id)"
+              >Delete</y-button
+            >
           </template>
         </YTable>
       </YTabsPanel>
@@ -53,14 +88,19 @@
         <YTag closeable type="warning">Big龙</YTag>
         <YTag closeable type="danger">嘿毛</YTag>
         <YTag closeable type="info">嫖瓜</YTag>
-
       </YTabsPanel>
       <YTabsPanel key="9" title="Tree 树形控件">
-        <YTree :default-checked-keys="[90001]" node-key="key" :expand="true" :isSelect="isSelect" :data="treeData">
+        <YTree
+          :default-checked-keys="[90001]"
+          node-key="key"
+          :expand="true"
+          :isSelect="isSelect"
+          :data="treeData"
+        >
         </YTree>
       </YTabsPanel>
       <YTabsPanel key="10" title="Collapes 折叠面板">
-        {{activatCollapes}}
+        {{ activatCollapes }}
         <YCollapse v-model="activatCollapes" accordion>
           <YCollapesItem title="Consistency" name="1">
             <YTag closeable>test</YTag>
@@ -88,14 +128,18 @@
               users can quickly understand and make decisions;
             </div>
             <div>
-              Easy to identify: the interface should be straightforward, which helps
-              the users to identify and frees them from memorizing and recalling.
+              Easy to identify: the interface should be straightforward, which
+              helps the users to identify and frees them from memorizing and
+              recalling.
             </div>
           </YCollapesItem>
         </YCollapse>
       </YTabsPanel>
       <YTabsPanel key="11" title="Rate 评分">
-        <YRate  v-model="rateValue"></YRate>   
+        <YRate v-model="rateValue"></YRate>
+      </YTabsPanel>
+      <YTabsPanel key="12" title="DatePicker 日期选择">
+        <YDatePicker/>
       </YTabsPanel>
     </YTabs>
   </div>
@@ -120,6 +164,7 @@ import {
   YCollapse,
   YCollapesItem,
   YRate,
+  YDatePicker
 } from "y-ui";
 
 const value = ref(false);
