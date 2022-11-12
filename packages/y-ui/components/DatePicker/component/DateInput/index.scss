@@ -1,0 +1,33 @@
+@import '../../../../assets/index.scss';
+.selector-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  input {
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    height: 30px;
+    width: 220px;
+    padding: 0 10px;
+    outline: invert;
+    outline-color: $primary-color !important;
+    outline-offset: 0.3px;
+  }
+  .placeholder {
+    position: absolute;
+    left: calc(10px);
+    color: #c2c2c2;
+    font-size: 13px;
+  }
+  .iconfont {
+    position: absolute;
+    right: calc(10px);
+    color: #c2c2c2;
+    pointer-events: none;
+  }
+  .iconfont-transform {
+    transform: translateX(-50%) rotate(-90deg);
+  }
+}

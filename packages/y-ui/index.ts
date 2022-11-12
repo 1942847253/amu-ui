@@ -18,6 +18,7 @@ import YTree from "./components/Tree/index.vue";
 import YCollapse from "./components/Collapse";
 import YCollapesItem from "./components/Collapse/CollapesItem/index.vue";
 import YRate from "./components/Rate/index";
+import YDatePicker from './components/DatePicker';
 
 export {
   YMessageBox,
@@ -39,6 +40,7 @@ export {
   YCollapse,
   YCollapesItem,
   YRate,
+  YDatePicker,
 };
 
 const components = {
@@ -59,6 +61,7 @@ const components = {
   YCollapse,
   YCollapesItem,
   YRate,
+  YDatePicker,
 };
 
 export default {

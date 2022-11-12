@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3470517 */
-  src: url('//at.alicdn.com/t/c/font_3470517_rbfnaj33xq.woff2?t=1666449944949') format('woff2'),
-       url('//at.alicdn.com/t/c/font_3470517_rbfnaj33xq.woff?t=1666449944949') format('woff'),
-       url('//at.alicdn.com/t/c/font_3470517_rbfnaj33xq.ttf?t=1666449944949') format('truetype');
+  src: url('//at.alicdn.com/t/c/font_3470517_o99164x4ijj.woff2?t=1668176768944') format('woff2'),
+       url('//at.alicdn.com/t/c/font_3470517_o99164x4ijj.woff?t=1668176768944') format('woff'),
+       url('//at.alicdn.com/t/c/font_3470517_o99164x4ijj.ttf?t=1668176768944') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,26 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-left1:before {
+  content: "\e7eb";
+}
+
+.icon-doubleleft:before {
+  content: "\e7ed";
+}
+
+.icon-left1-copy:before {
+  content: "\ec73";
+}
+
+.icon-right-copy:before {
+  content: "\ec74";
+}
+
+.icon-doubleright-copy:before {
+  content: "\ec75";
 }
 
 .icon-xingxing:before {
