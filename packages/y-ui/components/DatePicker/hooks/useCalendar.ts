@@ -36,9 +36,9 @@ const useCalendar = (year: number, month: number) => {
     });
   }
   const CalendarItemObjArr = [
-    ...getDaysObjArr(lastMothRestDays, year, month),
+    ...getDaysObjArr("last", lastMothRestDays, year, month),
     ...CalendarItemArr,
-    ...getDaysObjArr(nextMonthRestDays, year, month),
+    ...getDaysObjArr("next", nextMonthRestDays, year, month),
   ];
   return [
     WEEK_DAYS,
@@ -47,16 +47,37 @@ const useCalendar = (year: number, month: number) => {
   ];
 };
 
-const getDaysObjArr = (DaysArr: number[], year: number, month: number) => {
+const getDaysObjArr = (
+  flag: "last" | "next",
+  DaysArr: number[],
+  year: number,
+  month: number
+) => {
   let DaysObjArr: IDayObj[] = [];
   DaysArr.forEach((day) => {
-    DaysObjArr.push({
+    const item = {
       day,
       style: "day rest-day",
       isRestDay: true,
       year,
       month,
-    } as IDayObj);
+    } as IDayObj;
+    if (flag === "last") {
+      if (month === 1) {
+        item.month === 12;
+        item.year = year - 1;
+        return;
+      }
+      item.month--;
+    } else {
+      if (month === 12) {
+        item.month === 1;
+        item.year = year + 1;
+        return;
+      }
+      item.month++;
+    }
+    DaysObjArr.push(item);
   });
   return DaysObjArr;
 };

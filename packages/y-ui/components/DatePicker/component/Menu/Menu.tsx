@@ -1,5 +1,5 @@
 import { getDateInfo } from "../../../../components/DatePicker/tool";
-import { defineComponent, inject, provide, reactive, ref } from "vue";
+import { defineComponent, inject, provide, reactive, ref, watch } from "vue";
 import Calendar from "../Calendar/Calendar";
 import './index.scss';
 
@@ -21,16 +21,33 @@ export enum EClickFlag {
 
 export default defineComponent({
     name: "YDateMenu",
+    props: {
+        dateValue: {
+            type: String,
+            default: ''
+        },
+    },
     emits: [],
     setup(props, { emit }) {
-        const modelValue = inject('model-value') as string
-        const [currentYear, currentMonth, currentDate] = getDateInfo(
-            modelValue
-        );
         const dateState = reactive<IDateState>({
-            currentYear,
-            currentMonth,
-            currentDate
+            currentYear: 0,
+            currentMonth: 0,
+            currentDate: 0
+        })
+
+        const initDateState = () => {
+            const [currentYear, currentMonth, currentDate] = getDateInfo(
+                props.dateValue
+            );
+            dateState.currentYear = currentYear
+            dateState.currentMonth = currentMonth
+            dateState.currentDate = currentDate
+        }
+
+        initDateState();
+
+        watch(() => props.dateValue, () => {
+            initDateState()
         })
 
         const changeDate = (type: EDateType, flag: string) => {
@@ -84,7 +101,7 @@ export default defineComponent({
                     </div>
                 </div>
                 <div class="y-date-menu-body">
-                    <Calendar />
+                    <Calendar dateValue={props.dateValue} />
                 </div>
             </div>
         );

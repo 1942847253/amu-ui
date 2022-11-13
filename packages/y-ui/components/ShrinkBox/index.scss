@@ -1,0 +1,6 @@
+.y-shrink-box {
+  transform-origin: center top; // 缩放中心设置在面板顶部
+  transform: scaleY(0); // 面板收起
+  width: 100%;
+  transition: all 0.23s ease;
+}
