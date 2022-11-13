@@ -20,17 +20,22 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const dateState = inject('dateState') as IDateState
-    const modelValue = inject('model-value') as string
+    const updateModelValue = inject('update-modelValue') as Function
     const checkedDayIndex = ref(-1)
     const state = reactive<IState>({
       weekDays: [],
       CalendarItemChunkArr: [],
       CalendarItemObjArr: []
     })
+    
     watch(() => dateState, () => {
       getDateViewState();
       initCheckedDayIndex()
     }, { deep: true })
+
+    watch(() => props.dateValue,()=>{
+      initCheckedDayIndex()
+    })
 
     onBeforeMount(() => {
       getDateViewState()
@@ -45,8 +50,7 @@ export default defineComponent({
     }
 
     const initCheckedDayIndex = () => {
-      if (modelValue === '') return;
-      const [currentYear, currentMonth, currentDate] = getDateInfo(modelValue)
+      const [currentYear, currentMonth, currentDate] = getDateInfo(props.dateValue)
       for (let i = 0; i < state.CalendarItemObjArr.length; i++) {
         const item = state.CalendarItemObjArr[i]
         if (dateState.currentYear === currentYear && dateState.currentMonth === currentMonth && item.day === currentDate && !item.isRestDay) {
@@ -73,6 +77,7 @@ export default defineComponent({
       if (!isRestDay) {
         checkedDayIndex.value = day
       }
+      updateModelValue(td)
     }
 
     return () => (

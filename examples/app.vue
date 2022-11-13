@@ -139,7 +139,7 @@
         <YRate v-model="rateValue"></YRate>
       </YTabsPanel>
       <YTabsPanel key="12" title="DatePicker 日期选择">
-        <YDatePicker/>
+        <YDatePicker v-model="dateValue"/>
       </YTabsPanel>
     </YTabs>
   </div>
@@ -187,7 +187,7 @@ const options = ref([
   },
 ]);
 const activatCollapes = ref("2");
-
+const dateValue = ref('')
 const isSelect = ref(true);
 const treeData = ref([
   {

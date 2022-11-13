@@ -7,6 +7,7 @@ export default defineComponent({
       type: String,
       defualt: "",
     },
+    shrinkViewConfigSwitchFn: Function
   },
   emits: [],
   components: {},
@@ -19,6 +20,7 @@ export default defineComponent({
           value={props.value}
           placeholder="选择一个时间"
           ref="input"
+          onFocus={() => props.shrinkViewConfigSwitchFn!(1)}
         />
         <span
           style="transform: translateX(-50 %) rotate(-90deg)"
