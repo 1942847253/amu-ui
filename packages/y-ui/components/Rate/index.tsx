@@ -106,11 +106,10 @@ export default defineComponent({
           return (
             <div
               class="y-rate-item"
-              index={index}
               onMouseenter={(e) => mouseEnterOrClickStar(e)}
               onClick={(e) => mouseEnterOrClickStar(e, EMouseFlag.CLICK)}
             >
-              <div index={index} style={{color:props.color}} class={`iconfont ${EIconType.STAR_OFF}`}></div>
+              <div style={{ color: props.color }} class={`iconfont ${EIconType.STAR_OFF}`}></div>
             </div>
           );
         })}
