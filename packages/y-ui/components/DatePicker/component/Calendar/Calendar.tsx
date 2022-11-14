@@ -21,64 +21,51 @@ export default defineComponent({
   setup(props, { emit }) {
     const dateState = inject('dateState') as IDateState
     const updateModelValue = inject('update-modelValue') as Function
-    const checkedDayIndex = ref(-1)
     const state = reactive<IState>({
       weekDays: [],
       CalendarItemChunkArr: [],
       CalendarItemObjArr: []
     })
-    
+
     watch(() => dateState, () => {
       getDateViewState();
-      initCheckedDayIndex()
     }, { deep: true })
 
-    watch(() => props.dateValue,()=>{
-      initCheckedDayIndex()
-    })
 
     onBeforeMount(() => {
       getDateViewState()
-      initCheckedDayIndex()
     })
 
     const getDateViewState = () => {
-      const [weekDays, CalendarItemObjArr, CalendarItemChunkArr] = useCalendar(dateState.currentYear, dateState.currentMonth);
+      const { currentYear, currentMonth } = dateState
+      const [weekDays, CalendarItemObjArr, CalendarItemChunkArr] = useCalendar(currentYear, currentMonth);
       state.weekDays = weekDays as string[]
       state.CalendarItemChunkArr = CalendarItemChunkArr as IDayObj[][]
       state.CalendarItemObjArr = CalendarItemObjArr as IDayObj[]
     }
 
-    const initCheckedDayIndex = () => {
-      const [currentYear, currentMonth, currentDate] = getDateInfo(props.dateValue)
-      for (let i = 0; i < state.CalendarItemObjArr.length; i++) {
-        const item = state.CalendarItemObjArr[i]
-        if (dateState.currentYear === currentYear && dateState.currentMonth === currentMonth && item.day === currentDate && !item.isRestDay) {
-          checkedDayIndex.value = item.day
-          return
-        } else {
-          checkedDayIndex.value = -1
+    const isCheckedDay = (td: IDayObj) => {
+      let isChecked;
+      if (props.dateValue !== "") {
+        const [yaer, month, day] = getDateInfo(props.dateValue);
+        if (yaer === td.year && month === td.month && day === td.day) {
+          isChecked = true
         }
+      } else {
+        isChecked = false
       }
+      return isChecked
     }
 
     const createTdElement = (tdArr: IDayObj[]) => {
       return tdArr.map((td) => {
-        const { day, style, isRestDay } = td
-        const isChecked = (checkedDayIndex.value === day && !isRestDay)
+        const { day, style } = td
+        const isChecked = isCheckedDay(td)
         return (
-          <td onClick={() => checkDate(td)} class={style}><div class={isChecked && 'checked-day'}>{day}</div></td>
+          <td onClick={() => updateModelValue(td)} class={style}><div class={isChecked && 'checked-day'}>{day}</div></td>
         )
       });
     };
-
-    const checkDate = (td: IDayObj) => {
-      const { day, isRestDay } = td
-      if (!isRestDay) {
-        checkedDayIndex.value = day
-      }
-      updateModelValue(td)
-    }
 
     return () => (
       <div class="y-calendar-content">

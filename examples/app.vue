@@ -187,7 +187,7 @@ const options = ref([
   },
 ]);
 const activatCollapes = ref("2");
-const dateValue = ref('')
+const dateValue = ref('2022-11-14')
 const isSelect = ref(true);
 const treeData = ref([
   {

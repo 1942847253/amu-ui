@@ -1,12 +1,6 @@
-<template>
-  <div ref="shrinkRef" class="y-shrink-box">
-    <slot></slot>
-  </div>
-</template>
-
-<script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import { onClickOutside } from "@vueuse/core";
+import './index.scss';
 
 export enum EShrinkFlag {
   COLSE = 0,
@@ -19,7 +13,7 @@ export default defineComponent({
     shrinkViewSwitch: Function,
     contentClass: String,
   },
-  setup(props, { emit }) {
+  setup(props, { emit,slots }) {
     const shrinkRef = ref<null | HTMLDivElement>(null);
     onMounted(() => {
       initOutClick();
@@ -36,13 +30,10 @@ export default defineComponent({
     const shrinkViewConfigSwitch = (num: number) => {
       shrinkRef.value!.style.transform = `scaleY(${num})`;
     };
-    return {
-      shrinkRef,
-    };
+    return ()=>(
+      <div ref={shrinkRef} class="y-shrink-box">
+        {slots.default!()}
+      </div>
+    )
   },
 });
-</script>
-
-<style lang="scss">
-@import "./index.scss";
-</style>
