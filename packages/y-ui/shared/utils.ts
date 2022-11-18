@@ -13,7 +13,6 @@ export const chunk = (arr: Array<any>, size: number) => {
     if (smallArr.length === size) {
       smallArr = [];
     }
-    
   });
   return bigArr;
 };
@@ -74,4 +73,13 @@ export const deepClone = (option: any, map = new Map()) => {
   } else {
     return option;
   }
+};
+
+export const createAppointArr = (start: number, size: number) => {
+  let res: number[] = [];
+  for (let i = 0; i < size; i++) {
+    res.push(start);
+    start += 1;
+  }
+  return res;
 };

@@ -13,7 +13,7 @@ export default defineComponent({
     shrinkViewSwitch: Function,
     contentClass: String,
   },
-  setup(props, { emit,slots }) {
+  setup(props, { emit, slots }) {
     const shrinkRef = ref<null | HTMLDivElement>(null);
     onMounted(() => {
       initOutClick();
@@ -23,14 +23,15 @@ export default defineComponent({
     const initOutClick = () => {
       const target = document.querySelector(`.${props.contentClass}`) as HTMLElement;
       onClickOutside(target, () => {
-        shrinkViewConfigSwitch(EShrinkFlag.COLSE);
+        shrinkViewConfigSwitch(EShrinkFlag.COLSE, 0.2);
       });
     };
 
-    const shrinkViewConfigSwitch = (num: number) => {
+    const shrinkViewConfigSwitch = (num: number, speed: number) => {
+      shrinkRef.value!.style.transition = `all ${speed}s ease`
       shrinkRef.value!.style.transform = `scaleY(${num})`;
     };
-    return ()=>(
+    return () => (
       <div ref={shrinkRef} class="y-shrink-box">
         {slots.default!()}
       </div>

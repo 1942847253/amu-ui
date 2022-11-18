@@ -21,27 +21,31 @@ export default defineComponent({
     Calendar,
   },
   setup(props, { emit }) {
-    const shrinkViewConfigSwitchFn = ref<Function>()
+    const shrinkCalendarSwitchFn = ref<Function>()
+    const showDateSelect = ref(false);
 
-    const updateModelValue = (td: IDayObj) => {
+    const updateModelValue = (td: IDayObj, closed: boolean = true) => {
       const { year, month, day } = td
       const dateValue = getFormetDate(year, month, day)
       emit('update:modelValue', dateValue)
-      shrinkViewConfigSwitchFn.value!(0)
+      closed && shrinkCalendarSwitchFn.value!(0)
     }
 
-
-
-    const shrinkViewSwitch = (shrinkViewConfigSwitch: Function) => {
-      shrinkViewConfigSwitchFn.value = shrinkViewConfigSwitch
+    const shrinkCalendarSwitch = (shrinkViewConfigSwitch: Function) => {
+      shrinkCalendarSwitchFn.value = shrinkViewConfigSwitch
     }
+
+    const showDateSelectFn = (value: boolean) => {
+      showDateSelect.value = value
+    }
+
     provide('model-value', props.modelValue)
     provide('update-modelValue', updateModelValue)
     return () => (
       <div class="y-datepicker-content">
-        <DateInput shrinkViewConfigSwitchFn={shrinkViewConfigSwitchFn.value} value={props.modelValue} />
-        <ShrinkBox contentClass="y-datepicker-content" shrinkViewSwitch={shrinkViewSwitch}>
-          <Menu dateValue={props.modelValue} />
+        <DateInput showDateSelect={showDateSelect.value} showDateSelectFn={showDateSelectFn} shrinkCalendarSwitchFn={shrinkCalendarSwitchFn.value} value={props.modelValue} />
+        <ShrinkBox contentClass="y-datepicker-content" shrinkViewSwitch={shrinkCalendarSwitch}>
+          <Menu showDateSelect={showDateSelect.value} dateValue={props.modelValue} />
         </ShrinkBox>
 
       </div>
