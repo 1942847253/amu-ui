@@ -5,13 +5,25 @@ export default defineComponent({
   props: {
     value: {
       type: String,
-      defualt: "",
+      default: "",
     },
-    shrinkViewConfigSwitchFn: Function
+    showDateSelect: {
+      type: Boolean,
+      default: false
+    },
+    shrinkCalendarSwitchFn: Function,
+    showDateSelectFn: Function,
   },
-  emits: [],
+  emits: ["onChangeDateSelect"],
   components: {},
   setup(props, { emit }) {
+    const shrinkCalendar = () => {
+      props.showDateSelectFn!(false)
+      props.shrinkCalendarSwitchFn!(1, 0.18)
+      setTimeout(() => {
+        props.showDateSelectFn!(true)
+      }, 10);
+    }
     return () => (
       <div class="selector-input">
         <input
@@ -20,7 +32,7 @@ export default defineComponent({
           value={props.value}
           placeholder="选择一个时间"
           ref="input"
-          onFocus={() => props.shrinkViewConfigSwitchFn!(1)}
+          onFocus={() => shrinkCalendar()}
         />
         <span
           style="transform: translateX(-50 %) rotate(-90deg)"

@@ -1,7 +1,9 @@
 import { getDateInfo } from "../../../../components/DatePicker/tool";
-import { defineComponent, inject, provide, reactive, ref, watch } from "vue";
+import { defineComponent, inject, onBeforeMount, provide, reactive, ref, watch } from "vue";
 import Calendar from "../Calendar/Calendar";
+import DateSelect from "../DateSelect/DateSelect";
 import './index.scss';
+import ShrinkBox from "../../../../components/ShrinkBox";
 
 export interface IDateState {
     currentYear: number;
@@ -26,13 +28,22 @@ export default defineComponent({
             type: String,
             default: ''
         },
+        showDateSelect: {
+            type: Boolean,
+            default: false
+        }
     },
     emits: [],
     setup(props, { emit }) {
+        const shrinkSelectSwitchFn = ref<Function>()
         const dateState = reactive<IDateState>({
             currentYear: 0,
             currentMonth: 0,
             currentDate: 0
+        })
+
+        watch(() => props.dateValue, () => {
+            initDateState()
         })
 
         const initDateState = () => {
@@ -43,21 +54,13 @@ export default defineComponent({
             dateState.currentMonth = currentMonth
             dateState.currentDate = currentDate
         }
-
         initDateState();
-
-        watch(() => props.dateValue, () => {
-            initDateState()
-        })
-
         const changeDate = (type: EDateType, flag: string) => {
             switch (type) {
                 case EDateType.TYPE_YEAR:
                     if (flag === EClickFlag.FLAG_ADD) {
-
                         dateState.currentYear++
                     } else {
-
                         dateState.currentYear--
                     }
                     break;
@@ -77,11 +80,25 @@ export default defineComponent({
                         }
                         dateState.currentMonth--
                     }
-
                     break;
                 default:
                     break;
             }
+        }
+
+        const shrinkSelectSwitch = (shrinkViewConfigSwitch: Function) => {
+            shrinkSelectSwitchFn.value = shrinkViewConfigSwitch
+        }
+
+        const openShrinkSelect = () => {
+            shrinkSelectSwitchFn.value!(1)
+            const [currentYear, currentMonth, currentDate] = getDateInfo(props.dateValue)
+            const commentInYear = document.querySelector(`.select-year-index-${currentYear}`) as HTMLElement
+            const commentInMonth = document.querySelector(`.select-month-index-${currentMonth}`) as HTMLElement
+            setTimeout(() => {
+                commentInYear.scrollIntoView({ behavior: "auto" });
+                commentInMonth.scrollIntoView({ behavior: 'auto' })
+            },10);
         }
         provide('dateState', dateState)
         return () => (
@@ -92,8 +109,10 @@ export default defineComponent({
                         <span onClick={() => changeDate(EDateType.TYPE_MONTH, EClickFlag.FLAG_DECREASE)} class="one iconfont icon-left1"></span>
                     </div>
                     <div class="head-center">
-                        <span class="year">{dateState.currentYear}</span>
-                        <span class="month">{dateState.currentMonth}月</span>
+                        <div onClick={() => openShrinkSelect()} tabindex="1" class="year-month">{dateState.currentYear} {dateState.currentMonth}月</div>
+                        {props.showDateSelect && <ShrinkBox contentClass="y-date-select-content" shrinkViewSwitch={shrinkSelectSwitch}>
+                            <DateSelect dateValue={props.dateValue} />
+                        </ShrinkBox>}
                     </div>
                     <div class="head-right">
                         <span onClick={() => changeDate(EDateType.TYPE_MONTH, EClickFlag.FLAG_ADD)} class="one iconfont icon-right-copy"></span>
