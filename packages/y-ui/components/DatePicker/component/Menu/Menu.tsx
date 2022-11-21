@@ -98,7 +98,15 @@ export default defineComponent({
             setTimeout(() => {
                 commentInYear.scrollIntoView({ behavior: "auto" });
                 commentInMonth.scrollIntoView({ behavior: 'auto' })
-            },10);
+            }, 10);
+        }
+
+        const updateYearOrMonthFn = (type: 'year' | 'month', date: number) => {
+            if (type === 'year') {
+                dateState.currentYear = date;
+            } else {
+                dateState.currentMonth = date
+            }
         }
         provide('dateState', dateState)
         return () => (
@@ -111,7 +119,7 @@ export default defineComponent({
                     <div class="head-center">
                         <div onClick={() => openShrinkSelect()} tabindex="1" class="year-month">{dateState.currentYear} {dateState.currentMonth}月</div>
                         {props.showDateSelect && <ShrinkBox contentClass="y-date-select-content" shrinkViewSwitch={shrinkSelectSwitch}>
-                            <DateSelect dateValue={props.dateValue} />
+                            <DateSelect updateYearOrMonthFn={updateYearOrMonthFn} currentYear={dateState.currentYear} currentMonth={dateState.currentMonth} dateValue={props.dateValue} />
                         </ShrinkBox>}
                     </div>
                     <div class="head-right">

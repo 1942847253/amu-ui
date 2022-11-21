@@ -18,7 +18,10 @@ import YTree from "./components/Tree/index.vue";
 import YCollapse from "./components/Collapse";
 import YCollapesItem from "./components/Collapse/CollapesItem/index.vue";
 import YRate from "./components/Rate/index";
-import YDatePicker from './components/DatePicker';
+import YDatePicker from "./components/DatePicker";
+import YMenu from "./components/Menu";
+import YMenuItem from "./components/MenuItem";
+import YSubMenu from "./components/SubMenu";
 
 export {
   YMessageBox,
@@ -41,6 +44,9 @@ export {
   YCollapesItem,
   YRate,
   YDatePicker,
+  YMenu,
+  YMenuItem,
+  YSubMenu,
 };
 
 const components = {
@@ -62,6 +68,9 @@ const components = {
   YCollapesItem,
   YRate,
   YDatePicker,
+  YMenu,
+  YMenuItem,
+  YSubMenu,
 };
 
 export default {

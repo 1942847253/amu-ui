@@ -1,0 +1,28 @@
+@import "../../assets/index.scss";
+.y-menu-item {
+  cursor: pointer;
+  padding: 0 18px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  margin-bottom: 5px;
+  color: #333639;
+  font-size: 14px;
+
+  transition: color 0.16s linear, background-color 0.16s linear;
+  .item-title {
+    margin-left: 15px;
+  }
+}
+.y-menu-item:hover {
+  background-color: #f3f3f5ce;
+}
+.active {
+  background-color: #f2f7fb;
+  color: $primary-color;
+}
+.active:hover {
+  background-color: #e7f4ff;
+  color: $primary-color;
+}
