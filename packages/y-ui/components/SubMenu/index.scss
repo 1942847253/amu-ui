@@ -1,0 +1,31 @@
+.y-sub-menu-content {
+  .y-sub-item {
+    display: flex;
+    cursor: pointer;
+    padding: 0 18px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    height: 48px;
+    margin-bottom: 5px;
+    color: #333639;
+    font-size: 14px;
+    transition-property: background-color, color;
+    transition: 0.16s linear;
+    .item-title {
+      margin-left: 15px;
+      flex-grow: 1;
+    }
+    .item-icon {
+    }
+    .tem-right-icon {
+    }
+  }
+  .y-sub-item:hover {
+    background-color: #f3f3f5ce;
+  }
+  .y-sub-slot {
+    overflow: hidden;
+    transition: height 0.25s ease;
+  }
+}

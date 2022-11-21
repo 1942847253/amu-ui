@@ -139,7 +139,44 @@
         <YRate v-model="rateValue"></YRate>
       </YTabsPanel>
       <YTabsPanel key="12" title="DatePicker 日期选择">
-        <YDatePicker v-model="dateValue"/>
+        <YDatePicker v-model="dateValue" />
+      </YTabsPanel>
+      <YTabsPanel key="13" title="Menu 侧边栏">
+        <YMenu default-active="5-2">
+          <YMenuItem index="1">
+            <template #icon>◎</template>
+            <span>Dashboard</span>
+          </YMenuItem>
+          <YMenuItem index="2">
+            <template #icon>◎</template>
+            <span>Revenue</span>
+          </YMenuItem>
+          <YMenuItem index="3">
+            <template #icon> ◎ </template>
+            <span>Notifications</span>
+          </YMenuItem>
+          <YSubMenu index="5">
+            <template #icon>◎</template>
+            <template #title>SubItem</template>
+            <YMenuItem index="5-1">
+            <template #icon> ◎ </template>
+            <span>Sub-Wallets</span>
+          </YMenuItem>
+          <YMenuItem index="5-2">
+            <template #icon> ◎ </template>
+            <span>Sub-Revenue</span>
+          </YMenuItem>
+          <YMenuItem index="5-3">
+            <template #icon> ◎ </template>
+            <span>Sub-Notif</span>
+          </YMenuItem>
+          </YSubMenu>
+          <YMenuItem index="4">
+            <template #icon> ◎ </template>
+            <span>Wallets</span>
+          </YMenuItem>
+          
+        </YMenu>
       </YTabsPanel>
     </YTabs>
   </div>
@@ -164,7 +201,10 @@ import {
   YCollapse,
   YCollapesItem,
   YRate,
-  YDatePicker
+  YDatePicker,
+  YMenu,
+  YMenuItem,
+  YSubMenu,
 } from "y-ui";
 
 const value = ref(false);
@@ -187,7 +227,7 @@ const options = ref([
   },
 ]);
 const activatCollapes = ref("2");
-const dateValue = ref('2022-11-14')
+const dateValue = ref("2022-11-14");
 const isSelect = ref(true);
 const treeData = ref([
   {

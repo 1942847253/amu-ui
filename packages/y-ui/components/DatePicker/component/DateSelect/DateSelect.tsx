@@ -11,6 +11,9 @@ export default defineComponent({
             type: String,
             default: ''
         },
+        currentYear: Number,
+        currentMonth: Number,
+        updateYearOrMonthFn: Function
     },
     setup(props, { emit }) {
         const updateModelValue = inject('update-modelValue') as Function
@@ -35,15 +38,13 @@ export default defineComponent({
         }
 
         const getSelectYear = (year: number) => {
-            const [currentYear, currentMonth, currentDate] = getDateInfo(props.dateValue)
-            updateModelValue({ year, month: currentMonth, day: currentDate }, false)
-            scrollIntoSelectView(year, currentMonth)
+            props.updateYearOrMonthFn!('year', year)
+            scrollIntoSelectView(year, props.currentMonth!)
         }
 
         const getSelectMonth = (month: number) => {
-            const [currentYear, currentMonth, currentDate] = getDateInfo(props.dateValue)
-            updateModelValue({ year: currentYear, month, day: currentDate }, false)
-            scrollIntoSelectView(currentYear, month)
+            props.updateYearOrMonthFn!('month', month)
+            scrollIntoSelectView(props.currentYear!, month)
         }
 
         const changeSelectContentScroll = (type: string, isShow: Boolean) => {
@@ -55,11 +56,10 @@ export default defineComponent({
         }
 
         const isCurrentYearMonth = (type: string, yearOrMonth: number) => {
-            const [currentYear, currentMonth] = getDateInfo(props.dateValue)
             if (type === 'year') {
-                return currentYear === yearOrMonth
+                return props.currentYear === yearOrMonth
             } else {
-                return currentMonth === yearOrMonth
+                return props.currentMonth === yearOrMonth
             }
         }
         return () => (
