@@ -83,3 +83,9 @@ export const createAppointArr = (start: number, size: number) => {
   }
   return res;
 };
+
+export const getStyleAttributeValue = (dom: HTMLElement, style: string) => {
+  const Style = window.getComputedStyle(dom, null);
+  const styleValue = parseFloat(Style.getPropertyValue(style));
+  return styleValue;
+};
