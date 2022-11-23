@@ -1,4 +1,5 @@
-import { computed, defineComponent, inject, onMounted, Ref, ref, watch } from 'vue'
+import { getStyleAttributeValue } from '../../shared/utils';
+import { computed, defineComponent, inject, nextTick, onMounted, Ref, ref, watch } from 'vue'
 import './index.scss';
 
 export default defineComponent({
@@ -22,20 +23,28 @@ export default defineComponent({
         const isSubItem = ref(false);
 
         onMounted(() => {
-            const subParent = menuRef.value!.parentElement;
-            const slot = subParent!.getAttribute('slot')
-            if (slot && slot === "sub") {
-                isSubItem.value = true
-            }
+            nextTick(() => {
+                initTitlePadding();
+            })
         })
 
         watch(() => defaultActive.value, (val) => {
         }, { deep: true })
 
+        const initTitlePadding = () => {
+            const subParent = menuRef.value!.parentElement;
+            const slot = subParent!.getAttribute('slot')
+            if (slot && slot === "sub") {
+                isSubItem.value = true
+                const PSubItem = subParent?.parentElement?.querySelector('.y-sub-item') as HTMLDivElement
+                menuRef.value!.style.paddingLeft = getStyleAttributeValue(PSubItem, 'padding-left') + 22 + 'px'
+            }
+        }
+
         return () => (
-            <div ref={menuRef} style={`padding-left:${isSubItem.value ? '40px' : ''}`} class={`y-menu-item ${isCurrentKey.value ? 'active' : ''}`} onClick={() => updateDefaultValue(props.index)}>
-                <div class="item-icon">{slots.icon!()}</div>
-                <div class="item-title">{slots.default!()}</div>
+            <div ref={menuRef} class={`y-menu-item ${isCurrentKey.value ? 'active' : ''}`} onClick={() => updateDefaultValue(props.index)}>
+                <div class="item-icon">{slots.icon && slots.icon()}</div>
+                <div class="item-title">{slots.default && slots.default()}</div>
             </div>
         )
     }

@@ -1,8 +1,10 @@
+@import "../../iconfont/iconfont.css";
 .y-sub-menu-content {
   .y-sub-item {
     display: flex;
     cursor: pointer;
     padding: 0 18px;
+    padding-right: 12px;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -10,22 +12,30 @@
     margin-bottom: 5px;
     color: #333639;
     font-size: 14px;
-    transition-property: background-color, color;
-    transition: 0.16s linear;
+    .item-icon {
+      display: flex;
+    }
     .item-title {
-      margin-left: 15px;
+      margin-left: 10px;
       flex-grow: 1;
     }
-    .item-icon {
+    .open {
+      transform: rotate(270deg);
     }
-    .tem-right-icon {
+    .close {
+      transform: rotate(90deg);
     }
   }
   .y-sub-item:hover {
     background-color: #f3f3f5ce;
   }
   .y-sub-slot {
-    overflow: hidden;
+    transform-origin: center top; // 缩放中心设置在面板顶部
+    transform: scaleY(1); // 面板收起
     transition: height 0.25s ease;
+    opacity: 1;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
   }
 }

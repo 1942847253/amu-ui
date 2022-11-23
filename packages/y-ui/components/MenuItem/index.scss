@@ -12,17 +12,17 @@
 
   transition: color 0.16s linear, background-color 0.16s linear;
   .item-title {
-    margin-left: 15px;
+    margin-left: 10px;
   }
 }
 .y-menu-item:hover {
-  background-color: #f3f3f5ce;
+  background-color: #f3f3f597;
 }
 .active {
-  background-color: #f2f7fb;
+  background-color: #e7f0ffc5;
   color: $primary-color;
 }
 .active:hover {
-  background-color: #e7f4ff;
+  background-color: #e7f0ffc5;
   color: $primary-color;
 }
