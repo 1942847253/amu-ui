@@ -1,7 +1,31 @@
 .y-menu-content {
+  position: fixed;
   border-right: 1px solid #dcdfe6;
-  width: 200px;
-  min-height: 400px;
-  background-color: #ffff;
+  width: 100%;
+  padding: 5px;
+  height: 100vh;
+  width: 210px;
+  overflow: overlay;
+}
 
+.y-menu-content::-webkit-scrollbar {
+  width: 6px;
+}
+.y-menu-content::-webkit-scrollbar-corner, /* 滚动条角落 */
+  .y-menu-content::-webkit-scrollbar-thumb,
+  .y-menu-content::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+.y-menu-content::-webkit-scrollbar-corner,
+.y-menu-content::-webkit-scrollbar-track {
+  /* 滚动条轨道 */
+  background-color: none;
+}
+.y-menu-content::-webkit-scrollbar-thumb {
+  /* 滚动条手柄 */
+  background-color: #97979669;
+}
+
+.select-month::-webkit-scrollbar {
+  width: 6px;
 }

@@ -141,8 +141,17 @@
       <YTabsPanel key="12" title="DatePicker 日期选择">
         <YDatePicker v-model="dateValue" />
       </YTabsPanel>
-      <YTabsPanel key="13" title="Menu 侧边栏">
-        <YMenu default-active="5-2">
+      <YTabsPanel key="13" title="Message 消息">
+        <YDatePicker v-model="dateValue" />
+      </YTabsPanel>
+       <YTabsPanel key="14" title="MessageBox 对话框">
+        <YDatePicker v-model="dateValue" />
+      </YTabsPanel>
+       <YTabsPanel key="15" title="Tabs 导航栏">
+        <YDatePicker v-model="dateValue" />
+      </YTabsPanel>
+      <YTabsPanel key="16" title="Menu 侧边栏">
+        <YMenu default-active="5-1-2">
           <YMenuItem index="1">
             <template #icon>◎</template>
             <span>Dashboard</span>
@@ -215,7 +224,15 @@
           </YSubMenu>
           <YMenuItem index="4">
             <template #icon> ◎ </template>
-            <span>Wallets</span>
+            <span>Wallesfts</span>
+          </YMenuItem>
+          <YMenuItem index="7">
+            <template #icon> ◎ </template>
+            <span>Dragast</span>
+          </YMenuItem>
+          <YMenuItem index="8">
+            <template #icon> ◎ </template>
+            <span>Hallets</span>
           </YMenuItem>
         </YMenu>
       </YTabsPanel>
@@ -508,4 +525,8 @@ const deleteItem = (id) => {
   });
 };
 </script>
-<style lang="less"></style>
+<style lang="less" scoped>
+.y-menu-content{
+
+}
+</style>
