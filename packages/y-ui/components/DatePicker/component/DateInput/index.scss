@@ -4,9 +4,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid #dcdfe6;
+  border-radius: 3px;
+  transition: border 0.2s ease;
   input {
     background-color: #fff;
-    border: 1px solid #d9d9d9;
+    outline: medium;
+    border: none;
     border-radius: 2px;
     height: 30px;
     width: 220px;
@@ -30,4 +34,10 @@
   .iconfont-transform {
     transform: translateX(-50%) rotate(-90deg);
   }
+}
+.selector-input:hover{
+  border: 1px solid #c2c3c7;
+}
+.selector-input:focus-within{
+  border: 1px solid $primary-color;
 }

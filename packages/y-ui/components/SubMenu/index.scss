@@ -10,7 +10,6 @@
     align-items: center;
     height: 48px;
     margin-bottom: 5px;
-    color: #333639;
     font-size: 14px;
     .item-icon {
       display: flex;
@@ -26,9 +25,23 @@
       transform: rotate(90deg);
     }
   }
-  .y-sub-item:hover {
-    background-color: #f3f3f5ce;
-  }
+
+.y-sub-item-light{
+  color: #333639;
+}
+.y-sub-item-light:hover {
+  background-color: #f3f3f597;
+}
+
+.y-sub-item-dark{
+  color: #BBBBBB;
+  background-color: #001428;
+}
+.y-sub-item-dark:hover {
+   color:#ffff;
+}
+
+
   .y-sub-slot {
     transform-origin: center top; // 缩放中心设置在面板顶部
     transform: scaleY(1); // 面板收起

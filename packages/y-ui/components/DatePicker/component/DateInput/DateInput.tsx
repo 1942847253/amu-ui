@@ -27,6 +27,7 @@ export default defineComponent({
     return () => (
       <div class="selector-input">
         <input
+          readonly
           class="input"
           type="text"
           value={props.value}

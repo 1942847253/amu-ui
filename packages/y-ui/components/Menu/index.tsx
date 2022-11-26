@@ -8,6 +8,10 @@ export default defineComponent({
             type: String,
             default: ''
         },
+        dark: {
+            type: Boolean,
+            default: false
+        }
     },
     setup(props, { emit, slots }) {
         const defaultActive = ref(props.defaultActive)
@@ -18,9 +22,10 @@ export default defineComponent({
         }
 
         provide('default-active', defaultActive)
+        provide('dark', props.dark)
         provide('updateDefaultValue', updateDefaultValue)
         return () => (
-            <nav class="y-menu-content">
+            <nav class="y-menu-content" style={`background-color:${props.dark ? '#001428' : '#FFFFFF'}`}>
                 <div class="y-menu-item-list">
                     {slots.default!()}
                 </div>
