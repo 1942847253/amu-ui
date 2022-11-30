@@ -1,4 +1,4 @@
-import { defineComponent, provide, ref, watch } from 'vue'
+import { computed, defineComponent, provide, ref, watch } from 'vue'
 import './index.scss';
 
 export default defineComponent({
@@ -15,17 +15,24 @@ export default defineComponent({
     },
     setup(props, { emit, slots }) {
         const defaultActive = ref(props.defaultActive)
-
+        const showScrollBar = ref(false)
         const updateDefaultValue = (value: string) => {
             if (value === defaultActive.value) return;
             defaultActive.value = value
         }
 
+        const menuComputedStyle = computed(() => {
+            return {
+                backgroundColor: props.dark ? '#001428' : '#FFFFFF',
+                overflow: showScrollBar.value ? 'overlay' : 'hidden'
+            }
+        })
+
         provide('default-active', defaultActive)
         provide('dark', props.dark)
         provide('updateDefaultValue', updateDefaultValue)
         return () => (
-            <nav class="y-menu-content" style={`background-color:${props.dark ? '#001428' : '#FFFFFF'}`}>
+            <nav onMouseenter={() => showScrollBar.value = true} onMouseleave={() => showScrollBar.value = false} class="y-menu-content" style={menuComputedStyle.value}>
                 <div class="y-menu-item-list">
                     {slots.default!()}
                 </div>

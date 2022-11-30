@@ -5,11 +5,10 @@
   padding: 5px;
   height: 100vh;
   width: 210px;
-  overflow: overlay;
 }
 
 .y-menu-content::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 .y-menu-content::-webkit-scrollbar-corner, /* 滚动条角落 */
   .y-menu-content::-webkit-scrollbar-thumb,
@@ -23,9 +22,9 @@
 }
 .y-menu-content::-webkit-scrollbar-thumb {
   /* 滚动条手柄 */
-  background-color: #97979669;
+  background-color: #93939399;
 }
 
 .select-month::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }

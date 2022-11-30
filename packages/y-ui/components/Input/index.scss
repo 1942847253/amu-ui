@@ -1,0 +1,38 @@
+@import "../../assets/index.scss";
+.y-input-content {
+  position: relative;
+  display: flex;
+  .y-input-wrapper {
+    border: 1px solid #dcdfe6;
+    border-radius: 3px;
+    transition: border 0.2s ease;
+    height: 100%;
+    padding: 0 10px;
+    input {
+      background-color: #fff;
+      outline: medium;
+      border: none;
+      border-radius: 2px;
+      outline: invert;
+      outline-color: $primary-color !important;
+    }
+    .placeholder {
+      position: absolute;
+      left: calc(10px);
+      color: #c2c2c2;
+      font-size: 13px;
+    }
+    .iconfont {
+      position: absolute;
+      right: calc(10px);
+      color: #c2c2c2;
+      pointer-events: none;
+    }
+  }
+  .y-input-wrapper:hover {
+    border: 1px solid #c2c3c7;
+  }
+  .y-input-wrapper:focus-within {
+    border: 1px solid $primary-color;
+  }
+}

@@ -22,6 +22,7 @@ import YDatePicker from "./components/DatePicker";
 import YMenu from "./components/Menu";
 import YMenuItem from "./components/MenuItem";
 import YSubMenu from "./components/SubMenu";
+import YInput from './components/Input'
 
 export {
   YMessageBox,
@@ -47,6 +48,7 @@ export {
   YMenu,
   YMenuItem,
   YSubMenu,
+  YInput,
 };
 
 const components = {
@@ -71,6 +73,7 @@ const components = {
   YMenu,
   YMenuItem,
   YSubMenu,
+  YInput,
 };
 
 export default {
