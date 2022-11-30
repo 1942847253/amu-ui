@@ -136,13 +136,11 @@ export default defineComponent({
         </div>
 
         <div class="pane-content">
-          <div>
-            {panels.filter((panelComponent: DefineComponent) => {
-              const { props } = panelComponent;
-              const { key } = props;
-              return actKey.value === key && <panelComponent />;
-            })}
-          </div>
+          {panels.filter((panelComponent: DefineComponent) => {
+            const { props } = panelComponent;
+            const { key } = props;
+            return actKey.value === key && <panelComponent />;
+          })}
         </div>
       </div>
     );

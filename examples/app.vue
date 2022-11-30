@@ -144,14 +144,14 @@
       <YTabsPanel key="13" title="Message 消息">
         <YDatePicker v-model="dateValue" />
       </YTabsPanel>
-       <YTabsPanel key="14" title="MessageBox 对话框">
+      <YTabsPanel key="14" title="MessageBox 对话框">
         <YDatePicker v-model="dateValue" />
       </YTabsPanel>
-       <YTabsPanel key="15" title="Tabs 导航栏">
+      <YTabsPanel key="15" title="Tabs 导航栏">
         <YDatePicker v-model="dateValue" />
       </YTabsPanel>
       <YTabsPanel key="16" title="Menu 侧边栏">
-        <YMenu default-active="5-1-2">
+        <YMenu default-active="5-1-2" dark>
           <YMenuItem index="1">
             <template #icon>◎</template>
             <span>Dashboard</span>
@@ -236,6 +236,9 @@
           </YMenuItem>
         </YMenu>
       </YTabsPanel>
+      <YTabsPanel key="17" title="Input 输入框">
+        <YInput v-model="dateValue" />
+      </YTabsPanel>
     </YTabs>
   </div>
 </template>
@@ -263,6 +266,7 @@ import {
   YMenu,
   YMenuItem,
   YSubMenu,
+  YInput,
 } from "y-ui";
 
 const value = ref(false);
@@ -526,7 +530,6 @@ const deleteItem = (id) => {
 };
 </script>
 <style lang="less" scoped>
-.y-menu-content{
-
+.y-menu-content {
 }
 </style>
