@@ -1,7 +1,9 @@
 @import "../../assets/index.scss";
+@import '../../iconfont/iconfont.css';
 .y-input-content {
   position: relative;
   display: flex;
+  user-select: none;
   .y-input-wrapper {
     border: 1px solid #dcdfe6;
     border-radius: 3px;
@@ -9,7 +11,6 @@
     height: 100%;
     padding: 0 10px;
     input {
-      background-color: #fff;
       outline: medium;
       border: none;
       border-radius: 2px;
@@ -34,5 +35,20 @@
   }
   .y-input-wrapper:focus-within {
     border: 1px solid $primary-color;
+  }
+  .y-input-close{
+    position: absolute;
+    top: 1px;
+    right: 5px;
+    display: flex;
+    align-items: center;
+    width: 22px;
+    height: 30px;
+    background-color: #ffff;
+    span{
+      align-items: center;
+      cursor: pointer;
+      color: #b8b8b8;
+    }
   }
 }
