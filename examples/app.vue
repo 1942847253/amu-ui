@@ -237,7 +237,7 @@
         </YMenu>
       </YTabsPanel>
       <YTabsPanel key="17" title="Input 输入框">
-        <YInput v-model="dateValue" />
+        <YInput  type="password" placeholder="请输入密码" v-model="dateValue" clearable showPassword />
       </YTabsPanel>
     </YTabs>
   </div>
