@@ -15,6 +15,22 @@ export default defineComponent({
         disabled: {
             type: Boolean,
             default: false
+        },
+        clearable: {
+            type: Boolean,
+            default: false
+        },
+        type: {
+            type: String,
+            default: 'text'
+        },
+        showPassword: {
+            type: Boolean,
+            default: false
+        },
+        placeholder: {
+            type: String,
+            default: "Please input"
         }
     },
     emits: ['update:modelValue'],
@@ -22,7 +38,9 @@ export default defineComponent({
         const inputContentRef = ref<HTMLDivElement | null>(null);
         const inputRef = ref<HTMLInputElement | null>(null);
         let value = unref(props.modelValue);
-        const showCloseBtn = ref(false)
+        const type = ref(props.type)
+        const showIconBtn = ref(false);
+        const showEyeCloseBtn = ref(false)
         const inputxStyle = computed(() => {
             return {
                 width: props.width ? props.width + 'px' : '100%',
@@ -42,24 +60,36 @@ export default defineComponent({
             inputContentRef.value!.style.flexGrow = props.width ? '0' : '1'
         }
 
-        const clearValue = () => {
-            value = ''
-            emit('update:modelValue', value);
+        const soltBtnActions = () => {
+            if (props.type === 'password' && props.showPassword) {
+                type.value = (type.value === 'password' ? 'text' : 'password')
+                showEyeCloseBtn.value = !showEyeCloseBtn.value
+            } else {
+                value = ''
+                emit('update:modelValue', value);
+            }
             setTimeout(() => {
-                inputRef.value!.focus();   
+                inputRef.value!.focus();
             });
         }
 
         const changeInputValue = (e: Event) => {
             const target = e.target as HTMLInputElement
-            showCloseBtn.value = true     
+            showIconBtn.value = true
             value = target.value
-            emit('update:modelValue',value);
+            emit('update:modelValue', value);
         }
-        const closedBtn = () => {
+        const inputSlot = () => {
             return (
-                <div class="y-input-close">
-                    <span onMousedown={() => clearValue()} class="iconfont icon-guanbi"></span>
+                <div class="y-input-slot">
+                    {props.type !== 'password' && showIconBtn.value && props.clearable && (
+                        <span onMousedown={() => soltBtnActions()} class="iconfont icon-guanbi"></span>
+                    )}
+                    {
+                        props.type === 'password' && showIconBtn.value && (
+                            <span onMousedown={() => soltBtnActions()} class={`iconfont ${showEyeCloseBtn.value ? 'icon-yanjing' : 'icon-yanjing1'}`}></span>
+                        )
+                    }
                 </div>
             )
         }
@@ -71,19 +101,19 @@ export default defineComponent({
                 }} ref={inputContentRef}>
                     <input
                         style={inputxStyle.value}
-                        placeholder="Please input"
+                        placeholder={props.placeholder}
                         class="input"
                         onInput={changeInputValue}
-                        onFocus={() => props.modelValue.length > 0 && (showCloseBtn.value = true)}
-                        onBlur={() => { showCloseBtn.value = false}}
+                        onFocus={() => props.modelValue.length > 0 && (showIconBtn.value = true)}
+                        onBlur={() => { showIconBtn.value = false }}
                         disabled={props.disabled}
-                        type="text"
+                        type={type.value}
                         value={value}
                         ref={inputRef}
                     />
 
                 </div>
-                {showCloseBtn.value && closedBtn()}
+                {inputSlot()}
             </div>
         )
     }
