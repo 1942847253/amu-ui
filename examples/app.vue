@@ -239,6 +239,16 @@
       <YTabsPanel key="17" title="Input 输入框">
         <YInput  type="password" placeholder="请输入密码" v-model="dateValue" clearable showPassword />
       </YTabsPanel>
+      <YTabsPanel key="18" title="Form 表单">
+        <YForm>
+          <YFormItem label="姓名:">
+            <YInput  type="password" placeholder="请输入密码" v-model="dateValue" clearable showPassword />
+          </YFormItem>
+           <YFormItem label="年龄:">
+            <YInput  type="password" placeholder="请输入密码" v-model="dateValue" clearable showPassword />
+           </YFormItem>
+        </YForm>
+      </YTabsPanel>
     </YTabs>
   </div>
 </template>
@@ -267,6 +277,8 @@ import {
   YMenuItem,
   YSubMenu,
   YInput,
+  YForm,
+  YFormItem
 } from "y-ui";
 
 const value = ref(false);

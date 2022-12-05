@@ -77,6 +77,9 @@ export default defineComponent({
             const target = e.target as HTMLInputElement
             showIconBtn.value = true
             value = target.value
+            if(value === ""){
+                showIconBtn.value = false
+            }
             emit('update:modelValue', value);
         }
         const inputSlot = () => {
