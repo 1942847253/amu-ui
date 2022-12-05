@@ -1,4 +1,4 @@
-import { App } from "vue";
+import { App, Component } from "vue";
 import YMessageBox from "./components/MessageBox/index";
 import YMessage from "./components/Message/index";
 import YSelector from "./components/Selector/index.vue";
@@ -22,7 +22,9 @@ import YDatePicker from "./components/DatePicker";
 import YMenu from "./components/Menu";
 import YMenuItem from "./components/MenuItem";
 import YSubMenu from "./components/SubMenu";
-import YInput from './components/Input'
+import YInput from "./components/Input";
+import YForm from "./components/Form";
+import YFormItem from "./components/FormItem";
 
 export {
   YMessageBox,
@@ -49,9 +51,15 @@ export {
   YMenuItem,
   YSubMenu,
   YInput,
+  YForm,
+  YFormItem
 };
 
-const components = {
+type TComponets = {
+  [key: string]: Component<any>;
+};
+
+const components: TComponets = {
   YSelector,
   YRotation,
   YRotationItem,
@@ -74,6 +82,8 @@ const components = {
   YMenuItem,
   YSubMenu,
   YInput,
+  YForm,
+  YFormItem,
 };
 
 export default {

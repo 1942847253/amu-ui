@@ -10,6 +10,7 @@
     transition: border 0.2s ease;
     height: 100%;
     padding: 0 10px;
+    user-select: none;
     input {
       outline: medium;
       border: none;
@@ -37,6 +38,8 @@
     border: 1px solid $primary-color;
   }
   .y-input-slot{
+    pointer-events: none;
+    
     position: absolute;
     top: 1px;
     right: 5px;
@@ -49,6 +52,7 @@
       align-items: center;
       cursor: pointer;
       color: #b8b8b8;
+      pointer-events:painted;
     }
   }
 }
