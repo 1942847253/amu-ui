@@ -1,5 +1,5 @@
 import { getStyleAttributeValue } from "../../shared/utils";
-import { computed, defineComponent, nextTick, onMounted, ref, unref, watch } from "vue";
+import { computed, defineComponent, getCurrentInstance, inject, nextTick, onMounted, Ref, ref, unref, watch } from "vue";
 import './index.scss';
 
 export default defineComponent({
@@ -34,9 +34,17 @@ export default defineComponent({
         }
     },
     emits: ['update:modelValue'],
-    setup(props, { emit }) {
+    setup(props, { emit, slots }) {
+        const Instance = getCurrentInstance()!;
+        const rules = inject('rules') as any;
+        const shrinkSelectSwitchFn = inject('shrinkSelectSwitchFn') as Ref<Function>
+        const prop = Instance.parent!.props.prop as string
+
         const inputContentRef = ref<HTMLDivElement | null>(null);
         const inputRef = ref<HTMLInputElement | null>(null);
+        const inputFocusBorder = ref('#0468dc');
+        const inputBorder = ref('#dcdfe6')
+        const inputHoverBorder = ref('#c2c3c7')
         let value = unref(props.modelValue);
         const type = ref(props.type)
         const showIconBtn = ref(false);
@@ -77,7 +85,7 @@ export default defineComponent({
             const target = e.target as HTMLInputElement
             showIconBtn.value = true
             value = target.value
-            if(value === ""){
+            if (value === "") {
                 showIconBtn.value = false
             }
             emit('update:modelValue', value);
@@ -96,11 +104,37 @@ export default defineComponent({
                 </div>
             )
         }
+
+        const onInputBlur = () => {
+            console.log(1);
+
+            showIconBtn.value = false;
+            if (rules && rules[prop]) {
+                rules[prop].forEach((rule: any) => {
+                    if (rule.required === true && rule.trigger === "blur") {
+                        if (value === "") {
+                            inputFocusBorder.value = '#e53935';
+                            inputBorder.value = '#e53935'
+                            inputHoverBorder.value =  '#e53935'
+                            shrinkSelectSwitchFn.value(1,0.2)
+                        } else {
+                            inputFocusBorder.value = '#0468dc';
+                            inputBorder.value = '#dcdfe6'
+                            inputHoverBorder.value = '#c2c3c7'
+                            shrinkSelectSwitchFn.value(0,0.2)
+                        }
+                    }
+                })
+            }
+        }
         return () => (
             <div class="y-input-content" style={`cursor: ${props.disabled ? 'no-drop' : ''};`}>
                 <div class="y-input-wrapper" style={{
                     backgroundColor: (props.disabled ? "#f5f7fa" : ''),
                     pointerEvents: (props.disabled ? 'none' : 'auto'),
+                    "--border-focus-color": inputFocusBorder.value,
+                    "--border-color": inputBorder.value,
+                    "--border-hover-color": inputHoverBorder.value
                 }} ref={inputContentRef}>
                     <input
                         style={inputxStyle.value}
@@ -108,13 +142,12 @@ export default defineComponent({
                         class="input"
                         onInput={changeInputValue}
                         onFocus={() => props.modelValue.length > 0 && (showIconBtn.value = true)}
-                        onBlur={() => { showIconBtn.value = false }}
+                        onBlur={() => onInputBlur()}
                         disabled={props.disabled}
                         type={type.value}
                         value={value}
                         ref={inputRef}
                     />
-
                 </div>
                 {inputSlot()}
             </div>

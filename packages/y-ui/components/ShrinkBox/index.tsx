@@ -11,7 +11,7 @@ export default defineComponent({
   name: "YShrinkBox",
   props: {
     shrinkViewSwitch: Function,
-    contentClass: String,
+    contentID: String,
   },
   setup(props, { emit, slots }) {
     const shrinkRef = ref<null | HTMLDivElement>(null);
@@ -21,8 +21,8 @@ export default defineComponent({
     });
 
     const initOutClick = () => {
-      const target = document.querySelector(`.${props.contentClass}`) as HTMLElement;
-      onClickOutside(target, () => {
+      const target = document.getElementById(`${props.contentID}`) as HTMLElement;
+      target && onClickOutside(target, () => {
         shrinkViewConfigSwitch(EShrinkFlag.COLSE, 0.2);
       });
     };
