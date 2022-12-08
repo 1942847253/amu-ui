@@ -6,6 +6,7 @@ import ShrinkBox from "../ShrinkBox/index";
 import "./index.scss";
 import { IDayObj } from "./hooks/useCalendar";
 import { getFormetDate } from "./tool";
+import { uuid } from "../../shared/utils";
 
 export default defineComponent({
   name: "YDatePicker",
@@ -21,9 +22,11 @@ export default defineComponent({
     Calendar,
   },
   setup(props, { emit }) {
+    const datePickerContentkey = uuid();
+    const dateSelectContentKey = uuid()
     const shrinkCalendarSwitchFn = ref<Function>()
     const showDateSelect = ref(false);
-
+    const datepickerRef = ref<HTMLDivElement | null>(null)
     const updateModelValue = (td: IDayObj, closed: boolean = true) => {
       const { year, month, day } = td
       const dateValue = getFormetDate(year, month, day)
@@ -41,10 +44,11 @@ export default defineComponent({
 
     provide('model-value', props.modelValue)
     provide('update-modelValue', updateModelValue)
+    provide('dateSelectContentKey', dateSelectContentKey)
     return () => (
-      <div class="y-datepicker-content">
+      <div class={`y-datepicker-content`} id={`${datePickerContentkey}`} ref={datepickerRef}>
         <DateInput showDateSelect={showDateSelect.value} showDateSelectFn={showDateSelectFn} shrinkCalendarSwitchFn={shrinkCalendarSwitchFn.value} value={props.modelValue} />
-        <ShrinkBox contentClass="y-datepicker-content" shrinkViewSwitch={shrinkCalendarSwitch}>
+        <ShrinkBox contentID={`${datePickerContentkey}`} shrinkViewSwitch={shrinkCalendarSwitch}>
           <Menu showDateSelect={showDateSelect.value} dateValue={props.modelValue} />
         </ShrinkBox>
 

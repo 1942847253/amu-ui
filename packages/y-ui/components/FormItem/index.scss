@@ -1,10 +1,12 @@
 .y-form-item-content {
+ 
   display: flex;
   align-items: center;
   justify-items: center;
   margin-bottom: 18px;
 
   label {
+   
     color: #606266;
     font-size: 14px;
     display: inline-flex;
@@ -17,6 +19,17 @@
     box-sizing: border-box;
   }
   .y-form-item-slot {
-    flex-grow: 1;
+     position: relative;
+    flex: 1;
+    .y-form-item-error{
+    color: #f56c6c;
+    font-size: 12px;
+    line-height: 1;
+    padding-top: 2px;
+    position: absolute;
+    top: 100%;
+    left: 0;
   }
+  }
+  
 }

@@ -17,6 +17,7 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const updateModelValue = inject('update-modelValue') as Function
+        const dateSelectContentKey = inject('dateSelectContentKey') as string
         const selectYearRef = ref<HTMLDivElement | null>(null)
         const selectMonthRef = ref<HTMLDivElement | null>(null)
         const state = reactive({
@@ -63,7 +64,7 @@ export default defineComponent({
             }
         }
         return () => (
-            <div class="y-date-select-content">
+            <div class="y-date-select-content" id={dateSelectContentKey}>
                 <div class="select-year" ref={selectYearRef} onMouseenter={() => changeSelectContentScroll('year', true)} onMouseleave={() => changeSelectContentScroll('year', false)}>
                     {state.selectYear.map((year, index) => (
                         <div onClick={() => getSelectYear(year)} key={index} class={`year select-year-index-${year} ${isCurrentYearMonth('year', year) && 'current'}`}>{year}</div>

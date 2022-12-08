@@ -4,6 +4,7 @@ import Calendar from "../Calendar/Calendar";
 import DateSelect from "../DateSelect/DateSelect";
 import './index.scss';
 import ShrinkBox from "../../../../components/ShrinkBox";
+import { uuid } from "../../../../shared/utils";
 
 export interface IDateState {
     currentYear: number;
@@ -35,6 +36,7 @@ export default defineComponent({
     },
     emits: [],
     setup(props, { emit }) {
+        const dateSelectContentKey = inject('dateSelectContentKey') as string
         const shrinkSelectSwitchFn = ref<Function>()
         const dateState = reactive<IDateState>({
             currentYear: 0,
@@ -118,7 +120,7 @@ export default defineComponent({
                     </div>
                     <div class="head-center">
                         <div onClick={() => openShrinkSelect()} tabindex="1" class="year-month">{dateState.currentYear} {dateState.currentMonth}月</div>
-                        {props.showDateSelect && <ShrinkBox contentClass="y-date-select-content" shrinkViewSwitch={shrinkSelectSwitch}>
+                        {props.showDateSelect && <ShrinkBox contentID={dateSelectContentKey} shrinkViewSwitch={shrinkSelectSwitch}>
                             <DateSelect updateYearOrMonthFn={updateYearOrMonthFn} currentYear={dateState.currentYear} currentMonth={dateState.currentMonth} dateValue={props.dateValue} />
                         </ShrinkBox>}
                     </div>

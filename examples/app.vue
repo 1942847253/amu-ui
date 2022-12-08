@@ -140,6 +140,7 @@
       </YTabsPanel>
       <YTabsPanel key="12" title="DatePicker 日期选择">
         <YDatePicker v-model="dateValue" />
+        <YDatePicker  />
       </YTabsPanel>
       <YTabsPanel key="13" title="Message 消息">
         <YDatePicker v-model="dateValue" />
@@ -237,23 +238,37 @@
         </YMenu>
       </YTabsPanel>
       <YTabsPanel key="17" title="Input 输入框">
-        <YInput  type="password" placeholder="请输入密码" v-model="dateValue" clearable showPassword />
+        <YInput
+          type="password"
+          placeholder="请输入密码"
+          v-model="dateValue"
+          clearable
+          showPassword
+        />
       </YTabsPanel>
       <YTabsPanel key="18" title="Form 表单">
-        <YForm>
-          <YFormItem label="姓名:">
-            <YInput  type="password" placeholder="请输入密码" v-model="dateValue" clearable showPassword />
+        <YForm :model="formState" :rules="rules">
+          <YFormItem label="姓名:" prop="name">
+            <YInput placeholder="请输入姓名" v-model="formState.name" />
           </YFormItem>
-           <YFormItem label="年龄:">
-            <YInput  type="password" placeholder="请输入密码" v-model="dateValue" clearable showPassword />
-           </YFormItem>
+          <YFormItem label="年龄:" prop="age">
+            <YInput placeholder="请输入年龄" v-model="formState.age" />
+          </YFormItem>
+          <div>
+            <YFormItem label="家庭住址:" prop="address">
+              <YInput
+                placeholder="请输入家庭住址"
+                v-model="formState.address"
+              />
+            </YFormItem>
+          </div>
         </YForm>
       </YTabsPanel>
     </YTabs>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { reactive, ref, watch } from "vue";
 import {
   YButton,
   YCheckboxGroup,
@@ -278,9 +293,29 @@ import {
   YSubMenu,
   YInput,
   YForm,
-  YFormItem
+  YFormItem,
 } from "y-ui";
 
+const formState = reactive({
+  name: "",
+  age: "",
+  address: "",
+});
+const rules = {
+  name: [
+    { required: true, message: "Please input Activity name", trigger: "blur" },
+  ],
+  age: [
+    { required: true, message: "Please input Activity age", trigger: "blur" },
+  ],
+  address: [
+    {
+      required: true,
+      message: "Please input Activity address",
+      trigger: "blur",
+    },
+  ],
+};
 const value = ref(false);
 const value1 = ref();
 const rateValue = ref(3);
