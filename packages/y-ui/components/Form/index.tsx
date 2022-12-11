@@ -28,9 +28,7 @@ export default defineComponent({
         const initItemLabelWidth = () => {
             const allLabels = fromRef.value!.querySelectorAll('.y-form-item-label') as unknown as HTMLDivElement[]
             const allLabelsWidthArr: number[] = [];
-            allLabels.forEach((label) => {
-                console.log(label);
-                
+            allLabels.forEach((label) => {   
                 allLabelsWidthArr.push(getStyleAttributeValue(label, 'width'))
             })
             allLabels.forEach((label) => {

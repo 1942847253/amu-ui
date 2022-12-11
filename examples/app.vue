@@ -140,7 +140,7 @@
       </YTabsPanel>
       <YTabsPanel key="12" title="DatePicker 日期选择">
         <YDatePicker v-model="dateValue" />
-        <YDatePicker  />
+        <YDatePicker />
       </YTabsPanel>
       <YTabsPanel key="13" title="Message 消息">
         <YDatePicker v-model="dateValue" />
@@ -254,14 +254,18 @@
           <YFormItem label="年龄:" prop="age">
             <YInput placeholder="请输入年龄" v-model="formState.age" />
           </YFormItem>
-          <div>
-            <YFormItem label="家庭住址:" prop="address">
-              <YInput
-                placeholder="请输入家庭住址"
-                v-model="formState.address"
-              />
-            </YFormItem>
-          </div>
+          <YFormItem label="家庭住址:" prop="address">
+            <YInput placeholder="请输入家庭住址" v-model="formState.address" />
+          </YFormItem>
+          <YFormItem label="学校:" prop="address">
+            <YSelector
+              :options="options1.slice(0, 6)"
+              placeholder="请选择学校"
+              v-model="formState.school"
+              isSearch
+            >
+            </YSelector>
+          </YFormItem>
         </YForm>
       </YTabsPanel>
     </YTabs>
@@ -300,13 +304,30 @@ const formState = reactive({
   name: "",
   age: "",
   address: "",
+  school: "",
 });
+
+watch(()=>formState.address,(val)=>{
+  console.log(val);
+  if(val.length === 5){
+    formState.address = 'ok'
+  }
+})
+const checkAddress = (rule: any, value: string, callback: any) => {
+  if (value.indexOf("中国") === -1) {
+    return callback(new Error("地址不在中国范围内，不正确！"));
+  } else {
+    callback();
+  }
+};
 const rules = {
   name: [
     { required: true, message: "Please input Activity name", trigger: "blur" },
+    { min: 3, max: 5, message: "Length should be 3 to 5", trigger: "blur" },
   ],
   age: [
     { required: true, message: "Please input Activity age", trigger: "blur" },
+    { min: 3, max: 5, message: "Length should be 3 to 5", trigger: "blur" },
   ],
   address: [
     {
@@ -314,8 +335,11 @@ const rules = {
       message: "Please input Activity address",
       trigger: "blur",
     },
+    { min: 5, max: 15, message: "Length should be 5 to 15", trigger: "blur" },
+    { validator: checkAddress, trigger: "blur" },
   ],
 };
+
 const value = ref(false);
 const value1 = ref();
 const rateValue = ref(3);

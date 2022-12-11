@@ -25,7 +25,7 @@ export default defineComponent({
       }, 10);
     }
     return () => (
-      <div class="selector-input">
+      <div class="y-date-selector-input">
         <input
           readonly
           class="input"

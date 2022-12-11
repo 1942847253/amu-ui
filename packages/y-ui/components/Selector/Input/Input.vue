@@ -1,27 +1,25 @@
 <template>
-  <div class="selector-input">
-    <label v-show="!inputValue" @click="blurInput" class="placeholder">{{
-      placeholder
-    }}</label>
-    <input
-      class="input"
-      type="text"
-      :value="inputValue"
-      ref="input"
-      :readonly="!isSearch"
+  <div clas="selector-input">
+    <YInput
+      v-model="value"
       @input="searchOptions"
       @focus="firstBurlSearch"
-      @blur="setValue(inputValue!)"
+      @blur="setValue()"
+      @change="(val) => updateInputValue(val)"
     />
-    <span
-      style="transform: translateX(-50 %) rotate(-90deg)"
-      class="iconfont icon-xiangxia"
-    ></span>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance } from "vue";
+import {
+  defineComponent,
+  getCurrentInstance,
+  inject,
+  ref,
+  Ref,
+  watch,
+} from "vue";
+import YInput from "../../Input";
 export default defineComponent({
   name: "SelectorInput",
   props: {
@@ -36,31 +34,44 @@ export default defineComponent({
       type: Boolean,
     },
   },
-  emits: ["searchOptions"],
+  emits: ["searchOptions", "blurInitValue"],
+  components: {
+    YInput,
+  },
   setup(props, { emit }) {
-    const instance = getCurrentInstance();
+    const value = ref(props.inputValue);
+
+    const shrinkSelectMenuFn = inject("shrinkSelectMenuFn") as Ref<Function>;
+    const updateInputValue = inject("updateInputValue") as Function;
+    const updateLocalValue = inject("updateLocalValue") as Function;
+
     const searchOptions = (event: Event) => {
       const target = event.target as HTMLInputElement;
       const val = target.value as string;
       emit("searchOptions", val);
     };
+
+    watch(
+      () => props.inputValue,
+      (val) => {
+        value.value = val;
+      }
+    );
+
     const firstBurlSearch = () => {
+      shrinkSelectMenuFn.value(1, 0.08);
       emit("searchOptions", "");
+      
     };
 
-    const setValue = (value: string) => {
-      const input = instance!.refs.input as HTMLInputElement;
-      input.value = value;
-    };
-
-    const blurInput = () => {
-      const input = instance!.refs.input as HTMLInputElement;
-      input.focus();
+    const setValue = () => {
+      updateLocalValue()
     };
     return {
+      value,
       setValue,
-      blurInput,
       searchOptions,
+      updateInputValue,
       firstBurlSearch,
     };
   },

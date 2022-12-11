@@ -21,9 +21,13 @@ export default defineComponent({
         const model = inject('model');
         const key = uuid();
         const rules = inject('rules') as any;
+        const errorMessage = ref('Please enter the content first');
         const labelRef = ref<HTMLDivElement | null>(null)
-        const shrinkSelectSwitchFn = ref<Function>()
-        provide('shrinkSelectSwitchFn', shrinkSelectSwitchFn)
+        const shrinkFormErrorSwitchFn = ref<Function>()
+        provide('shrinkFormErrorSwitchFn', shrinkFormErrorSwitchFn)
+        provide('changeErrorMessage', (message: string) => {
+            errorMessage.value = message;
+        })
         onMounted(() => {
         })
 
@@ -36,7 +40,7 @@ export default defineComponent({
         }
 
         const shrinkSelectSwitch = (shrinkViewConfigSwitch: Function) => {
-            shrinkSelectSwitchFn.value = shrinkViewConfigSwitch
+            shrinkFormErrorSwitchFn.value = shrinkViewConfigSwitch
         }
         return () => (
             <div class="y-form-item-content">
@@ -45,7 +49,7 @@ export default defineComponent({
                     {slots.default!()}
                     <ShrinkBox shrinkViewSwitch={shrinkSelectSwitch}>
                         <div class="y-form-item-error">
-                            Please input activity form
+                            {errorMessage.value}
                         </div>
                     </ShrinkBox>
 
