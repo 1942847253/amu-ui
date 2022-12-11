@@ -1,5 +1,5 @@
 <template>
-  <div class="selector-menu" ref="menuListRef">
+  <div class="selector-menu">
     <template v-if="searchData.length > 0">
       <div
         :class="`menu-item ${inputValue === item.text ? 'menu-checked' : ''}`"
@@ -23,6 +23,8 @@ import {
   ref,
   watch,
   getCurrentInstance,
+inject,
+Ref,
 } from "vue";
 import { IOptionItem } from "../baseData";
 import NoDataTip from "../NoDataTip/NoDataTip.vue";
@@ -31,9 +33,6 @@ export default defineComponent({
   name: "SelectorMenu",
   components: {
     NoDataTip,
-  },
-  directives: {
-    focus,
   },
   props: {
     inputValue: String,
@@ -67,9 +66,10 @@ export default defineComponent({
   emits: ["setItemValue"],
   setup(props, { emit }) {
     const searchData = ref<IOptionItem[]>([]);
-    const menuListRef = ref() as any;
+    const shrinkSelectMenuFn = inject("shrinkSelectMenuFn") as Ref<Function>;
     onMounted(() => {
       searchData.value = props.options;
+
     });
 
     watch(
@@ -90,18 +90,10 @@ export default defineComponent({
       });
     };
     const setItemValue = (item: IOptionItem) => {
-      setTimeout(() => {
-        menuListRef.value.style.transform = 'scaleY(0)'
-        const onIconfont = menuListRef.value.parentNode
-          .querySelector(".selector-input")
-          .querySelector("span")!;
-        onIconfont.className = "iconfont icon-xiangxia";
-        onIconfont.style.transform = "rotate(0deg)";
-      }, 50);
       emit("setItemValue", item);
+      shrinkSelectMenuFn.value(0,0.2)
     };
     return {
-      menuListRef,
       setItemValue,
       searchData,
     };

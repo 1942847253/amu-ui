@@ -1,13 +1,10 @@
 @import "../../../assets/index.scss";
 .selector-menu {
-  transform-origin: center top; // 缩放中心设置在面板顶部
-  transform: scaleY(0); // 面板收起
   z-index: 1000;
   position: absolute;
   width: 100%;
   border-radius: 5px;
   overflow:auto;
-  transition: all 0.23s ease;
   cursor: pointer;
   user-select: none;
   max-height: 215px;

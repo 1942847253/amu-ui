@@ -48,7 +48,7 @@ export default defineComponent({
     return () => (
       <div class={`y-datepicker-content`} id={`${datePickerContentkey}`} ref={datepickerRef}>
         <DateInput showDateSelect={showDateSelect.value} showDateSelectFn={showDateSelectFn} shrinkCalendarSwitchFn={shrinkCalendarSwitchFn.value} value={props.modelValue} />
-        <ShrinkBox contentID={`${datePickerContentkey}`} shrinkViewSwitch={shrinkCalendarSwitch}>
+        <ShrinkBox contentID={datePickerContentkey} shrinkViewSwitch={shrinkCalendarSwitch}>
           <Menu showDateSelect={showDateSelect.value} dateValue={props.modelValue} />
         </ShrinkBox>
 

@@ -5,8 +5,10 @@ import './index.scss';
 export default defineComponent({
     name: 'YInput',
     props: {
-        value: [String],
         modelValue: {
+            type: String,
+        },
+        value: {
             type: String,
             default: ''
         },
@@ -33,22 +35,26 @@ export default defineComponent({
             default: "Please input"
         }
     },
-    emits: ['update:modelValue'],
+    emits: ['update:modelValue', 'change', 'blur', 'focus'],
     setup(props, { emit, slots }) {
+        let value = unref((props.modelValue === undefined ? props.value : props.modelValue))!;
         const Instance = getCurrentInstance()!;
-        const rules = inject('rules') as any;
-        const shrinkSelectSwitchFn = inject('shrinkSelectSwitchFn') as Ref<Function>
         const prop = Instance.parent!.props.prop as string
-
-        const inputContentRef = ref<HTMLDivElement | null>(null);
-        const inputRef = ref<HTMLInputElement | null>(null);
-        const inputFocusBorder = ref('#0468dc');
-        const inputBorder = ref('#dcdfe6')
-        const inputHoverBorder = ref('#c2c3c7')
-        let value = unref(props.modelValue);
         const type = ref(props.type)
         const showIconBtn = ref(false);
         const showEyeCloseBtn = ref(false)
+        // Dom相关
+        const inputFocusBorder = ref('#0468dc');
+        const inputBorder = ref('#dcdfe6')
+        const inputHoverBorder = ref('#c2c3c7')
+        const inputContentRef = ref<HTMLDivElement | null>(null);
+        const inputRef = ref<HTMLInputElement | null>(null);
+        // 依赖注入相关
+        const rules = inject('rules', null) as any;
+        const changeErrorMessage = inject('changeErrorMessage', null) as unknown as Function
+        const shrinkFormErrorSwitchFn = inject('shrinkFormErrorSwitchFn', null) as unknown as Ref<Function>
+        const shrinkSelectMenuSwitchFn = inject('shrinkSelectMenuSwitchFn', null) as unknown as Ref<Function>
+
         const inputxStyle = computed(() => {
             return {
                 width: props.width ? props.width + 'px' : '100%',
@@ -59,6 +65,10 @@ export default defineComponent({
         watch(() => [props.width, props.height], () => {
             initInputWidth()
         }, { deep: true })
+
+        watch(() => props.modelValue, (val) => {
+            value = val!
+        })
 
         onMounted(() => {
             initInputWidth();
@@ -81,14 +91,25 @@ export default defineComponent({
             });
         }
 
-        const changeInputValue = (e: Event) => {
-            const target = e.target as HTMLInputElement
+        const changeInputValue = (event: Event) => {
+            const target = event.target as HTMLInputElement
             showIconBtn.value = true
             value = target.value
             if (value === "") {
                 showIconBtn.value = false
             }
             emit('update:modelValue', value);
+            emit('change', value)
+            InputEventActions('change')
+        }
+        const blurInput = (event: Event) => {
+            emit('blur', event);
+            InputEventActions('blur')
+        }
+        const onInputFocus = (event: Event) => {
+            value!.length > 0 && (showIconBtn.value = true)
+            shrinkSelectMenuSwitchFn && shrinkSelectMenuSwitchFn.value(1, 0.2)
+            emit('focus', event)
         }
         const inputSlot = () => {
             return (
@@ -105,28 +126,56 @@ export default defineComponent({
             )
         }
 
-        const onInputBlur = () => {
-            console.log(1);
-
+        const InputEventActions = (eventType: 'change' | 'blur') => {
             showIconBtn.value = false;
             if (rules && rules[prop]) {
-                rules[prop].forEach((rule: any) => {
-                    if (rule.required === true && rule.trigger === "blur") {
+                for (let i = 0; i < rules[prop].length; i++) {
+                    const rule = rules[prop][i]
+                    if (rule.trigger !== eventType) continue;
+                    if (rule.required === true) {
                         if (value === "") {
-                            inputFocusBorder.value = '#e53935';
-                            inputBorder.value = '#e53935'
-                            inputHoverBorder.value =  '#e53935'
-                            shrinkSelectSwitchFn.value(1,0.2)
-                        } else {
-                            inputFocusBorder.value = '#0468dc';
-                            inputBorder.value = '#dcdfe6'
-                            inputHoverBorder.value = '#c2c3c7'
-                            shrinkSelectSwitchFn.value(0,0.2)
+                            setInputStatusStyle('error', rule.message);
+                            return
                         }
+                        setInputStatusStyle();
                     }
-                })
+
+                    if (value.length < rule.min || value.length > rule.max) {
+                        setInputStatusStyle('error', rule.message);
+                        return
+                    } else {
+                        setInputStatusStyle()
+                    }
+
+                    if (rule.validator && typeof rule.validator === 'function') {
+                        rule.validator(rule, value, (errorMessage: Error) => {
+                            if (errorMessage) {
+                                setInputStatusStyle('error', errorMessage.message);
+                            } else {
+                                setInputStatusStyle()
+                            }
+                        })
+                    }
+                }
             }
         }
+
+        const setInputStatusStyle = (flag: 'error' | 'right' = 'right', message: string = '') => {
+            if (flag === 'error') {
+                inputFocusBorder.value = '#e53935';
+                inputBorder.value = '#e53935'
+                inputHoverBorder.value = '#e53935'
+                changeErrorMessage(message)
+                shrinkFormErrorSwitchFn.value(1, 0.2)
+            } else {
+                inputFocusBorder.value = '#0468dc';
+                inputBorder.value = '#dcdfe6'
+                inputHoverBorder.value = '#c2c3c7'
+                shrinkFormErrorSwitchFn.value(0, 0.2)
+            }
+        }
+
+
         return () => (
             <div class="y-input-content" style={`cursor: ${props.disabled ? 'no-drop' : ''};`}>
                 <div class="y-input-wrapper" style={{
@@ -141,8 +190,8 @@ export default defineComponent({
                         placeholder={props.placeholder}
                         class="input"
                         onInput={changeInputValue}
-                        onFocus={() => props.modelValue.length > 0 && (showIconBtn.value = true)}
-                        onBlur={() => onInputBlur()}
+                        onFocus={(event) => onInputFocus(event)}
+                        onBlur={(event) => blurInput(event)}
                         disabled={props.disabled}
                         type={type.value}
                         value={value}

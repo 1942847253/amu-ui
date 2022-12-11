@@ -1,18 +1,21 @@
 <template>
-  <div class="y-selector" ref="selectRef" v-focus>
+  <div class="y-selector" :id="key" ref="selectRef">
     <SelectorInput
       :placeholder="placeholder"
       :inputValue="inputValue"
+      :localValue="localValue"
       :isSearch="isSearch"
       @searchOptions="searchOptions"
     />
-    <Menu
-      @setItemValue="setItemValue"
-      :options="options"
-      :searchValue="searchValue"
-      :inputValue="inputValue"
-      :isSearch="isSearch"
-    />
+    <ShrinkBox :contentID="key" :shrinkViewSwitch="shrinkViewSwitch">
+      <Menu
+        @setItemValue="setItemValue"
+        :options="options"
+        :searchValue="searchValue"
+        :inputValue="inputValue"
+        :isSearch="isSearch"
+      />
+    </ShrinkBox>
   </div>
 </template>
 
@@ -21,6 +24,7 @@ import {
   defineComponent,
   onBeforeMount,
   PropType,
+  provide,
   reactive,
   ref,
   toRefs,
@@ -28,16 +32,16 @@ import {
 } from "vue";
 import SelectorInput from "./Input/Input.vue";
 import Menu from "./Menu/Menu.vue";
-import focus from "../../directives/focus";
+import ShrinkBox from "../../components/ShrinkBox";
 import { IOptionItem } from "./baseData";
+import { uuid } from "../../shared/utils";
+import { Function } from "@babel/types";
 export default defineComponent({
   name: "Selector",
   components: {
     SelectorInput,
     Menu,
-  },
-  directives: {
-    focus,
+    ShrinkBox,
   },
   props: {
     modelValue: {
@@ -57,10 +61,19 @@ export default defineComponent({
   },
   emits: ["setItemValue", "update:modelValue"],
   setup(props, { emit }) {
-    const selectRef = ref(null);
+    const key = uuid();
+    const shrinkSelectMenuFn = ref<Function>();
+    provide("shrinkSelectMenuFn", shrinkSelectMenuFn);
+    provide("updateInputValue", (val: string) => {
+      state.inputValue = val;
+    });
+    provide("updateLocalValue", (val: string) => {
+      state.inputValue = state.localValue;
+    });
     const state = reactive({
       inputValue: "",
       searchValue: "",
+      localValue: "",
     });
 
     onBeforeMount(() => {
@@ -73,7 +86,12 @@ export default defineComponent({
       );
       if (targetOptionsItem) {
         state.inputValue = targetOptionsItem.text;
+        state.localValue = targetOptionsItem.text;
       }
+    };
+
+    const shrinkViewSwitch = (fn: Function) => {
+      shrinkSelectMenuFn.value = fn;
     };
 
     watch(
@@ -84,22 +102,35 @@ export default defineComponent({
     );
 
     const setItemValue = (item: IOptionItem) => {
-      state.inputValue = item.text + "  ";
-      setTimeout(() => {
-        state.inputValue = item.text;
-      });
+      state.inputValue = item.text;
+      state.localValue = item.text;
       emit("update:modelValue", item.value);
       emit("setItemValue", item);
     };
+
+    watch(
+      () => state.inputValue,
+      (val) => {
+        if (val === "") {
+          state.inputValue = state.localValue;
+          if (state.localValue !== "") {
+            setTimeout(() => {
+              state.searchValue = "";
+            });
+          }
+        }
+      }
+    );
 
     const searchOptions = (value: string) => {
       state.searchValue = value;
     };
 
     return {
-      selectRef,
+      key,
       setItemValue,
       searchOptions,
+      shrinkViewSwitch,
       ...toRefs(state),
     };
   },

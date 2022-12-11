@@ -1,5 +1,5 @@
 @import '../../../../assets/index.scss';
-.selector-input {
+.y-date-selector-input {
   position: relative;
   display: flex;
   align-items: center;
@@ -35,9 +35,9 @@
     transform: translateX(-50%) rotate(-90deg);
   }
 }
-.selector-input:hover{
+.y-date-selector-input:hover{
   border: 1px solid #c2c3c7;
 }
-.selector-input:focus-within{
+.y-date-selector-input:focus-within{
   border: 1px solid $primary-color;
 }

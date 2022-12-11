@@ -13,6 +13,7 @@ export default defineComponent({
     shrinkViewSwitch: Function,
     contentID: String,
   },
+  emits: ['shrink'],
   setup(props, { emit, slots }) {
     const shrinkRef = ref<null | HTMLDivElement>(null);
     onMounted(() => {
@@ -30,6 +31,7 @@ export default defineComponent({
     const shrinkViewConfigSwitch = (num: number, speed: number) => {
       shrinkRef.value!.style.transition = `all ${speed}s ease`
       shrinkRef.value!.style.transform = `scaleY(${num})`;
+      emit('shrink', num)
     };
     return () => (
       <div ref={shrinkRef} class="y-shrink-box">
