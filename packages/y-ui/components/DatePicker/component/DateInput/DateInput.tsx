@@ -1,4 +1,5 @@
 import { defineComponent } from "vue";
+import YInput from "../../../Input";
 import './index.scss';
 export default defineComponent({
   name: "YDateInput",
@@ -14,7 +15,7 @@ export default defineComponent({
     shrinkCalendarSwitchFn: Function,
     showDateSelectFn: Function,
   },
-  emits: ["onChangeDateSelect"],
+  emits: ["inputBlur",'inputFoucs'],
   components: {},
   setup(props, { emit }) {
     const shrinkCalendar = () => {
@@ -26,7 +27,7 @@ export default defineComponent({
     }
     return () => (
       <div class="y-date-selector-input">
-        <input
+        {/* <input
           readonly
           class="input"
           type="text"
@@ -38,7 +39,8 @@ export default defineComponent({
         <span
           style="transform: translateX(-50 %) rotate(-90deg)"
           class="iconfont icon-xiangxia"
-        ></span>
+        ></span> */}
+        <YInput isDate modelValue={props.value} onFocus={() => shrinkCalendar()} onBlur={()=>emit('inputBlur')} />
       </div>
     );
   },

@@ -13,6 +13,7 @@
         :options="options"
         :searchValue="searchValue"
         :inputValue="inputValue"
+        :localValue="localValue"
         :isSearch="isSearch"
       />
     </ShrinkBox>

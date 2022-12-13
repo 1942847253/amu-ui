@@ -252,10 +252,10 @@
             <YInput placeholder="请输入姓名" v-model="formState.name" />
           </YFormItem>
           <YFormItem label="年龄:" prop="age">
-            <YInput placeholder="请输入年龄" v-model="formState.age" />
+            <YInput type="password" show-password placeholder="请输入年龄" v-model="formState.age" />
           </YFormItem>
           <YFormItem label="家庭住址:" prop="address">
-            <YInput placeholder="请输入家庭住址" v-model="formState.address" />
+            <YInput clearable placeholder="请输入家庭住址" v-model="formState.address" />
           </YFormItem>
           <YFormItem label="学校:" prop="address">
             <YSelector
@@ -307,12 +307,6 @@ const formState = reactive({
   school: "",
 });
 
-watch(()=>formState.address,(val)=>{
-  console.log(val);
-  if(val.length === 5){
-    formState.address = 'ok'
-  }
-})
 const checkAddress = (rule: any, value: string, callback: any) => {
   if (value.indexOf("中国") === -1) {
     return callback(new Error("地址不在中国范围内，不正确！"));

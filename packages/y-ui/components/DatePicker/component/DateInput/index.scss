@@ -1,43 +1,5 @@
 @import '../../../../assets/index.scss';
 .y-date-selector-input {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #dcdfe6;
-  border-radius: 3px;
-  transition: border 0.2s ease;
-  input {
-    background-color: #fff;
-    outline: medium;
-    border: none;
-    border-radius: 2px;
-    height: 30px;
-    width: 220px;
-    padding: 0 10px;
-    outline: invert;
-    outline-color: $primary-color !important;
-    outline-offset: 0.3px;
-  }
-  .placeholder {
-    position: absolute;
-    left: calc(10px);
-    color: #c2c2c2;
-    font-size: 13px;
-  }
-  .iconfont {
-    position: absolute;
-    right: calc(10px);
-    color: #c2c2c2;
-    pointer-events: none;
-  }
-  .iconfont-transform {
-    transform: translateX(-50%) rotate(-90deg);
-  }
-}
-.y-date-selector-input:hover{
-  border: 1px solid #c2c3c7;
-}
-.y-date-selector-input:focus-within{
-  border: 1px solid $primary-color;
+  width: 240px;
+  margin-right: 5px;
 }

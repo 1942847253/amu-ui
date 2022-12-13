@@ -16,7 +16,6 @@ export default defineComponent({
         updateYearOrMonthFn: Function
     },
     setup(props, { emit }) {
-        const updateModelValue = inject('update-modelValue') as Function
         const dateSelectContentKey = inject('dateSelectContentKey') as string
         const selectYearRef = ref<HTMLDivElement | null>(null)
         const selectMonthRef = ref<HTMLDivElement | null>(null)
@@ -33,8 +32,8 @@ export default defineComponent({
             const commentInYear = selectYearRef.value!.querySelector(`.select-year-index-${year}`) as HTMLElement
             const commentInMonth = selectMonthRef.value!.querySelector(`.select-month-index-${month}`) as HTMLElement
             setTimeout(() => {
-                commentInYear.scrollIntoView({ behavior: "auto" });
-                commentInMonth.scrollIntoView({ behavior: 'auto' })
+                commentInYear.scrollIntoView();
+                commentInMonth.scrollIntoView()
             }, 10);
         }
 

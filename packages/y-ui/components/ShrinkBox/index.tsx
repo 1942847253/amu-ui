@@ -24,12 +24,12 @@ export default defineComponent({
     const initOutClick = () => {
       const target = document.getElementById(`${props.contentID}`) as HTMLElement;
       target && onClickOutside(target, () => {
-        shrinkViewConfigSwitch(EShrinkFlag.COLSE, 0.2);
+        shrinkViewConfigSwitch(EShrinkFlag.COLSE, 0.15);
       });
     };
 
     const shrinkViewConfigSwitch = (num: number, speed: number) => {
-      shrinkRef.value!.style.transition = `all ${speed}s ease`
+      shrinkRef.value!.style.transition = `all 0.2s ease`
       shrinkRef.value!.style.transform = `scaleY(${num})`;
       emit('shrink', num)
     };

@@ -1,5 +1,5 @@
 @import "../../assets/index.scss";
-@import '../../iconfont/iconfont.css';
+@import "../../iconfont/iconfont.css";
 .y-input-content {
   position: relative;
   display: flex;
@@ -18,9 +18,9 @@
       outline: invert;
       outline-color: $primary-color !important;
     }
-    input::-webkit-input-placeholder{
+    input::-webkit-input-placeholder {
       color: #a8abb2;
-     
+
       font-size: 14px;
     }
     .placeholder {
@@ -38,14 +38,12 @@
   }
   .y-input-wrapper:hover {
     border: 1px solid var(--border-hover-color);
-    
   }
   .y-input-wrapper:focus-within {
     border: 1px solid var(--border-focus-color);
   }
-  .y-input-slot{
+  .y-input-slot {
     pointer-events: none;
-    
     position: absolute;
     top: 1px;
     right: 5px;
@@ -54,11 +52,12 @@
     width: 22px;
     height: 30px;
     background-color: #ffff;
-    span{
+    span {
       align-items: center;
       cursor: pointer;
       color: #b8b8b8;
-      pointer-events:painted;
+      pointer-events: painted;
+      transition: transform 0.2s ease-in-out;
     }
   }
 }

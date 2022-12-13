@@ -13,7 +13,7 @@ export default defineComponent({
   props: {
     modelValue: {
       type: String,
-      default: "2022-11-12",
+      default: "",
     },
   },
   emits: ["update:modelValue"],
@@ -25,6 +25,7 @@ export default defineComponent({
     const datePickerContentkey = uuid();
     const dateSelectContentKey = uuid()
     const shrinkCalendarSwitchFn = ref<Function>()
+    const isInputBlur = ref(false);
     const showDateSelect = ref(false);
     const datepickerRef = ref<HTMLDivElement | null>(null)
     const updateModelValue = (td: IDayObj, closed: boolean = true) => {
@@ -40,16 +41,18 @@ export default defineComponent({
 
     const showDateSelectFn = (value: boolean) => {
       showDateSelect.value = value
+      if(value){
+        isInputBlur.value = false;
+      }
     }
-
     provide('model-value', props.modelValue)
     provide('update-modelValue', updateModelValue)
     provide('dateSelectContentKey', dateSelectContentKey)
     return () => (
       <div class={`y-datepicker-content`} id={`${datePickerContentkey}`} ref={datepickerRef}>
-        <DateInput showDateSelect={showDateSelect.value} showDateSelectFn={showDateSelectFn} shrinkCalendarSwitchFn={shrinkCalendarSwitchFn.value} value={props.modelValue} />
+        <DateInput showDateSelect={showDateSelect.value} showDateSelectFn={showDateSelectFn} shrinkCalendarSwitchFn={shrinkCalendarSwitchFn.value} value={props.modelValue} onInputBlur={() => isInputBlur.value = true} />
         <ShrinkBox contentID={datePickerContentkey} shrinkViewSwitch={shrinkCalendarSwitch}>
-          <Menu showDateSelect={showDateSelect.value} dateValue={props.modelValue} />
+          <Menu showDateSelect={showDateSelect.value} dateValue={props.modelValue} isInputBlur={isInputBlur.value} />
         </ShrinkBox>
 
       </div>
