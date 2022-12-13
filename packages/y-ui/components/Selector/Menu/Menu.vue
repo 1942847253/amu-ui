@@ -2,7 +2,7 @@
   <div class="selector-menu">
     <template v-if="searchData.length > 0">
       <div
-        :class="`menu-item ${inputValue === item.text ? 'menu-checked' : ''}`"
+        :class="`menu-item ${localValue === item.text ? 'menu-checked' : ''}`"
         @click.stop="setItemValue(item)"
         @mousedown=""
         v-for="(item, index) in searchData"
@@ -23,8 +23,8 @@ import {
   ref,
   watch,
   getCurrentInstance,
-inject,
-Ref,
+  inject,
+  Ref,
 } from "vue";
 import { IOptionItem } from "../baseData";
 import NoDataTip from "../NoDataTip/NoDataTip.vue";
@@ -55,6 +55,10 @@ export default defineComponent({
         ];
       },
     },
+    localValue: {
+      type: String,
+      defualt: "",
+    },
     searchValue: {
       type: String,
       default: "",
@@ -69,7 +73,6 @@ export default defineComponent({
     const shrinkSelectMenuFn = inject("shrinkSelectMenuFn") as Ref<Function>;
     onMounted(() => {
       searchData.value = props.options;
-
     });
 
     watch(
@@ -91,7 +94,7 @@ export default defineComponent({
     };
     const setItemValue = (item: IOptionItem) => {
       emit("setItemValue", item);
-      shrinkSelectMenuFn.value(0,0.2)
+      shrinkSelectMenuFn.value(0, 0.2);
     };
     return {
       setItemValue,

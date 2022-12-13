@@ -2,6 +2,8 @@
   <div clas="selector-input">
     <YInput
       v-model="value"
+      isSelector
+      :isSearch="false"
       @input="searchOptions"
       @focus="firstBurlSearch"
       @blur="setValue()"
@@ -59,7 +61,7 @@ export default defineComponent({
     );
 
     const firstBurlSearch = () => {
-      shrinkSelectMenuFn.value(1, 0.08);
+      shrinkSelectMenuFn.value(1, 0.15);
       emit("searchOptions", "");
       
     };

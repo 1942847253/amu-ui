@@ -32,11 +32,13 @@ export default defineComponent({
         showDateSelect: {
             type: Boolean,
             default: false
-        }
+        },
+        isInputBlur:Boolean
     },
     emits: [],
     setup(props, { emit }) {
         const dateSelectContentKey = inject('dateSelectContentKey') as string
+        const dateMenuRef = ref<HTMLDivElement | null>(null)
         const shrinkSelectSwitchFn = ref<Function>()
         const dateState = reactive<IDateState>({
             currentYear: 0,
@@ -46,6 +48,10 @@ export default defineComponent({
 
         watch(() => props.dateValue, () => {
             initDateState()
+        })
+
+        watch(() => props.isInputBlur,(val)=>{
+            initDateState();
         })
 
         const initDateState = () => {
@@ -94,13 +100,12 @@ export default defineComponent({
 
         const openShrinkSelect = () => {
             shrinkSelectSwitchFn.value!(1)
-            const [currentYear, currentMonth, currentDate] = getDateInfo(props.dateValue)
-            const commentInYear = document.querySelector(`.select-year-index-${currentYear}`) as HTMLElement
-            const commentInMonth = document.querySelector(`.select-month-index-${currentMonth}`) as HTMLElement
+            const commentInYear = dateMenuRef.value!.querySelector(`.select-year-index-${dateState.currentYear}`) as HTMLElement
+            const commentInMonth = dateMenuRef.value!.querySelector(`.select-month-index-${dateState.currentMonth}`) as HTMLElement
             setTimeout(() => {
                 commentInYear.scrollIntoView({ behavior: "auto" });
                 commentInMonth.scrollIntoView({ behavior: 'auto' })
-            }, 10);
+            }, 50);
         }
 
         const updateYearOrMonthFn = (type: 'year' | 'month', date: number) => {
@@ -112,7 +117,7 @@ export default defineComponent({
         }
         provide('dateState', dateState)
         return () => (
-            <div class="y-date-menu">
+            <div class="y-date-menu" ref={dateMenuRef}>
                 <div class="y-date-menu-head">
                     <div class="head-left">
                         <span onClick={() => changeDate(EDateType.TYPE_YEAR, EClickFlag.FLAG_DECREASE)} class="two iconfont icon-doubleleft"></span>

@@ -33,11 +33,23 @@ export default defineComponent({
         placeholder: {
             type: String,
             default: "Please input"
+        },
+        isSearch: {
+            type: Boolean,
+            default: false
+        },
+        isSelector: {
+            type: Boolean,
+            default: false
+        },
+        isDate: {
+            type: Boolean,
+            default: false
         }
     },
     emits: ['update:modelValue', 'change', 'blur', 'focus'],
     setup(props, { emit, slots }) {
-        let value = unref((props.modelValue === undefined ? props.value : props.modelValue))!;
+        const value = ref((props.modelValue === undefined ? props.value : props.modelValue));
         const Instance = getCurrentInstance()!;
         const prop = Instance.parent!.props.prop as string
         const type = ref(props.type)
@@ -49,11 +61,15 @@ export default defineComponent({
         const inputHoverBorder = ref('#c2c3c7')
         const inputContentRef = ref<HTMLDivElement | null>(null);
         const inputRef = ref<HTMLInputElement | null>(null);
+        const slectIconRef = ref<HTMLInputElement | null>(null);
         // 依赖注入相关
         const rules = inject('rules', null) as any;
         const changeErrorMessage = inject('changeErrorMessage', null) as unknown as Function
         const shrinkFormErrorSwitchFn = inject('shrinkFormErrorSwitchFn', null) as unknown as Ref<Function>
         const shrinkSelectMenuSwitchFn = inject('shrinkSelectMenuSwitchFn', null) as unknown as Ref<Function>
+
+        // icon插槽相关
+        const selectIcon = ref('xiang')
 
         const inputxStyle = computed(() => {
             return {
@@ -67,7 +83,7 @@ export default defineComponent({
         }, { deep: true })
 
         watch(() => props.modelValue, (val) => {
-            value = val!
+            value.value = val!
         })
 
         onMounted(() => {
@@ -83,7 +99,7 @@ export default defineComponent({
                 type.value = (type.value === 'password' ? 'text' : 'password')
                 showEyeCloseBtn.value = !showEyeCloseBtn.value
             } else {
-                value = ''
+                value.value = ''
                 emit('update:modelValue', value);
             }
             setTimeout(() => {
@@ -91,13 +107,17 @@ export default defineComponent({
             });
         }
 
+        watch(() => value.value, () => {
+            if (value.value === "") {
+                showIconBtn.value = false
+            } else {
+                showIconBtn.value = true
+            }
+        })
+
         const changeInputValue = (event: Event) => {
             const target = event.target as HTMLInputElement
-            showIconBtn.value = true
-            value = target.value
-            if (value === "") {
-                showIconBtn.value = false
-            }
+            value.value = target.value
             emit('update:modelValue', value);
             emit('change', value)
             InputEventActions('change')
@@ -105,25 +125,75 @@ export default defineComponent({
         const blurInput = (event: Event) => {
             emit('blur', event);
             InputEventActions('blur')
+            if (slectIconRef.value) {
+                slectIconRef.value.style.transform = `rotate(0deg)`
+            }
         }
         const onInputFocus = (event: Event) => {
-            value!.length > 0 && (showIconBtn.value = true)
+            if (value.value.length > 0) showIconBtn.value = true;
+            if (slectIconRef.value){
+                slectIconRef.value.style.transform = `rotate(-180deg)`
+            }
             shrinkSelectMenuSwitchFn && shrinkSelectMenuSwitchFn.value(1, 0.2)
             emit('focus', event)
         }
-        const inputSlot = () => {
+        const clearableSlot = () => {
             return (
-                <div class="y-input-slot">
-                    {props.type !== 'password' && showIconBtn.value && props.clearable && (
+                <div>
+                    {showIconBtn.value && (
                         <span onMousedown={() => soltBtnActions()} class="iconfont icon-guanbi"></span>
                     )}
+                </div>
+            )
+        }
+
+        const passwordSlot = () => {
+            return (
+                <div>
                     {
-                        props.type === 'password' && showIconBtn.value && (
+                        showIconBtn.value && (
                             <span onMousedown={() => soltBtnActions()} class={`iconfont ${showEyeCloseBtn.value ? 'icon-yanjing' : 'icon-yanjing1'}`}></span>
                         )
                     }
                 </div>
             )
+        }
+
+        const dateSlot = () => {
+            return (
+                <span onMousedown={() => soltBtnActions()} class="iconfont icon-riqi"></span>
+            )
+        }
+
+        const searchSlot = () => {
+            return (
+                <span onMousedown={() => soltBtnActions()} class="iconfont icon-sousuo"></span>
+            )
+        }
+
+        const selectSlot = () => {
+            return (
+                <span ref={slectIconRef} onMousedown={() => soltBtnActions()} class="iconfont icon-xiangxia"></span>
+            )
+        }
+
+        const initIconSlot = () => {
+            if (props.clearable) {
+                if (props.type === "password" && props.showPassword){
+                    return passwordSlot();
+                }
+                return clearableSlot();
+            } else if (props.isDate) {
+                return dateSlot();
+            } else if (props.isSelector) {
+                if (props.isSearch) {
+                    return searchSlot()
+                } else {
+                    return selectSlot();
+                }
+            } else if (props.type === "password" && props.showPassword) {
+                return passwordSlot();
+            }
         }
 
         const InputEventActions = (eventType: 'change' | 'blur') => {
@@ -133,14 +203,14 @@ export default defineComponent({
                     const rule = rules[prop][i]
                     if (rule.trigger !== eventType) continue;
                     if (rule.required === true) {
-                        if (value === "") {
+                        if (value.value === "") {
                             setInputStatusStyle('error', rule.message);
                             return
                         }
                         setInputStatusStyle();
                     }
 
-                    if (value.length < rule.min || value.length > rule.max) {
+                    if (value.value.length < rule.min || value.value.length > rule.max) {
                         setInputStatusStyle('error', rule.message);
                         return
                     } else {
@@ -148,7 +218,7 @@ export default defineComponent({
                     }
 
                     if (rule.validator && typeof rule.validator === 'function') {
-                        rule.validator(rule, value, (errorMessage: Error) => {
+                        rule.validator(rule, value.value, (errorMessage: Error) => {
                             if (errorMessage) {
                                 setInputStatusStyle('error', errorMessage.message);
                             } else {
@@ -194,11 +264,14 @@ export default defineComponent({
                         onBlur={(event) => blurInput(event)}
                         disabled={props.disabled}
                         type={type.value}
-                        value={value}
+                        value={value.value}
                         ref={inputRef}
                     />
                 </div>
-                {inputSlot()}
+                <div class="y-input-slot">
+                    {initIconSlot()}
+                </div>
+
             </div>
         )
     }
