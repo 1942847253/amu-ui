@@ -1,11 +1,12 @@
 .y-date-menu {
   position: absolute;
+  z-index: 99999;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.12);
   padding: 12px;
   user-select: none;
   width: 302px;
   background-color: #ffff;
-  top: 4px;
+  top: 8px;
   left: -40px;
   &-head {
     display: flex;
