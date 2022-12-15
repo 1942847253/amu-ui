@@ -45,13 +45,17 @@ export default defineComponent({
         isDate: {
             type: Boolean,
             default: false
+        },
+        readonly: {
+            type: Boolean,
+            default: false
         }
     },
     emits: ['update:modelValue', 'change', 'blur', 'focus'],
     setup(props, { emit, slots }) {
         const value = ref((props.modelValue === undefined ? props.value : props.modelValue));
         const Instance = getCurrentInstance()!;
-        const prop = Instance.parent!.props.prop as string
+        const prop = inject('prop') as string
         const type = ref(props.type)
         const showIconBtn = ref(false);
         const showEyeCloseBtn = ref(false)
@@ -59,6 +63,7 @@ export default defineComponent({
         const inputFocusBorder = ref('#0468dc');
         const inputBorder = ref('#dcdfe6')
         const inputHoverBorder = ref('#c2c3c7')
+        const inputFocusShadow = ref('#e1eef8')
         const inputContentRef = ref<HTMLDivElement | null>(null);
         const inputRef = ref<HTMLInputElement | null>(null);
         const slectIconRef = ref<HTMLInputElement | null>(null);
@@ -67,9 +72,6 @@ export default defineComponent({
         const changeErrorMessage = inject('changeErrorMessage', null) as unknown as Function
         const shrinkFormErrorSwitchFn = inject('shrinkFormErrorSwitchFn', null) as unknown as Ref<Function>
         const shrinkSelectMenuSwitchFn = inject('shrinkSelectMenuSwitchFn', null) as unknown as Ref<Function>
-
-        // icon插槽相关
-        const selectIcon = ref('xiang')
 
         const inputxStyle = computed(() => {
             return {
@@ -84,6 +86,7 @@ export default defineComponent({
 
         watch(() => props.modelValue, (val) => {
             value.value = val!
+            InputEventActions('change')
         })
 
         onMounted(() => {
@@ -131,7 +134,7 @@ export default defineComponent({
         }
         const onInputFocus = (event: Event) => {
             if (value.value.length > 0) showIconBtn.value = true;
-            if (slectIconRef.value){
+            if (slectIconRef.value) {
                 slectIconRef.value.style.transform = `rotate(-180deg)`
             }
             shrinkSelectMenuSwitchFn && shrinkSelectMenuSwitchFn.value(1, 0.2)
@@ -179,7 +182,7 @@ export default defineComponent({
 
         const initIconSlot = () => {
             if (props.clearable) {
-                if (props.type === "password" && props.showPassword){
+                if (props.type === "password" && props.showPassword) {
                     return passwordSlot();
                 }
                 return clearableSlot();
@@ -198,7 +201,10 @@ export default defineComponent({
 
         const InputEventActions = (eventType: 'change' | 'blur') => {
             showIconBtn.value = false;
+            console.log(prop);
+
             if (rules && rules[prop]) {
+
                 for (let i = 0; i < rules[prop].length; i++) {
                     const rule = rules[prop][i]
                     if (rule.trigger !== eventType) continue;
@@ -235,12 +241,14 @@ export default defineComponent({
                 inputFocusBorder.value = '#e53935';
                 inputBorder.value = '#e53935'
                 inputHoverBorder.value = '#e53935'
+                inputFocusShadow.value = '#fadfdf'
                 changeErrorMessage(message)
                 shrinkFormErrorSwitchFn.value(1, 0.2)
             } else {
                 inputFocusBorder.value = '#0468dc';
                 inputBorder.value = '#dcdfe6'
                 inputHoverBorder.value = '#c2c3c7'
+                inputFocusShadow.value = '#e1eef8'
                 shrinkFormErrorSwitchFn.value(0, 0.2)
             }
         }
@@ -253,13 +261,15 @@ export default defineComponent({
                     pointerEvents: (props.disabled ? 'none' : 'auto'),
                     "--border-focus-color": inputFocusBorder.value,
                     "--border-color": inputBorder.value,
-                    "--border-hover-color": inputHoverBorder.value
+                    "--border-hover-color": inputHoverBorder.value,
+                    "--border-focus-shadow": inputFocusShadow.value
                 }} ref={inputContentRef}>
                     <input
                         style={inputxStyle.value}
                         placeholder={props.placeholder}
                         class="input"
                         onInput={changeInputValue}
+                        readonly={props.readonly}
                         onFocus={(event) => onInputFocus(event)}
                         onBlur={(event) => blurInput(event)}
                         disabled={props.disabled}

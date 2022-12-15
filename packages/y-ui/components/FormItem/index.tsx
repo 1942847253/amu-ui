@@ -21,6 +21,7 @@ export default defineComponent({
         const model = inject('model');
         const key = uuid();
         const rules = inject('rules') as any;
+        const prop = inject('prop', props.prop)
         const errorMessage = ref('Please enter the content first');
         const labelRef = ref<HTMLDivElement | null>(null)
         const shrinkFormErrorSwitchFn = ref<Function>()
@@ -47,7 +48,7 @@ export default defineComponent({
                 <label class="y-form-item-label" ref={labelRef}>{props.label}</label>
                 <div class="y-form-item-slot">
                     {slots.default!()}
-                    <ShrinkBox shrinkViewSwitch={shrinkSelectSwitch}>
+                    <ShrinkBox shrinkViewSwitch={shrinkSelectSwitch} zIndex="10">
                         <div class="y-form-item-error">
                             {errorMessage.value}
                         </div>

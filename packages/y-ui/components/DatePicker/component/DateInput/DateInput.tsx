@@ -27,20 +27,7 @@ export default defineComponent({
     }
     return () => (
       <div class="y-date-selector-input">
-        {/* <input
-          readonly
-          class="input"
-          type="text"
-          value={props.value}
-          placeholder="选择一个时间"
-          ref="input"
-          onFocus={() => shrinkCalendar()}
-        />
-        <span
-          style="transform: translateX(-50 %) rotate(-90deg)"
-          class="iconfont icon-xiangxia"
-        ></span> */}
-        <YInput isDate modelValue={props.value} onFocus={() => shrinkCalendar()} onBlur={()=>emit('inputBlur')} />
+        <YInput readonly isDate modelValue={props.value} onFocus={() => shrinkCalendar()} onBlur={()=>emit('inputBlur')} />
       </div>
     );
   },

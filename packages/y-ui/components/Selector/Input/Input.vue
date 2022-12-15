@@ -1,9 +1,11 @@
 <template>
-  <div clas="selector-input">
+  <div class="y-selector-input">
     <YInput
       v-model="value"
       isSelector
       :isSearch="false"
+      :readonly="isSearch ? false : true"
+      :placeholder="placeholder"
       @input="searchOptions"
       @focus="firstBurlSearch"
       @blur="setValue()"
@@ -13,14 +15,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  getCurrentInstance,
-  inject,
-  ref,
-  Ref,
-  watch,
-} from "vue";
+import { defineComponent, inject, ref, Ref, watch } from "vue";
 import YInput from "../../Input";
 export default defineComponent({
   name: "SelectorInput",
@@ -63,11 +58,10 @@ export default defineComponent({
     const firstBurlSearch = () => {
       shrinkSelectMenuFn.value(1, 0.15);
       emit("searchOptions", "");
-      
     };
 
     const setValue = () => {
-      updateLocalValue()
+      updateLocalValue();
     };
     return {
       value,

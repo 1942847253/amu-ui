@@ -1,13 +1,14 @@
 @import "../../assets/index.scss";
 @import "../../iconfont/iconfont.css";
 .y-input-content {
+ 
   position: relative;
   display: flex;
   user-select: none;
   .y-input-wrapper {
     border: 1px solid var(--border-color);
     border-radius: 3px;
-    transition: border 0.2s ease;
+    transition: all 0.2s ease;
     height: 100%;
     padding: 0 10px;
     user-select: none;
@@ -41,6 +42,7 @@
   }
   .y-input-wrapper:focus-within {
     border: 1px solid var(--border-focus-color);
+    box-shadow: 0 0 0 2px var(--border-focus-shadow);
   }
   .y-input-slot {
     pointer-events: none;

@@ -140,7 +140,7 @@
       </YTabsPanel>
       <YTabsPanel key="12" title="DatePicker 日期选择">
         <YDatePicker v-model="dateValue" />
-        <YDatePicker />
+        <YDatePicker v-model="dateValue1"/>
       </YTabsPanel>
       <YTabsPanel key="13" title="Message 消息">
         <YDatePicker v-model="dateValue" />
@@ -257,15 +257,19 @@
           <YFormItem label="家庭住址:" prop="address">
             <YInput clearable placeholder="请输入家庭住址" v-model="formState.address" />
           </YFormItem>
+           <YFormItem label="出生日期:" prop="birthday">
+            <YDatePicker v-model="formState.birthday" />
+          </YFormItem>
           <YFormItem label="学校:" prop="address">
             <YSelector
               :options="options1.slice(0, 6)"
               placeholder="请选择学校"
               v-model="formState.school"
-              isSearch
+              
             >
             </YSelector>
           </YFormItem>
+           
         </YForm>
       </YTabsPanel>
     </YTabs>
@@ -305,6 +309,7 @@ const formState = reactive({
   age: "",
   address: "",
   school: "",
+  birthday:""
 });
 
 const checkAddress = (rule: any, value: string, callback: any) => {
@@ -327,10 +332,12 @@ const rules = {
     {
       required: true,
       message: "Please input Activity address",
-      trigger: "blur",
+      trigger: "change",
     },
-    { min: 5, max: 15, message: "Length should be 5 to 15", trigger: "blur" },
-    { validator: checkAddress, trigger: "blur" },
+    { min: 4, max: 15, message: "Length should be 5 to 15", trigger: "change" },
+  ],
+  birthday: [
+    { required: true, message: "请选择出生日期", trigger: "change" },
   ],
 };
 
@@ -355,6 +362,7 @@ const options = ref([
 ]);
 const activatCollapes = ref("2");
 const dateValue = ref("2022-11-14");
+const dateValue1 = ref("");
 const isSelect = ref(true);
 const treeData = ref([
   {
@@ -595,6 +603,5 @@ const deleteItem = (id) => {
 };
 </script>
 <style lang="less" scoped>
-.y-menu-content {
-}
+
 </style>

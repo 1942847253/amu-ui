@@ -12,6 +12,10 @@ export default defineComponent({
   props: {
     shrinkViewSwitch: Function,
     contentID: String,
+    zIndex: {
+      type: String,
+      default: "9999"
+    }
   },
   emits: ['shrink'],
   setup(props, { emit, slots }) {
@@ -34,7 +38,7 @@ export default defineComponent({
       emit('shrink', num)
     };
     return () => (
-      <div ref={shrinkRef} class="y-shrink-box">
+      <div ref={shrinkRef} class="y-shrink-box" style={`z-index:${props.zIndex}`}>
         {slots.default!()}
       </div>
     )
