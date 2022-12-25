@@ -45,12 +45,16 @@ export default defineComponent({
         isInputBlur.value = false;
       }
     }
+
+    const onResetValue = (value:string)=>{
+      emit('update:modelValue', value)
+    }
     provide('model-value', props.modelValue)
     provide('update-modelValue', updateModelValue)
     provide('dateSelectContentKey', dateSelectContentKey)
     return () => (
       <div class={`y-datepicker-content`} id={`${datePickerContentkey}`} ref={datepickerRef}>
-        <DateInput showDateSelect={showDateSelect.value} showDateSelectFn={showDateSelectFn} shrinkCalendarSwitchFn={shrinkCalendarSwitchFn.value} value={props.modelValue} onInputBlur={() => isInputBlur.value = true} />
+        <DateInput showDateSelect={showDateSelect.value} showDateSelectFn={showDateSelectFn} shrinkCalendarSwitchFn={shrinkCalendarSwitchFn.value} value={props.modelValue} onInputBlur={() => isInputBlur.value = true} onResetValue={(value: string) => onResetValue(value)} />
         <ShrinkBox contentID={datePickerContentkey} shrinkViewSwitch={shrinkCalendarSwitch}>
           <Menu showDateSelect={showDateSelect.value} dateValue={props.modelValue} isInputBlur={isInputBlur.value} />
         </ShrinkBox>

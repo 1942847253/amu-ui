@@ -15,7 +15,7 @@ export default defineComponent({
     shrinkCalendarSwitchFn: Function,
     showDateSelectFn: Function,
   },
-  emits: ["inputBlur",'inputFoucs'],
+  emits: ["inputBlur", 'inputFoucs', 'resetValue'],
   components: {},
   setup(props, { emit }) {
     const shrinkCalendar = () => {
@@ -27,7 +27,7 @@ export default defineComponent({
     }
     return () => (
       <div class="y-date-selector-input">
-        <YInput readonly isDate modelValue={props.value} onFocus={() => shrinkCalendar()} onBlur={()=>emit('inputBlur')} />
+        <YInput readonly isDate modelValue={props.value} onResetValue={(value: string) => emit('resetValue', value)} onFocus={() => shrinkCalendar()} onBlur={() => emit('inputBlur')} />
       </div>
     );
   },

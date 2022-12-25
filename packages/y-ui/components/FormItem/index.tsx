@@ -1,5 +1,5 @@
 import { uuid } from "../../shared/utils";
-import { defineComponent, inject, onMounted, provide, ref, watch } from "vue";
+import { computed, defineComponent, inject, onMounted, provide, ref, watch } from "vue";
 import ShrinkBox from "../../components/ShrinkBox";
 import './index.scss';
 
@@ -18,7 +18,7 @@ export default defineComponent({
     emits: [],
     setup(props, { emit, slots }) {
         provide('prop', props.prop);
-        const model = inject('model');
+        const model = inject('model') as Object;
         const key = uuid();
         const rules = inject('rules') as any;
         const prop = inject('prop', props.prop)
@@ -32,20 +32,19 @@ export default defineComponent({
         onMounted(() => {
         })
 
-        const test = () => {
-
-        }
-
-        const showErrorMessage = () => {
-
-        }
+        const isRequired = computed(() => {
+            return Object.keys(model).includes(props.prop)
+        })
 
         const shrinkSelectSwitch = (shrinkViewConfigSwitch: Function) => {
             shrinkFormErrorSwitchFn.value = shrinkViewConfigSwitch
         }
         return () => (
             <div class="y-form-item-content">
-                <label class="y-form-item-label" ref={labelRef}>{props.label}</label>
+                <label class="y-form-item-label" ref={labelRef}>
+                    {isRequired.value && <span class="iconfont icon-bitian"></span>}
+                    {props.label}
+                </label>
                 <div class="y-form-item-slot">
                     {slots.default!()}
                     <ShrinkBox shrinkViewSwitch={shrinkSelectSwitch} zIndex="10">

@@ -1,10 +1,10 @@
 .y-form-item-content {
+  position: relative;
   display: flex;
   align-items: center;
   justify-items: center;
   margin-bottom: 18px;
   label {
-   
     color: #606266;
     font-size: 14px;
     display: inline-flex;
@@ -15,6 +15,10 @@
     line-height: 32px;
     padding: 0 12px 0 0;
     box-sizing: border-box;
+    span{
+      margin-top: -2px;
+      color: #f56c6c;
+    }
   }
   .y-form-item-slot {
      position: relative;

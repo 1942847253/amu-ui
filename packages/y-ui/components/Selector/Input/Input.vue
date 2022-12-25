@@ -9,6 +9,7 @@
       @input="searchOptions"
       @focus="firstBurlSearch"
       @blur="setValue()"
+      @resetValue="resetValue"
       @change="(val) => updateInputValue(val)"
     />
   </div>
@@ -31,7 +32,7 @@ export default defineComponent({
       type: Boolean,
     },
   },
-  emits: ["searchOptions", "blurInitValue"],
+  emits: ["searchOptions", "blurInitValue", "resetValue"],
   components: {
     YInput,
   },
@@ -63,9 +64,14 @@ export default defineComponent({
     const setValue = () => {
       updateLocalValue();
     };
+
+    const resetValue = (value: string | number) => {
+      emit("resetValue", value);
+    };
     return {
       value,
       setValue,
+      resetValue,
       searchOptions,
       updateInputValue,
       firstBurlSearch,

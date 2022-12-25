@@ -1,6 +1,7 @@
 import { getStyleAttributeValue } from "../../shared/utils";
-import { computed, defineComponent, getCurrentInstance, inject, nextTick, onMounted, Ref, ref, unref, watch } from "vue";
+import { computed, defineComponent, getCurrentInstance, inject, nextTick, onBeforeUnmount, onMounted, Ref, ref, unref, watch } from "vue";
 import './index.scss';
+import $bus from "../../bus/bus";
 
 export default defineComponent({
     name: 'YInput',
@@ -49,10 +50,10 @@ export default defineComponent({
         readonly: {
             type: Boolean,
             default: false
-        }
+        },
     },
-    emits: ['update:modelValue', 'change', 'blur', 'focus'],
-    setup(props, { emit, slots }) {
+    emits: ['update:modelValue', 'change', 'blur', 'focus', "resetValue"],
+    setup(props, { emit, slots, expose }) {
         const value = ref((props.modelValue === undefined ? props.value : props.modelValue));
         const Instance = getCurrentInstance()!;
         const prop = inject('prop') as string
@@ -68,7 +69,9 @@ export default defineComponent({
         const inputRef = ref<HTMLInputElement | null>(null);
         const slectIconRef = ref<HTMLInputElement | null>(null);
         // 依赖注入相关
+        const uniKey = inject<string | null>('uniKey', null);
         const rules = inject('rules', null) as any;
+        const model = inject<any>('model', null)
         const changeErrorMessage = inject('changeErrorMessage', null) as unknown as Function
         const shrinkFormErrorSwitchFn = inject('shrinkFormErrorSwitchFn', null) as unknown as Ref<Function>
         const shrinkSelectMenuSwitchFn = inject('shrinkSelectMenuSwitchFn', null) as unknown as Ref<Function>
@@ -86,7 +89,6 @@ export default defineComponent({
 
         watch(() => props.modelValue, (val) => {
             value.value = val!
-            InputEventActions('change')
         })
 
         onMounted(() => {
@@ -103,7 +105,7 @@ export default defineComponent({
                 showEyeCloseBtn.value = !showEyeCloseBtn.value
             } else {
                 value.value = ''
-                emit('update:modelValue', value);
+                emit('update:modelValue', value.value);
             }
             setTimeout(() => {
                 inputRef.value!.focus();
@@ -121,7 +123,7 @@ export default defineComponent({
         const changeInputValue = (event: Event) => {
             const target = event.target as HTMLInputElement
             value.value = target.value
-            emit('update:modelValue', value);
+            emit('update:modelValue', value.value);
             emit('change', value)
             InputEventActions('change')
         }
@@ -141,43 +143,28 @@ export default defineComponent({
             emit('focus', event)
         }
         const clearableSlot = () => {
-            return (
-                <div>
-                    {showIconBtn.value && (
-                        <span onMousedown={() => soltBtnActions()} class="iconfont icon-guanbi"></span>
-                    )}
-                </div>
-            )
+            return <div>
+                {showIconBtn.value && <span onMousedown={() => soltBtnActions()} class="iconfont icon-guanbi"></span>}
+            </div>
         }
 
         const passwordSlot = () => {
-            return (
-                <div>
-                    {
-                        showIconBtn.value && (
-                            <span onMousedown={() => soltBtnActions()} class={`iconfont ${showEyeCloseBtn.value ? 'icon-yanjing' : 'icon-yanjing1'}`}></span>
-                        )
-                    }
-                </div>
-            )
+            return <div>
+                {showIconBtn.value && <span onMousedown={() => soltBtnActions()} class={`iconfont ${showEyeCloseBtn.value ? 'icon-yanjing' : 'icon-yanjing1'}`}></span>}
+            </div>
+
         }
 
         const dateSlot = () => {
-            return (
-                <span onMousedown={() => soltBtnActions()} class="iconfont icon-riqi"></span>
-            )
+            return <span onMousedown={() => soltBtnActions()} class="iconfont icon-riqi"></span>
         }
 
         const searchSlot = () => {
-            return (
-                <span onMousedown={() => soltBtnActions()} class="iconfont icon-sousuo"></span>
-            )
+            return <span onMousedown={() => soltBtnActions()} class="iconfont icon-sousuo"></span>
         }
 
         const selectSlot = () => {
-            return (
-                <span ref={slectIconRef} onMousedown={() => soltBtnActions()} class="iconfont icon-xiangxia"></span>
-            )
+            return <span ref={slectIconRef} onMousedown={() => soltBtnActions()} class="iconfont icon-xiangxia"></span>
         }
 
         const initIconSlot = () => {
@@ -201,10 +188,7 @@ export default defineComponent({
 
         const InputEventActions = (eventType: 'change' | 'blur') => {
             showIconBtn.value = false;
-            console.log(prop);
-
             if (rules && rules[prop]) {
-
                 for (let i = 0; i < rules[prop].length; i++) {
                     const rule = rules[prop][i]
                     if (rule.trigger !== eventType) continue;
@@ -253,6 +237,26 @@ export default defineComponent({
             }
         }
 
+        $bus.$on(`change-input-style-${uniKey}-${prop}`, (flag: 'error' | 'right' = 'right', message: string = '') => {
+            setInputStatusStyle(flag, message)
+        })
+
+        $bus.$on(`reset-input-value-${uniKey}-${prop}`, () => {
+            if (!props.isSelector) {
+                value.value = model[prop]
+                emit('update:modelValue', value.value);
+            }
+            emit('resetValue', model[prop])
+            setInputStatusStyle()
+        })
+
+        onBeforeUnmount(() => {
+            $bus.$off(`reset-input-value-${uniKey}-${prop}`)
+        })
+
+        expose({
+            setInputStatusStyle
+        })
 
         return () => (
             <div class="y-input-content" style={`cursor: ${props.disabled ? 'no-drop' : ''};`}>
