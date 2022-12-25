@@ -1,4 +1,4 @@
-import { createAppointArr } from "../../../../shared/utils";
+import { createAppointArr, getStyleAttributeValue, scrollIntoView } from "../../../../shared/utils";
 import { defineComponent, inject, onMounted, reactive, ref } from "vue";
 import { getDateInfo } from "../../../../components/DatePicker/tool";
 import './index.scss';
@@ -24,16 +24,12 @@ export default defineComponent({
             selectMonth: createAppointArr(1, 12)
         })
 
-        onMounted(() => {
-
-        })
-
         const scrollIntoSelectView = (year: number, month: number) => {
             const commentInYear = selectYearRef.value!.querySelector(`.select-year-index-${year}`) as HTMLElement
             const commentInMonth = selectMonthRef.value!.querySelector(`.select-month-index-${month}`) as HTMLElement
             setTimeout(() => {
-                commentInYear.scrollIntoView();
-                commentInMonth.scrollIntoView()
+                selectYearRef.value!.scrollTo({ 'behavior': 'smooth', 'top': commentInYear.offsetTop - 5 })
+                selectMonthRef.value!.scrollTo({ 'behavior': 'smooth', 'top': commentInMonth.offsetTop - 5 })
             }, 10);
         }
 

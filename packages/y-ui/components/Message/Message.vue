@@ -100,7 +100,7 @@ defineExpose({
   pointer-events: none;
   display: flex;
   justify-content: center;
-  transition: top 0.3s ease-out;
+  transition: top 0.2s ease-out;
   user-select: none;
 }
 
@@ -117,7 +117,7 @@ defineExpose({
   font-size: 14px;
   user-select: contain !important;
   border-radius: 3px;
-  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.22),
     0 6px 16px 0 rgba(0, 0, 0, 0.08),
     0 9px 28px 8px rgba(0, 0, 0, 0.05);
 
@@ -149,10 +149,10 @@ defineExpose({
 }
 
 .y-message-fade-enter-active {
-  transition: all 0.3s ease-in;
+  transition: all 0.2s ease-in;
 }
 
 .y-message-fade-leave-active {
-  transition: all 0.3s ease-out;
+  transition: all 0.2s ease-out;
 }
 </style>

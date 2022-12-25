@@ -6,6 +6,7 @@
       :localValue="localValue"
       :isSearch="isSearch"
       @searchOptions="searchOptions"
+      @resetValue="resetValue"
     />
     <ShrinkBox :contentID="key" :shrinkViewSwitch="shrinkViewSwitch">
       <Menu
@@ -23,6 +24,7 @@
 <script lang="ts">
 import {
   defineComponent,
+  inject,
   onBeforeMount,
   PropType,
   provide,
@@ -37,6 +39,7 @@ import ShrinkBox from "../../components/ShrinkBox";
 import { IOptionItem } from "./baseData";
 import { uuid } from "../../shared/utils";
 import { Function } from "@babel/types";
+import $bus from "../../bus/bus";
 export default defineComponent({
   name: "Selector",
   components: {
@@ -63,6 +66,8 @@ export default defineComponent({
   emits: ["setItemValue", "update:modelValue"],
   setup(props, { emit }) {
     const key = uuid();
+    const prop = inject("prop") as string;
+    const uniKey = inject("uniKey") as string;
     const shrinkSelectMenuFn = ref<Function>();
     provide("shrinkSelectMenuFn", shrinkSelectMenuFn);
     provide("updateInputValue", (val: string) => {
@@ -80,6 +85,11 @@ export default defineComponent({
     onBeforeMount(() => {
       initInputValue();
     });
+
+    const resetValue = (value: string | number) => {
+      const item = props.options?.find((item) => item.value == value)!;
+      setItemValue(item);
+    };
 
     const initInputValue = () => {
       const targetOptionsItem = props.options!.find(
@@ -132,6 +142,7 @@ export default defineComponent({
       setItemValue,
       searchOptions,
       shrinkViewSwitch,
+      resetValue,
       ...toRefs(state),
     };
   },

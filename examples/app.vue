@@ -1,6 +1,6 @@
 <template>
   <div>
-    <YTabs default-active-key="1" position="left" @change="onTabsChange">
+    <YTabs default-active-key="18" position="left" @change="onTabsChange">
       <YTabsPanel key="1" title="Button 按钮">
         <YButton @click="value1 = 1" type="primary">Primary</YButton>
         <YButton type="danger" @click="showError">Danger</YButton>
@@ -140,7 +140,7 @@
       </YTabsPanel>
       <YTabsPanel key="12" title="DatePicker 日期选择">
         <YDatePicker v-model="dateValue" />
-        <YDatePicker v-model="dateValue1"/>
+        <YDatePicker v-model="dateValue1" />
       </YTabsPanel>
       <YTabsPanel key="13" title="Message 消息">
         <YDatePicker v-model="dateValue" />
@@ -247,36 +247,47 @@
         />
       </YTabsPanel>
       <YTabsPanel key="18" title="Form 表单">
-        <YForm :model="formState" :rules="rules">
+        <YForm :model="formState" :rules="rules" ref="formRef" >
           <YFormItem label="姓名:" prop="name">
             <YInput placeholder="请输入姓名" v-model="formState.name" />
           </YFormItem>
           <YFormItem label="年龄:" prop="age">
-            <YInput type="password" show-password placeholder="请输入年龄" v-model="formState.age" />
+            <YInput
+              type="password"
+              show-password
+              placeholder="请输入年龄"
+              v-model="formState.age"
+            />
           </YFormItem>
           <YFormItem label="家庭住址:" prop="address">
-            <YInput clearable placeholder="请输入家庭住址" v-model="formState.address" />
+            <YInput
+              clearable
+              placeholder="请输入家庭住址"
+              v-model="formState.address"
+            />
           </YFormItem>
-           <YFormItem label="出生日期:" prop="birthday">
+          <YFormItem label="出生日期:" prop="birthday">
             <YDatePicker v-model="formState.birthday" />
           </YFormItem>
-          <YFormItem label="学校:" prop="address">
+          <YFormItem label="学校:" prop="school">
             <YSelector
               :options="options1.slice(0, 6)"
               placeholder="请选择学校"
               v-model="formState.school"
-              
             >
             </YSelector>
           </YFormItem>
-           
+          <YFormItem>
+            <YButton @click="onSubmit" type="primary">Submit</YButton>
+             <YButton @click="onReset">Reset</YButton>
+          </YFormItem>
         </YForm>
       </YTabsPanel>
     </YTabs>
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, watch, onMounted } from "vue";
 import {
   YButton,
   YCheckboxGroup,
@@ -304,12 +315,35 @@ import {
   YFormItem,
 } from "y-ui";
 
+const formRef = ref();
 const formState = reactive({
-  name: "",
+  name: "杨俊杰",
   age: "",
   address: "",
-  school: "",
-  birthday:""
+  school: 2,
+  birthday: "",
+});
+
+const onSubmit = ()=>{
+  formRef.value.validate().then(res=>{
+    console.log(formState);
+    YMessage.success({
+      message:'提交成功'
+    })
+  }).catch(err=>{
+    YMessage.error({
+      message:err
+    })
+    console.log(err);
+    
+  })
+}
+
+const onReset = ()=>{
+  formRef.value.resetFields()
+}
+onMounted(() => {
+  console.log(formRef.value);
 });
 
 const checkAddress = (rule: any, value: string, callback: any) => {
@@ -332,13 +366,12 @@ const rules = {
     {
       required: true,
       message: "Please input Activity address",
-      trigger: "change",
+      trigger: "blur",
     },
     { min: 4, max: 15, message: "Length should be 5 to 15", trigger: "change" },
   ],
-  birthday: [
-    { required: true, message: "请选择出生日期", trigger: "change" },
-  ],
+  birthday: [{ required: true, message: "请选择出生日期", trigger: "change" }],
+  school:[{ required: true, message: "请选择学校", trigger: "change" }],
 };
 
 const value = ref(false);
@@ -602,6 +635,4 @@ const deleteItem = (id) => {
   });
 };
 </script>
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>

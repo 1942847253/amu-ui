@@ -92,3 +92,8 @@ export const getStyleAttributeValue = (
   const styleValue = parseFloat(Style.getPropertyValue(style));
   return styleValue;
 };
+
+
+export const scrollIntoView = (parentEl:Element,height:number)=>{
+  parentEl.scrollTop = height
+}

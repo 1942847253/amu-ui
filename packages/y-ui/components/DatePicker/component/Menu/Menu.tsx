@@ -100,11 +100,13 @@ export default defineComponent({
 
         const openShrinkSelect = () => {
             shrinkSelectSwitchFn.value!(1)
+            const selectYearEl = dateMenuRef.value!.querySelector(`.select-year`) as HTMLElement
+            const selectMonthEl = dateMenuRef.value!.querySelector(`.select-month`) as HTMLElement
             const commentInYear = dateMenuRef.value!.querySelector(`.select-year-index-${dateState.currentYear}`) as HTMLElement
             const commentInMonth = dateMenuRef.value!.querySelector(`.select-month-index-${dateState.currentMonth}`) as HTMLElement
             setTimeout(() => {
-                commentInYear.scrollIntoView({ behavior: "auto" });
-                commentInMonth.scrollIntoView({ behavior: 'auto' })
+                selectYearEl.scrollTo({ 'behavior': 'auto', 'top': commentInYear.offsetTop - 5 })
+                selectMonthEl.scrollTo({ 'behavior': 'auto', 'top': commentInMonth.offsetTop - 5 })
             }, 50);
         }
 
