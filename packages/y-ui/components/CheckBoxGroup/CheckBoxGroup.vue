@@ -19,6 +19,7 @@ import { defineComponent, PropType } from "vue";
 import YCheckbox from "../CheckBox/CheckBox.vue";
 
 export default defineComponent({
+  name:'YCheckboxGroup',
   components: {
     YCheckbox,
   },

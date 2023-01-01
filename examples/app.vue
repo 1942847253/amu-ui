@@ -54,7 +54,7 @@
           :hasDirector="true"
         >
           <YRotationItem v-for="(item, index) in picList" :key="index">
-            <img height="460" width="1226" :src="item.path" alt="" />
+            <img height="500" :src="item.path" alt="" />
           </YRotationItem>
         </YRotation>
       </YTabsPanel>
