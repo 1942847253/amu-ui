@@ -58,6 +58,7 @@ export default defineComponent({
         */
         const subSlotSwitch = () => {
             const parentElement = subContentRef.value.parentElement as HTMLDivElement
+            parentElement.style.transition = 'height 0.25s ease'
             if (subSlotRef.value.style.height === '0px') {
                 subSlotRef.value.style.height = subContentHeight.value + 'px';
                 parentElement.style.height = parentElement.offsetHeight + subContentHeight.value + 'px'

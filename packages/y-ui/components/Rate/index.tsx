@@ -26,6 +26,10 @@ export default defineComponent({
       type: String,
       default: "#f7ba2a",
     },
+    disabled:{
+      type:Boolean,
+      default:false
+    }
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
@@ -47,6 +51,7 @@ export default defineComponent({
       node: Event,
       flag: string = EMouseFlag.ENTER
     ) => {
+      if(props.disabled) return;
       const nodeIndex = (node.target as HTMLElement).getAttribute("index");
       const startItemList = rateRef.value?.querySelectorAll(
         ".y-rate-item"
@@ -99,6 +104,7 @@ export default defineComponent({
     return () => (
       <div
         class="y-rate-content"
+        style={`cursor:${props.disabled ? 'not-allowed' :'pointer'}`}
         ref={rateRef}
         onMouseleave={() => initIconList()}
       >
@@ -110,7 +116,7 @@ export default defineComponent({
               onMouseenter={(e) => mouseEnterOrClickStar(e)}
               onClick={(e) => mouseEnterOrClickStar(e, EMouseFlag.CLICK)}
             >
-              <div index={index} style={{color:props.color}} class={`iconfont ${EIconType.STAR_OFF}`}></div>
+              <div index={index} style={{ color: props.disabled ?'#c8c9cc': props.color}} class={`iconfont ${EIconType.STAR_OFF}`}></div>
             </div>
           );
         })}

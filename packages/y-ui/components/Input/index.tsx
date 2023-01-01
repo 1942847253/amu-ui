@@ -282,7 +282,9 @@ export default defineComponent({
                         ref={inputRef}
                     />
                 </div>
-                <div class="y-input-slot">
+                <div class="y-input-slot" style={{
+                    backgroundColor: (props.disabled ? "#f5f7fa" : ''),
+                }}>
                     {initIconSlot()}
                 </div>
 

@@ -18,6 +18,7 @@ import { defineComponent, onMounted, PropType } from "vue";
 import YRadio from "../Radio/index.vue";
 
 export default defineComponent({
+  name:"YRadioGroup",
   props: {
     modelValue: {
       type: [Number, String],

@@ -1,5 +1,5 @@
 import { getStyleAttributeValue, uuid } from "../../shared/utils";
-import { defineComponent, onMounted, provide, reactive, ref, defineExpose, getCurrentInstance, unref } from "vue";
+import { defineComponent, onMounted, provide, reactive, ref, defineExpose, getCurrentInstance, unref, nextTick } from "vue";
 import './index.scss';
 import $bus from "../../bus/bus";
 
@@ -18,25 +18,26 @@ export default defineComponent({
     emits: ['submit'],
     setup(props, { emit, slots, expose }) {
         const uniKey = uuid();
-        const instance = getCurrentInstance();
         const fromRef = ref<HTMLDivElement | null>(null);
         const model = JSON.parse(JSON.stringify(props.model));
         provide('model', model);
         provide('rules', props.rules);
         provide('uniKey', uniKey);
         onMounted(() => {
-            initItemLabelWidth();
+            initItemLabelWidth(); 
         })
 
         const initItemLabelWidth = () => {
             const allLabels = fromRef.value!.querySelectorAll('.y-form-item-label') as unknown as HTMLDivElement[]
-            const allLabelsWidthArr: number[] = [];
+            let labelWidth = 0;
             allLabels.forEach((label) => {
-                allLabelsWidthArr.push(getStyleAttributeValue(label, 'width'))
+                const width = getStyleAttributeValue(label, 'width');
+                width > labelWidth && (labelWidth = width)
             })
             allLabels.forEach((label) => {
-                label.style.width = Math.max(...allLabelsWidthArr) + 'px'
+                label.style.width = labelWidth + 'px';
             })
+
         }
 
         const validate = () => {

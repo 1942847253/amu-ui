@@ -1,4 +1,3 @@
-
 .VPNav {
   border-bottom: 1px solid #cdced259;
   .VPNavBarTitle {
@@ -44,10 +43,8 @@
   }
 }
 
-
-
 ::-webkit-scrollbar {
-  width:5px;
+  width: 5px;
 }
 ::-webkit-scrollbar-corner, /* 滚动条角落 */
 ::-webkit-scrollbar-thumb,
@@ -95,23 +92,33 @@ details > summary:first-of-type {
   color: #1989fa;
 }
 
-.vp-doc {
-  h2 {
-    margin: 0;
-    margin-top: 30px;
-  }
-  th,
-  td {
-    border: none;
-  }
-}
-
 .example {
   border: 1px solid #dcdfe6ba;
   border-radius: 5px;
   padding: 20px;
+    h2 {
+      margin: 0;
+      margin-top: 30px;
+    }
+    th,
+    td {
+      border: none;
+    }
+    table {
+      margin: 0;
+    }
+    tr {
+      border-top: none;
+      transition: background-color 0.5s;
+    }
+    td{
+      padding: 0;
+    }
+    th{
+      font-size: 12px;
+      padding: 0;
+    }
 }
-
 
 #基础用法 {
   border: none;
@@ -124,8 +131,8 @@ details > summary:first-of-type {
 }
 
 .VPNavBarTitle[data-v-7b235247] {
-   overflow: hidden;
-   border-bottom: none;
+  overflow: hidden;
+  border-bottom: none;
 }
 .image-container[data-v-4c7fb2e3] img {
   margin-left: 20%;

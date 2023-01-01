@@ -1,5 +1,4 @@
 export default {
-  
   themeConfig: {
     smoothScroll: true,
     siteTitle: false,
@@ -75,6 +74,22 @@ export default {
               text: "Tree 树形控件",
               link: "/examples/tree/",
             },
+            {
+              text: "Rate 评分",
+              link: "/examples/Rate/",
+            },
+            {
+              text: "DatePicker 日期选择器",
+              link: "/examples/DatePicker/",
+            },
+            {
+              text: "Input 输入框",
+              link: "/examples/Input/",
+            },
+            {
+              text: "Form 表单",
+              link: "/examples/Form/",
+            },
           ],
         },
         {
@@ -91,6 +106,23 @@ export default {
             {
               text: "Tag 标签",
               link: "/examples/tag/",
+            },
+            {
+              text: "Collapse 折叠面板",
+              link: "/examples/Collapse/",
+            },
+          ],
+        },
+        {
+          text: "Navigation 导航",
+          items: [
+            {
+              text: "Tabs 标签页",
+              link: "/examples/Tabs/",
+            },
+            {
+              text: "Menu 菜单",
+              link: "/examples/Menu/",
             },
           ],
         },
