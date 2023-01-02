@@ -1,6 +1,6 @@
 <template>
   <div>
-    <YTabs default-active-key="18" position="left" @change="onTabsChange">
+    <YTabs default-active-key="19" position="left" @change="onTabsChange">
       <YTabsPanel key="1" title="Button 按钮">
         <YButton @click="value1 = 1" type="primary">Primary</YButton>
         <YButton type="danger" @click="showError">Danger</YButton>
@@ -247,7 +247,7 @@
         />
       </YTabsPanel>
       <YTabsPanel key="18" title="Form 表单">
-        <YForm :model="formState" :rules="rules" ref="formRef" >
+        <YForm :model="formState" :rules="rules" ref="formRef">
           <YFormItem label="姓名:" prop="name">
             <YInput placeholder="请输入姓名" v-model="formState.name" />
           </YFormItem>
@@ -279,9 +279,55 @@
           </YFormItem>
           <YFormItem>
             <YButton @click="onSubmit" type="primary">Submit</YButton>
-             <YButton @click="onReset">Reset</YButton>
+            <YButton @click="onReset">Reset</YButton>
           </YFormItem>
         </YForm>
+      </YTabsPanel>
+      <YTabsPanel key="19" title="Drawer 抽屉">
+       <YButton type="primary" @click="showDrawer=true">open</YButton>
+        <YDrawer v-model="showDrawer">
+          <template #header>
+            添加学生
+          </template>
+          <template #default>
+            <YForm :model="formState" :rules="rules" ref="formRef">
+            <YFormItem label="姓名:" prop="name">
+              <YInput placeholder="请输入姓名" v-model="formState.name" />
+            </YFormItem>
+            <YFormItem label="年龄:" prop="age">
+              <YInput
+                type="password"
+                show-password
+                placeholder="请输入年龄"
+                v-model="formState.age"
+              />
+            </YFormItem>
+            <YFormItem label="家庭住址:" prop="address">
+              <YInput
+                clearable
+                placeholder="请输入家庭住址"
+                v-model="formState.address"
+              />
+            </YFormItem>
+            <YFormItem label="出生日期:" prop="birthday">
+              <YDatePicker v-model="formState.birthday" />
+            </YFormItem>
+            <YFormItem label="学校:" prop="school">
+              <YSelector
+                :options="options1.slice(0, 6)"
+                placeholder="请选择学校"
+                v-model="formState.school"
+              >
+              </YSelector>
+            </YFormItem>
+          </YForm>
+          </template>
+           <template #footer>
+             
+              <YButton @click="onReset">cancel</YButton>
+               <YButton @click="onSubmit" type="primary">confirm</YButton>
+           </template>
+        </YDrawer>
       </YTabsPanel>
     </YTabs>
   </div>
@@ -313,8 +359,11 @@ import {
   YInput,
   YForm,
   YFormItem,
+  YDrawer,
 } from "y-ui";
 
+
+const showDrawer = ref(false)
 const formRef = ref();
 const formState = reactive({
   name: "杨俊杰",
@@ -324,24 +373,26 @@ const formState = reactive({
   birthday: "",
 });
 
-const onSubmit = ()=>{
-  formRef.value.validate().then(res=>{
-    console.log(formState);
-    YMessage.success({
-      message:'提交成功'
+const onSubmit = () => {
+  formRef.value
+    .validate()
+    .then((res) => {
+      console.log(formState);
+      YMessage.success({
+        message: "提交成功",
+      });
     })
-  }).catch(err=>{
-    YMessage.error({
-      message:err
-    })
-    console.log(err);
-    
-  })
-}
+    .catch((err) => {
+      YMessage.error({
+        message: err,
+      });
+      console.log(err);
+    });
+};
 
-const onReset = ()=>{
-  formRef.value.resetFields()
-}
+const onReset = () => {
+  formRef.value.resetFields();
+};
 onMounted(() => {
   console.log(formRef.value);
 });
@@ -371,7 +422,7 @@ const rules = {
     { min: 4, max: 15, message: "Length should be 5 to 15", trigger: "change" },
   ],
   birthday: [{ required: true, message: "请选择出生日期", trigger: "change" }],
-  school:[{ required: true, message: "请选择学校", trigger: "change" }],
+  school: [{ required: true, message: "请选择学校", trigger: "change" }],
 };
 
 const value = ref(false);

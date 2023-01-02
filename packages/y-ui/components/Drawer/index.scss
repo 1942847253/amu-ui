@@ -1,0 +1,39 @@
+.y-drawer-mantle {
+  z-index: 9998;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  user-select: none;
+  .y-drawer-content {
+    transition: all 0.25s ease; 
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffff;
+    height: 100%;
+    .y-drawer-header {
+      align-items: center;
+      color: #72767b;
+      display: flex;
+      margin-bottom: 32px;
+      padding: 20px;
+      padding-bottom: 0;
+    }
+    .y-drawer-body{
+        padding: 20px;
+    }
+    .y-drawer-footer{
+        position: absolute;
+        bottom: 0;
+        padding-top: 10px;
+        padding-right: 20px;
+        padding-bottom: 10px;
+        padding-left: 0px;
+        text-align: right;
+        width: 100%;
+    }
+  }
+}
