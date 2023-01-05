@@ -1,5 +1,6 @@
 <template>
-  <table class="y-table" :style="`width:${props.width}`" ref="tableRef">
+  <div  class="y-table">
+    <table :style="`width:${props.width}`" ref="tableRef">
     <thead :class="`${props.border ? '' : 't-head-falg'}`">
       <tr>
         <th
@@ -41,14 +42,18 @@
         </td>
       </tr>
     </tbody>
+  
+  </table>
     <div
-      v-else
+      v-if="props.tableData.length === 0"
       class="no-data"
       :style="`border: ${props.border && '1px solid #ebeef5'};border-top:none`"
     >
-      暂无数据
+      <span>
+        暂无数据
+      </span>
     </div>
-  </table>
+  </div>
 </template>
 
 <script lang="ts" setup>

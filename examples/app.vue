@@ -284,49 +284,88 @@
         </YForm>
       </YTabsPanel>
       <YTabsPanel key="19" title="Drawer 抽屉">
-       <YButton type="primary" @click="showDrawer=true">open</YButton>
-        <YDrawer v-model="showDrawer">
-          <template #header>
-            添加学生
-          </template>
+        <YButton type="primary" @click="showDrawer = true">open</YButton>
+        <YDrawer v-model="showDrawer" closeOnClickModal size="40%">
+          <template #header> 添加学生 </template>
           <template #default>
+            <YTable     
+              :tableData="tableData.tBody"
+              :tableColumn="tableData.tHead"
+              @editData="editData"
+            >
+              <template #table="{ tableColumn, tableData }">
+                <y-tag type="success" v-if="tableColumn.key === 'age'">{{
+                  tableData.age + " 岁"
+                }}</y-tag>
+              </template>
+              <template #operation="{ item, index }">
+                <y-button type="info" size="small">Edit</y-button>
+                <y-button
+                  type="danger"
+                  size="small"
+                  :disabled="false"
+                  @click="deleteItem(item.id)"
+                  >Delete</y-button
+                >
+              </template>
+            </YTable>
+              <YTable     
+              :tableData="tableData.tBody"
+              :tableColumn="tableData.tHead"
+              @editData="editData"
+            >
+              <template #table="{ tableColumn, tableData }">
+                <y-tag type="success" v-if="tableColumn.key === 'age'">{{
+                  tableData.age + " 岁"
+                }}</y-tag>
+              </template>
+              <template #operation="{ item, index }">
+                <y-button type="info" size="small">Edit</y-button>
+                <y-button
+                  type="danger"
+                  size="small"
+                  :disabled="false"
+                  @click="deleteItem(item.id)"
+                  >Delete</y-button
+                >
+              </template>
+            </YTable>
             <YForm :model="formState" :rules="rules" ref="formRef">
-            <YFormItem label="姓名:" prop="name">
-              <YInput placeholder="请输入姓名" v-model="formState.name" />
-            </YFormItem>
-            <YFormItem label="年龄:" prop="age">
-              <YInput
-                type="password"
-                show-password
-                placeholder="请输入年龄"
-                v-model="formState.age"
-              />
-            </YFormItem>
-            <YFormItem label="家庭住址:" prop="address">
-              <YInput
-                clearable
-                placeholder="请输入家庭住址"
-                v-model="formState.address"
-              />
-            </YFormItem>
-            <YFormItem label="出生日期:" prop="birthday">
-              <YDatePicker v-model="formState.birthday" />
-            </YFormItem>
-            <YFormItem label="学校:" prop="school">
-              <YSelector
-                :options="options1.slice(0, 6)"
-                placeholder="请选择学校"
-                v-model="formState.school"
-              >
-              </YSelector>
-            </YFormItem>
-          </YForm>
+              <YFormItem label="姓名:" prop="name">
+                <YInput placeholder="请输入姓名" v-model="formState.name" />
+              </YFormItem>
+              <YFormItem label="年龄:" prop="age">
+                <YInput
+                  type="password"
+                  show-password
+                  placeholder="请输入年龄"
+                  v-model="formState.age"
+                />
+              </YFormItem>
+              <YFormItem label="家庭住址:" prop="address">
+                <YInput
+                  clearable
+                  placeholder="请输入家庭住址"
+                  v-model="formState.address"
+                />
+              </YFormItem>
+              <YFormItem label="出生日期:" prop="birthday">
+                <YDatePicker v-model="formState.birthday" />
+              </YFormItem>
+              <YFormItem label="学校:" prop="school">
+                <YSelector
+                  :options="options1.slice(0, 6)"
+                  placeholder="请选择学校"
+                  v-model="formState.school"
+                >
+                </YSelector>
+              </YFormItem>
+            </YForm>
           </template>
-           <template #footer>
-             
-              <YButton @click="onReset">cancel</YButton>
-               <YButton @click="onSubmit" type="primary">confirm</YButton>
-           </template>
+          <template #footer>
+            <YButton @click="onReset">取消</YButton>
+            <YButton @click="onSubmit" type="primary">提交订单</YButton>
+          </template>
         </YDrawer>
       </YTabsPanel>
     </YTabs>
@@ -362,8 +401,7 @@ import {
   YDrawer,
 } from "y-ui";
 
-
-const showDrawer = ref(false)
+const showDrawer = ref(false);
 const formRef = ref();
 const formState = reactive({
   name: "杨俊杰",
@@ -558,17 +596,17 @@ const tableData = ref({
     {
       key: "chinese",
       text: "语文",
-      editable: true,
+      
     },
     {
       key: "math",
       text: "数学",
-      editable: true,
+      
     },
     {
       key: "english",
       text: "英语",
-      editable: true,
+     
     },
     {
       key: "operation",
