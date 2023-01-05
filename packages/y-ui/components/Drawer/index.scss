@@ -1,3 +1,4 @@
+@import "../../iconfont/iconfont.css";
 .y-drawer-mantle {
   z-index: 9998;
   position: fixed;
@@ -8,32 +9,68 @@
   background-color: rgba(0, 0, 0, 0.5);
   user-select: none;
   .y-drawer-content {
-    transition: all 0.25s ease; 
-    position: absolute;
     display: flex;
+    position: absolute;
     flex-direction: column;
+    min-height: 100vh;
+    max-height: 100vh;
+    transition: left 0.28s, right 0.28s ease;
     background-color: #ffff;
-    height: 100%;
     .y-drawer-header {
-      align-items: center;
-      color: #72767b;
-      display: flex;
-      margin-bottom: 32px;
       padding: 20px;
-      padding-bottom: 0;
-    }
-    .y-drawer-body{
-        padding: 20px;
-    }
-    .y-drawer-footer{
-        position: absolute;
-        bottom: 0;
-        padding-top: 10px;
-        padding-right: 20px;
-        padding-bottom: 10px;
-        padding-left: 0px;
-        text-align: right;
+      padding-right: 10px;
+      display: flex;
+      flex-grow: 0;
+      .y-drawer-header-content {
         width: 100%;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        .header-slot {
+          flex: 1;
+        }
+        .icon-close {
+          font-size: 23px;
+          cursor: pointer;
+        }
+        .icon-close:hover {
+          color: #0468dc;
+        }
+      }
+    }
+    .y-drawer-body {
+      padding: 20px;
+      overflow: overlay;
+      flex: 1;
+    }
+    .y-drawer-footer {
+      background-color: #ffff;
+      display: flex;
+      justify-content: right;
+      flex-grow: 0;
+      padding: 10px 0;
+      padding-bottom: 20px;
     }
   }
+}
+
+.y-drawer-body::-webkit-scrollbar {
+  width: 7px;
+}
+.y-drawer-body::-webkit-scrollbar-corner, /* 滚动条角落 */
+  .y-drawer-body::-webkit-scrollbar-thumb,
+  .y-drawer-body::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+.y-drawer-body::-webkit-scrollbar-corner,
+.y-drawer-body::-webkit-scrollbar-track {
+  /* 滚动条轨道 */
+  background-color: none;
+}
+.y-drawer-body::-webkit-scrollbar-thumb {
+  /* 滚动条手柄 */
+  background-color: #9797966c;
+}
+.y-drawer-body::-webkit-scrollbar-thumb:hover {
+  background-color: #979796c0;
 }

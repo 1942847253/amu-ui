@@ -47,7 +47,7 @@ export default defineComponent({
                 </label>
                 <div class="y-form-item-slot">
                     {slots.default!()}
-                    <ShrinkBox shrinkViewSwitch={shrinkSelectSwitch} zIndex="10">
+                    <ShrinkBox shrinkViewSwitch={shrinkSelectSwitch} zIndex="0">
                         <div class="y-form-item-error">
                             {errorMessage.value}
                         </div>

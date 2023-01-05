@@ -107,7 +107,7 @@ defineExpose({
 .y-message>.y-message-content {
   display: flex;
   align-items: center;
-  padding: 13px 20px;
+  padding: 11.5px 13px;
   pointer-events: all;
   background: #fff;
   width: max-content;

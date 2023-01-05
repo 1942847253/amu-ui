@@ -137,6 +137,10 @@ export default {
               text: "Message Box 消息弹出框",
               link: "/examples/messagebox/",
             },
+            {
+              text: "Drawer 抽屉",
+              link: "/examples/Drawer/",
+            },
           ],
         },
       ],

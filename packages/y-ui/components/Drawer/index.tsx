@@ -24,14 +24,18 @@ export default defineComponent({
             type: [Number, String],
             default: '30%'
         },
+        title: {
+            type: String,
+            default: ''
+        },
         direction: {
             type: String,
             default: 'right'
         },
-        closeOnClickModal:{
+        closeOnClickModal: {
             type: Boolean,
-            default: true
-        }
+            default: false
+        },
     },
     emits: ['update:modelValue'],
     setup(props, { emit, slots }) {
@@ -48,35 +52,59 @@ export default defineComponent({
         watch(() => props.modelValue, (val) => {
             const range = drawerHideRange.value
             if (val) {
+                document.body.style.overflow = 'hidden'
                 setTimeout(() => {
                     drawerHideRange.value = '0'
                 }, 50);
             } else {
                 drawerHideRange.value = range
+                document.body.style.removeProperty('overflow')
             }
         })
-        const closeDrawer = ()=>{
-            if (props.closeOnClickModal){
-                drawerHideRange.value = '-' + contentWidth.value
-                setTimeout(() => {
-                    emit('update:modelValue', !props.modelValue)
-                }, 50);
+
+        const closeDrawer = () => {
+            drawerHideRange.value = '-' + contentWidth.value
+            setTimeout(() => {
+                emit('update:modelValue', !props.modelValue)
+            }, 180);
+        }
+        const closeDrawerOnModal = () => {
+            if (props.closeOnClickModal) {
+                closeDrawer();
+            }
+        }
+
+        const slotsHeader = () => {
+            if (slots.header) {
+                return slots.header();
+            } else {
+                return (
+                    <span>{props.title}</span>
+                )
             }
         }
         return () => (
             <YTransition>
                 {props.modelValue &&
-                    <div class="y-drawer-mantle" onClick={() => closeDrawer()}>
+                    <div class="y-drawer-mantle" onClick={() => closeDrawerOnModal()}>
                         <div onClick={(e) => e.stopPropagation()} class="y-drawer-content" style={{ width: contentWidth.value, [drawerContentDirection.value]: drawerHideRange.value }}>
                             <div class="y-drawer-header">
-                                {slots.header && slots.header()}
+                                <div class="y-drawer-header-content">
+                                    <div class="header-slot">
+                                        {slotsHeader()}
+                                    </div>
+                                    <span onClick={() => closeDrawer()} class="iconfont icon-close"></span>
+                                </div>
+
                             </div>
                             <div class="y-drawer-body">
                                 {slots.default && slots.default()}
                             </div>
-                            <div class="y-drawer-footer">
-                                {slots.footer && slots.footer()}
-                            </div>
+                            {
+                                slots.footer && <div class="y-drawer-footer">
+                                    {slots.footer()}
+                                </div>
+                            }
                         </div>
                     </div>
                 }
