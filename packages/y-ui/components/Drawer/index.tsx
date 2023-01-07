@@ -36,38 +36,52 @@ export default defineComponent({
             type: Boolean,
             default: false
         },
+        beforeClose: {
+            type: Function,
+        },
     },
-    emits: ['update:modelValue'],
+    emits: ['update:modelValue', 'opened','closed'],
     setup(props, { emit, slots }) {
-        const showMantle = ref(false);
-        const directionKey: IDirection = {
-            top: '',
-            bottom: '',
-            left: '',
-            right: ''
-        }
-        const contentWidth = computed(() => typeof props.size === 'number' ? props.size + 'px' : props.size);
-        const drawerHideRange = ref(props.modelValue ? '0' : `-${contentWidth.value}`)
-        const drawerContentDirection = computed(() => ((Object.keys(directionKey) as TPosition[]).find(key => key === props.direction) || 'right'))
+        const directionKey = ['top', 'bottom', 'left', 'right']
+        const contentSizeStyle = computed(() => typeof props.size === 'number' ? props.size + 'px' : props.size);
+        const drawerHideRange = ref(props.modelValue ? '0' : `-${contentSizeStyle.value}`)
+        const drawerContentDirection = computed(() => (directionKey.find(key => key === props.direction) || 'right'))
+        const drawerContentSize = computed(() => {
+            const isY = props.direction === "left" || props.direction === 'right';
+            return isY ? 'width' : 'height'
+        })
+
         watch(() => props.modelValue, (val) => {
             const range = drawerHideRange.value
             if (val) {
                 document.body.style.overflow = 'hidden'
                 setTimeout(() => {
                     drawerHideRange.value = '0'
+                    emit('opened')
                 }, 50);
             } else {
                 drawerHideRange.value = range
+                emit('closed')
                 document.body.style.removeProperty('overflow')
             }
         })
 
-        const closeDrawer = () => {
-            drawerHideRange.value = '-' + contentWidth.value
+        const updateModelValue = () => {
+            drawerHideRange.value = '-' + contentSizeStyle.value
             setTimeout(() => {
                 emit('update:modelValue', !props.modelValue)
             }, 180);
         }
+
+        const closeDrawer = () => {
+            if (typeof props.beforeClose === 'function') {
+                props.beforeClose(updateModelValue);
+                return;
+            } else {
+                updateModelValue();
+            }
+        }
+
         const closeDrawerOnModal = () => {
             if (props.closeOnClickModal) {
                 closeDrawer();
@@ -83,20 +97,31 @@ export default defineComponent({
                 )
             }
         }
+
+        const drawerHeaderEl = () => {
+            return <div class="y-drawer-header">
+                <div class="y-drawer-header-content">
+                    <div class="header-slot">
+                        {slotsHeader()}
+                    </div>
+                    <span onClick={() => closeDrawer()} class="iconfont icon-close"></span>
+                </div>
+            </div>
+        }
+        const drawerContentStyle = computed(() => {
+            const minWidthValue = drawerContentSize.value === 'height' ? 'width' : 'height'
+            return {
+                [drawerContentSize.value]: contentSizeStyle.value,
+                [drawerContentDirection.value]: drawerHideRange.value,
+                [`min-${minWidthValue}`]: `100v${drawerContentSize.value === 'height' ? 'w' : 'h'}`
+            }
+        })
         return () => (
             <YTransition>
                 {props.modelValue &&
                     <div class="y-drawer-mantle" onClick={() => closeDrawerOnModal()}>
-                        <div onClick={(e) => e.stopPropagation()} class="y-drawer-content" style={{ width: contentWidth.value, [drawerContentDirection.value]: drawerHideRange.value }}>
-                            <div class="y-drawer-header">
-                                <div class="y-drawer-header-content">
-                                    <div class="header-slot">
-                                        {slotsHeader()}
-                                    </div>
-                                    <span onClick={() => closeDrawer()} class="iconfont icon-close"></span>
-                                </div>
-
-                            </div>
+                        <div onClick={(e) => e.stopPropagation()} class="y-drawer-content" style={drawerContentStyle.value}>
+                            { drawerHeaderEl() }
                             <div class="y-drawer-body">
                                 {slots.default && slots.default()}
                             </div>

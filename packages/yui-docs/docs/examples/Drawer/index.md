@@ -1,6 +1,7 @@
 <script setup>
 import Basic from './component/Basic.vue'
-import Rule from './component/Rule.vue'
+import Footer from './component/Footer.vue'
+import BeforeClose from './component/BeforeClose.vue'
 </script>
 
 # Drawer 抽屉
@@ -11,7 +12,7 @@ import Rule from './component/Rule.vue'
 
 呼出一个临时的侧边栏, 可以从多个方向呼出
 
- 设置 `model-value` 属性来控制 Drawer 的显示与隐藏状态，该属性接受一个 `boolean` 类型。 Drawer 包含三部分: `title & body & footer`, 其中 `title` 是一个具名 slot, 你还可以通过 `title` 属性来设置标题, 默认情况下它是一个空字符串, 其中 body 部分是 Drawer 组件的主区域, 它包含了用户定义的主要内容. footer和title用法一致, 用来显示页脚信息. 当 Drawer 打开时，默认设置是从右至左打开 `30%` 浏览器宽度。 你可以通过传入对应的 `direction` 和 `size` 属性来修改这一默认行为。
+ 设置 `model-value` 属性来控制 Drawer 的显示与隐藏状态， 你还可以通过 `title` 属性来设置标题, 当 Drawer 打开时，默认设置是从右至左打开 `30%` 浏览器宽度。 你可以通过传入对应的 `direction` 和 `size` 属性来修改这一默认行为。
 <div class="example">
  <Basic/>
 </div>
@@ -35,12 +36,11 @@ const dateValue = ref("");
 
 </details>
 
-## 表单校验
-Form 组件允许你验证用户的输入是否符合规范，来帮助你找到和纠正错误。
-Form 组件提供了表单验证的功能，只需为 `rules` 属性传入约定的验证规则，并将 `form-Item` 的 `prop` 属性设置为需要验证的特殊键值即可。
+## 自定义底部内容
+多用于提交From表单时的确定与取消按钮
 
 <div class="example">
- <Rule />
+ <Footer />
 </div>
 
 <details>
@@ -48,14 +48,158 @@ Form 组件提供了表单验证的功能，只需为 `rules` 属性传入约定
 
 ```vue
 <template>
-  <YRate v-model="rateValue" color="red"></YRate>
+  <YButton type="primary" @click="showDrawer = true">open</YButton>
+  <YDrawer title="编辑" v-model="showDrawer" closeOnClickModal>
+    <template #default>
+      <YForm :model="formState" :rules="rules" ref="formRef">
+        <YFormItem label="姓名:" prop="name">
+          <YInput placeholder="请输入姓名" v-model="formState.name" />
+        </YFormItem>
+        <YFormItem label="年龄:" prop="age">
+          <YInput placeholder="请输入年龄" v-model="formState.age" />
+        </YFormItem>
+        <YFormItem label="家庭住址:" prop="address">
+          <YInput
+            clearable
+            placeholder="请输入家庭住址"
+            v-model="formState.address"
+          />
+        </YFormItem>
+        <YFormItem label="出生日期:" prop="birthday">
+          <YDatePicker v-model="formState.birthday" />
+        </YFormItem>
+        <YFormItem label="学校:" prop="school">
+          <YSelector
+            :options="options.slice(0, 6)"
+            placeholder="请选择学校"
+            v-model="formState.school"
+          >
+          </YSelector>
+        </YFormItem>
+      </YForm>
+    </template>
+    <template #footer>
+      <YButton @click="onReset">Reset</YButton>
+      <YButton @click="onSubmit" type="primary">Submit</YButton>
+    </template>
+  </YDrawer>
+</template>
+
+<script lang="ts" setup>
+import { reactive, ref } from "vue";
+import { YMessage } from "../../../../../y-ui";
+
+const showDrawer = ref(false);
+const formRef = ref();
+const formState = reactive({
+  name: "坤坤",
+  age: "",
+  address: "",
+  school: 2,
+  birthday: "",
+});
+
+const options = ref([
+  {
+    value: 1,
+    text: "Yjj",
+  },
+  {
+    value: 2,
+    text: "Big龙",
+  },
+  {
+    value: 3,
+    text: "嘿毛",
+  },
+  {
+    value: 4,
+    text: "嫖瓜",
+  },
+  {
+    value: 5,
+    text: "吊毛",
+  },
+  {
+    value: 6,
+    text: "吴彦祖",
+  },
+  {
+    value: 7,
+    text: "陈冠希",
+  },
+  {
+    value: 8,
+    text: "林俊杰",
+  },
+]);
+
+const onSubmit = () => {
+  formRef.value
+    .validate()
+    .then((res) => {
+      console.log(formState);
+      YMessage.success({
+        message: "提交成功",
+      });
+    })
+    .catch((err) => {
+      YMessage.error({
+        message: err,
+      });
+      console.log(err);
+    });
+};
+const onReset = () => {
+  formRef.value.resetFields();
+};
+const Footers = {
+  name: [
+    { required: true, message: "Please input Activity name", trigger: "blur" },
+    { min: 3, max: 5, message: "Length should be 3 to 5", trigger: "blur" },
+  ],
+  age: [
+    { required: true, message: "Please input Activity age", trigger: "blur" },
+    { min: 3, max: 5, message: "Length should be 3 to 5", trigger: "blur" },
+  ],
+  address: [
+    {
+      required: true,
+      message: "Please input Activity address",
+      trigger: "blur",
+    },
+    { min: 4, max: 15, message: "Length should be 5 to 15", trigger: "change" },
+  ],
+  birthday: [{ required: true, message: "请选择出生日期", trigger: "change" }],
+  school: [{ required: true, message: "请选择学校", trigger: "change" }],
+};
+</script>
+```
+
+</details>
+
+## 关闭 Drawer 前的回调
+
+ 可在关闭前自定义不同操作设置 `beforeClose` 属性来控制 Drawer 关闭前的某些操作，将关闭Drawer的权力从组件移交到用户
+<div class="example">
+ <BeforeClose/>
+</div>
+
+<details>
+<summary>展开示例代码</summary>
+
+```vue
+<template>
+ <YDatePicker v-model="dateValue" />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-const rateValue = ref(4);
+const dateValue = ref("");
+
 </script>
+
 ```
 
 </details>

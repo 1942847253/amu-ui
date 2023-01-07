@@ -12,10 +12,12 @@
     display: flex;
     position: absolute;
     flex-direction: column;
-    min-height: 100vh;
     max-height: 100vh;
-    transition: left 0.28s, right 0.28s ease;
+    transition: left 0.26s, right 0.26s ease, top 0.26s, bottom 0.26s ease;
     background-color: #ffff;
+    .no-title {
+      position: absolute;
+    }
     .y-drawer-header {
       padding: 20px;
       padding-right: 10px;
