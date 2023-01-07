@@ -1,43 +1,46 @@
 <template>
-  <YForm :model="formState" :rules="rules" ref="formRef">
-    <YFormItem label="姓名:" prop="name">
-      <YInput placeholder="请输入姓名" v-model="formState.name" />
-    </YFormItem>
-    <YFormItem label="年龄:" prop="age">
-      <YInput
-        placeholder="请输入年龄"
-        v-model="formState.age"
-      />
-    </YFormItem>
-    <YFormItem label="家庭住址:" prop="address">
-      <YInput
-        clearable
-        placeholder="请输入家庭住址"
-        v-model="formState.address"
-      />
-    </YFormItem>
-    <YFormItem label="出生日期:" prop="birthday">
-      <YDatePicker v-model="formState.birthday" />
-    </YFormItem>
-    <YFormItem label="学校:" prop="school">
-      <YSelector
-        :options="options.slice(0, 6)"
-        placeholder="请选择学校"
-        v-model="formState.school"
-      >
-      </YSelector>
-    </YFormItem>
-    <YFormItem>
-      <YButton @click="onSubmit" type="primary">Submit</YButton>
+  <YButton type="primary" @click="showDrawer = true">open</YButton>
+  <YDrawer title="编辑" v-model="showDrawer" closeOnClickModal>
+    <template #default>
+      <YForm :model="formState" :rules="rules" ref="formRef">
+        <YFormItem label="姓名:" prop="name">
+          <YInput placeholder="请输入姓名" v-model="formState.name" />
+        </YFormItem>
+        <YFormItem label="年龄:" prop="age">
+          <YInput placeholder="请输入年龄" v-model="formState.age" />
+        </YFormItem>
+        <YFormItem label="家庭住址:" prop="address">
+          <YInput
+            clearable
+            placeholder="请输入家庭住址"
+            v-model="formState.address"
+          />
+        </YFormItem>
+        <YFormItem label="出生日期:" prop="birthday">
+          <YDatePicker v-model="formState.birthday" />
+        </YFormItem>
+        <YFormItem label="学校:" prop="school">
+          <YSelector
+            :options="options.slice(0, 6)"
+            placeholder="请选择学校"
+            v-model="formState.school"
+          >
+          </YSelector>
+        </YFormItem>
+      </YForm>
+    </template>
+    <template #footer>
       <YButton @click="onReset">Reset</YButton>
-    </YFormItem>
-  </YForm>
+      <YButton @click="onSubmit" type="primary">Submit</YButton>
+    </template>
+  </YDrawer>
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { YMessage } from "../../../../../y-ui";
 
+const showDrawer = ref(false);
 const formRef = ref();
 const formState = reactive({
   name: "坤坤",
@@ -98,9 +101,9 @@ const onSubmit = () => {
       console.log(err);
     });
 };
-const onReset = ()=>{
-  formRef.value.resetFields()
-}
+const onReset = () => {
+  formRef.value.resetFields();
+};
 const rules = {
   name: [
     { required: true, message: "Please input Activity name", trigger: "blur" },
@@ -119,6 +122,6 @@ const rules = {
     { min: 4, max: 15, message: "Length should be 5 to 15", trigger: "change" },
   ],
   birthday: [{ required: true, message: "请选择出生日期", trigger: "change" }],
-  school:[{ required: true, message: "请选择学校", trigger: "change" }],
+  school: [{ required: true, message: "请选择学校", trigger: "change" }],
 };
 </script>

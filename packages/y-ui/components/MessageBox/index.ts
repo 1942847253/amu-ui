@@ -2,7 +2,7 @@ import MessageBoxComponent from "./MessageBox.vue";
 import { createApp, watch } from "vue";
 
 export type TOptions = {
-  title: string;
+  title?: string;
   content: string;
   confirmBtnText?: string;
   cancelBtnText?: string;

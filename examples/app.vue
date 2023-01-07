@@ -285,10 +285,18 @@
       </YTabsPanel>
       <YTabsPanel key="19" title="Drawer 抽屉">
         <YButton type="primary" @click="showDrawer = true">open</YButton>
-        <YDrawer v-model="showDrawer" closeOnClickModal size="40%">
-          <template #header> 添加学生 </template>
+        <YDrawer
+          v-model="showDrawer"
+          closeOnClickModal
+          size="40%"
+          title="编辑Big龙"
+          :beforeClose="beforeClose"
+          @opened="() => YMessage.success({ message: '打开成功' })"
+          @closed="() => YMessage.message({ message: '关闭成功' })"
+        >
+       
           <template #default>
-            <YTable     
+            <YTable
               :tableData="tableData.tBody"
               :tableColumn="tableData.tHead"
               @editData="editData"
@@ -309,7 +317,7 @@
                 >
               </template>
             </YTable>
-              <YTable     
+            <YTable
               :tableData="tableData.tBody"
               :tableColumn="tableData.tHead"
               @editData="editData"
@@ -410,6 +418,16 @@ const formState = reactive({
   school: 2,
   birthday: "",
 });
+
+const beforeClose = (done: () => void) => {
+  YMessageBox({
+    title: "提示",
+    content: "确认关闭当前抽屉吗",
+    showCancelBtn: true,
+  }).then(() => {
+    done();
+  });
+};
 
 const onSubmit = () => {
   formRef.value
@@ -596,17 +614,14 @@ const tableData = ref({
     {
       key: "chinese",
       text: "语文",
-      
     },
     {
       key: "math",
       text: "数学",
-      
     },
     {
       key: "english",
       text: "英语",
-     
     },
     {
       key: "operation",
