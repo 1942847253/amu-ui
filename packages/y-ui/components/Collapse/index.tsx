@@ -34,7 +34,8 @@ export default defineComponent({
   setup(props, { emit, slots }) {
     const panels = slots.default!() as any;
     const currentName = ref("");
-
+    console.log('test');
+    
     onBeforeMount(() => {
       initEvent();
     });
