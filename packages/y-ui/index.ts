@@ -27,6 +27,7 @@ import YForm from "./components/Form";
 import YFormItem from "./components/FormItem";
 import YDrawer from './components/Drawer'
 import YTransition from './components/Transition'
+import YLoading from './components/Loading'
 
 export {
   YMessageBox,
@@ -57,6 +58,7 @@ export {
   YFormItem,
   YDrawer,
   YTransition,
+  YLoading,
 };
 
 type TComponets = {
@@ -90,6 +92,7 @@ const components: TComponets = {
   YFormItem,
   YDrawer,
   YTransition,
+  YLoading,
 };
 
 export default {

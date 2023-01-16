@@ -1,6 +1,6 @@
 <template>
   <div>
-    <YTabs default-active-key="19" position="left" @change="onTabsChange">
+    <YTabs default-active-key="20" position="left" @change="onTabsChange">
       <YTabsPanel key="1" title="Button 按钮">
         <YButton @click="value1 = 1" type="primary">Primary</YButton>
         <YButton type="danger" @click="showError">Danger</YButton>
@@ -290,11 +290,9 @@
           closeOnClickModal
           size="40%"
           title="编辑Big龙"
-          :beforeClose="beforeClose"
           @opened="() => YMessage.success({ message: '打开成功' })"
           @closed="() => YMessage.message({ message: '关闭成功' })"
         >
-       
           <template #default>
             <YTable
               :tableData="tableData.tBody"
@@ -376,6 +374,12 @@
           </template>
         </YDrawer>
       </YTabsPanel>
+      <YTabsPanel key="20" title="Loading 加载">
+      <YButton @click="handelLoading">show loading</YButton>
+        <YLoading v-model="showLoading">
+         
+        </YLoading>
+      </YTabsPanel>
     </YTabs>
   </div>
 </template>
@@ -407,8 +411,10 @@ import {
   YForm,
   YFormItem,
   YDrawer,
+  YLoading,
 } from "y-ui";
 
+const showLoading = ref(false)
 const showDrawer = ref(false);
 const formRef = ref();
 const formState = reactive({
@@ -418,6 +424,13 @@ const formState = reactive({
   school: 2,
   birthday: "",
 });
+
+const handelLoading = ()=>{
+  showLoading.value = true
+  setTimeout(() => {
+   showLoading.value = false
+  }, 2000);
+}
 
 const beforeClose = (done: () => void) => {
   YMessageBox({
