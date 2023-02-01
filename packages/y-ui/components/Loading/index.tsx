@@ -11,7 +11,7 @@ export default defineComponent({
         },
         title: {
             type: String,
-            default: '加载中'
+            default: ''
         },
         global: {
             type: Boolean,
@@ -22,8 +22,8 @@ export default defineComponent({
     setup(props, { emit, slots }) {
         const dotList = new Array(6).fill(NaN)
         const isGlobalLoading = computed(() => props.global && (!slots.default || typeof slots.default !== 'function'));
-        
         const showLoadingMask = computed(() => !isGlobalLoading.value && props.modelValue)
+
         watch(() => props.modelValue, (val) => {
             if (val && isGlobalLoading.value) {
                 document.body.style.overflow = 'hidden'

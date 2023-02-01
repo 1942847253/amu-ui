@@ -25,9 +25,10 @@ import YSubMenu from "./components/SubMenu";
 import YInput from "./components/Input";
 import YForm from "./components/Form";
 import YFormItem from "./components/FormItem";
-import YDrawer from './components/Drawer'
-import YTransition from './components/Transition'
-import YLoading from './components/Loading'
+import YDrawer from "./components/Drawer";
+import YTransition from "./components/Transition";
+import YLoading from "./components/Loading";
+import YInputNumber from "./components/InputNumber";
 
 export {
   YMessageBox,
@@ -59,6 +60,7 @@ export {
   YDrawer,
   YTransition,
   YLoading,
+  YInputNumber,
 };
 
 type TComponets = {
@@ -93,6 +95,7 @@ const components: TComponets = {
   YDrawer,
   YTransition,
   YLoading,
+  YInputNumber,
 };
 
 export default {

@@ -1,5 +1,4 @@
-import { getStyleAttributeValue } from "../../shared/utils";
-import { computed, defineComponent, getCurrentInstance, inject, nextTick, onBeforeUnmount, onMounted, Ref, ref, unref, watch } from "vue";
+import { computed, CSSProperties, defineComponent, inject, onBeforeUnmount, onMounted, Ref, ref, watch } from "vue";
 import './index.scss';
 import $bus from "../../bus/bus";
 
@@ -7,11 +6,15 @@ export default defineComponent({
     name: 'YInput',
     props: {
         modelValue: {
-            type: String,
+            type: [String, Number],
         },
         value: {
             type: String,
             default: ''
+        },
+        textCenter: {
+            type: Boolean,
+            default: false
         },
         width: [Number, String],
         height: [Number, String],
@@ -55,8 +58,7 @@ export default defineComponent({
     emits: ['update:modelValue', 'change', 'blur', 'focus', "resetValue"],
     setup(props, { emit, slots, expose }) {
         const value = ref((props.modelValue === undefined ? props.value : props.modelValue));
-        const Instance = getCurrentInstance()!;
-        const prop = inject('prop') as string
+        const prop = inject<string>('prop', '')
         const type = ref(props.type)
         const showIconBtn = ref(false);
         const showEyeCloseBtn = ref(false)
@@ -80,7 +82,8 @@ export default defineComponent({
             return {
                 width: props.width ? props.width + 'px' : '100%',
                 height: props.height ? props.height + 'px' : '30px',
-            }
+                textAlign: props.textCenter ? 'center' : ''
+            } as CSSProperties
         })
 
         watch(() => [props.width, props.height], () => {
@@ -123,7 +126,7 @@ export default defineComponent({
         const changeInputValue = (event: Event) => {
             const target = event.target as HTMLInputElement
             value.value = target.value
-            emit('update:modelValue', value.value);
+            emit('update:modelValue', props.type === "number" ? Number(value.value) : value.value);
             emit('change', value)
             InputEventActions('change')
         }
@@ -135,7 +138,7 @@ export default defineComponent({
             }
         }
         const onInputFocus = (event: Event) => {
-            if (value.value.length > 0) showIconBtn.value = true;
+            if (value.value.toString().length > 0) showIconBtn.value = true;
             if (slectIconRef.value) {
                 slectIconRef.value.style.transform = `rotate(-180deg)`
             }
@@ -200,7 +203,7 @@ export default defineComponent({
                         setInputStatusStyle();
                     }
 
-                    if (value.value.length < rule.min || value.value.length > rule.max) {
+                    if (value.value.toString().length < rule.min || value.value.toString().length > rule.max) {
                         setInputStatusStyle('error', rule.message);
                         return
                     } else {
