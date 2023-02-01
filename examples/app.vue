@@ -1,6 +1,6 @@
 <template>
   <div>
-    <YTabs default-active-key="20" position="left" @change="onTabsChange">
+    <YTabs default-active-key="21" position="left" @change="onTabsChange">
       <YTabsPanel key="1" title="Button 按钮">
         <YButton @click="value1 = 1" type="primary">Primary</YButton>
         <YButton type="danger" @click="showError">Danger</YButton>
@@ -253,7 +253,7 @@
           </YFormItem>
           <YFormItem label="年龄:" prop="age">
             <YInput
-              type="password"
+              type="number"
               show-password
               placeholder="请输入年龄"
               v-model="formState.age"
@@ -375,10 +375,13 @@
         </YDrawer>
       </YTabsPanel>
       <YTabsPanel key="20" title="Loading 加载">
-      <YButton @click="handelLoading">show loading</YButton>
+        <YButton @click="handelLoading">show loading</YButton>
         <YLoading v-model="showLoading">
-         
+          <div>123</div>
         </YLoading>
+      </YTabsPanel>
+      <YTabsPanel key="21" title="InputNumber 数字输入框">
+        <YInputNumber v-model="numberValue" />
       </YTabsPanel>
     </YTabs>
   </div>
@@ -412,9 +415,11 @@ import {
   YFormItem,
   YDrawer,
   YLoading,
+  YInputNumber,
 } from "y-ui";
 
-const showLoading = ref(false)
+const numberValue = ref(0)
+const showLoading = ref(false);
 const showDrawer = ref(false);
 const formRef = ref();
 const formState = reactive({
@@ -425,12 +430,12 @@ const formState = reactive({
   birthday: "",
 });
 
-const handelLoading = ()=>{
-  showLoading.value = true
+const handelLoading = () => {
+  showLoading.value = true;
   setTimeout(() => {
-   showLoading.value = false
-  }, 2000);
-}
+    showLoading.value = false;
+  }, 4000);
+};
 
 const beforeClose = (done: () => void) => {
   YMessageBox({

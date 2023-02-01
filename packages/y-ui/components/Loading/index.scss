@@ -4,10 +4,10 @@
   justify-content: center;
   .y-loading-content {
     z-index: 9999;
-    left:50%;
     display: flex;
     flex-direction: column;
     justify-items: center;
+    align-items: center;
     .y-chase {
       width: 30px;
       height: 30px;
