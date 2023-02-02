@@ -125,8 +125,7 @@ export default defineComponent({
 
         const changeInputValue = (event: Event) => {
             const target = event.target as HTMLInputElement
-            value.value = target.value
-            emit('update:modelValue', props.type === "number" ? Number(value.value) : value.value);
+            emit('update:modelValue', (props.type === "number") ? (target.value === "" ? target.value : Number(target.value)) : target.value);
             emit('change', value)
             InputEventActions('change')
         }

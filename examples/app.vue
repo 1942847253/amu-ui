@@ -381,7 +381,8 @@
         </YLoading>
       </YTabsPanel>
       <YTabsPanel key="21" title="InputNumber 数字输入框">
-        <YInputNumber v-model="numberValue" />
+        <YInputNumber placeholder="请输入"  :min="-200" :max="200" :step="20"  v-model="numberValue" />
+        {{ numberValue }}
       </YTabsPanel>
     </YTabs>
   </div>
@@ -418,7 +419,7 @@ import {
   YInputNumber,
 } from "y-ui";
 
-const numberValue = ref(0)
+const numberValue = ref()
 const showLoading = ref(false);
 const showDrawer = ref(false);
 const formRef = ref();
