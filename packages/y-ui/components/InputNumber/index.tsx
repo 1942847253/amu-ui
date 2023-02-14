@@ -50,11 +50,15 @@ export default defineComponent({
         const buttonJSX = () => {
             return (
                 <>
-                    <div style={props.disabled ? disabledStyle.value : ''} onClick={() => buttonClickAction('add')} class="add-button">＋</div>
-                    <div style={props.disabled ? disabledStyle.value : ''} onClick={() => buttonClickAction('subtract')} class="subtract-button">-</div>
+                    <div style={props.disabled ? disabledStyle.value : ''} onClick={() => buttonClickAction('add')} class="add-button">
+                        <span class="iconfont icon-jia"></span>
+                    </div>
+                    <div style={props.disabled ? disabledStyle.value : ''} onClick={() => buttonClickAction('subtract')} class="subtract-button">
+                        <span class="iconfont icon-jian"></span>
+                    </div>
                 </>
             )
-        }
+        }   
 
         watch(() => state.numberValue, (val) => {
             if (val! >= props.max && props.max !== Infinity) {
