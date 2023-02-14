@@ -146,6 +146,6 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
-@import "./index.scss";
+<style lang="less" scoped>
+@import "./index.less";
 </style>

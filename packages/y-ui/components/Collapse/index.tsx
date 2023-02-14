@@ -7,7 +7,7 @@ import {
   provide,
   ref,
 } from "vue";
-import "./index.scss";
+import "./index.less";
 
 export enum EAction {
   OPEN = "open",

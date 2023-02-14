@@ -1,4 +1,4 @@
-@import "../../assets/index.scss";
+@import "../../assets/index.less";
 .tabs-content {
   display: flex;
   .tabs {
@@ -18,17 +18,17 @@
           cursor: pointer;
         }
         .tabs-tab:hover {
-          color: $primary-color;
+          color: @primary-color;
         }
         .tabs-tab-active {
-          color: $primary-color;
+          color: @primary-color;
         }
       }
       .tabs-inv-bar-left {
         position: absolute;
         right: 0;
         right: -1.5px;
-        background-color: $primary-color;
+        background-color: @primary-color;
         width: 2px !important;
         height: 40px;
         border-radius: 5%;
@@ -38,7 +38,7 @@
         position: absolute;
         left: 0;
         bottom: -1.5px;
-        background-color: $primary-color;
+        background-color: @primary-color;
         height: 2px;
         transition: transform 250ms ease-in-out;
       }

@@ -89,8 +89,8 @@ defineExpose({
 });
 </script>
 
-<style lang="scss" scoped>
-@import '../../assets/index.scss';
+<style lang="less" scoped>
+@import '../../assets/index.less';
 @import '../../iconfont/iconfont.css';
 
 .y-message {
@@ -122,19 +122,19 @@ defineExpose({
     0 9px 28px 8px rgba(0, 0, 0, 0.05);
 
   .success {
-    color: $success-color;
+    color: @success-color;
   }
 
   .warning {
-    color: $warning-color;
+    color: @warning-color;
   }
 
   .message {
-    color: $primary-color;
+    color: @primary-color;
   }
 
   .error {
-    color: $danger-color;
+    color: @danger-color;
   }
 }
 

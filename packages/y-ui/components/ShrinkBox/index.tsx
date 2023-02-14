@@ -1,6 +1,6 @@
 import { defineComponent, onMounted, ref } from "vue";
 import { onClickOutside } from "@vueuse/core";
-import './index.scss';
+import './index.less';
 
 export enum EShrinkFlag {
   COLSE = 0,

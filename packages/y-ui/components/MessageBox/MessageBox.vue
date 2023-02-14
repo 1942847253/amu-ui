@@ -131,7 +131,7 @@ defineExpose({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 @import "../../iconfont/iconfont.css";
 
 .y-messagebox-fade-enter-from,

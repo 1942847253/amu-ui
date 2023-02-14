@@ -37,7 +37,7 @@ const onClick = (event) => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .edit-input {
   position: absolute;
   top: 0;

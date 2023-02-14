@@ -173,7 +173,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .rotation {
   .inner {
     overflow: hidden;

@@ -1,6 +1,6 @@
 import { computed, CSSProperties, defineComponent, reactive, watch } from "vue";
 import Input from "../../components/Input";
-import './index.scss';
+import './index.less';
 
 export default defineComponent({
     name: "YInputNumber",

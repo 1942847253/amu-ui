@@ -41,7 +41,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 @import "../../../iconfont/iconfont.css";
 .director {
   cursor: pointer;
