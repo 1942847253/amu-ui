@@ -1,6 +1,6 @@
 import { computed, defineComponent, ref, watch } from "vue";
 import YTransition from '../Transition'
-import './index.scss';
+import './index.less';
 
 type TPosition = 'top' | 'left' | 'bottom' | 'right'
 type TSize = 'width' | 'height'

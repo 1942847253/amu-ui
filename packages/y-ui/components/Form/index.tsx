@@ -1,6 +1,6 @@
 import { getStyleAttributeValue, uuid } from "../../shared/utils";
 import { defineComponent, onMounted, provide, reactive, ref, defineExpose, getCurrentInstance, unref, nextTick } from "vue";
-import './index.scss';
+import './index.less';
 import $bus from "../../bus/bus";
 
 export default defineComponent({

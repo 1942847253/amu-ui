@@ -49,8 +49,8 @@ const getTagType = (type: string) => {
 
 </script>
 
-<style lang="scss" scoped>
-@import "../../assets/index.scss";
+<style lang="less" scoped>
+@import "../../assets/index.less";
 @import '../../iconfont/iconfont.css';
 
 .tag {
@@ -89,19 +89,19 @@ const getTagType = (type: string) => {
     }
 
     .close-success {
-        background-color: $success-color;
+        background-color: @success-color;
     }
 
     .close-info {
-        background-color: $info-color;
+        background-color: @info-color;
     }
 
     .close-danger {
-        background-color: $danger-color;
+        background-color: @danger-color;
     }
 
     .close-warning {
-        background-color: $warning-color;
+        background-color: @warning-color;
     }
 
     .close-default {

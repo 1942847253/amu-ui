@@ -1,5 +1,5 @@
 import { computed, CSSProperties, defineComponent, inject, onBeforeUnmount, onMounted, Ref, ref, watch } from "vue";
-import './index.scss';
+import './index.less';
 import $bus from "../../bus/bus";
 
 export default defineComponent({

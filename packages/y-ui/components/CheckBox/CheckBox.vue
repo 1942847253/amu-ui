@@ -92,8 +92,8 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
-@import "../../assets/index.scss";
+<style lang="less" scoped>
+@import "../../assets/index.less";
 
 .y-checked-main {
   display: inline-flex;
@@ -115,7 +115,7 @@ export default defineComponent({
     position: relative;
     line-height: .9rem;
     user-select: none;
-    color: $text-color-black;
+    color: @text-color-black;
   }
 
   input[type="checkbox"]+label:not(:nth-of-type(1)) {
@@ -124,7 +124,7 @@ export default defineComponent({
   }
 
   input[type="checkbox"]:checked+label {
-    color: $primary-color;
+    color: @primary-color;
   }
 
   input[type="checkbox"]+label:not(:nth-of-type(6)) {
@@ -152,7 +152,7 @@ export default defineComponent({
   }
 
   input[type="checkbox"]:not(:disabled)+label:hover::before {
-    border-color: $primary-color;
+    border-color: @primary-color;
   }
 
   input[type="checkbox"]+label::after {
@@ -171,8 +171,8 @@ export default defineComponent({
   }
 
   input[type="checkbox"]:checked+label::before {
-    border-color: $primary-color !important;
-    background-color: $primary-color;
+    border-color: @primary-color !important;
+    background-color: @primary-color;
   }
 
   input[type="checkbox"]:checked+label::after {

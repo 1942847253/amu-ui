@@ -1,7 +1,7 @@
 import { createAppointArr, getStyleAttributeValue, scrollIntoView } from "../../../../shared/utils";
 import { defineComponent, inject, onMounted, reactive, ref } from "vue";
 import { getDateInfo } from "../../../../components/DatePicker/tool";
-import './index.scss';
+import './index.less';
 
 
 export default defineComponent({

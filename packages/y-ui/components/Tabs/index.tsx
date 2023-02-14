@@ -7,7 +7,7 @@ import {
   reactive,
   ref,
 } from "vue";
-import "./index.scss";
+import "./index.less";
 
 export interface IPanelProps {
   key: number | string;

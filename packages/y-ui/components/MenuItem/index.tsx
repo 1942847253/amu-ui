@@ -1,6 +1,6 @@
 import { getStyleAttributeValue } from '../../shared/utils';
 import { computed, defineComponent, inject, nextTick, onMounted, Ref, ref, watch } from 'vue'
-import './index.scss';
+import './index.less';
 
 export default defineComponent({
     name: 'YMenuItem',

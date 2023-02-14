@@ -2,7 +2,7 @@ import { getDateInfo } from "../../../../components/DatePicker/tool";
 import { defineComponent, inject, onBeforeMount, provide, reactive, ref, watch } from "vue";
 import Calendar from "../Calendar/Calendar";
 import DateSelect from "../DateSelect/DateSelect";
-import './index.scss';
+import './index.less';
 import ShrinkBox from "../../../../components/ShrinkBox";
 import { uuid } from "../../../../shared/utils";
 

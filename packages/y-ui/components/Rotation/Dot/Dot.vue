@@ -49,7 +49,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .dot-wrapper-right {
   position: absolute;
   right: 15px;

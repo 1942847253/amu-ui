@@ -75,8 +75,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-@import "../../assets/index.scss";
+<style scoped lang="less">
+@import "../../assets/index.less";
 .switch-content {
   margin-right: 10px;
   padding: 10px 0;
@@ -119,7 +119,7 @@ export default defineComponent({
     background: white;
   }
   input[type="checkbox"]:checked + label {
-    background: $primary-color;
+    background: @primary-color;
   }
   input[type="checkbox"]:checked + label::before {
     content: attr(openTitle);

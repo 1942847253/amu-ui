@@ -45,7 +45,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .y-radio-group {
   display: flex;
   margin-left: -2px;

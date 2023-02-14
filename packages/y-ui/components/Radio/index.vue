@@ -71,8 +71,8 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
-@import "../../assets/index.scss";
+<style lang="less" scoped>
+@import "../../assets/index.less";
 .radio-main {
   display: inline-flex;
   flex-direction: column;
@@ -81,7 +81,7 @@ export default defineComponent({
   user-select: none;
   font-size: 14px;
   margin-right: 25px;
-  color: $text-color-black;
+  color: @text-color-black;
   width: max-content;
 }
 input[type="radio"] {
@@ -120,11 +120,11 @@ input[type="radio"] + label::before {
   transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 input[type="radio"]:not(:disabled) + label:hover::before {
-  border-color: $primary-color;
+  border-color: @primary-color;
 }
 input[type="radio"]:checked + label::before {
-  border-color: $primary-color;
-  background-color: $primary-color;
+  border-color: @primary-color;
+  background-color: @primary-color;
 }
 input[type="radio"] + label::after {
   content: "";

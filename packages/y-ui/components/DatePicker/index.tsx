@@ -3,7 +3,7 @@ import DateInput from "./component/DateInput/DateInput";
 import Calendar from "./component/Calendar/Calendar";
 import Menu from "./component/Menu/Menu";
 import ShrinkBox from "../ShrinkBox/index";
-import "./index.scss";
+import "./index.less";
 import { IDayObj } from "./hooks/useCalendar";
 import { getFormetDate } from "./tool";
 import { uuid } from "../../shared/utils";

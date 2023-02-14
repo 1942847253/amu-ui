@@ -1,7 +1,7 @@
 import { uuid } from "../../shared/utils";
 import { computed, defineComponent, inject, onMounted, provide, ref, watch } from "vue";
 import ShrinkBox from "../../components/ShrinkBox";
-import './index.scss';
+import './index.less';
 
 export default defineComponent({
     name: 'YFormItem',

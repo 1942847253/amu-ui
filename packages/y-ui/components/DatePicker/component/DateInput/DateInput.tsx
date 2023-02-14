@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import YInput from "../../../Input";
-import './index.scss';
+import './index.less';
 export default defineComponent({
   name: "YDateInput",
   props: {

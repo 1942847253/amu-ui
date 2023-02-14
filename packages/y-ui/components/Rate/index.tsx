@@ -1,5 +1,5 @@
 import { defineComponent, computed, ref, onMounted } from "vue";
-import "./index.scss";
+import "./index.less";
 
 export enum EMouseFlag {
   ENTER = "enter",

@@ -1,6 +1,6 @@
 import { computed, defineComponent, watch, vShow } from "vue";
 import Transition from '../Transition'
-import './index.scss';
+import './index.less';
 
 export default defineComponent({
     name: 'YLoading',

@@ -71,8 +71,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-@import "../../assets/index.scss";
+<style scoped lang="less">
+@import "../../assets/index.less";
 
 button {
   position: relative;
@@ -101,7 +101,7 @@ button:active {
 .button-default {
   color: black;
   border: none;
-  background-color: $default-color;
+  background-color: @default-color;
 }
 
 .button-default:active {
@@ -124,8 +124,8 @@ button:active {
 
 .button-primary {
   border: none;
-  background-color: $primary-color;
-  color: $text-color-white;
+  background-color: @primary-color;
+  color: @text-color-white;
 }
 .button-primary:active{
   background-color: #0c50a8;
@@ -133,26 +133,26 @@ button:active {
 
 .button-success {
   border: none;
-  background-color: $success-color;
-  color: $text-color-white;
+  background-color: @success-color;
+  color: @text-color-white;
 }
 
 .button-warning {
   border: none;
-  background-color: $warning-color;
-  color: $text-color-white;
+  background-color: @warning-color;
+  color: @text-color-white;
 }
 
 .button-danger {
   border: none;
-  background-color: $danger-color;
-  color: $text-color-white;
+  background-color: @danger-color;
+  color: @text-color-white;
 }
 
 .button-info {
   border: none;
-  background-color: $info-color;
-  color: $text-color-white;
+  background-color: @info-color;
+  color: @text-color-white;
 }
 
 .size-small {

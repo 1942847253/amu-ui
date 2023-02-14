@@ -1,6 +1,6 @@
 import { getStyleAttributeValue } from '../../shared/utils';
 import { defineComponent, getCurrentInstance, inject, nextTick, onMounted, Ref, ref, Slot, watch } from 'vue'
-import './index.scss';
+import './index.less';
 
 export default defineComponent({
     name: 'YSubMenu',

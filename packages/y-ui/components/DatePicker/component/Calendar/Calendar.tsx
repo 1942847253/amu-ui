@@ -2,7 +2,7 @@ import { computed, defineComponent, inject, reactive, ref, Ref, watch, onBeforeM
 import useCalendar, { IDayObj } from "../../hooks/useCalendar";
 import { getDateInfo } from "../../tool";
 import { IDateState } from "../Menu/Menu";
-import "./index.scss";
+import "./index.less";
 
 interface IState {
   weekDays: string[] | IDayObj[][];
