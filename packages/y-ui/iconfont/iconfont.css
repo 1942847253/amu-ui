@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3470517 */
-  src: url('//at.alicdn.com/t/c/font_3470517_l776grwdze8.woff2?t=1671871999210') format('woff2'),
-       url('//at.alicdn.com/t/c/font_3470517_l776grwdze8.woff?t=1671871999210') format('woff'),
-       url('//at.alicdn.com/t/c/font_3470517_l776grwdze8.ttf?t=1671871999210') format('truetype');
+  src: url('//at.alicdn.com/t/c/font_3470517_qfk18nbzdlq.woff2?t=1675430053127') format('woff2'),
+       url('//at.alicdn.com/t/c/font_3470517_qfk18nbzdlq.woff?t=1675430053127') format('woff'),
+       url('//at.alicdn.com/t/c/font_3470517_qfk18nbzdlq.ttf?t=1675430053127') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-jia:before {
+  content: "\e8e1";
+}
+
+.icon-jian:before {
+  content: "\e8e2";
 }
 
 .icon-bitian:before {
