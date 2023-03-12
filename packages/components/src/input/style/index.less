@@ -1,0 +1,64 @@
+@import "../../../assets/index.less";
+@import "../../../iconfont/iconfont.less";
+.a-input-content {
+  position: relative;
+  display: flex;
+  user-select: none;
+  .a-input-wrapper {
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    transition: all 0.2s ease;
+    height: 100%;
+    padding: 0 10px;
+    user-select: none;
+    input {
+      outline: medium;
+      border: none;
+      border-radius: 2px;
+      outline: invert;
+      outline-color: @primary-color !important;
+    }
+    input::-webkit-input-placeholder {
+      color: #a8abb2;
+
+      font-size: 14px;
+    }
+    .placeholder {
+      position: absolute;
+      left: calc(10px);
+      color: #c2c2c2;
+      font-size: 13px;
+    }
+    .iconfont {
+      position: absolute;
+      right: calc(10px);
+      color: #c2c2c2;
+      pointer-events: none;
+    }
+  }
+  .a-input-wrapper:hover {
+    border: 1px solid var(--border-hover-color);
+  }
+  .a-input-wrapper:focus-within {
+    border: 1px solid var(--border-focus-color);
+    box-shadow: 0 0 0 2px var(--border-focus-shadow);
+  }
+  .a-input-slot {
+    pointer-events: none;
+    position: absolute;
+    top: 1px;
+    right: 5px;
+    display: flex;
+    align-items: center;
+    width: 22px;
+    height: 29px;
+    background-color: #ffff;
+    span {
+      align-items: center;
+      cursor: pointer;
+      color: #b8b8b8;
+      pointer-events: painted;
+      transition: transform 0.2s ease-in-out;
+    }
+  }
+}

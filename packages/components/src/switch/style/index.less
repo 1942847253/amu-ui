@@ -1,0 +1,59 @@
+@import "../../../assets/index.less";
+.switch-content {
+  margin-right: 10px;
+  padding: 10px 0;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  user-select: none;
+  font: 12px / 1 Helvetica, sans-serif;
+  label {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background: lightgrey;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  label[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  label::before,
+  label::after {
+    transition: all 0.3s;
+    position: absolute;
+  }
+  label::before {
+    content: attr(offTitle);
+    top: 4px;
+    left: 22px;
+    color: white;
+  }
+  label::after {
+    content: "";
+    top: 1px;
+    left: 1px;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background: white;
+  }
+  input[type="checkbox"]:checked + label {
+    background: @primary-color;
+  }
+  input[type="checkbox"]:checked + label::before {
+    content: attr(openTitle);
+    left: 6px;
+  }
+  input[type="checkbox"]:active + label::after {
+    width: 23px;
+  }
+  input[type="checkbox"]:checked + label::after {
+    left: 21px;
+  }
+  input[type="checkbox"]:checked:active + label::after {
+    left: 16px;
+  }
+}

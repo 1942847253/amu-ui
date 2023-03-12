@@ -1,0 +1,28 @@
+.rotation-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  align-items: center;
+  user-select: none;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease-in-out;
+}
+
+.v-enter-active {
+  transform: translateX(100%);
+}
+
+.v-enter-to {
+  transform: translateX(0);
+}
+
+.v-leave-active {
+  transform: translateX(0);
+}
+
+.v-leave-to {
+  transform: translateX(-100%);
+}

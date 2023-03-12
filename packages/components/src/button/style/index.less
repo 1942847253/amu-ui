@@ -1,0 +1,120 @@
+@import "../../../assets/index.less";
+
+.a-button-content {
+  display: inline-block;
+  button {
+    position: relative;
+    user-select: none;
+    outline: 0;
+    border-radius: 3px;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    margin-right: 12px;
+    color: rgba(29, 29, 29, 0.165);
+    box-shadow: rgba(99, 99, 99, 0.099) 0px 2px 8px 0px;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  button:active {
+    opacity: 0.95;
+  }
+
+  .icon {
+    margin-right: 8px;
+  }
+  .is-loading {
+    margin-right: 8px;
+    animation: spin 2s linear infinite;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .button-default {
+    color: black;
+    border: none;
+    background-color: @default-color;
+  }
+
+  .button-default:active {
+    color: black;
+  }
+
+  .button-default:hover {
+    color: black;
+  }
+
+  .a-button-disabled {
+    opacity: 0.55;
+    border: none;
+    text-shadow: none;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+  .a-button-disabled:hover {
+    opacity: 0.55;
+  }
+  .a-button-disabled:active {
+    opacity: 0.55;
+  }
+
+  .button-primary {
+    border: none;
+    background-color: @primary-color;
+    color: @text-color-white;
+  }
+  .button-primary:active {
+    background-color: #0c50a8;
+  }
+
+  .button-success {
+    border: none;
+    background-color: @success-color;
+    color: @text-color-white;
+  }
+
+  .button-warning {
+    border: none;
+    background-color: @warning-color;
+    color: @text-color-white;
+  }
+
+  .button-danger {
+    border: none;
+    background-color: @danger-color;
+    color: @text-color-white;
+  }
+
+  .button-info {
+    border: none;
+    background-color: @info-color;
+    color: @text-color-white;
+  }
+
+  .size-small {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .size-default {
+    padding: 9px 15px;
+    font-size: 14px;
+  }
+
+  .size-large {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+}

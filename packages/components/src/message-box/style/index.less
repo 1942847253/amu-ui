@@ -1,0 +1,83 @@
+@import "../../../iconfont/iconfont.less";
+.a-message-box {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  user-select: none;
+  transition: opacity 0.2s ease;
+  .a-message-box-wrapper {
+    transition: all 0.2s ease;
+    user-select: text;
+    margin: 12% auto;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 15px;
+    padding-right: 0px;
+    padding-bottom: 8px;
+    .a-message-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .title {
+        flex-grow: 1;
+        font-size: 18px;
+      }
+
+      span {
+        margin-right: 10px;
+        cursor: pointer;
+      }
+    }
+
+    .a-message-content {
+      padding-right: 10px;
+      margin-top: 20px;
+      color: #606266;
+      font-size: 14px;
+      flex-grow: 1;
+    }
+
+    .a-message-footer {
+      margin-top: 25px;
+      margin-left: 50px;
+      display: flex;
+      flex-direction: row-reverse;
+    }
+  }
+
+  .messageInput {
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 28px;
+    margin-right: 10px;
+    border: 1px solid #ededed;
+    box-sizing: border-box;
+  }
+}
+
+.modal-enter-from {
+  opacity: 0;
+}
+
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-from .a-message-box-wrapper {
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+}
+.modal-leave-to .a-message-box-wrapper {
+  border-radius: 10px;
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}

@@ -1,0 +1,47 @@
+@import "../../../../../assets/index.less";
+.selector-menu {
+  position: absolute;
+  top: 5px;
+  width: 100%;
+  border-radius: 5px;
+  overflow:auto;
+  cursor: pointer;
+  user-select: none;
+  max-height: 215px;
+  background-color: #fff;
+  box-shadow: 0 12px 5px -10px rgba(0, 0, 0, 0.1), 0 0 4px 0 rgba(0, 0, 0, 0.1) !important;
+  -webkit-box-shadow: 0 12px 5px -10px rgba(0, 0, 0, 0.1),
+    0 0 4px 0 rgba(0, 0, 0, 0.1) !important;
+  margin-top: 3px;
+  .menu-item {
+    font-size: 13px;
+    padding: 9px 8px;
+    margin-top: 3px;
+  }
+  .menu-item:hover {
+    background-color: #0066ff09;
+  }
+  .menu-checked {
+    color: @primary-color;
+    background-color: #0066ff09;
+    font-weight: 550;
+  }
+}
+.selector-menu::-webkit-scrollbar {
+  width: 5px;
+  background: white;
+}
+.selector-menu::-webkit-scrollbar-corner, /* 滚动条角落 */
+  .selector-menu::-webkit-scrollbar-thumb,
+  .selector-menu::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+.selector-menu::-webkit-scrollbar-corner,
+.selector-menu::-webkit-scrollbar-track {
+  /* 滚动条轨道 */
+  background-color: rgba(89, 88, 85, 0.041);
+}
+.selector-menu::-webkit-scrollbar-thumb {
+  /* 滚动条手柄 */
+  background-color: rgba(151, 151, 150, 0.141);
+}

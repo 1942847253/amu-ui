@@ -1,0 +1,64 @@
+@import "../../../assets/index.less";
+@import "../../../iconfont/iconfont.less";
+
+.a-message {
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  transition: top 0.2s ease-out;
+  user-select: none;
+}
+
+.a-message > .a-message-content {
+  display: flex;
+  align-items: center;
+  padding: 11.5px 13px;
+  pointer-events: all;
+  background: #fff;
+  width: max-content;
+  max-width: 720px;
+  color: #333639;
+  margin: auto;
+  font-size: 14px;
+  user-select: contain !important;
+  border-radius: 3px;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.22),
+    0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+  .success {
+    color: @success-color;
+  }
+
+  .warning {
+    color: @warning-color;
+  }
+
+  .message {
+    color: @primary-color;
+  }
+
+  .error {
+    color: @danger-color;
+  }
+}
+
+.a-message-content:hover {
+  user-select: text;
+}
+
+.a-message-fade-enter-from,
+.a-message-fade-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+.a-message-fade-enter-active {
+  transition: all 0.2s ease-in;
+}
+
+.a-message-fade-leave-active {
+  transition: all 0.2s ease-out;
+}
