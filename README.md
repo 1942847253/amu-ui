@@ -11,13 +11,13 @@
 
 预计有超过 40 个组件, 正在持续发开中。
 
-顺便一提，它们全都可以 treeshaking。
+支持 treeshaking。
 
 ### 使用 TypeScript
 
 Amu UI 全量使用 TypeScript 编写，和你的 TypeScript 项目无缝衔接。
 
-顺便一提，你不需要导入任何 CSS 就能让组件正常工作。
+你不需要导入任何 CSS 就能让组件正常工作。
 
 
 ## 安装
