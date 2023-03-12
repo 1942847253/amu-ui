@@ -1,0 +1,54 @@
+@import "../../../iconfont/iconfont.less";
+.a-sub-menu-content {
+  .a-sub-item {
+    display: flex;
+    cursor: pointer;
+    padding: 0 18px;
+    padding-right: 12px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    height: 48px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    .item-icon {
+      display: flex;
+    }
+    .item-title {
+      margin-left: 10px;
+      flex-grow: 1;
+    }
+    .open {
+      transform: rotate(270deg);
+    }
+    .close {
+      transform: rotate(90deg);
+    }
+  }
+
+.a-sub-item-light{
+  color: #333639;
+}
+.a-sub-item-light:hover {
+  background-color: #f3f3f597;
+}
+
+.a-sub-item-dark{
+  color: #BBBBBB;
+  background-color: #001428;
+}
+.a-sub-item-dark:hover {
+   color:#ffff;
+}
+
+
+  .a-sub-slot {
+    transform-origin: center top; // 缩放中心设置在面板顶部
+    transform: scaleY(1); // 面板收起
+    transition: height 0.25s ease;
+    opacity: 1;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+  }
+}

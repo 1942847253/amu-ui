@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "jsx": "preserve",
     "strict": true,
     "target": "ES2015",
@@ -8,12 +11,6 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "moduleResolution": "Node",
-    "lib": ["esnext", "dom"],
-    "rootDirs": ["./", "./packages/components"],
-    "paths": {
-      "@/*": [
-        "packages/components/src/*"
-      ]
-    },
+    "lib": ["esnext", "dom"]
   }
 }

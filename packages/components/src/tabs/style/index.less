@@ -1,0 +1,51 @@
+@import "../../../assets/index.less";
+.tabs-content {
+  display: flex;
+  .tabs {
+    .tabs-nav-wrap {
+      position: relative;
+      margin-bottom: 16px;
+      font-size: 14px;
+      .tab-list {
+        display: flex;
+        width: max-content;
+        .tabs-tab {
+          user-select: none;
+          display: inline-block;
+          height: 40px;
+          line-height: 40px;
+          padding: 0 20px;
+          cursor: pointer;
+        }
+        .tabs-tab:hover {
+          color: @primary-color;
+        }
+        .tabs-tab-active {
+          color: @primary-color;
+        }
+      }
+      .tabs-inv-bar-left {
+        position: absolute;
+        right: 0;
+        right: -1.5px;
+        background-color: @primary-color;
+        width: 2px !important;
+        height: 40px;
+        border-radius: 5%;
+        transition: transform 250ms ease-in-out;
+      }
+      .tabs-inv-bar-top {
+        position: absolute;
+        left: 0;
+        bottom: -1.5px;
+        background-color: @primary-color;
+        height: 2px;
+        transition: transform 250ms ease-in-out;
+      }
+    }
+  }
+  .pane-content {
+    padding: 2px 10px !important;
+    width: -webkit-fill-available;
+  }
+}

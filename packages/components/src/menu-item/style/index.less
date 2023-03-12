@@ -1,0 +1,45 @@
+@import "../../../assets/index.less";
+.a-menu-item {
+  cursor: pointer;
+  padding: 0 18px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  transition: color 0.16s linear, background-color 0.16s linear;
+  .item-title {
+    margin-left: 10px;
+  }
+}
+
+.a-menu-item-light{
+  color: #333639;
+}
+.a-menu-item-light:hover {
+  background-color: #f3f3f597;
+}
+
+.active-light {
+  background-color: #e7f0ffc5;
+  color: @primary-color;
+}
+.active-light:hover {
+  background-color: #e7f0ffc5;
+  color: @primary-color;
+}
+
+.a-menu-item-dark{
+  color: #BBBBBB;
+  background-color: #001428;
+}
+.a-menu-item-dark:hover {
+   color:#ffff;
+}
+
+.active-dark {
+  color:#FFFFFF;
+  background-color:  @primary-color;
+}
+

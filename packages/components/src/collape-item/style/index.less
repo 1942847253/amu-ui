@@ -1,0 +1,30 @@
+@import "../../../iconfont/iconfont.less";
+.a-collapse-item {
+  padding-right: 3px;
+  font-size: 13px;
+  color: #303133;
+  .a-collapse-item-head {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ebeef5;
+    line-height: 48px;
+    color: #303133;
+    padding: 0 5px;
+    cursor: pointer;
+    .a-collapse-item-head-title {
+      flex-grow: 1;
+    }
+    .a-collapse-item-head-icon {
+      transition: all 0.3s ease-in-out;
+    }
+  }
+  .a-collapse-item-head:hover {
+    background-color: #b1b1b10b;
+  }
+  .a-collapse-item-content {
+    padding: 0 5px;
+    transition: height 0.3s ease-in-out;
+    overflow: hidden;
+    line-height: 1.7692307692;
+  }
+}

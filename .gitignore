@@ -1,4 +1,6 @@
 node_modules
-**/es
-**/lib
-**/dist
+cache
+dist
+es
+lib
+node_modules
