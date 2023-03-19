@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts" setup>
-import { AMessage } from "amu-ui";
+import { ref } from "vue";
 
-const showLoading = true;
+const showLoading = ref(true);
 
 const tableData = ({
     tHead: [
