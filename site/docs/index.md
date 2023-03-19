@@ -17,7 +17,7 @@ hero:
       link: /guild/installation.html
     - theme: alt
       text: 在 GitHub 上查看
-      link: https://gitee.com/geeksdidi/kittamu-ui
+      link: https://github.com/1942847253/amu-ui
 
 features:
   - icon: 💡
