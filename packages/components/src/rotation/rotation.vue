@@ -33,11 +33,12 @@ import {
   getCurrentInstance,
   onBeforeUnmount,
   onMounted,
-  ref
+  ref,
+  nextTick,
 } from "vue";
 import Dot from "./component/rotation-dot/rotation-dot.vue";
 import Director from "./component/rotation-director/rotation-director.vue";
-import './style/index.less';
+import "./style/index.less";
 
 export default defineComponent({
   name: "ARotation",
@@ -88,10 +89,12 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      setSlotContentStyle();
-      const slots = instance!.slots.default!()[0].children!;
-      state.picLength = slots.length as number;
-      autoplay();
+      nextTick(() => {
+        setSlotContentStyle();
+        const slots = instance!.slots.default!()[0].children!;
+        state.picLength = slots.length as number;
+        autoplay();
+      });
     });
 
     const clearReferrer = () => {
@@ -107,11 +110,9 @@ export default defineComponent({
     });
 
     const setSlotContentStyle = () => {
-      setTimeout(() => {
-        const slotItem = slotContent.value!.children[0] as HTMLDivElement;
-        state.contentHeight = slotItem.clientHeight;
-        state.contentWidth = slotItem.clientWidth;
-      },10);
+      const slotItem = slotContent.value!.children[0] as HTMLDivElement;
+      state.contentHeight = slotItem.clientHeight;
+      state.contentWidth = slotItem.clientWidth;
     };
 
     const autoplay = () => {
@@ -171,5 +172,3 @@ export default defineComponent({
   },
 });
 </script>
-
-
