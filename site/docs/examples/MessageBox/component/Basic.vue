@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AMessage, AMessageBox } from '../../../../../packages/components';
+import { AMessage, AMessageBox } from "amu-ui";
 
 const messageInfo = () => {
     AMessageBox({
