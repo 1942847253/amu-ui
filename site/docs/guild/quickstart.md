@@ -1,17 +1,17 @@
 # 快速开始
 
-本节将介绍如何在项目中使用 KittyUI
+本节将介绍如何在项目中使用 Amu-UI
 
 ## 用法
 
 ```
 <template>
-  <Button>按钮</Button>
+  <a-button>按钮</a-button>
 </template>
 
 <script setup>
 
-import { Button } from 'kitty-ui'
+import { AButton } from 'amu-ui'
 
 </script>
 ```

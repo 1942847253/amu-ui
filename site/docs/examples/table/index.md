@@ -198,9 +198,9 @@ const tableData = ref({
 </details>
 
 
-## 带边框的表格
+## 自定义表格内容
 
-默认情况下，Table 组件是不具有竖直方向的边框的， 如果需要，可以使用 `border` 属性，把该属性设置为 true 即可启用。
+可以通过插槽嵌入自定义的组件
 
 <div class="example">
  <SelfDefined/>
