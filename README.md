@@ -1,6 +1,6 @@
 
 <p align="center" style="margin-top:-60px">
-  <img width="200"  src="./site/docs/public/logo.PNG" />
+  <img width="150"  src="./site/docs/public/logo.PNG" />
 </p>
 
 <p  style="margin-top:-50px" align="center">基于 Vue 3 的组件库</p>
