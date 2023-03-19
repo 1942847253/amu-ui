@@ -7,9 +7,22 @@ p {
 }
 .VPNav {
   border-bottom: 1px solid #cdced259;
+  .VPNavBarAppearance {
+    display: none;
+  }
+  .VPNavBar {
+    .container {
+      .content {
+        .curtain::before {
+          height: min-content;
+        }
+      }
+    }
+  }
   .VPNavBarTitle {
     a {
-      img{
+      border-bottom: none;
+      img {
         height: 100px;
       }
     }
@@ -24,7 +37,7 @@ p {
     .group {
       .title {
         margin-bottom: 10px;
-        .title-text {
+        title .title-text {
           font-weight: 700;
           font-size: 1.1rem;
         }
@@ -44,7 +57,7 @@ p {
           background-color: #1570cb11;
           border-radius: 5px;
           font-weight: 899;
-          .text{
+          .text {
             font-weight: 800;
           }
         }
@@ -78,7 +91,11 @@ p {
   --vp-button-brand-hover-border: #066ace;
   --vp-button-brand-active-border: #074f96;
   --vp-button-brand-active-bg: #030304;
-  --vp-home-hero-image-background-image: linear-gradient( -45deg, #e84bd3 50%, #7bc6e4 50% );
+  --vp-home-hero-image-background-image: linear-gradient(
+    -45deg,
+    #e84bd3 50%,
+    #7bc6e4 50%
+  );
   --vp-home-hero-image-filter: blur(72px);
 }
 button {
@@ -89,9 +106,7 @@ details {
     user-select: none;
   }
 }
-img {
-  user-select: none;
-}
+
 
 input:focus {
   outline: auto;

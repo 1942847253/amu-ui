@@ -63,9 +63,11 @@ import { YButton } from "amu-ui";
 
 </details>
 
-## 禁用状态
+## 加载状态按钮
 
-你可以使用 `disabled` 属性来定义按钮是否被禁用。
+点击按钮来加载数据，并向用户反馈加载状态。
+
+通过设置 `loading` 属性为 true 来显示加载中状态。
 
 <div class="example">
  <Loading/>

@@ -10,7 +10,9 @@ export default {
       { text: "指南", link: "/guild/installation" },
       { text: "组件", link: "/examples/button/" },
     ],
-    socialLinks: [{ icon: "github", link: "https://gitee.com/geeksdidi" }],
+    socialLinks: [
+      { icon: "github", link: "https://github.com/1942847253/amu-ui" },
+    ],
     sidebar: {
       "/guild/": [
         {
@@ -24,14 +26,9 @@ export default {
               text: "快速开始",
               link: "/guild/quickstart",
             },
-          ],
-        },
-        {
-          text: "进阶",
-          items: [
             {
-              text: "xx",
-              link: "/xx",
+              text: "组件示例",
+              link: "/examples/button/",
             },
           ],
         },

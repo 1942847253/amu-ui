@@ -2,7 +2,7 @@
   <div class="rotation">
     <div
       class="inner"
-      :style="`height:${contentHeight + 'px'};width:${contentWidth + 'px'}`"
+      :style="`height:${contentHeight + 'px'};`"
       @mouseenter="showDirectorFn(true)"
       @mouseleave="showDirectorFn(false)"
     >

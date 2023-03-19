@@ -10,9 +10,6 @@ import './style.less';
 export default {
   ...DefaultTheme,
   enhanceApp: async ({ app, router, siteData, isServer }) => {
-    const logo = document.querySelector(".logo");
-  
-    
     app.use(AmuUI);
   },
 };
