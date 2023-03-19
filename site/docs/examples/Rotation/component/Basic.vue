@@ -1,6 +1,6 @@
 <template>
   <ARotation
-    :autoplay="false"
+    :autoplay="true"
     :duration="3000"
     :initial="1"
     :hasDot="true"
@@ -8,13 +8,9 @@
     :hasDirector="true"
   >
     <ARotationItem v-for="(item, index) in picList" :key="index">
-      <img
-        style="height: 360px"
-        height="360"
-        width="726"
-        :src="item.path"
-        alt=""
-      />
+      <div :style="[{ background: item.background }]" class="img-item">
+        <h3>{{ item.id }}</h3>
+      </div>
     </ARotationItem>
   </ARotation>
 </template>
@@ -23,24 +19,36 @@
 const picList = [
   {
     id: 1,
-    path: "https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg",
+    background: "#d3dce6",
   },
   {
     id: 2,
-    path: "https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg",
+    background: "#99a9bf",
   },
   {
     id: 3,
-    path: "https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg",
+    background: "#d3dce6",
   },
   {
     id: 4,
-    path: "https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg",
+    background: "#99a9bf",
   },
 ];
 </script>
 
-<style scoped>
-img {
+<style lang="less" scoped>
+.img-item {
+  height: 300px;
+  width: 648px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  h3 {
+    color: #475669;
+    opacity: 0.75;
+    line-height: 200px;
+    margin: 0;
+    text-align: center;
+  }
 }
 </style>

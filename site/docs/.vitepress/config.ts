@@ -42,10 +42,10 @@ export default {
               text: "Button按钮",
               link: "/examples/button/",
             },
-            {
-              text: "Icon图标",
-              link: "/examples/icon/",
-            },
+            // {
+            //   text: "Icon图标",
+            //   link: "/examples/icon/",
+            // },
           ],
         },
         {
