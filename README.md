@@ -1,13 +1,12 @@
 
-<p align="center">
-  <img width="144px" src="./site/docs/public/logo.PNG" />
+<p align="center" style="margin-top:-60px">
+  <img width="200"  src="./site/docs/public/logo.PNG" />
 </p>
 
-
-<h1 align="center">Amu UI</h1>
-<p align="center">基于 Vue 3 的组件库</p>
+<p  style="margin-top:-50px" align="center">基于 Vue 3 的组件库</p>
 <p align="center"><b>支持TypeScript，支持按需引入</b></p>
 <p align="center">有点意思</p>
+
 
 
 ## 特性
