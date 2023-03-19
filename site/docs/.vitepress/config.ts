@@ -44,7 +44,7 @@ export default {
             },
             {
               text: "Icon图标",
-              link: "/examples/Icon/",
+              link: "/examples/icon/",
             },
           ],
         },
@@ -61,7 +61,7 @@ export default {
             },
             {
               text: "Selector 选择器",
-              link: "/examples/Selector/",
+              link: "/examples/selector/",
             },
             {
               text: "Switch 开关",
@@ -74,19 +74,19 @@ export default {
             },
             {
               text: "Rate 评分",
-              link: "/examples/Rate/",
+              link: "/examples/rate/",
             },
             {
               text: "DatePicker 日期选择器",
-              link: "/examples/DatePicker/",
+              link: "/examples/date-picker/",
             },
             {
               text: "Input 输入框",
-              link: "/examples/Input/",
+              link: "/examples/input/",
             },
             {
               text: "Form 表单",
-              link: "/examples/Form/",
+              link: "/examples/form/",
             },
           ],
         },
@@ -107,7 +107,7 @@ export default {
             },
             {
               text: "Collapse 折叠面板",
-              link: "/examples/Collapse/",
+              link: "/examples/collapse/",
             },
           ],
         },
@@ -116,11 +116,11 @@ export default {
           items: [
             {
               text: "Tabs 标签页",
-              link: "/examples/Tabs/",
+              link: "/examples/tabs/",
             },
             {
               text: "Menu 菜单",
-              link: "/examples/Menu/",
+              link: "/examples/menu/",
             },
           ],
         },
@@ -133,15 +133,15 @@ export default {
             },
             {
               text: "Message Box 消息弹出框",
-              link: "/examples/messagebox/",
+              link: "/examples/message-box/",
             },
             {
               text: "Drawer 抽屉",
-              link: "/examples/Drawer/",
+              link: "/examples/drawer/",
             },
             {
               text: "Loading 加载",
-              link: "/examples/Loading/",
+              link: "/examples/loading/",
             },
           ],
         },
