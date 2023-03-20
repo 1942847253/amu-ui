@@ -35,10 +35,13 @@ import {
   onMounted,
   ref,
   nextTick,
+  provide,
+  toRef,
 } from "vue";
 import Dot from "./component/rotation-dot/rotation-dot.vue";
 import Director from "./component/rotation-director/rotation-director.vue";
 import "./style/index.less";
+import { getStyleAttributeValue } from "@/shared/utils";
 
 export default defineComponent({
   name: "ARotation",
@@ -88,6 +91,8 @@ export default defineComponent({
       showDirector: false,
     });
 
+    provide("currentIndex", toRef(state, "currentIndex"));
+
     onMounted(() => {
       nextTick(() => {
         setSlotContentStyle();
@@ -110,9 +115,10 @@ export default defineComponent({
     });
 
     const setSlotContentStyle = () => {
-      const slotItem = slotContent.value!.children[0] as HTMLDivElement;
-      state.contentHeight = slotItem.clientHeight;
-      state.contentWidth = slotItem.clientWidth;
+      const slotItem =
+        (slotContent.value!.children[0] as HTMLDivElement) || 250;
+      state.contentHeight = getStyleAttributeValue(slotItem, "height");
+      state.contentWidth = getStyleAttributeValue(slotItem, "width");
     };
 
     const autoplay = () => {
