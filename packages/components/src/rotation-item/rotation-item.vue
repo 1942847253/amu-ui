@@ -1,6 +1,6 @@
 <template>
   <transition>
-    <div class="rotation-item" v-if="selfIndex === currentIndex">
+    <div class="rotation-item" v-show="selfIndex === currentIndex">
       <slot></slot>
     </div>
   </transition>
@@ -13,23 +13,24 @@ import {
   reactive,
   watch,
   toRefs,
+  inject,
+  Ref,
+  ref,
 } from "vue";
 import "./style/index.less";
 
 export default defineComponent({
   name: "ARotationItem",
-  setup(props, { emit }) {
+  setup() {
+    const currentIndex = inject<Ref<number>>("currentIndex", ref(0));
     const instance = getCurrentInstance() as any;
     const state = reactive({
       selfIndex: instance?.vnode.key,
-      currentIndex: instance.parent.ctx.currentIndex,
+      currentIndex: currentIndex,
     });
-    watch(
-      () => instance.parent.ctx.currentIndex,
-      (val) => {
-        state.currentIndex = val;
-      }
-    );
+    watch(currentIndex, (val) => {
+      state.currentIndex = val;
+    });
 
     return {
       ...toRefs(state),
