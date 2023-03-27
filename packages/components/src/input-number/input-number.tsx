@@ -103,7 +103,7 @@ export default defineComponent({
         return () => (
             <div class="a-input-number-content">
                 {buttonJSX()}
-                <Input onBlur={() => onBlur()} placeholder={props.placeholder} readonly={props.readonly} disabled={props.disabled} textCenter width="150" v-model={state.numberValue} type="number" />
+                <Input  onBlur={() => onBlur()} placeholder={props.placeholder} readonly={props.readonly} disabled={props.disabled} textCenter width="150" v-model={state.numberValue} type="number" />
             </div>
         )
     }

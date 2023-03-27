@@ -85,6 +85,10 @@ export default {
               link: "/examples/input/",
             },
             {
+              text: "Input Number 数字输入框",
+              link: "/examples/input-number/",
+            },
+            {
               text: "Form 表单",
               link: "/examples/form/",
             },
