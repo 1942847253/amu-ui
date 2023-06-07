@@ -1,52 +1,51 @@
 <template>
-  <Transition name="slide-fade">
-    <div class="a-tree-menu">
+  <div class="a-tree-menu">
+    <div
+      :class="`a-tree-list tree-ref-${uid}`"
+      ref="treeRef"
+      :node-key="item[nodeKey]"
+      v-for="(item, index) in treeData"
+      :key="item[props.key]"
+    >
       <div
-        :class="`a-tree-list tree-ref-${uid}`"
-        ref="treeRef"
-        :node-key="item[nodeKey]"
-        v-for="(item, index) in treeData"
-        :key="item[props.key]"
+        class="a-tree-item"
+        @click="(event) => changeStatus(event, index)"
+        :class="['treeNode', { 'treeNode--select': item.onSelect }]"
       >
-        <div
-          class="a-tree-item"
-          @click="(event) => changeStatus(event, index)"
-          :class="['treeNode', { 'treeNode--select': item.onSelect }]"
+        <i
+          v-show="item[props.children]"
+          :class="[
+            'iconfont icon-tree-retract',
+            state.carets[state.tapScopes[index]],
+          ]"
+        />
+        <ACheckBox
+          v-if="isSelect"
+          :stopLabelTrigger="true"
+          style="margin-left: 5px"
+          :default-value="item.checked"
+          @updateDefaultValue="
+            (checked) => {
+              updateDefaultValue(item, checked);
+            }
+          "
+          @treeChecked="tap(item, index)"
         >
-          <i
-            v-show="item[props.children]"
-            :class="[
-              'iconfont icon-tree-retract',
-              state.carets[state.tapScopes[index]],
-            ]"
-          />
-          <ACheckBox
-            v-if="isSelect"
-            :stopLabelTrigger="true"
-            style="margin-left: 5px"
-            :default-value="item.checked"
-            @updateDefaultValue="
-              (checked) => {
-                updateDefaultValue(item, checked);
-              }
-            "
-            @treeChecked="tap(item, index)"
-          >
-            <span @click="tap(item, index)" class="title">{{
-              item[props.label]
-            }}</span>
-          </ACheckBox>
-          <span v-else>{{ item[props.label] }}</span>
-        </div>
+          <span @click="tap(item, index)" class="title">{{
+            item[props.label]
+          }}</span>
+        </ACheckBox>
+        <span v-else>{{ item[props.label] }}</span>
+      </div>
 
-        <a-tree
-          v-show="state.scopes[index]"
-          :isSelect="isSelect"
-          :data="item[props.children]"
-        ></a-tree>
+      <div
+        class="a-tree-item-content"
+        :style="{ gridTemplateRows: state.scopes[index] ? '1fr' : '0fr' }"
+      >
+        <a-tree :isSelect="isSelect" :data="item[props.children]"></a-tree>
       </div>
     </div>
-  </Transition>
+  </div>
 </template>
 
 <script lang="ts">

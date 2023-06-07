@@ -1,4 +1,4 @@
-import _Tree from "./Tree.vue";
+import _Tree from "./tree.vue";
 import type { App, Plugin } from "vue";
 type SFCWithInstall<T> = T & Plugin;
 const withInstall = <T>(comp: T) => {
