@@ -1,8 +1,8 @@
 // .vitepress/theme/index.js
 
 import DefaultTheme from "vitepress/theme";
-import AmuUI from "amu-ui";
-// import AmuUI from '../../../../packages/components'
+// import AmuUI from "amu-ui";
+import AmuUI from '../../../../packages/components'
 // import '../../../../y-ui/dist/assets/index.css';
 import './style.less';
 // 主题样式
