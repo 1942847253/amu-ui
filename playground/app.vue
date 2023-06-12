@@ -229,8 +229,14 @@
       <ASwitch size="small" v-model="value" open-title="上" off-title="下"></ASwitch>
     </ATabsPanel>
     <ATabsPanel key="11" title="Loading 加载">
-      <AButton @click="handelLoading">show loading</AButton>
-      <ALoading v-model="showLoading" global title="please loading..." />
+
+     <AButton @click="handelLoading">show loading</AButton>
+       <ALoading v-model="showLoading" global title="please loading..." />
+
+      <ALoading v-model="showLoading" title="please loading...">
+    <a-table :tableData="tableData.tBody" :tableColumn="tableData.tHead">
+    </a-table>
+  </ALoading>
     </ATabsPanel>
     <ATabsPanel key="12" title="Tag 标签">
       <ATag closeable>test</ATag>
