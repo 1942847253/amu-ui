@@ -24,9 +24,10 @@
           :stopLabelTrigger="true"
           style="margin-left: 5px"
           :default-value="item.checked"
+          :indeterminate="item.indeterminate"
           @updateDefaultValue="
-            (checked) => {
-              updateDefaultValue(item, checked);
+            (checked: boolean) => {
+              checkedTreeItem(item, checked,index);
             }
           "
           @treeChecked="tap(item, index)"
@@ -42,7 +43,10 @@
         class="a-tree-item-content"
         :style="{ gridTemplateRows: state.scopes[index] ? '1fr' : '0fr' }"
       >
-        <a-tree :isSelect="isSelect" :data="item[props.children]"></a-tree>
+        <a-tree-item
+          :isSelect="isSelect"
+          :data="item[props.children]"
+        ></a-tree-item>
       </div>
     </div>
   </div>
@@ -63,7 +67,7 @@ import "./style/index.less";
 
 const CARETS = { open: "caret-down", close: "caret-right" };
 export default defineComponent({
-  name: "ATree",
+  name: "ATreeItem",
   props: {
     data: {
       type: Array,
@@ -93,6 +97,8 @@ export default defineComponent({
     ACheckBox,
   },
   setup(props, { emit }) {
+    let lastCurrentItemKey = NaN;
+    let lastCurrentParentItemKey = NaN;
     const uniKey = inject("uniKey");
     const uid = uuid();
     const nodeKey = inject("node-key") as string;
@@ -108,6 +114,11 @@ export default defineComponent({
     onBeforeMount(() => {});
 
     onMounted(() => {});
+
+    const checkedTreeItem = (item: any, checked: boolean, index: number) => {
+      updateDefaultValue(item, checked);
+      $bus.$emit("checked" + uniKey, item,index);
+    };
 
     const updateDefaultValue = (item: any, checked: boolean) => {
       item.checked = checked;
@@ -135,12 +146,21 @@ export default defineComponent({
       date.forEach((item: any) => {
         if (item.key === currentItem.pid) {
           let hasFalse = false;
+          let hasChecked = false
           if (item.children) {
             item.children.forEach((i: any) => {
-              i.checked === false && (hasFalse = true);
+              if(i.checked === false){
+                hasFalse = true
+              }          
             });
           }
-          item.checked = hasFalse ? false : currentChecked;
+          if(item.checked = hasFalse){
+            item.checked = false
+            item.indeterminate = true;
+          }else{
+            item.checked = currentChecked
+            item.indeterminate = false;
+          }
           updataParentChecked(TtreeData, item, item.checked);
         }
         item.children &&
@@ -153,7 +173,6 @@ export default defineComponent({
     };
 
     const tap = (item: any, index: any) => {
-      // changeStatus(index)
       $bus.$emit("node-click" + uniKey, item);
     };
 
@@ -182,6 +201,7 @@ export default defineComponent({
       changeStatus,
       uid,
       updateDefaultValue,
+      checkedTreeItem,
     };
   },
 });
