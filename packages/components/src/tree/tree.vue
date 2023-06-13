@@ -80,12 +80,26 @@ export default defineComponent({
         item.checked = false;
         item.pid = pid;
         item.expand = props.expand;
+        item.indeterminate = false;
+        // 处理全选、半选和未选中状态
         if (isChecked) {
           item.checked = true;
         } else if (props.defaultCheckedKeys.includes(item.key)) {
           item.checked = true;
           isChecked = true;
+        } else {
+          // 判断是否存在子节点被选中
+          if (item.children) {
+            let hasCheckedChildren = item.children.some((child: any) => {
+              return props.defaultCheckedKeys.includes(child.key);
+            });
+            if (hasCheckedChildren) {
+              item.checked = false; // 设置为半选中状态
+              item.indeterminate = true;
+            }
+          }
         }
+
         item.children && initDefaultChecked(item.children, isChecked, item.key);
       }
     };
@@ -121,9 +135,23 @@ export default defineComponent({
       });
     };
 
+    const changeTreeData = (treeData:any,treeItem: any) => {
+      for (let index = 0; index < treeData.length; index++) {
+        const item = treeData[index] as any;
+        if (item.key === treeItem.key) {
+          treeData[index] = treeItem;
+          return;
+        }
+        if (item.children && item.children.length > 0) {
+            changeTreeData(item.children,treeItem);
+          }
+      }
+    };
+
     const checkedItem = (treeData: any) => {
       if (treeData[0].key !== mainTreeKey) return;
       let checkedKeys = props.defaultCheckedKeys;
+      initDefaultChecked(treeData);
       emit("update:defaultCheckedKeys", checkedKeys);
     };
     provide("uniKey", uniKey);
