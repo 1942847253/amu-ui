@@ -250,7 +250,7 @@
       {{ numberValue }}
     </ATabsPanel>
     <ATabsPanel key="14" title="Tree 树形控件">
-      <ATree :default-checked-keys="[90001]" node-key="key" :expand="true" :isSelect="isSelect" :data="treeData">
+      <ATree :default-checked-keys="[90026,90037]" node-key="key" :expand="true" :isSelect="isSelect" :data="treeData">
       </ATree>
     </ATabsPanel>
     <ATabsPanel key="15" title="Message 消息">
@@ -432,6 +432,10 @@ const treeData = ref([
               {
                 key: 90026,
                 title: "机构机构-2",
+              },
+              {
+                key: 90027,
+                title: "机构机构-3",
               },
             ],
           },

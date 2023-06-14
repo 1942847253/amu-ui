@@ -117,7 +117,7 @@ export default defineComponent({
 
     const checkedTreeItem = (item: any, checked: boolean, index: number) => {
       updateDefaultValue(item, checked);
-      $bus.$emit("checked" + uniKey, item,index);
+      $bus.$emit("checked" + uniKey, item, index);
     };
 
     const updateDefaultValue = (item: any, checked: boolean) => {
@@ -135,36 +135,36 @@ export default defineComponent({
           });
         }
       }
-      updataParentChecked(TtreeData, item, item.checked);
+      updateParentChecked(TtreeData, item, item.checked);
     };
 
-    const updataParentChecked = (
+    const updateParentChecked = (
       date: any,
       currentItem: any,
       currentChecked: boolean
     ) => {
       date.forEach((item: any) => {
+        // 找到当前item的父级
         if (item.key === currentItem.pid) {
-          let hasFalse = false;
-          let hasChecked = false
-          if (item.children) {
-            item.children.forEach((i: any) => {
-              if(i.checked === false){
-                hasFalse = true
-              }          
-            });
-          }
-          if(item.checked = hasFalse){
-            item.checked = false
-            item.indeterminate = true;
-          }else{
-            item.checked = currentChecked
+          let hasUnchecked = false;
+          item.children &&  ( hasUnchecked = item.children.some((i:any)=>i.checked === false) )
+           // 当前节点的子节点是否有未勾选项, 有未勾选当前节点则为未勾选
+          if ((hasUnchecked)) {
+            item.checked = false;
+            // 当前节点的子节点有未选项，并且至少有一个勾选项或选中半选中项则当前节点为半选中
+            if (item.children.some((j: any) => (j.checked === true || j.indeterminate === true))) {
+                item.indeterminate = true;       
+              } else {
+                item.indeterminate = false;
+              }
+          } else {
+            item.checked = currentChecked;
             item.indeterminate = false;
           }
-          updataParentChecked(TtreeData, item, item.checked);
-        }
+          updateParentChecked(TtreeData, item, item.checked);
+        } 
         item.children &&
-          updataParentChecked(item.children, currentItem, currentChecked);
+          updateParentChecked(item.children, currentItem, currentChecked);
       });
     };
 

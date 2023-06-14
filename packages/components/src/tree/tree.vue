@@ -69,6 +69,37 @@ export default defineComponent({
     const uniKey = uuid();
     const treeData = reactive(deepClone(props.data));
     const mainTreeKey = props.data[0].key;
+    
+    const updateParentChecked = (
+      date: any,
+      currentItem: any,
+      currentChecked: boolean
+    ) => {
+      date.forEach((item: any) => {
+        // 找到当前item的父级
+        if (item.key === currentItem.pid) {
+          let hasUnchecked = false;
+          item.children &&  ( hasUnchecked = item.children.some((i:any)=>i.checked === false) )
+           // 当前节点的子节点是否有未勾选项, 有未勾选当前节点则为未勾选
+          if ((hasUnchecked)) {
+            item.checked = false;
+            // 当前节点的子节点有未选项，并且至少有一个勾选项或选中半选中项则当前节点为半选中
+            if (item.children.some((j: any) => (j.checked === true || j.indeterminate === true))) {
+                item.indeterminate = true;       
+              } else {
+                item.indeterminate = false;
+              }
+          } else {
+            item.checked = currentChecked;
+            item.indeterminate = false;
+          }
+          updateParentChecked(treeData, item, item.checked);
+        } 
+        item.children &&
+          updateParentChecked(item.children, currentItem, currentChecked);
+      });
+    };
+
     const initDefaultChecked = (
       data: any,
       isParentChecked = false,
@@ -93,14 +124,13 @@ export default defineComponent({
             let hasCheckedChildren = item.children.some((child: any) => {
               return props.defaultCheckedKeys.includes(child.key);
             });
-            if (hasCheckedChildren) {
+            if (hasCheckedChildren) { 
               item.checked = false; // 设置为半选中状态
-              item.indeterminate = true;
             }
           }
-        }
-
+        }  
         item.children && initDefaultChecked(item.children, isChecked, item.key);
+        updateParentChecked(treeData, item, item.checked);
       }
     };
 
@@ -133,19 +163,6 @@ export default defineComponent({
       $bus.$on("checked" + uniKey, (item: any) => {
         emit("checked", item);
       });
-    };
-
-    const changeTreeData = (treeData:any,treeItem: any) => {
-      for (let index = 0; index < treeData.length; index++) {
-        const item = treeData[index] as any;
-        if (item.key === treeItem.key) {
-          treeData[index] = treeItem;
-          return;
-        }
-        if (item.children && item.children.length > 0) {
-            changeTreeData(item.children,treeItem);
-          }
-      }
     };
 
     const checkedItem = (treeData: any) => {
