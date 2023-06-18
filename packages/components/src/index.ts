@@ -26,3 +26,4 @@ export * from './radio-group';
 export * from './table';
 export * from './rotation';
 export * from './rotation-item';
+export * from './pagination'

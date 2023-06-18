@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    .pagination {
+      display: flex;
+      list-style: none;
+      padding: 0;
+    }
+
+    .pagination li {
+      margin-right: 5px;
+    }
+
+    .pagination li a {
+      display: block;
+      padding: 5px 10px;
+      background-color: #f2f2f2;
+      color: #333;
+      text-decoration: none;
+      border-radius: 3px;
+    }
+
+    .pagination li a.active {
+      background-color: #333;
+      color: #fff;
+    }
+
+    .pagination li a.disabled {
+      background-color: #ddd;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="paginationContainer"></div>
+  <script>
+    /**
+ * 
+ * @param {Number} total 
+ * @param {Number} cur 
+ * @param {Numbre} around 
+ */
+const makePage = (total,cur,around) => {
+    let result = [];
+    let baseCount = around * 2 + 1 + 2 + 2 + 2; //总共元素个数
+    let surplus = baseCount - 4; //只出现一个省略号 剩余元素个数
+    let startPosition = 1 + 2 + around + 1;//前面出现省略号的临界点
+    let endPosition = total - 2 - around - 1;//后面出现省略号的临界点
+
+    if(total <= baseCount - 2){ //全部显示 不出现省略号
+        result =  Array.from({length: total}, (v, i) => i + 1);
+    }else{ //需要出现省略号
+        if(cur < startPosition){ //1.只有后面出现省略号
+            result = [...Array.from({length: surplus}, (v, i) => i + 1),"...",total]
+        }else if(cur > endPosition) { //2.只有前边出现省略号
+            result = [1,'...',...Array.from({length: surplus}, (v, i) => total - surplus + i + 1)]
+        }else{ //3.两边都有省略号
+            result = [1,'...',...Array.from({length: around * 2 + 1}, (v, i) => cur - around + i),'...',total]
+        }
+    }
+
+    return result
+}
+makePage(8,2,2);//[1, 2, 3, 4, 5, 6, 7, 8]
+makePage(20,3,2);//[1, 2, 3, 4, 5, 6, 7, "...", 20]
+makePage(20,10,2);//[1, "...", 8, 9, 10, 11, 12, "...", 20]
+console.log(makePage(100,8,4));;//[1, "...", 14, 15, 16, 17, 18, 19, 20]
+
+  </script>
+  <!-- <script>
+    function generatePagination(totalPages, currentPage) {
+      const container = document.getElementById('paginationContainer');
+      const pagination = document.createElement('ul');
+      pagination.classList.add('pagination');
+
+      // 设置每页显示的页码按钮数量
+      const visibleButtons = 7;
+      const halfVisible = Math.floor(visibleButtons / 2);
+
+      // 计算应该显示的页码按钮范围
+      let startPage = Math.max(1, currentPage - halfVisible);
+      let endPage = Math.min(startPage + visibleButtons - 1, totalPages);
+
+      if (endPage - startPage + 1 < visibleButtons) {
+        startPage = Math.max(1, endPage - visibleButtons + 1);
+      }
+
+      // 确保第一页和最后一页可见
+      if (startPage > 1) {
+        const firstPageButton = createPaginationButton(1, 1);
+        pagination.appendChild(firstPageButton);
+      }
+
+      // 添加起始页码按钮
+      if (startPage > 2) {
+        const startEllipsis = createPaginationButton('...', null, true);
+        pagination.appendChild(startEllipsis);
+      }
+
+      // 添加中间页码按钮
+      for (let page = startPage; page <= endPage; page++) {
+        const pageButton = createPaginationButton(page, page === currentPage ? null : page);
+        pagination.appendChild(pageButton);
+      }
+
+      // 添加结束页码按钮
+      if (endPage < totalPages - 1) {
+        const endEllipsis = createPaginationButton('...', null, true);
+        pagination.appendChild(endEllipsis);
+      }
+
+      // 确保最后一页可见
+      if (endPage < totalPages) {
+        const lastPageButton = createPaginationButton(totalPages, totalPages);
+        pagination.appendChild(lastPageButton);
+      }
+
+      // 添加 "后一页" 按钮
+      const nextButton = createPaginationButton('Next', currentPage < totalPages ? currentPage + 1 : null);
+      pagination.appendChild(nextButton);
+
+      container.innerHTML = '';
+      container.appendChild(pagination);
+    }
+
+
+    function createPaginationButton(text, page, isDisabled) {
+      const button = document.createElement('li');
+      const buttonLink = document.createElement('a');
+
+      buttonLink.textContent = text;
+      buttonLink.href = '#';
+
+      if (isDisabled) {
+        buttonLink.classList.add('disabled');
+      } else if (page) {
+        buttonLink.addEventListener('click', () => {
+          console.log(page);
+          if (page === '...') {
+            // 处理点击"..."的情况
+            const currentPage = parseInt(buttonLink.parentNode.previousElementSibling.firstChild.textContent, 10);
+            const nextPage = currentPage + halfVisible;
+            generatePagination(totalPages, nextPage > endPage ? endPage : nextPage);
+
+
+          } else {
+            generatePagination(totalPages, page);
+          }
+        });
+      } else {
+        buttonLink.classList.add('active');
+      }
+
+      button.appendChild(buttonLink);
+      return button;
+    }
+
+
+    const totalPages = 100;
+    const currentPage = 4;
+
+    generatePagination(totalPages, currentPage);
+  </script> -->
+</body>
+
+</html>

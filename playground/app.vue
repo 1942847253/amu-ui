@@ -1,5 +1,5 @@
 <template>
-  <ATabs default-active-key="1" position="left">
+  <ATabs default-active-key="22" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <AButton type="primary">primary</AButton>
     </ATabsPanel>
@@ -289,6 +289,9 @@
       <ASelect v-model="value1" :options="options1.slice(0, 2)" @setItemValue="setItemValue" placeholder="请选择一个小可爱">
       </ASelect>
     </ATabsPanel>
+    <ATabsPanel key="22" title="Pagination 分页">
+      <APagination :current-page="currentPage" total="10000" background @page-change="pageChange"></APagination>
+    </ATabsPanel>
   </ATabs>
 </template>
 
@@ -306,6 +309,12 @@ const formState = reactive({
   school: 2,
   birthday: "",
 });
+const currentPage = ref(1)
+
+const pageChange = (page:number)=>{
+  console.log(page);
+  currentPage.value = page
+}
 
 const handelLoading = () => {
   showLoading.value = true;
