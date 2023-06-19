@@ -290,7 +290,7 @@
       </ASelect>
     </ATabsPanel>
     <ATabsPanel key="22" title="Pagination 分页">
-      <APagination :current-page="currentPage" total="10000" background @page-change="pageChange"></APagination>
+      <APagination :current-page="currentPage" total="1000" background @page-change="pageChange"></APagination>
     </ATabsPanel>
   </ATabs>
 </template>
