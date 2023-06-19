@@ -53,8 +53,8 @@ export default defineComponent({
             initPageList()
         })
 
-        const paginationItemStyle = computed(() => {
-            return (item: number | string | IOmit) => {
+        const paginationItemClass = computed(() => {
+            return (item: number | IOmit) => {
                 let str = 'btn pagination-item'
                 if (props.background) {
                     str += " background"
@@ -79,16 +79,54 @@ export default defineComponent({
             }
         }
 
+        const prevNextPageActions = (falg: 'prev' | 'next') => {
+            let currentPage = props.currentPage
+            if (falg === 'prev') {
+                if (props.currentPage === 1) {
+                    return
+                };
+                emit('page-change', Number(currentPage) - 1)
+            } else {
+                if (props.currentPage === pageList.value[pageList.value.length - 1]) return;
+                emit('page-change', Number(currentPage) + 1)
+            }
+        }
+
+        const disableBtnClass = computed(() => {
+            return (flag: 'prev' | 'next') => {
+                let classStr = ''
+                if (flag === 'prev') {
+                    if (props.currentPage === 1) {
+                        classStr = 'disable'
+                    }
+                } else {
+                    if (props.currentPage === pageList.value[pageList.value.length - 1]) {
+                        classStr = 'disable'
+                    }
+                }
+
+                return classStr
+            }
+        })
+
+        const omitBtnRender = (item: number | IOmit) => {
+            if (typeof item === 'number') {
+                return item
+            } else {
+                return <span class="iconfont icon-shenglvehao"></span>
+            }
+
+        }
+
         return () => (
             <div class="a-pagination-content">
-                <div class="btn prev">上</div>
+                <div class={`btn background prev ${disableBtnClass.value('prev')}`} onClick={() => prevNextPageActions('prev')}><span class="iconfont icon-left"></span></div>
                 <div class="pagination-list">
                     {pageList.value.map((item, index) => (
-                        <div onClick={() => changeCurrentPage(item)} key={index} class={paginationItemStyle.value(item)}>{typeof item === 'number' ? item : item.value}</div>
+                        <div onClick={() => changeCurrentPage(item)} key={index} class={paginationItemClass.value(item)}>{omitBtnRender(item)}</div>
                     ))}
-
                 </div>
-                <div class="btn next">下</div>
+                <div class={`btn background next ${disableBtnClass.value('next')}`} onClick={() => prevNextPageActions('next')}><span class="iconfont icon-right"></span></div>
             </div>
         )
     }
