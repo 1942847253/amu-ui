@@ -1,10 +1,11 @@
 import { computed, defineComponent, reactive, ref, watch } from "vue";
+import { AInput } from "../input";
 import './style/index.less';
 
 interface IOmit {
     omit: boolean;
     value: string;
-    type: string;
+    type: 'prev' | 'next';
 }
 
 export default defineComponent({
@@ -49,6 +50,7 @@ export default defineComponent({
         }
 
         initPageList()
+
         watch(() => props.currentPage, () => {
             initPageList()
         })
@@ -115,6 +117,37 @@ export default defineComponent({
             } else {
                 return <span class="iconfont icon-shenglvehao"></span>
             }
+        }
+
+        const changeomitBtnClass = (e: Event, flag: 'enter' | 'leave', item: IOmit | number) => {
+            const Item = item as IOmit
+            if (Item.omit) {
+                const icon = (e.target as HTMLDivElement).firstChild as HTMLDivElement
+                if (flag === 'enter') {
+                    if (Item.type === 'prev') {
+                        icon.className = 'iconfont icon-doubleleft'
+                    } else {
+                        icon.className = 'iconfont icon-doubleright-copy'
+                    }
+                } else {
+                    icon.className = 'iconfont icon-shenglvehao'
+                }
+            }
+        }
+
+        const onInputEnter = (page: string | number) => {
+            const lastPage = pageList.value[pageList.value.length - 1] as number
+            if (Number(page) === Number(props.currentPage)) return
+            emit('page-change', '')
+            setTimeout(() => {
+                if (Number(page) < 1) {
+                    emit('page-change', 1)
+                } else if (Number(page) > lastPage) {
+                    emit('page-change', lastPage + '')
+                } else {
+                    emit('page-change', page)
+                }
+            });
 
         }
 
@@ -123,10 +156,14 @@ export default defineComponent({
                 <div class={`btn background prev ${disableBtnClass.value('prev')}`} onClick={() => prevNextPageActions('prev')}><span class="iconfont icon-left"></span></div>
                 <div class="pagination-list">
                     {pageList.value.map((item, index) => (
-                        <div onClick={() => changeCurrentPage(item)} key={index} class={paginationItemClass.value(item)}>{omitBtnRender(item)}</div>
+                        <div onMouseleave={(e) => changeomitBtnClass(e, 'leave', item)} onMouseenter={(e) => changeomitBtnClass(e, 'enter', item)} onClick={() => changeCurrentPage(item)} key={index} class={paginationItemClass.value(item)}>{omitBtnRender(item)}</div>
                     ))}
                 </div>
                 <div class={`btn background next ${disableBtnClass.value('next')}`} onClick={() => prevNextPageActions('next')}><span class="iconfont icon-right"></span></div>
+                <div class="a-pagination-goto">
+                    <span>跳至</span>
+                    <a-input width="35" placeholder="" value={props.currentPage} textCenter onEnter={(value: string | number) => onInputEnter(value)} />
+                </div>
             </div>
         )
     }

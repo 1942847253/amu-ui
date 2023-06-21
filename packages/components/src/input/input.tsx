@@ -9,7 +9,7 @@ export default defineComponent({
             type: [String, Number],
         },
         value: {
-            type: String,
+            type: [String, Number],
             default: ''
         },
         textCenter: {
@@ -55,7 +55,7 @@ export default defineComponent({
             default: false
         },
     },
-    emits: ['update:modelValue', 'change', 'blur', 'focus', "resetValue"],
+    emits: ['update:modelValue', 'change', 'blur', 'focus', "resetValue", "enter"],
     setup(props, { emit, slots, expose }) {
         const value = ref((props.modelValue === undefined ? props.value : props.modelValue));
         const prop = inject<string>('prop', '')
@@ -86,12 +86,18 @@ export default defineComponent({
             } as CSSProperties
         })
 
+        const showInputSlot = computed(() => props.clearable || props.isDate || props.isSearch || props.isSelector || props.type === 'password')
+
         watch(() => [props.width, props.height], () => {
             initInputWidth()
         }, { deep: true })
 
         watch(() => props.modelValue, (val) => {
             value.value = val!
+        })
+
+        watch(() => props.value, (val) => {
+            value.value = val
         })
 
         onMounted(() => {
@@ -125,8 +131,10 @@ export default defineComponent({
 
         const changeInputValue = (event: Event) => {
             const target = event.target as HTMLInputElement
-            emit('update:modelValue', (props.type === "number") ? (target.value === "" ? target.value : Number(target.value)) : target.value);
-            emit('change', value)
+            const val = (props.type === "number") ? (target.value === "" ? target.value : Number(target.value)) : target.value
+            value.value = val
+            emit('update:modelValue', value.value);
+            emit('change', value.value)
             InputEventActions('change')
         }
         const blurInput = (event: Event) => {
@@ -188,6 +196,8 @@ export default defineComponent({
             }
         }
 
+
+
         const InputEventActions = (eventType: 'change' | 'blur') => {
             showIconBtn.value = false;
             if (rules && rules[prop]) {
@@ -219,6 +229,12 @@ export default defineComponent({
                         })
                     }
                 }
+            }
+        }
+
+        const onKeydown = (e: KeyboardEvent) => {
+            if (e.key === "Enter") {
+                emit('enter', value.value)
             }
         }
 
@@ -278,13 +294,14 @@ export default defineComponent({
                         readonly={props.readonly}
                         onFocus={(event) => onInputFocus(event)}
                         onBlur={(event) => blurInput(event)}
+                        onKeydown={(event) => onKeydown(event)}
                         disabled={props.disabled}
                         type={type.value}
-                        value={value.value}
+                        v-model={value.value}
                         ref={inputRef}
                     />
                 </div>
-                <div class="a-input-slot" style={{
+                <div v-show={showInputSlot.value} class="a-input-slot" style={{
                     backgroundColor: (props.disabled ? "#f5f7fa" : ''),
                 }}>
                     {initIconSlot()}
