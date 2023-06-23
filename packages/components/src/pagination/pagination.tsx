@@ -1,6 +1,8 @@
-import { computed, defineComponent, nextTick, reactive, ref, watch } from "vue";
-import { AInput } from "../input";
+import { computed, defineComponent, nextTick, PropType, ref, watch } from "vue";
+import AInput from "../input";
+import ASelect from "../select";
 import './style/index.less';
+import { IOptionItem } from "@components/select/baseData";
 
 interface IOmit {
     omit: boolean;
@@ -14,15 +16,27 @@ export default defineComponent({
         total: { type: [Number, String], default: 0 }, // 总数 The total number of
         currentPage: { type: [Number, String], default: 1 }, // 当前页数 The current number of pages
         pageSize: { type: [Number, String], default: () => 10 }, // 每页显示条数 Size of entries per page
-        sizesList: { type: Array, default: () => [10, 20, 50, 100] }, // 每页显示条数的选项设置 Option setting to display number of entries per page
+        sizesList: { type: Array as PropType<number[]>, default: () => [10, 20, 50, 100] }, // 每页显示条数的选项设置 Option setting to display number of entries per page
         background: { type: Boolean, default: false }
     },
     emits: ["page-change", "size-change"],
     setup(props, { emit, slots },) {
         const currentPage = ref(props.currentPage)
         const pageList = ref<(number | IOmit)[]>([])
-        const totalPage = computed(() => Math.ceil(Number(props.total) / Number(props.pageSize)))
+        const PageSize = ref(props.pageSize)
+        const totalPage = computed(() => Math.ceil(Number(props.total) / Number(PageSize.value)))
         const around = ref(2)
+
+        const selectSizeList = computed(() => {
+            let sizes = [] as IOptionItem[]
+            props.sizesList.forEach((size: number) => {
+                sizes.push({
+                    value: size,
+                    text: size + ' 条/页'
+                })
+            })
+            return sizes
+        })
 
         const makePage = (total: number, cur: number, around: number) => {
             let result = [];
@@ -48,6 +62,12 @@ export default defineComponent({
 
         const initPageList = () => {
             pageList.value = makePage(totalPage.value, Number(currentPage.value), around.value)
+            const lastPage = pageList.value[pageList.value.length - 1] as number
+            if (Number(currentPage.value) < 1) {
+                currentPage.value = 1
+            } else if (Number(currentPage.value) > lastPage) {
+                currentPage.value = lastPage
+            }
         }
 
         initPageList()
@@ -60,6 +80,10 @@ export default defineComponent({
         watch(() => currentPage.value, () => {
             initPageList()
         })
+
+        watch(() => props.pageSize, (val) => PageSize.value = val)
+
+        watch(() => totalPage.value, () => initPageList())
 
         const paginationItemClass = computed(() => {
             return (item: number | IOmit) => {
@@ -76,6 +100,7 @@ export default defineComponent({
 
         const changeCurrentPage = (item: number | IOmit) => {
             if (typeof item === 'number') {
+                currentPage.value = item
                 emit('page-change', item)
             } else if (typeof item === 'object') {
                 const baseCount = (around.value * 2) + 1
@@ -143,7 +168,7 @@ export default defineComponent({
 
         const onInputEnter = async (page: string | number) => {
             let Page = currentPage.value
-            if (page === "") {
+            if (page === "" || Number.isNaN(Number(page))) {
                 let Curr = currentPage.value
                 currentPage.value = ""
                 await nextTick()
@@ -175,9 +200,12 @@ export default defineComponent({
                     ))}
                 </div>
                 <div class={`btn background next ${disableBtnClass.value('next')}`} onClick={() => prevNextPageActions('next')}><span class="iconfont icon-right"></span></div>
+                <div class="page-size-select">
+                    <a-select width="80" v-model={PageSize.value} options={selectSizeList.value} />
+                </div>
                 <div class="a-pagination-goto">
                     <span>跳至</span>
-                    <a-input width="35" placeholder="" value={currentPage.value} textCenter onEnter={(value: string | number) => onInputEnter(value)} />
+                    <AInput width="35" placeholder="" value={currentPage.value} textCenter onEnter={(value: string | number) => onInputEnter(value)} />
                 </div>
             </div>
         )

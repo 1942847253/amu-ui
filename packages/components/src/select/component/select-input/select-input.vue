@@ -6,6 +6,7 @@
       :isSearch="false"
       :readonly="isSearch ? false : true"
       :placeholder="placeholder"
+      :width="width"
       @input="searchOptions"
       @focus="firstBurlSearch"
       @blur="setValue()"
@@ -32,6 +33,10 @@ export default defineComponent({
     isSearch: {
       type: Boolean,
     },
+    width:{
+      type:String,
+      default:''
+    }
   },
   emits: ["searchOptions", "blurInitValue", "resetValue"],
   components: {

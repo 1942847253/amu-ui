@@ -5,6 +5,7 @@
       :inputValue="inputValue"
       :localValue="localValue"
       :isSearch="isSearch"
+      :width="width"
       @searchOptions="searchOptions"
       @resetValue="resetValue"
     />
@@ -60,6 +61,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    width:{
+      type:String,
+      default:''
+    }
   },
   emits: ["setItemValue", "update:modelValue"],
   setup(props, { emit }) {
