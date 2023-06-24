@@ -17,7 +17,15 @@ export default defineComponent({
         currentPage: { type: [Number, String], default: 1 }, // 当前页数 The current number of pages
         pageSize: { type: [Number, String], default: () => 10 }, // 每页显示条数 Size of entries per page
         sizesList: { type: Array as PropType<number[]>, default: () => [10, 20, 50, 100] }, // 每页显示条数的选项设置 Option setting to display number of entries per page
-        background: { type: Boolean, default: false }
+        background: { type: Boolean, default: false },
+        showSizeChanger: {
+            type: Boolean,
+            default: false
+        },
+        showQuickJumper: {
+            type: Boolean,
+            default: false
+        }
     },
     emits: ["page-change", "size-change"],
     setup(props, { emit, slots },) {
@@ -83,6 +91,8 @@ export default defineComponent({
 
         watch(() => props.pageSize, (val) => PageSize.value = val)
 
+        watch(() => PageSize.value, (val) => emit('size-change', val))
+
         watch(() => totalPage.value, () => initPageList())
 
         const paginationItemClass = computed(() => {
@@ -100,8 +110,10 @@ export default defineComponent({
 
         const changeCurrentPage = (item: number | IOmit) => {
             if (typeof item === 'number') {
-                currentPage.value = item
-                emit('page-change', item)
+                if (item !== currentPage.value) {
+                    currentPage.value = item
+                    emit('page-change', item)
+                }
             } else if (typeof item === 'object') {
                 const baseCount = (around.value * 2) + 1
                 if (item.type === "prev") {
@@ -193,17 +205,17 @@ export default defineComponent({
 
         return () => (
             <div class="a-pagination-content">
-                <div class={`btn background prev ${disableBtnClass.value('prev')}`} onClick={() => prevNextPageActions('prev')}><span class="iconfont icon-left"></span></div>
+                <div class={`btn ${props.background ? 'background' : ''} prev ${disableBtnClass.value('prev')}`} onClick={() => prevNextPageActions('prev')}><span class="iconfont icon-left"></span></div>
                 <div class="pagination-list">
                     {pageList.value.map((item, index) => (
                         <div onMouseleave={(e) => changeOmitBtnClass(e, 'leave', item)} onMouseenter={(e) => changeOmitBtnClass(e, 'enter', item)} onClick={() => changeCurrentPage(item)} key={index} class={paginationItemClass.value(item)}>{omitBtnRender(item)}</div>
                     ))}
                 </div>
-                <div class={`btn background next ${disableBtnClass.value('next')}`} onClick={() => prevNextPageActions('next')}><span class="iconfont icon-right"></span></div>
-                <div class="page-size-select">
-                    <a-select width="80" v-model={PageSize.value} options={selectSizeList.value} />
+                <div class={`btn ${props.background ? 'background' : ''} next ${disableBtnClass.value('next')}`} onClick={() => prevNextPageActions('next')}><span class="iconfont icon-right"></span></div>
+                <div v-show={props.showSizeChanger || Number(props.total) > 50} class="page-size-select">
+                    <ASelect width="80" v-model={PageSize.value} options={selectSizeList.value} />
                 </div>
-                <div class="a-pagination-goto">
+                <div class="a-pagination-goto" v-show={props.showQuickJumper}>
                     <span>跳至</span>
                     <AInput width="35" placeholder="" value={currentPage.value} textCenter onEnter={(value: string | number) => onInputEnter(value)} />
                 </div>

@@ -290,7 +290,7 @@
       </ASelect>
     </ATabsPanel>
     <ATabsPanel key="22" title="Pagination 分页">
-      <APagination :current-page="currentPage" total="100" background @page-change="pageChange"></APagination>
+      <APagination :current-page="currentPage" total="2329"  @page-change="pageChange" @size-change="sizeChange"></APagination>
     </ATabsPanel>
   </ATabs>
 </template>
@@ -314,6 +314,10 @@ const currentPage = ref(1)
 const pageChange = (page:number)=>{
   console.log(page);
   currentPage.value = page
+}
+
+const sizeChange = (val)=>{
+  console.log(val);
 }
 
 const handelLoading = () => {
