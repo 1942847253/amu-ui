@@ -1,5 +1,6 @@
 export default {
   base: process.env.NODE_ENV === "production" ? "/amu-ui/" : "/",
+  appearance:'false',
   themeConfig: {
     smoothScroll: true,
     siteTitle: false,
@@ -112,6 +113,10 @@ export default {
             {
               text: "Collapse 折叠面板",
               link: "/examples/collapse/",
+            },
+            {
+              text: "Pagination 分页",
+              link: "/examples/pagination/",
             },
           ],
         },
