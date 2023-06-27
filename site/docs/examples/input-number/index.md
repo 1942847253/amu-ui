@@ -1,8 +1,6 @@
 <script setup>
 import Basic from './component/Basic.vue'
 import Disabled from './component/Disabled.vue' 
-import Clearable from './component/Clearable.vue'
-import ShowPassword from './component/ShowPassword.vue'
 </script>
 
 # Input Number 数字输入框
