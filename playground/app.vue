@@ -230,13 +230,13 @@
     </ATabsPanel>
     <ATabsPanel key="11" title="Loading 加载">
 
-     <AButton @click="handelLoading">show loading</AButton>
-       <ALoading v-model="showLoading" global title="please loading..." />
+      <AButton @click="handelLoading">show loading</AButton>
+      <ALoading v-model="showLoading" global title="please loading..." />
 
       <ALoading v-model="showLoading" title="please loading...">
-    <a-table :tableData="tableData.tBody" :tableColumn="tableData.tHead">
-    </a-table>
-  </ALoading>
+        <a-table :tableData="tableData.tBody" :tableColumn="tableData.tHead">
+        </a-table>
+      </ALoading>
     </ATabsPanel>
     <ATabsPanel key="12" title="Tag 标签">
       <ATag closeable>test</ATag>
@@ -250,7 +250,7 @@
       {{ numberValue }}
     </ATabsPanel>
     <ATabsPanel key="14" title="Tree 树形控件">
-      <ATree :default-checked-keys="[90026,90037]" node-key="key" :expand="true" :isSelect="isSelect" :data="treeData">
+      <ATree :default-checked-keys="[90026, 90037]" node-key="key" :expand="true" :isSelect="isSelect" :data="treeData">
       </ATree>
     </ATabsPanel>
     <ATabsPanel key="15" title="Message 消息">
@@ -290,14 +290,20 @@
       </ASelect>
     </ATabsPanel>
     <ATabsPanel key="22" title="Pagination 分页">
-      <APagination :current-page="currentPage" total="50"  @page-change="pageChange" @size-change="sizeChange"></APagination>
+      <APagination v-tooltip.bottom="'显示在下部'" :current-page="currentPage" total="50" @page-change="pageChange"
+        @size-change="sizeChange">
+      </APagination>
+      <a-tag v-tooltip.top="'显示在下部'">123</a-tag>
+      <a-button v-tooltip.right="'显示在下部'" type="success">success</a-button>
     </ATabsPanel>
   </ATabs>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref, watch } from "vue";
-import { AMessage, AMessageBox } from "../packages/amu-ui/es";
+import { AMessage, AMessageBox } from "@amu-ui/components";
+
+
 const numberValue = ref();
 const showLoading = ref(false);
 const showDrawer = ref(false);
@@ -311,12 +317,12 @@ const formState = reactive({
 });
 const currentPage = ref(1)
 
-const pageChange = (page:number)=>{
+const pageChange = (page: number) => {
   console.log(page);
   currentPage.value = page
 }
 
-const sizeChange = (val)=>{
+const sizeChange = (val) => {
   console.log(val);
 }
 

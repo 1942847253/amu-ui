@@ -1,6 +1,6 @@
 @import '../../../iconfont/iconfont.less';
 .a-pagination-content {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   user-select: none;
   .pagination-list {
@@ -25,6 +25,7 @@
       font-weight: 550;
       background-color: #0468dc !important;
       cursor: auto;
+      transition: background .1s ease-in;
     }
     .background-current:hover {
       color: #ffff;
@@ -46,7 +47,7 @@
     margin-left: 10px;
   }
   .btn {
-    min-width: 28px;
+    min-width: 24px;
     height: 32px;
     display: flex;
     align-items: center;
