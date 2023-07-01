@@ -27,3 +27,4 @@ export * from './table';
 export * from './rotation';
 export * from './rotation-item';
 export * from './pagination'
+export * from './tooltip'
