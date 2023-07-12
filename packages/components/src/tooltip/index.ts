@@ -1,6 +1,6 @@
 // 引入组件
 import { nextTick, createApp } from "vue";
-import tooltip from './component/tooltip.vue'
+import tooltip from './tooltip.vue'
 
 // 清除监听
 function clearEvent(el) {
@@ -23,8 +23,6 @@ function calculationLocation(el, target, placements) {
     el.tooltipPostiton.x = 0;
     let el_dom = el.$el.nextElementSibling.getBoundingClientRect()
     let target_dom = target.getBoundingClientRect()
-    console.log(target);
-
     if (placements === "left") {
         el.tooltipPostiton.x = target_dom.x - el_dom.width - 10
         el.tooltipPostiton.y = target_dom.y - el_dom.height / 2 + target_dom.height / 2
@@ -45,9 +43,12 @@ function positionElement(el, target, placements) {
     if (!el || !target) return;
     el.tooltipPostiton.left = 0;
     el.tooltipPostiton.top = 0;
-    let el_dom = el.$el.nextElementSibling.getBoundingClientRect()
-    let target_dom = target.getBoundingClientRect()
-    const tooltipArrow = (el.$el.nextElementSibling as HTMLDivElement).querySelector('.zc-tooltip-arrow ')
+    let el_dom
+    let target_dom
+    let tooltipArrow
+    el_dom = el.$el.getBoundingClientRect()
+    target_dom = target.getBoundingClientRect()
+    tooltipArrow = (el.$el as HTMLDivElement).querySelector('.a-tooltip-arrow ')
     let top, left;
     switch (Placements) {
         case "top":
@@ -74,23 +75,23 @@ function positionElement(el, target, placements) {
             throw new Error("Invalid direction");
     }
 
-    tooltipArrow!.className = `zc-tooltip-arrow ${Placements}`
+    tooltipArrow!.className = `a-tooltip-arrow ${Placements}`
 
     switch (Placements) {
         case "top":
-            top = target_dom.top - el.$el.nextElementSibling.offsetHeight - 10;
-            left = target_dom.left + (target_dom.width - el.$el.nextElementSibling.offsetWidth) / 2;
+            top = target_dom.top - el.$el.offsetHeight - 10;
+            left = target_dom.left + (target_dom.width - el.$el.offsetWidth) / 2;
             break;
         case "bottom":
             top = target_dom.bottom + 10;
-            left = target_dom.left + (target_dom.width - el.$el.nextElementSibling.offsetWidth) / 2;
+            left = target_dom.left + (target_dom.width - el.$el.offsetWidth) / 2;
             break;
         case "left":
-            top = target_dom.top + (target_dom.height - el.$el.nextElementSibling.offsetHeight) / 2;
-            left = target_dom.left - el.$el.nextElementSibling.offsetWidth - 10;
+            top = target_dom.top + (target_dom.height - el.$el.offsetHeight) / 2;
+            left = target_dom.left - el.$el.offsetWidth - 10;
             break;
         case "right":
-            top = target_dom.top + (target_dom.height - el.$el.nextElementSibling.offsetHeight) / 2;
+            top = target_dom.top + (target_dom.height - el.$el.offsetHeight) / 2;
             left = target_dom.right + 10;
             break;
         default:

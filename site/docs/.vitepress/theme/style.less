@@ -7,6 +7,7 @@ p {
 }
 .VPNav {
   border-bottom: 1px solid #cdced259;
+  background-color: #ffff;
   .VPNavBarAppearance {
     display: none;
   }
@@ -28,8 +29,10 @@ p {
     }
   }
 }
+
 .VPSidebar{
-  overflow: overlay;
+ 
+  overflow: hidden !important;
   margin-top: 15px;
   padding-top: 0;
   background: #fff !important;
@@ -71,7 +74,9 @@ p {
     }
   }
 }
-
+.VPSidebar:hover{
+  overflow: overlay !important;
+}
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -128,7 +133,9 @@ details > summary:first-of-type {
   cursor: pointer;
   color: #1989fa;
 }
-
+.vp-doc li + li {
+  margin-top: 0px !important;
+}
 .example {
   border: 1px solid #dcdfe6ba;
   border-radius: 5px;
@@ -137,6 +144,7 @@ details > summary:first-of-type {
     padding: 0 12px;
     text-align: center;
   }
+
   h2 {
     margin: 0;
     margin-top: 30px;

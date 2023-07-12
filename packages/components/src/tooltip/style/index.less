@@ -1,0 +1,65 @@
+.a-tooltip {
+    padding: 10px;
+    font-size: 12px;
+    line-height: 1.2;
+    min-width: 10px;
+    word-wrap: break-word;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #303133;
+    color: #fff;
+    z-index: 1000;
+    display: inline-block;
+    border-radius: 8px;
+    font-weight: 500;
+    pointer-events: none;
+  }
+  
+  
+  .a-tooltip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 8px;
+    border-style: solid;
+  }
+  
+  .a-tooltip-arrow.left {
+    border-color: transparent transparent transparent #303133;
+    right: -15px;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+  }
+  
+  .a-tooltip-arrow.bottom {
+    top: -15px;
+    border-color: transparent transparent #303133 transparent;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+  }
+  
+  .a-tooltip-arrow.right {
+    left: -15px;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+    border-color: transparent #303133 transparent transparent;
+  }
+  
+  .a-tooltip-arrow.top {
+    bottom: -15px;
+    border-color: #303133 transparent transparent transparent;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+  }
+  
+  /* 动画 */
+  .tooltip-enter-from,
+  .tooltip-leave-to {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .tooltip-leave-from,
+  .tooltip-enter-to {
+    transition: opacity 0.1s ease;
+  }
