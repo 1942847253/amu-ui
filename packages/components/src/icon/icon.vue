@@ -1,21 +1,25 @@
 <template>
-  <div class="y-icon">☆</div>
+  <svg class="icon" aria-hidden="true">
+    <use :xlink:href="'#' + name"></use>
+  </svg>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import "./style/index.less";
-
+import "../../iconfont/font/line/iconfont.js";
+import "../../iconfont/font/surface/iconfont.js";
+import './style/index.less';
 export default defineComponent({
   name: "AIcon",
   props: {
-    type:{
-      type:String,
-    }
+    name: {
+      type: String,
+      defalut: "amu-amudesign",
+    },
   },
-  setup(props) {
-    return {
-     
-    };
+  setup() {
+    return {};
   },
 });
 </script>
+
+<style lang="less" scoped></style>

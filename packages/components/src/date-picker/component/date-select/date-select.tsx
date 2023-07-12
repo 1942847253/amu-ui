@@ -44,9 +44,9 @@ export default defineComponent({
 
         const changeSelectContentScroll = (type: string, isShow: Boolean) => {
             if (type === 'year') {
-                selectYearRef.value!.style.overflow = isShow ? 'overlay' : 'hidden'
+                selectYearRef.value!.style.overflow = isShow ? 'overlay' : 'overlay'
             } else {
-                selectMonthRef.value!.style.overflow = isShow ? 'overlay' : 'hidden'
+                selectMonthRef.value!.style.overflow = isShow ? 'overlay' : 'overlay'
             }
         }
 

@@ -290,18 +290,21 @@
       </ASelect>
     </ATabsPanel>
     <ATabsPanel key="22" title="Pagination 分页">
-      <APagination v-tooltip.bottom="'显示在下部'" :current-page="currentPage" total="50" @page-change="pageChange"
+      <APagination background v-tooltip.bottom="'显示在下部'" :current-page="currentPage" total="50" @page-change="pageChange"
         @size-change="sizeChange">
       </APagination>
       <a-tag v-tooltip.top="'显示在下部'">123</a-tag>
-      <a-button v-tooltip.right="'显示在下部'" type="success">success</a-button>
+      <a-button  v-tooltip.right="'显示在下部'" type="primary"> 
+      <template #icon><a-icon name="a-shangchuan" style="font-size: 20px;"></a-icon></template>success
+      </a-button>
+     
     </ATabsPanel>
   </ATabs>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref, watch } from "vue";
-import { AMessage, AMessageBox } from "@amu-ui/components";
+import { AMessage, AMessageBox } from "../packages/amu-ui";
 
 
 const numberValue = ref();

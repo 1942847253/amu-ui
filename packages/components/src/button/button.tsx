@@ -62,7 +62,7 @@ export default defineComponent({
           {props.loading ? (
             <div class="iconfont icon-loading is-loading"></div>
           ) : (
-            slots.icon && <div class="icon">slots.icon()</div>
+            slots.icon && <div class="a-icon">{slots.icon()}</div>
           )}
         </div>
       )

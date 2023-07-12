@@ -43,10 +43,10 @@ export default {
               text: "Button按钮",
               link: "/examples/button/",
             },
-            // {
-            //   text: "Icon图标",
-            //   link: "/examples/icon/",
-            // },
+            {
+              text: "Icon图标",
+              link: "/examples/icon/",
+            },
           ],
         },
         {
@@ -62,7 +62,7 @@ export default {
             },
             {
               text: "Selector 选择器",
-              link: "/examples/selector/",
+              link: "/examples/Selector/",
             },
             {
               text: "Switch 开关",
@@ -75,7 +75,7 @@ export default {
             },
             {
               text: "Rate 评分",
-              link: "/examples/rate/",
+              link: "/examples/Rate/",
             },
             {
               text: "DatePicker 日期选择器",
@@ -83,7 +83,7 @@ export default {
             },
             {
               text: "Input 输入框",
-              link: "/examples/input/",
+              link: "/examples/Input/",
             },
             {
               text: "Input Number 数字输入框",
@@ -91,7 +91,7 @@ export default {
             },
             {
               text: "Form 表单",
-              link: "/examples/form/",
+              link: "/examples/Form/",
             },
           ],
         },
@@ -100,7 +100,7 @@ export default {
           items: [
             {
               text: "Rotation 轮播图",
-              link: "/examples/rotation/",
+              link: "/examples/Rotation/",
             },
             {
               text: "Table 表格",
@@ -112,7 +112,7 @@ export default {
             },
             {
               text: "Collapse 折叠面板",
-              link: "/examples/collapse/",
+              link: "/examples/Collapse/",
             },
             {
               text: "Pagination 分页",
@@ -125,11 +125,11 @@ export default {
           items: [
             {
               text: "Tabs 标签页",
-              link: "/examples/tabs/",
+              link: "/examples/Tabs/",
             },
             {
               text: "Menu 菜单",
-              link: "/examples/menu/",
+              link: "/examples/Menu/",
             },
           ],
         },
@@ -146,11 +146,11 @@ export default {
             },
             {
               text: "Drawer 抽屉",
-              link: "/examples/drawer/",
+              link: "/examples/Drawer/",
             },
             {
               text: "Loading 加载",
-              link: "/examples/loading/",
+              link: "/examples/Loading/",
             },
           ],
         },
