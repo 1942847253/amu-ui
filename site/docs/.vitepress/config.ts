@@ -152,6 +152,10 @@ export default {
               text: "Loading 加载",
               link: "/examples/Loading/",
             },
+            {
+              text: "Tooltip 文字提示",
+              link: "/examples/tooltip/",
+            },
           ],
         },
       ],

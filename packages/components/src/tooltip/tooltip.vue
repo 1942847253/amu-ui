@@ -1,10 +1,17 @@
 <template>
   <!-- 指示 -->
   <transition name="tooltip">
-    <div class="a-tooltip" v-show="tooltipShow" :style="tooltipStyle">
+    <div
+      class="a-tooltip"
+      v-show="tooltipShow"
+      :style="[tooltipStyle, { backgroundColor: bgColor }]"
+    >
       <span class="a-tooltip-text" v-html="text"></span>
       <div
         class="a-tooltip-arrow"
+        :style="{
+          '--tooltip-bgColor': bgColor,
+        }"
         :class="[
           { left: placements == 'left' },
           { bottom: placements == 'bottom' },
@@ -17,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent } from "vue";
+import { ref, computed, defineComponent, CSSProperties } from "vue";
 import "./style/index.less";
 export default defineComponent({
   setup() {
@@ -26,9 +33,9 @@ export default defineComponent({
 
     // 提示内容
     const text = ref();
-
+    const bgColor = ref("#303133");
     // 方向
-    const placements = ref("left");
+    const placements = ref("bottom");
 
     // 显示
     function showTip() {
@@ -43,7 +50,7 @@ export default defineComponent({
       left: 0,
       top: 0,
     });
-    const tooltipStyle = computed(() => {
+    const tooltipStyle = computed<CSSProperties>(() => {
       return {
         left: tooltipPostiton.value.left + "px",
         top: tooltipPostiton.value.top + "px",
@@ -58,6 +65,7 @@ export default defineComponent({
       tooltipStyle,
       text,
       placements,
+      bgColor,
     };
   },
 });

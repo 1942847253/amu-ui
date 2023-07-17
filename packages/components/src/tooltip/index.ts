@@ -16,28 +16,6 @@ function clearEvent(el) {
     delete el._tipInstance
 }
 
-// 位置定位
-function calculationLocation(el, target, placements) {
-    if (!el || !target) return;
-    el.tooltipPostiton.y = 0;
-    el.tooltipPostiton.x = 0;
-    let el_dom = el.$el.nextElementSibling.getBoundingClientRect()
-    let target_dom = target.getBoundingClientRect()
-    if (placements === "left") {
-        el.tooltipPostiton.x = target_dom.x - el_dom.width - 10
-        el.tooltipPostiton.y = target_dom.y - el_dom.height / 2 + target_dom.height / 2
-    } else if (placements === "bottom") {
-        el.tooltipPostiton.x = target_dom.x + target_dom.width / 2 - el_dom.width / 2
-        el.tooltipPostiton.y = (target_dom.y) + el_dom.height + 10
-    } else if (placements === "right") {
-        el.tooltipPostiton.x = target_dom.x + target_dom.width + 10
-        el.tooltipPostiton.y = target_dom.y - el_dom.height / 2 + target_dom.height / 2
-    } else if (placements === "top") {
-        el.tooltipPostiton.x = target_dom.x + target_dom.width / 2 - el_dom.width / 2
-        el.tooltipPostiton.y = target_dom.y - el_dom.height - 10
-    }
-}
-
 function positionElement(el, target, placements) {
     let Placements = placements
     if (!el || !target) return;
@@ -102,7 +80,7 @@ function positionElement(el, target, placements) {
 }
 
 // 方向
-const allPlacements = ['left', 'bottom', 'right', 'top']
+const allPlacements = ['bottom', 'left', 'right', 'top']
 
 export const Tooltip = {
     install(app) {
@@ -133,7 +111,12 @@ export const Tooltip = {
             }
             el._tipInstance.placements = placements[0]
             el._tipInstance.showTip()
-            el._tipInstance.text = el._tipOptions
+            if (typeof el._tipOptions === 'object') {
+                el._tipInstance.text = el._tipOptions.text
+                el._tipInstance.bgColor = el._tipOptions.bgColor
+            } else {
+                el._tipInstance.text = el._tipOptions
+            }
             nextTick(() => {
                 positionElement(el._tipInstance, el, placements[0])
             })
@@ -161,8 +144,6 @@ export const Tooltip = {
     unmounted(el) {
         if (el._tipInstance) {
             el._synopsis.unmount()
-
-
             document.body.removeChild(el._root)
         }
         window.removeEventListener('scroll', el._scrollHandler)
