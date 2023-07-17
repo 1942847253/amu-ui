@@ -229,7 +229,6 @@
       <ASwitch size="small" v-model="value" open-title="上" off-title="下"></ASwitch>
     </ATabsPanel>
     <ATabsPanel key="11" title="Loading 加载">
-
       <AButton @click="handelLoading">show loading</AButton>
       <ALoading v-model="showLoading" global title="please loading..." />
 
@@ -293,11 +292,16 @@
       <APagination background v-tooltip.bottom="'显示在下部'" :current-page="currentPage" total="50" @page-change="pageChange"
         @size-change="sizeChange">
       </APagination>
-      <a-tag v-tooltip.top="'显示在下部'">123</a-tag>
-      <a-button  v-tooltip.right="'显示在下部'" type="primary"> 
-      <template #icon><a-icon name="a-shangchuan" style="font-size: 20px;"></a-icon></template>success
+      <a-tag v-tooltip="'显示在下部'">123</a-tag>
+      <a-button v-tooltip.top="{
+        text: '显示在下方',
+        bgColor: 'orange',
+      }" type="primary">
+        <template #icon>
+          <a-icon name="a-shangchuan" style="font-size: 20px"></a-icon>
+        </template>
+        success
       </a-button>
-     
     </ATabsPanel>
   </ATabs>
 </template>
@@ -305,7 +309,6 @@
 <script lang="ts" setup>
 import { onMounted, reactive, ref, watch } from "vue";
 import { AMessage, AMessageBox } from "../packages/amu-ui";
-
 
 const numberValue = ref();
 const showLoading = ref(false);
@@ -318,16 +321,16 @@ const formState = reactive({
   school: 2,
   birthday: "",
 });
-const currentPage = ref(1)
+const currentPage = ref(1);
 
 const pageChange = (page: number) => {
   console.log(page);
-  currentPage.value = page
-}
+  currentPage.value = page;
+};
 
 const sizeChange = (val) => {
   console.log(val);
-}
+};
 
 const handelLoading = () => {
   showLoading.value = true;
