@@ -113,7 +113,7 @@ export const Tooltip = {
             el._tipInstance.showTip()
             if (typeof el._tipOptions === 'object') {
                 el._tipInstance.text = el._tipOptions.text
-                el._tipInstance.bgColor = el._tipOptions.bgColor
+                el._tipInstance.bgColor = el._tipOptions.bgColor || '#303133'
             } else {
                 el._tipInstance.text = el._tipOptions
             }
