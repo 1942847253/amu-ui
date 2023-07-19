@@ -2,8 +2,7 @@
 
 <script setup>
 import Basic from './component/Basic.vue'
-import Disabled from './component/Disabled.vue'
-import Loading from './component/Loading.vue'
+import bgColor from './component/bgColor.vue'
 </script>
 
 # Tooltip 文字提示
@@ -35,12 +34,12 @@ Tooltip为自定义指令形式的组件，在指定组件上使用v-tooltip即�
 ```
 </details>
 
-## 禁用状态
+## 自定义背景色
 
-你可以使用 `disabled` 属性来定义按钮是否被禁用。
+你可以使用 `bgColor` 属性来自定义背景色
 
 <div class="example">
- <Disabled/>
+ <bgColor/>
 </div>
 
 <details>
@@ -48,38 +47,12 @@ Tooltip为自定义指令形式的组件，在指定组件上使用v-tooltip即�
 
 ```vue
 <template>
-  <a-button disabled>default</a-button>
-  <a-button disabled type="primary">primary</a-button>
-  <a-button disabled type="success">success</a-button>
-  <a-button disabled type="warning">warning</a-button>
-  <a-button disabled type="danger">error</a-button>
-  <a-button disabled type="info">info</a-button>
-</template>
-```
-
-</details>
-
-## 加载状态按钮
-
-点击按钮来加载数据，并向用户反馈加载状态。
-
-通过设置 `loading` 属性为 true 来显示加载中状态。
-
-<div class="example">
- <Loading/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <a-button disabled>default</a-button>
-  <a-button disabled type="primary">primary</a-button>
-  <a-button disabled type="success">success</a-button>
-  <a-button disabled type="warning">warning</a-button>
-  <a-button disabled type="danger">error</a-button>
-  <a-button disabled type="info">info</a-button>
+ <a-button v-tooltip="{ text: 'tip-default', bgColor: '#dcdcdc' }">default</a-button>
+  <a-button v-tooltip="{ text: 'tip-primary', bgColor: '#0468dc' }" type="primary">primary</a-button>
+  <a-button v-tooltip="{ text: 'tip-success', bgColor: '#18a058' }" type="success">success</a-button>
+  <a-button v-tooltip="{ text: 'tip-warning', bgColor: '#d69800' }" type="warning">warning</a-button>
+  <a-button v-tooltip="{ text: 'tip-danger', bgColor: '#e53935' }" type="danger">danger</a-button>
+  <a-button v-tooltip="{ text: 'tip-info', bgColor: '#3f5e7de0' }" type="info">info</a-button>
 </template>
 ```
 

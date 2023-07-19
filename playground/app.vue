@@ -233,8 +233,17 @@
       <ALoading v-model="showLoading" global title="please loading..." />
 
       <ALoading v-model="showLoading" title="please loading...">
-        <a-table :tableData="tableData.tBody" :tableColumn="tableData.tHead">
-        </a-table>
+        <ATable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+        <template #table="{ tableColumn, tableData }">
+          <a-tag type="success" v-if="tableColumn.key === 'age'">{{
+            tableData.age + " 岁"
+          }}</a-tag>
+        </template>
+        <template #operation="{ item, index }">
+          <a-button type="info" size="small">Edit</a-button>
+          <a-button type="danger" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</a-button>
+        </template>
+      </ATable>
       </ALoading>
     </ATabsPanel>
     <ATabsPanel key="12" title="Tag 标签">
@@ -328,7 +337,7 @@ const pageChange = (page: number) => {
   currentPage.value = page;
 };
 
-const sizeChange = (val) => {
+const sizeChange = (val:any) => {
   console.log(val);
 };
 

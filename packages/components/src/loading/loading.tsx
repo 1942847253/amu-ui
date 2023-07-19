@@ -57,8 +57,8 @@ export default defineComponent({
     const loadingContentStyle = computed<StyleValue>(() => {
       return {
         position: isGlobalLoading.value ? "relative" : "absolute",
-
         left: isGlobalLoading.value ? "0" : "40%",
+        zIndex: isGlobalLoading.value ? 9999 : 101
       };
     });
 
@@ -82,8 +82,9 @@ export default defineComponent({
     return () => (
       <Transition>
         <div
+          v-show={isGlobalLoading.value ? props.modelValue ? true : false : (slots.default && typeof slots.default === 'function' ? true : false)}
           ref={maskRef}
-          class={`a-loading ${isGlobalLoading.value && isMaskClosed.value && "a-global"
+          class={`a-loading ${isGlobalLoading.value && "a-global"
             }`}
           style={{ position: isGlobalLoading.value ? "fixed" : "relative" }}
         >
