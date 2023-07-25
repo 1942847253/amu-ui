@@ -12,73 +12,46 @@
 <script lang="ts" setup>
 import { AMessage } from "../../../../../packages/amu-ui";
 const iconList = [
-  "a-paihang",
-  "a-geshishua",
-  "a-jingbao",
-  "a-huangguan",
-  "a-vip",
-  "a-jiangbei",
-  "a-yuedu",
-  "a-anquan",
-  "a-anquan1",
-  "a-daiban",
-  "a-biaoqian",
-  "a-dengpao",
-  "a-gouwudai",
-  "a-guangbo",
-  "a-kapian",
-  "a-gouwuche",
-  "a-qianbao",
-  "a-renyuanxinxi",
-  "a-liwu",
-  "a-shuqian",
-  "a-riqi",
-  "a-shangchuan",
-  "a-bofang",
-  "a-quanjia",
-  "a-cha",
-  "a-zanting",
-  "a-jinggao",
-  "a-biaoqing",
-  "a-biyan",
-  "a-dingwei",
-  "a-gengduo",
-  "a-fenxiang",
-  "a-jiantouxiangxia",
-  "a-lingdang",
-  "a-fanhui",
-  "a-shijian",
-  "a-qian",
-  "a-suo",
-  "a-saoma",
-  "a-shezhi",
-  "a-qun",
-  "a-taiyang",
-  "a-wenjian",
-  "a-tongji",
-  "a-xiazai",
-  "a-xiangyou",
-  "a-mubiao",
-  "a-xiangxia",
-  "a-xiangji",
-  "a-youjian",
-  "a-yanjing",
-  "a-tianxie",
-  "a-xin",
-  "a-tuichu",
-  "a-wenjianjiakai",
-  "a-wenjianjiaguan",
-  "a-wenjianjiajia",
-  "a-xiangzuo",
-  "a-yiwen",
-  "a-wujiaoxing",
-  "a-yueliang",
-  "a-yingyong",
-  "a-xiangshang",
-  "a-xiugai",
-  "a-zhuye",
-  "a-tupian",
-  "a-zhuce"
+"arrow-up-filling",
+  "arrow-down-filling",
+  "arrow-left-filling",
+  "arrow-right-filling",
+  "caps-unlock-filling",
+  "comment-filling",
+  "check-item-filling",
+  "clock-filling",
+  "delete-filling",
+  "decline-filling",
+  "dynamic-filling",
+  "intermediate-filling",
+  "favorite-filling",
+  "layout-filling",
+  "help-filling",
+  "history-filling",
+  "filter-filling",
+  "file-common-filling",
+  "news-filling",
+  "edit-filling",
+  "fullscreen-expand-filling",
+  "smile-filling",
+  "rise-filling",
+  "picture-filling",
+  "notification-filling",
+  "user-filling",
+  "setting-filling",
+  "switch-filling",
+  "work-filling",
+  "task-filling",
+  "success-filling",
+  "warning-filling",
+  "folder-filling",
+  "map-filling",
+  "prompt-filling",
+  "meh-filling",
+  "cry-filling",
+  "top-filling",
+  "home-filling",
+  "sorting"
 ];;
 const copyIcon = (icon: string) => {
   const iconTemplate = `<a-icon name="${icon}" />`;
@@ -106,7 +79,7 @@ const copyIcon = (icon: string) => {
   flex-wrap: wrap;
   padding-inline-start: 0px;
   li {
-    width: 130px;
+    width: 138px;
     padding: 16px;
     margin-bottom: -1px;
     margin-right: -1px;
@@ -114,19 +87,19 @@ const copyIcon = (icon: string) => {
     list-style: none !important;
     cursor: default;
     border: 1px solid #e8e8e888;
-    .icon {
+    .iconfont {
       cursor: pointer;
       display: block;
       height: 64px;
       line-height: 64px;
-      font-size: 30px;
+      font-size: 35px;
       margin: 0px auto 10px;
       color: #1e2025;
-      transition: font-size 0.3s ease-in-out, width 0.3s ease-in-out;
+      transition: font-size 0.3s ease-in-out, width 0.3s ease-in-out !important;
       transition: color 0.3s ease-in-out, width 0.3s ease-in-out;
     }
-    .icon:hover {
-      font-size: 50px;
+    .iconfont:hover {
+      font-size: 55px;
       color: #0468dc;
     }
     .svg-icon {

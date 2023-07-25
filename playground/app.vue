@@ -307,7 +307,7 @@
         bgColor: 'orange',
       }" type="primary">
         <template #icon>
-          <a-icon name="a-shangchuan" style="font-size: 20px"></a-icon>
+          <a-icon name="upload" />
         </template>
         success
       </a-button>

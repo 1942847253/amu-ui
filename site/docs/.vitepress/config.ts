@@ -6,7 +6,7 @@ export default {
     siteTitle: false,
     logo: "/logo.PNG",
     footer: {
-      copyright: "本文档仅供个人娱乐学习使用，切勿私自分享",
+      copyright: "本文档中的组件仅尚未稳定，仅供交流学习，请勿用于生产",
     },
     nav: [
       { text: "指南", link: "/guild/installation" },
