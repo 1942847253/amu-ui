@@ -18,7 +18,7 @@ export default defineConfig({
     //minify: false,
     rollupOptions: {
       //忽略打包vue文件
-      external: ["vue", /\.less/, "@vueuse/core"],
+      external: ["vue", /\.less/, "@vueuse/core", "vue-router"],
       input: ["index.ts"],
       output: [
         {

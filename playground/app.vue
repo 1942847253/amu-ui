@@ -1,5 +1,5 @@
 <template>
-  <ATabs default-active-key="22" position="left">
+  <ATabs default-active-key="23" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <AButton type="primary">primary</AButton>
     </ATabsPanel>
@@ -311,6 +311,13 @@
         </template>
         success
       </a-button>
+    </ATabsPanel>
+    <ATabsPanel key="23" title="Breadcrumb 面包屑">
+     <ABreadcrumb>
+      <ABreadcrumbItem path="/home">home</ABreadcrumbItem>
+      <ABreadcrumbItem path="/promotion/list">promotion list</ABreadcrumbItem>
+      <ABreadcrumbItem>promotion detail</ABreadcrumbItem>
+     </ABreadcrumb>
     </ATabsPanel>
   </ATabs>
 </template>

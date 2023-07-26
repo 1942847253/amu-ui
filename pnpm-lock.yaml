@@ -56,6 +56,9 @@ importers:
       vue:
         specifier: ^3.2.36
         version: 3.2.36
+      vue-router:
+        specifier: ^4.2.4
+        version: 4.2.4(vue@3.2.36)
 
   packages/amu-ui:
     dependencies:
@@ -6753,6 +6756,15 @@ packages:
         optional: true
     dependencies:
       vue: 3.3.4
+
+  /vue-router@4.2.4(vue@3.2.36):
+    resolution: {integrity: sha512-9PISkmaCO02OzPVOMq2w82ilty6+xJmQrarYZDkjZBfl4RvYAlt4PKnEX21oW4KTtWfa9OuO/b3qk1Od3AEdCQ==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      '@vue/devtools-api': 6.5.0
+      vue: 3.2.36
+    dev: true
 
   /vue@3.2.36:
     resolution: {integrity: sha512-5yTXmrE6gW8IQgttzHW5bfBiFA6mx35ZXHjGLDmKYzW6MMmYvCwuKybANRepwkMYeXw2v1buGg3/lPICY5YlZw==}

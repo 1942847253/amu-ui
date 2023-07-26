@@ -28,3 +28,5 @@ export * from './rotation';
 export * from './rotation-item';
 export * from './pagination'
 export * from './tooltip'
+export * from './breadcrumb'
+export * from './breadcrumb-item'
