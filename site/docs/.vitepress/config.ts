@@ -131,6 +131,10 @@ export default {
               text: "Menu 菜单",
               link: "/examples/Menu/",
             },
+            {
+              text: "Breadcrumb 面包屑",
+              link: "/examples/breadcrumb/",
+            },
           ],
         },
         {
