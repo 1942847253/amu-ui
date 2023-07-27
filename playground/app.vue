@@ -234,16 +234,16 @@
 
       <ALoading v-model="showLoading" title="please loading...">
         <ATable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
-        <template #table="{ tableColumn, tableData }">
-          <a-tag type="success" v-if="tableColumn.key === 'age'">{{
-            tableData.age + " 岁"
-          }}</a-tag>
-        </template>
-        <template #operation="{ item, index }">
-          <a-button type="info" size="small">Edit</a-button>
-          <a-button type="danger" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</a-button>
-        </template>
-      </ATable>
+          <template #table="{ tableColumn, tableData }">
+            <a-tag type="success" v-if="tableColumn.key === 'age'">{{
+              tableData.age + " 岁"
+            }}</a-tag>
+          </template>
+          <template #operation="{ item, index }">
+            <a-button type="info" size="small">Edit</a-button>
+            <a-button type="danger" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</a-button>
+          </template>
+        </ATable>
       </ALoading>
     </ATabsPanel>
     <ATabsPanel key="12" title="Tag 标签">
@@ -313,11 +313,19 @@
       </a-button>
     </ATabsPanel>
     <ATabsPanel key="23" title="Breadcrumb 面包屑">
-     <ABreadcrumb>
-      <ABreadcrumbItem path="/home">home</ABreadcrumbItem>
-      <ABreadcrumbItem path="/promotion/list">promotion list</ABreadcrumbItem>
-      <ABreadcrumbItem>promotion detail</ABreadcrumbItem>
-     </ABreadcrumb>
+      <ABreadcrumb flag="/" @pathClick="pathClick">
+        <ABreadcrumbItem path="/Application">
+          <a-icon name="home"></a-icon>
+          home
+        </ABreadcrumbItem>
+        <ABreadcrumbItem path="/Application/list">
+          <a-icon name="chart-bar"></a-icon> 
+          Application List
+        </ABreadcrumbItem>
+        <ABreadcrumbItem path="/Application/list/item">
+          Application
+        </ABreadcrumbItem>
+      </ABreadcrumb>
     </ATabsPanel>
   </ATabs>
 </template>
@@ -344,7 +352,11 @@ const pageChange = (page: number) => {
   currentPage.value = page;
 };
 
-const sizeChange = (val:any) => {
+const pathClick = (path)=>{
+  console.log(path);
+}
+
+const sizeChange = (val: any) => {
   console.log(val);
 };
 

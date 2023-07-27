@@ -10,9 +10,12 @@ export default defineComponent({
             default: ''
         }
     },
-    emits: [],
+    emits: ['pathClick'],
     setup(props, { emit, slots }) {
         const flag = inject<string>('flag', '/')
+        const isRouter = inject<boolean>('isRouter', false)
+        const pathClick = inject<Function>('pathClick', () => { })
+        const router = isRouter ? useRouter() : null;
         const defaultSlot = () => {
             if (slots.default) {
                 return slots.default()
@@ -20,9 +23,14 @@ export default defineComponent({
                 return ''
             }
         }
+
+        const onPathClick = () => {
+            isRouter && router?.push(props.path)
+            pathClick(props.path)
+        }
         return () => (
             <div class="a-breadcrumb-item">
-                <span class={`${props.path === "" ? 'title' : 'title-href'}`}>{defaultSlot()}</span>
+                <span class={'title-href'} onClick={() => onPathClick()}>{defaultSlot()}</span>
                 <span class="flag">{flag}</span>
             </div>
         )

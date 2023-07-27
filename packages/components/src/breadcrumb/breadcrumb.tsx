@@ -7,11 +7,20 @@ export default defineComponent({
         flag: {
             type: String,
             default: '/'
+        },
+        isRouter: {
+            type: Boolean,
+            default: false
         }
     },
-    emits: [],
+    emits: ['pathClick'],
     setup(props, { emit, slots }) {
-        provide('flag', props.flag)
+        provide<string>('flag', props.flag);
+        provide<boolean>('isRouter', props.isRouter);
+        const pathClick = (path: string) => {
+            emit('pathClick', path)
+        }
+        provide<Function>('pathClick', pathClick);
         return () => (
             <div class="a-breadcrumb-content">
                 {slots.default && slots.default()}
