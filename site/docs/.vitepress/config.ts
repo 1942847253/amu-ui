@@ -9,7 +9,7 @@ export default {
       copyright: "本文档中的组件仅尚未稳定，仅供交流学习，请勿用于生产",
     },
     nav: [
-      { text: "指南", link: "/guild/installation" },
+      { text: '文档', link: '/guild/introduce' },
       { text: "组件", link: "/examples/button/" },
     ],
     socialLinks: [
@@ -18,21 +18,21 @@ export default {
     sidebar: {
       "/guild/": [
         {
-          text: "基础",
+          text: '指南',
           items: [
             {
-              text: "安装",
-              link: "/guild/installation",
+              text: '介绍',
+              link: '/guild/introduce'
             },
             {
-              text: "快速开始",
-              link: "/guild/quickstart",
+              text:'安装',
+              link: '/guild/install'
             },
             {
-              text: "组件示例",
-              link: "/examples/button/",
-            },
-          ],
+              text: '使用',
+              link: '/guild/quickstart'
+            }
+          ]
         },
       ],
       "/examples/": [

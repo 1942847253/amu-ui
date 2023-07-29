@@ -2,11 +2,13 @@
 <p align="center" style="margin-top:-60px">
   <img width="150"  src="./site/docs/public/logo.PNG" />
 </p>
-
+<p align="center">
+  <img style="display:inline" src="https://img.shields.io/npm/v/amu-ui" />
+  <img style="display:inline;margin-left:10px" src="https://img.shields.io/npm/dt/amu-ui" />
+</p>
 <p  style="margin-top:-50px" align="center">基于 Vue 3 的组件库</p>
 <p align="center"><b>支持TypeScript，支持按需引入</b></p>
 <p align="center">有点意思</p>
-
 
 
 ## 特性

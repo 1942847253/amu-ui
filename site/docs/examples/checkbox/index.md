@@ -120,3 +120,25 @@ const options = ref([
 ```
 
 </details>
+
+## Checkbox API
+
+| 属性名       | 说明             | 类型    | 默认值 |
+| ------------ | ---------------- | ------- | ------ |
+| v-model      | 选中项绑定值     | Boolean | —      |
+| defaultValue | Array / Boolean  | Boolean | —      |
+| loading      | 是否为加载中状态 | boolean | false  |
+| disabled     | 是否为禁用状态   | boolean | false  |
+
+## Checkbox Group API
+
+| 属性名  | 说明         | 类型    | 默认值 |
+| ------- | ------------ | ------- | ------ |
+| v-model | 选中项绑定值 | Array   | —      |
+| options | 选项数组        | Array | —      |
+
+<style>
+  table td {
+      width:200px
+  }
+</style>

@@ -1,5 +1,3 @@
-
-
 <script setup>
 import Basic from './component/Basic.vue'
 import Disabled from './component/Disabled.vue'
@@ -88,3 +86,18 @@ import { YButton } from "amu-ui";
 ```
 
 </details>
+
+## Button API
+
+| 属性名   | 说明               | 类型    | 默认值 |
+| -------- | ------------------ | ------- | ------ |
+| size     | 尺寸               | enum    | —      |
+| type     | 类型               | enum    | —      |
+| loading  | 是否为加载中状态   | boolean | false  |
+| disabled | 按钮是否为禁用状态 | boolean | false  |
+
+<style>
+  table td {
+      width:200px
+  }
+</style>

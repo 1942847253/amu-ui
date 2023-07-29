@@ -4,10 +4,6 @@
 
 由于 `Vue 3` 不再支持 IE11，`amu-ui` 也不再支持 IE11 浏览器。
 
-## 版本
-
-Amu-UI 正在持续开发中
-
 ## 使用包管理器
 
 建议您使用包管理器 (NPM, Yarn, pnpm) 安装 Amu-UI
@@ -24,5 +20,3 @@ $ yarn add amu-ui
 # pnpm
 $ pnpm install amu-ui
 ```
-
-
