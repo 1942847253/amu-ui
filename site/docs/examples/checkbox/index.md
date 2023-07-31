@@ -22,16 +22,19 @@ import Disabled from './component/Disabled.vue'
 ```vue
 <template>
   <div>
-    <a-button>default</a-button>
-    <a-button type="primary">primary</a-button>
-    <a-button type="success">success</a-button>
-    <a-button type="warning">warning</a-button>
-    <a-button type="danger">error</a-button>
-    <a-button type="info">info</a-button>
+    <a-checkbox v-model="checked1.value">我已阅读并同意此协议</a-checkbox>
+    <a-checkbox v-model="checked2">选项 1</a-checkbox>
+    <a-checkbox v-model="checked3">选项 2</a-checkbox>
+    <a-checkbox v-model="checked4">选项 3</a-checkbox>
   </div>
 </template>
+
 <script lang="ts" setup>
-import { YButton } from "amu-ui";
+import { reactive, ref } from "vue";
+const checked1 = reactive({ value: true });
+const checked2 = ref(false);
+const checked3 = ref(false);
+const checked4 = ref(false);
 </script>
 ```
 
@@ -58,8 +61,6 @@ import { YButton } from "amu-ui";
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { YCheckbox } from "amu-ui";
-
 const checked1 = ref(false);
 const checked2 = ref(true);
 </script>
@@ -132,10 +133,18 @@ const options = ref([
 
 ## Checkbox Group API
 
-| 属性名  | 说明         | 类型    | 默认值 |
-| ------- | ------------ | ------- | ------ |
-| v-model | 选中项绑定值 | Array   | —      |
-| options | 选项数组        | Array | —      |
+| 属性名  | 说明         | 类型  | 默认值 |
+| ------- | ------------ | ----- | ------ |
+| v-model | 选中项绑定值 | array | —      |
+| options | 传入的选项数组     | array | —      |
+
+## options Attributes
+
+| 属性名   | 说明           | 类型          | 默认值 |
+| -------- | -------------- | ------------- | ------ |
+| value    | 选项的值       | number        | —      |
+| label    | 选项的标签     | string/number | —      |
+| disabled | 是否禁用该选项 | boolean       | —      |
 
 <style>
   table td {

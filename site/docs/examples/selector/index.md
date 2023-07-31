@@ -20,13 +20,18 @@ import Search from './component/Search.vue'
 
 ```vue
 <template>
-  <a-select v-model="value" :options="options" placeholder="请选择一个选项">
+  <a-select
+    v-model="value"
+    :options="options"
+    @setItemValue="setItemValue"
+    placeholder="请选择一个选项"
+  >
   </a-select>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { YSelect } from "amu-ui";
+
 const value = ref();
 const options = ref([
   {
@@ -50,6 +55,10 @@ const options = ref([
     text: "选项 五",
   },
 ]);
+
+const setItemValue = (val: any) => {
+  console.log(val);
+};
 </script>
 ```
 
@@ -68,58 +77,84 @@ const options = ref([
 
 ```vue
 <template>
-    <a-select v-model="value" isSearch :options="options" placeholder="请选择一个小可爱">
-    </a-select>
+  <a-select
+    v-model="value"
+    isSearch
+    :options="options"
+    placeholder="请选择一个小可爱"
+  >
+  </a-select>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
-const value = ref()
+const value = ref();
 const options = ref([
-    {
-        value: 1,
-        text: "Yjj",
-    },
-    {
-        value: 2,
-        text: "Big龙",
-    },
-    {
-        value: 3,
-        text: "嘿毛",
-    },
-    {
-        value: 4,
-        text: "嫖瓜",
-    },
-    {
-        value: 5,
-        text: "吊毛",
-    },
-    {
-        value: 6,
-        text: "吴彦祖",
-    },
-    {
-        value: 7,
-        text: "陈冠希",
-    },
-    {
-        value: 8,
-        text: "林俊杰",
-    },
-    {
-        value: 9,
-        text: "周杰伦",
-    },
-    {
-        value: 10,
-        text: "王力宏",
-    },
+  {
+    value: 1,
+    text: "Yjj",
+  },
+  {
+    value: 2,
+    text: "Big龙",
+  },
+  {
+    value: 3,
+    text: "嘿毛",
+  },
+  {
+    value: 4,
+    text: "嫖瓜",
+  },
+  {
+    value: 5,
+    text: "吊毛",
+  },
+  {
+    value: 6,
+    text: "吴彦祖",
+  },
+  {
+    value: 7,
+    text: "陈冠希",
+  },
+  {
+    value: 8,
+    text: "林俊杰",
+  },
+  {
+    value: 9,
+    text: "周杰伦",
+  },
+  {
+    value: 10,
+    text: "王力宏",
+  },
 ]);
 </script>
-
 ```
 
 </details>
+
+## Select API
+
+| 属性名   | 说明             | 类型    | 默认值 |
+| -------- | ---------------- | ------- | ------ |
+| v-model  | radio 绑定的值   | number  | —      |
+| options  | 传入的选项数组   | array   | —      |
+| isSearch | 是否为搜索选择器 | boolean | false  |
+
+## options Attributes
+
+| 属性名   | 说明           | 类型          | 默认值 |
+| -------- | -------------- | ------------- | ------ |
+| value    | 选项的值       | number        | —      |
+| label    | 选项的标签     | string/number | —      |
+| disabled | 是否禁用该选项 | boolean       | —      |
+
+## Select Events
+
+| 事件名       | 说明                 | 回调参数          |
+| ------------ | -------------------- | ----------------- |
+| setItemValue | 选中值发生变化时触发 | val，目前的选中值 |

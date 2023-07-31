@@ -97,3 +97,12 @@ const value = ref(true);
 ```
 
 </details>
+
+## Switch API
+
+| 属性名     | 说明             | 类型    | 默认值 |
+| ---------- | ---------------- | ------- | ------ |
+| v-model    | switch 绑定的值  | boolean | —      |
+| disabled   | 是否禁用         | boolean | false  |
+| open-title | 打开时的文字描述 | string  | —      |
+| off-title  | 关闭时的文字描述 | string  | —      |

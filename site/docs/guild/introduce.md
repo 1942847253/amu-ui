@@ -4,7 +4,7 @@
 <br />
 <div style="text-align:center">
 <p align="center" style="margin-top:-20px">
-  <img width="150"  src="../public/logo.PNG" />
+  <img width="150"  src="https://yjjanmusang.gitee.io/amu-ui/logo.PNG" />
 </p>
 <p>基于Vite4+TypeScript的Vue3组件库</p>
 <img style="display:inline" src="https://img.shields.io/npm/v/amu-ui" />
