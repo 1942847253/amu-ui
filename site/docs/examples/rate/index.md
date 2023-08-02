@@ -26,11 +26,10 @@ import Length from './component/Length.vue'
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const rateValue = ref(3);
 </script>
-
 ```
 
 </details>
@@ -52,7 +51,7 @@ const rateValue = ref(3);
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const rateValue = ref(4);
 </script>
@@ -77,7 +76,7 @@ const rateValue = ref(4);
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const rateValue = ref(4);
 </script>
@@ -102,12 +101,17 @@ const rateValue = ref(4);
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const rateValue = ref(7);
 </script>
-
 ```
 
 </details>
 
+| 属性名   | 说明     | 类型    | 默认值 |
+| -------- | -------- | ------- | ------ |
+| v-model  | 绑定的值 | number  | —      |
+| color    | 颜色     | string  | —      |
+| disabled | 是否禁用 | boolean | —      |
+| max      | 定义长度 | boolean | —      |
