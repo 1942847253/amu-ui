@@ -1,5 +1,5 @@
 <template>
-    <a-select v-model="value" :options="options" @setItemValue="setItemValue"  placeholder="请选择一个选项">
+    <a-select v-model="value" :options="options"  placeholder="请选择一个选项">
     </a-select>
 </template>
 
@@ -29,8 +29,4 @@ const options = ref([
         text: "选项 五",
     },
 ]);
-
-const setItemValue = (val:any)=>{
-    console.log(val); 
-}
 </script>
