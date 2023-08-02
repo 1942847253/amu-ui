@@ -62,7 +62,7 @@ export default {
             },
             {
               text: "Selector 选择器",
-              link: "/examples/Selector/",
+              link: "/examples/selector",
             },
             {
               text: "Switch 开关",
