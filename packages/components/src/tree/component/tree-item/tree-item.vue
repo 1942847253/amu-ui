@@ -30,13 +30,13 @@
               checkedTreeItem(item, checked,index);
             }
           "
-          @treeChecked="tap(item, index)"
+          @label-click="tap(item, index)"
         >
           <span @click="tap(item, index)" class="title">{{
             item[props.label]
           }}</span>
         </ACheckBox>
-        <span v-else>{{ item[props.label] }}</span>
+        <span @click="tap(item, index)" v-else>{{ item[props.label] }}</span>
       </div>
 
       <div
@@ -97,8 +97,6 @@ export default defineComponent({
     ACheckBox,
   },
   setup(props, { emit }) {
-    let lastCurrentItemKey = NaN;
-    let lastCurrentParentItemKey = NaN;
     const uniKey = inject("uniKey");
     const uid = uuid();
     const nodeKey = inject("node-key") as string;
@@ -147,22 +145,29 @@ export default defineComponent({
         // 找到当前item的父级
         if (item.key === currentItem.pid) {
           let hasUnchecked = false;
-          item.children &&  ( hasUnchecked = item.children.some((i:any)=>i.checked === false) )
-           // 当前节点的子节点是否有未勾选项, 有未勾选当前节点则为未勾选
-          if ((hasUnchecked)) {
+          item.children &&
+            (hasUnchecked = item.children.some(
+              (i: any) => i.checked === false
+            ));
+          // 当前节点的子节点是否有未勾选项, 有未勾选当前节点则为未勾选
+          if (hasUnchecked) {
             item.checked = false;
             // 当前节点的子节点有未选项，并且至少有一个勾选项或选中半选中项则当前节点为半选中
-            if (item.children.some((j: any) => (j.checked === true || j.indeterminate === true))) {
-                item.indeterminate = true;       
-              } else {
-                item.indeterminate = false;
-              }
+            if (
+              item.children.some(
+                (j: any) => j.checked === true || j.indeterminate === true
+              )
+            ) {
+              item.indeterminate = true;
+            } else {
+              item.indeterminate = false;
+            }
           } else {
             item.checked = currentChecked;
             item.indeterminate = false;
           }
           updateParentChecked(TtreeData, item, item.checked);
-        } 
+        }
         item.children &&
           updateParentChecked(item.children, currentItem, currentChecked);
       });

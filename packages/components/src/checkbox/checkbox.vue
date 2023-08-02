@@ -1,7 +1,14 @@
 <template>
   <div class="a-checked-main">
-    <input :indeterminate="indeterminate" @change="changeChecked" :class="disabled && checked ? 'checked' : ''" :id="valueSlot" type="checkbox"
-      :checked="checked" :disabled="disabled" />
+    <input
+      :indeterminate="indeterminate"
+      @change="changeChecked"
+      :class="disabled && checked ? 'checked' : ''"
+      :id="valueSlot"
+      type="checkbox"
+      :checked="checked"
+      :disabled="disabled"
+    />
     <label :for="valueSlot">
       <span @click="handleLabelClick" style="margin-left: 3px">{{
         valueSlot
@@ -50,6 +57,7 @@ export default defineComponent({
     "updateCheckedGroup",
     "tree-checked",
     "updateDefaultValue",
+    "label-click",
   ],
   setup(props, { emit }) {
     const instance = getCurrentInstance()!;
@@ -102,7 +110,10 @@ export default defineComponent({
     };
 
     const handleLabelClick = (e: MouseEvent) => {
-      if (props.stopLabelTrigger) e.preventDefault();
+      if (props.stopLabelTrigger) {
+        emit("label-click", e.target);
+        e.preventDefault();
+      }
     };
 
     return {

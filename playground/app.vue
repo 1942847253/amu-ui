@@ -258,7 +258,7 @@
       {{ numberValue }}
     </ATabsPanel>
     <ATabsPanel key="14" title="Tree 树形控件">
-      <ATree :default-checked-keys="[90026, 90037]" node-key="key" :expand="true" :isSelect="isSelect" :data="treeData">
+      <ATree @node-click="treeNodeClick" @checked="treeChecked" :default-checked-keys="[90026, 90037]" node-key="key" :expand="true" :isSelect="isSelect" :data="treeData">
       </ATree>
     </ATabsPanel>
     <ATabsPanel key="15" title="Message 消息">
@@ -366,6 +366,16 @@ const handelLoading = () => {
     showLoading.value = false;
   }, 4000);
 };
+
+const treeNodeClick = (val)=>{
+  console.log(val);
+  
+}
+
+const treeChecked = (val)=>{
+  console.log(val);
+  
+}
 
 const beforeClose = (done: () => void) => {
   AMessageBox({
