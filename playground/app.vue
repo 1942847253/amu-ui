@@ -1,5 +1,5 @@
 <template>
-  <ATabs default-active-key="23" position="left">
+  <ATabs default-active-key="24" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <AButton type="primary">primary</AButton>
     </ATabsPanel>
@@ -326,6 +326,9 @@
           Application
         </ABreadcrumbItem>
       </ABreadcrumb>
+    </ATabsPanel>
+    <ATabsPanel key="24" title="Slider 滑块">
+     <ASlider/>
     </ATabsPanel>
   </ATabs>
 </template>

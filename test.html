@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Draggable Circle</title>
+  <style>
+    .container {
+      width: 500px;
+      height: 10px;
+      background-color: grey;
+      position: relative;
+    }
+
+    .circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: white;
+      position: absolute;
+      top: -5px;
+      cursor: grab;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="circle" id="draggable"></div>
+  </div>
+
+  <script>
+    // 获取小圆圈元素
+    const draggable = document.getElementById('draggable');
+
+    // 初始位置为最左侧（百分比）
+    let initialPercentage = 0;
+
+    // 记录鼠标按下状态
+    let isDragging = false;
+
+    // 监听鼠标按下事件
+    draggable.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      const containerWidth = draggable.parentNode.clientWidth; // 获取div.container的宽度
+      const circleWidth = draggable.clientWidth; // 获取小圆圈的宽度
+     // initialPercentage = (draggable.offsetLeft / containerWidth) * 100; // 计算初始位置的百分比
+      isDragging = true;
+    });
+
+    // 监听鼠标移动事件
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      console.log('test');
+      const containerWidth = draggable.parentNode.clientWidth; // 获取div.container的宽度
+      const circleWidth = draggable.clientWidth; // 获取小圆圈的宽度
+      const mouseX = e.clientX - draggable.parentNode.getBoundingClientRect().left; // 获取鼠标在div.container内的X坐标
+      const moveX = (mouseX / containerWidth) * 100 - initialPercentage; // 计算鼠标水平移动的百分比
+      const newPosition = Math.min(Math.max(0, initialPercentage + moveX), 100 - (circleWidth / containerWidth) * 100); // 计算新的位置百分比
+      draggable.style.left = newPosition + '%'; // 设置小圆圈新的位置
+    });
+
+    // 监听鼠标松开事件
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+  </script>
+</body>
+</html>
