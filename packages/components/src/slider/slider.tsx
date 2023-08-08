@@ -1,16 +1,38 @@
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import ATolltip from '../tooltip'
 import './style/index.less'
 
 export default defineComponent({
     name: 'ASlider',
-    props: {},
+    props: {
+        modelValue: {
+            type: Number,
+            default: 0
+        }
+    },
     emits: [],
+    directives: {
+        ATolltip
+    },
     setup(props, { slots }) {
         const barRef = ref<HTMLDivElement>();
+        const sliderBarRef = ref<HTMLDivElement>();
         const buttonWrapperRef = ref<HTMLDivElement>()
         const buttonRef = ref<HTMLDivElement>()
         const initialX = ref(0);
         const isDrag = ref(false)
+        const barWidth = ref(0)
+        const positionValue = ref(0)
+        const ModelValue = computed(() => {
+            return Math.round((positionValue.value / barWidth.value) * 100)
+        })
+
+        onMounted(() => {
+            barWidth.value = barRef.value!.offsetWidth
+            positionValue.value = (props.modelValue / 100) * barWidth.value
+            buttonWrapperRef.value!.style.left = positionValue.value + 'px';
+            sliderBarRef.value!.style.width = positionValue.value + 'px';
+        })
         const onMousedown = (event: MouseEvent) => {
             event.preventDefault();
             initialX.value = event.clientX;
@@ -20,21 +42,23 @@ export default defineComponent({
         const drag = (e: MouseEvent) => {
             isDrag.value = true
             e.preventDefault();
-            console.log(e.clientX);
             const barOffsetLeft = barRef.value!.offsetLeft;
             const barWidth = barRef.value!.offsetWidth;
             const isbarRefClientInner = e.clientX >= barOffsetLeft && (e.clientX - barOffsetLeft) <= barWidth;
             if (isDrag.value && isbarRefClientInner) {
-                // 计算鼠标水平移动距离
                 const moveX = e.clientX - initialX.value;
-                // 获取当前小圆圈的位置
                 const currentPosition = buttonWrapperRef.value!.offsetLeft;
-                // 计算新的位置
-                const newPosition = Math.min(Math.max(0, currentPosition + moveX), barRef.value!.clientWidth);
-                // 设置小圆圈新的位置
-                buttonWrapperRef.value!.style.left = newPosition + 'px';
-                // 更新初始位置，以便下次移动计算
-                initialX.value = e.clientX;
+                const newPosition = currentPosition + moveX;
+                if (Math.abs(newPosition - currentPosition) >= barWidth * 0.01) {
+                    positionValue.value = Math.min(
+                        Math.max(newPosition, 0),
+                        barWidth
+                    );
+                    buttonWrapperRef.value!.style.left = positionValue.value + 'px';
+                    sliderBarRef.value!.style.width = positionValue.value + 'px';
+
+                    initialX.value = e.clientX;
+                }
             }
         }
 
@@ -67,9 +91,9 @@ export default defineComponent({
         return () => (
             <div class="a-slider-content">
                 <div class="a-slider-runway" ref={barRef}>
-                    <div class="a-slider-bar"></div>
-                    <div ref={buttonWrapperRef} style={{}} class="a-slider-button_wrapper" onMousedown={(event) => onMousedown(event)}>
-                        <div class="a-slider-button">
+                    <div class="a-slider-bar" ref={sliderBarRef}></div>
+                    <div v-tooltip_top={ModelValue.value} ref={buttonWrapperRef} style={{}} class="a-slider-button_wrapper" onMousedown={(event) => onMousedown(event)}>
+                        <div ref={buttonRef} class="a-slider-button">
                         </div>
                     </div>
                 </div>

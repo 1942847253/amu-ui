@@ -24,9 +24,10 @@ function positionElement(el, target, placements) {
     let el_dom
     let target_dom
     let tooltipArrow
-    el_dom = el.$el.getBoundingClientRect()
+    const ELDOM = el.$el.nextElementSibling
+    el_dom = ELDOM.getBoundingClientRect()
     target_dom = target.getBoundingClientRect()
-    tooltipArrow = (el.$el as HTMLDivElement).querySelector('.a-tooltip-arrow ')
+    tooltipArrow = (ELDOM as HTMLDivElement).querySelector('.a-tooltip-arrow ')
     let top, left;
     switch (Placements) {
         case "top":
@@ -57,19 +58,19 @@ function positionElement(el, target, placements) {
 
     switch (Placements) {
         case "top":
-            top = target_dom.top - el.$el.offsetHeight - 10;
-            left = target_dom.left + (target_dom.width - el.$el.offsetWidth) / 2;
+            top = target_dom.top - ELDOM.offsetHeight - 10;
+            left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2;
             break;
         case "bottom":
             top = target_dom.bottom + 10;
-            left = target_dom.left + (target_dom.width - el.$el.offsetWidth) / 2;
+            left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2;
             break;
         case "left":
-            top = target_dom.top + (target_dom.height - el.$el.offsetHeight) / 2;
-            left = target_dom.left - el.$el.offsetWidth - 10;
+            top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2;
+            left = target_dom.left - ELDOM.offsetWidth - 10;
             break;
         case "right":
-            top = target_dom.top + (target_dom.height - el.$el.offsetHeight) / 2;
+            top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2;
             left = target_dom.right + 10;
             break;
         default:
@@ -133,6 +134,7 @@ export const Tooltip = {
                 }, 300);
             }
         }
+        el.addEventListener('mousemove', el._tipHandler)
         el.addEventListener('mouseenter', el._tipHandler)
         el.addEventListener('mouseleave', () => {
             !isEnterTipDomRef && el._tipMouseleaveHandler()
