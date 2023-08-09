@@ -24,7 +24,7 @@ function positionElement(el, target, placements) {
     let el_dom
     let target_dom
     let tooltipArrow
-    const ELDOM = el.$el.nextElementSibling
+    let ELDOM = el.$el.nodeType === 3 ? el.$el.nextElementSibling : el.$el;
     el_dom = ELDOM.getBoundingClientRect()
     target_dom = target.getBoundingClientRect()
     tooltipArrow = (ELDOM as HTMLDivElement).querySelector('.a-tooltip-arrow ')
@@ -134,7 +134,13 @@ export const Tooltip = {
                 }, 300);
             }
         }
-        el.addEventListener('mousemove', el._tipHandler)
+        document.addEventListener('mouseup', () => {
+            document.removeEventListener('mousemove', el._tipHandler)
+            el._tipMouseleaveHandler()
+        })
+        el.addEventListener('mousedown', () => {
+            document.addEventListener('mousemove', el._tipHandler)
+        })
         el.addEventListener('mouseenter', el._tipHandler)
         el.addEventListener('mouseleave', () => {
             !isEnterTipDomRef && el._tipMouseleaveHandler()

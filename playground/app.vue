@@ -329,7 +329,7 @@
     </ATabsPanel>
     <ATabsPanel key="24" title="Slider 滑块">
      <div style="width: 500px;">
-      <ASlider v-model="sliderValue"/>
+      <ASlider v-model="sliderValue"/> {{ sliderValue }}
      </div>
     </ATabsPanel>
   </ATabs>

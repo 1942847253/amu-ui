@@ -10,12 +10,12 @@ export default defineComponent({
             default: 0
         }
     },
-    emits: [],
+    emits: ['update:modelValue'],
     directives: {
         ATolltip
     },
-    setup(props, { slots }) {
-        const barRef = ref<HTMLDivElement>();
+    setup(props, { slots, emit }) {
+        const barRunwayRef = ref<HTMLDivElement>();
         const sliderBarRef = ref<HTMLDivElement>();
         const buttonWrapperRef = ref<HTMLDivElement>()
         const buttonRef = ref<HTMLDivElement>()
@@ -23,29 +23,53 @@ export default defineComponent({
         const isDrag = ref(false)
         const barWidth = ref(0)
         const positionValue = ref(0)
-        const ModelValue = computed(() => {
-            return Math.round((positionValue.value / barWidth.value) * 100)
+        const ModelValue = computed(() => Math.round((positionValue.value / barWidth.value) * 100))
+
+        watch(ModelValue, (modelValue) => {
+            if (modelValue !== props.modelValue) {
+                emit('update:modelValue', modelValue)
+            }
         })
 
+        watch(() => props.modelValue, () => {
+            initSliderPosition()
+        })
         onMounted(() => {
-            barWidth.value = barRef.value!.offsetWidth
+            initSliderPosition()
+        })
+
+        const initSliderPosition = () => {
+            barWidth.value = barRunwayRef.value!.offsetWidth
             positionValue.value = (props.modelValue / 100) * barWidth.value
             buttonWrapperRef.value!.style.left = positionValue.value + 'px';
             sliderBarRef.value!.style.width = positionValue.value + 'px';
-        })
-        const onMousedown = (event: MouseEvent) => {
+        }
+        const onMousedownButton = (event: MouseEvent) => {
+            event.stopPropagation()
             event.preventDefault();
             initialX.value = event.clientX;
             document.addEventListener('mousemove', drag); // 添加鼠标移动事件监听
             document.addEventListener('mouseup', stopDrag); // 添加鼠标松开事件监听
         }
+        const onMousedownRunway = (event: MouseEvent) => {
+            initialX.value = event.clientX;
+            positionValue.value = event.clientX - barRunwayRef.value!.offsetLeft;
+            buttonWrapperRef.value!.style.left = positionValue.value + 'px';
+            sliderBarRef.value!.style.width = positionValue.value + 'px';
+        }
         const drag = (e: MouseEvent) => {
-            isDrag.value = true
             e.preventDefault();
-            const barOffsetLeft = barRef.value!.offsetLeft;
-            const barWidth = barRef.value!.offsetWidth;
-            const isbarRefClientInner = e.clientX >= barOffsetLeft && (e.clientX - barOffsetLeft) <= barWidth;
-            if (isDrag.value && isbarRefClientInner) {
+            isDrag.value = true
+            let flag = e.clientX < initialX.value ? 'left' : 'right'
+            const barOffsetLeft = barRunwayRef.value!.offsetLeft;
+            const barWidth = barRunwayRef.value!.offsetWidth;
+            const isbarRefClientInner = e.clientX >= barOffsetLeft && (e.clientX - barOffsetLeft) <= barWidth
+            const isDragAndValidPosition = isDrag.value && (
+                isbarRefClientInner ||
+                (flag === 'left' && ModelValue.value > 0) ||
+                (flag === 'right' && ModelValue.value < 100)
+              );
+            if (isDragAndValidPosition) {
                 const moveX = e.clientX - initialX.value;
                 const currentPosition = buttonWrapperRef.value!.offsetLeft;
                 const newPosition = currentPosition + moveX;
@@ -68,31 +92,11 @@ export default defineComponent({
             document.removeEventListener('mouseup', stopDrag);
         }
 
-        //    const moveMouseIntoSpan = ()=> {
-        //         // 获取span相对于parentDiv的位置信息
-        //         const spanRect = childSpan.getBoundingClientRect();
-        //         const parentRect = childSpan.parentElement.getBoundingClientRect();
-
-        //         // 计算span的中心位置
-        //         const spanCenterX = spanRect.left + spanRect.width / 2;
-        //         const spanCenterY = spanRect.top + spanRect.height / 2;
-
-        //         // 计算鼠标相对于span中心的偏移量
-        //         const offsetX = spanCenterX - parentRect.left;
-        //         const offsetY = spanCenterY - parentRect.top;
-
-        //         // 创建一个模拟鼠标事件，将鼠标移动到span的中心位置
-        //         const event = new MouseEvent("mousemove", {
-        //           clientX: offsetX,
-        //           clientY: offsetY,
-        //         });
-        //         document.dispatchEvent(event);
-        //       }
         return () => (
             <div class="a-slider-content">
-                <div class="a-slider-runway" ref={barRef}>
+                <div class="a-slider-runway" ref={barRunwayRef} onMousedown={(event) => onMousedownRunway(event)}>
                     <div class="a-slider-bar" ref={sliderBarRef}></div>
-                    <div v-tooltip_top={ModelValue.value} ref={buttonWrapperRef} style={{}} class="a-slider-button_wrapper" onMousedown={(event) => onMousedown(event)}>
+                    <div class="a-slider-button_wrapper" v-tooltip_top={ModelValue.value} ref={buttonWrapperRef} onMousedown={(event) => onMousedownButton(event)}>
                         <div ref={buttonRef} class="a-slider-button">
                         </div>
                     </div>
