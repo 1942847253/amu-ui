@@ -8,9 +8,13 @@ export default defineComponent({
         modelValue: {
             type: Number,
             default: 0
+        },
+        step: {
+            type: Number,
+            default: 1
         }
     },
-    emits: ['update:modelValue'],
+    emits: ['update:modelValue', 'change'],
     directives: {
         ATolltip
     },
@@ -28,6 +32,7 @@ export default defineComponent({
         watch(ModelValue, (modelValue) => {
             if (modelValue !== props.modelValue) {
                 emit('update:modelValue', modelValue)
+                emit('change', modelValue)
             }
         })
 
@@ -53,7 +58,7 @@ export default defineComponent({
         }
         const onMousedownRunway = (event: MouseEvent) => {
             initialX.value = event.clientX;
-            positionValue.value = event.clientX - barRunwayRef.value!.offsetLeft;
+            positionValue.value = findNearestDivisible(event.clientX - barRunwayRef.value!.offsetLeft, barWidth.value * (props.step / 100));
             buttonWrapperRef.value!.style.left = positionValue.value + 'px';
             sliderBarRef.value!.style.width = positionValue.value + 'px';
         }
@@ -68,20 +73,39 @@ export default defineComponent({
                 isbarRefClientInner ||
                 (flag === 'left' && ModelValue.value > 0) ||
                 (flag === 'right' && ModelValue.value < 100)
-              );
+            );
             if (isDragAndValidPosition) {
                 const moveX = e.clientX - initialX.value;
                 const currentPosition = buttonWrapperRef.value!.offsetLeft;
                 const newPosition = currentPosition + moveX;
-                if (Math.abs(newPosition - currentPosition) >= barWidth * 0.01) {
-                    positionValue.value = Math.min(
+                if (Math.abs(newPosition - currentPosition) >= barWidth * (props.step / 100)) {
+                    const pval = Math.min(
                         Math.max(newPosition, 0),
                         barWidth
                     );
+                    positionValue.value = findNearestDivisible(pval, barWidth * (props.step / 100))
                     buttonWrapperRef.value!.style.left = positionValue.value + 'px';
                     sliderBarRef.value!.style.width = positionValue.value + 'px';
 
                     initialX.value = e.clientX;
+                }
+            }
+        }
+
+        function findNearestDivisible(number, divisor) {
+            const remainder = number % divisor;
+
+            if (remainder === 0) {
+                return number; // 当前数已经可以被取模数整除
+            } else {
+                const lowerBound = number - remainder; // 下界
+                const upperBound = lowerBound + divisor; // 上界
+
+                // 找到最近的一个能被取模数整除的数
+                if (number - lowerBound <= upperBound - number) {
+                    return lowerBound;
+                } else {
+                    return upperBound;
                 }
             }
         }

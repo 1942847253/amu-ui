@@ -329,7 +329,7 @@
     </ATabsPanel>
     <ATabsPanel key="24" title="Slider 滑块">
      <div style="width: 500px;">
-      <ASlider v-model="sliderValue"/> {{ sliderValue }}
+      <ASlider v-model="sliderValue" @change="sliderChange" :step="10"/> {{ sliderValue }}
      </div>
     </ATabsPanel>
   </ATabs>
@@ -359,6 +359,11 @@ const pageChange = (page: number) => {
 
 const pathClick = (path)=>{
   console.log(path);
+}
+
+const sliderChange = (val)=>{
+  console.log(val);
+  
 }
 
 const sizeChange = (val: any) => {
