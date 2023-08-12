@@ -1,6 +1,6 @@
 export default {
   base: process.env.NODE_ENV === "production" ? "/amu-ui/" : "/",
-  appearance:'false',
+  appearance: 'false',
   themeConfig: {
     smoothScroll: true,
     siteTitle: false,
@@ -25,7 +25,7 @@ export default {
               link: '/guild/introduce'
             },
             {
-              text:'安装',
+              text: '安装',
               link: '/guild/install'
             },
             {
@@ -62,7 +62,7 @@ export default {
             },
             {
               text: "Selector 选择器",
-              link: "/examples/selector",
+              link: "/examples/selector/",
             },
             {
               text: "Switch 开关",
@@ -92,6 +92,10 @@ export default {
             {
               text: "Form 表单",
               link: "/examples/Form/",
+            },
+            {
+              text: 'Slider 滑块',
+              link: "/examples/slider/"
             },
           ],
         },
