@@ -328,8 +328,8 @@
       </ABreadcrumb>
     </ATabsPanel>
     <ATabsPanel key="24" title="Slider 滑块">
-     <div style="width: 500px;">
-      <ASlider v-model="sliderValue" @change="sliderChange" /> {{ sliderValue }}
+     <div style="width: 800px;">
+      <ASlider v-model="sliderValue" :step="10" showStops showInput @change="sliderChange" /> {{ sliderValue }}
      </div>
     </ATabsPanel>
   </ATabs>
@@ -351,7 +351,7 @@ const formState = reactive({
   birthday: "",
 });
 const currentPage = ref(1);
-const sliderValue = ref(99)
+const sliderValue = ref(20)
 const pageChange = (page: number) => {
   console.log(page);
   currentPage.value = page;

@@ -29,6 +29,10 @@ export default defineComponent({
         placeholder: {
             type: String,
             default: ''
+        },
+        width: {
+            type: Number,
+            default: 150
         }
 
     },
@@ -36,6 +40,11 @@ export default defineComponent({
     setup(props, { emit }) {
         const state = reactive({
             numberValue: props.modelValue,
+        })
+
+
+        watch(()=>props.modelValue,(val)=>{
+            state.numberValue = val
         })
 
 
@@ -61,9 +70,9 @@ export default defineComponent({
         }
 
         watch(() => state.numberValue, (val) => {
-            if (val! >= props.max && props.max !== Infinity) {
+            if (Number(val) >= props.max && props.max !== Infinity) {
                 state.numberValue = props.max
-            } else if (val! <= props.min && props.min !== -Infinity) {
+            } else if (Number(val) <= props.min && props.min !== -Infinity) {
                 state.numberValue = props.min
             }
             emit('update:modelValue', state.numberValue)
@@ -87,12 +96,12 @@ export default defineComponent({
         }
 
         const onBlur = () => {
-            if (state.numberValue! >= props.max) {
+            if ((Number(state.numberValue)) >= props.max) {
                 state.numberValue = ''
                 setTimeout(() => {
                     state.numberValue = props.max
                 });
-            } else if (state.numberValue! <= props.min) {
+            } else if (Number(state.numberValue) <= props.min) {
                 state.numberValue = ''
                 setTimeout(() => {
                     state.numberValue = props.min
@@ -103,7 +112,7 @@ export default defineComponent({
         return () => (
             <div class="a-input-number-content">
                 {buttonJSX()}
-                <Input  onBlur={() => onBlur()} placeholder={props.placeholder} readonly={props.readonly} disabled={props.disabled} textCenter width="150" v-model={state.numberValue} type="number" />
+                <Input onBlur={() => onBlur()} placeholder={props.placeholder} readonly={props.readonly} disabled={props.disabled} textCenter width={props.width} v-model={state.numberValue} type="number" />
             </div>
         )
     }

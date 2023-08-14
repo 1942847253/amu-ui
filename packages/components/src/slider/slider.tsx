@@ -1,6 +1,8 @@
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, ref, watch, nextTick } from "vue";
 import ATolltip from '../tooltip'
+import AInputNumber from "@components/input-number/input-number";
 import './style/index.less'
+
 
 export default defineComponent({
     name: 'ASlider',
@@ -12,6 +14,14 @@ export default defineComponent({
         step: {
             type: Number,
             default: 1
+        },
+        showStops: {
+            type: Boolean,
+            default: false
+        },
+        showInput: {
+            type: Boolean,
+            default: false
         }
     },
     emits: ['update:modelValue', 'change'],
@@ -29,6 +39,7 @@ export default defineComponent({
         const positionValue = ref(0)
         const ModelValue = computed(() => Math.round((positionValue.value / barWidth.value) * 100))
         const stepProportion = computed(() => barWidth.value * (props.step / 100))
+        const inputNumberValue = ref(ModelValue.value)
 
         watch(ModelValue, (modelValue) => {
             if (modelValue !== props.modelValue) {
@@ -40,8 +51,18 @@ export default defineComponent({
         watch(() => props.modelValue, () => {
             initSliderPosition()
         })
+
+        watch(() => inputNumberValue.value, (val) => {
+            if (val !== props.modelValue) {
+                emit('update:modelValue', val)
+                emit('change', val)
+                initSliderPosition()
+            }
+        })
         onMounted(() => {
-            initSliderPosition()
+            nextTick(() => {
+                initSliderPosition()
+            })
         })
 
         const initSliderPosition = () => {
@@ -49,6 +70,7 @@ export default defineComponent({
             positionValue.value = (props.modelValue / 100) * barWidth.value
             buttonWrapperRef.value!.style.left = positionValue.value + 'px';
             sliderBarRef.value!.style.width = positionValue.value + 'px';
+            inputNumberValue.value = ModelValue.value
         }
         const onMousedownButton = (event: MouseEvent) => {
             event.stopPropagation()
@@ -57,7 +79,7 @@ export default defineComponent({
             document.addEventListener('mousemove', drag); // 添加鼠标移动事件监听
             document.addEventListener('mouseup', stopDrag); // 添加鼠标松开事件监听
         }
-        const onMousedownRunway = (event: MouseEvent) => {    
+        const onMousedownRunway = (event: MouseEvent) => {
             initialX.value = event.clientX;
             const offsetLeft = barRunwayRef.value!.getBoundingClientRect().left
             const pval = findNearestDivisible(event.clientX - offsetLeft, stepProportion.value);
@@ -118,14 +140,26 @@ export default defineComponent({
         }
 
         return () => (
+
             <div class="a-slider-content">
-                <div class="a-slider-runway" ref={barRunwayRef} onMousedown={(event) => onMousedownRunway(event)}>
+                { }
+                <div class="a-slider-runway" style={{ marginRight: props.showInput ? '30px' : '' }} ref={barRunwayRef} onMousedown={(event) => onMousedownRunway(event)}>
+                    <div class="a-slider-stop-list">
+                        {
+                            props.showStops && Array.from({ length: findNearestDivisible(barWidth.value / stepProportion.value, 1) }).map((_, index) => (
+                                <div class="stop-item" style={{ left: (stepProportion.value * index + 1) + 'px' }}></div>
+                            ))
+                        }
+                    </div>
                     <div class="a-slider-bar" ref={sliderBarRef}></div>
                     <div class="a-slider-button_wrapper" v-tooltip_top={ModelValue.value} ref={buttonWrapperRef} onMousedown={(event) => onMousedownButton(event)}>
                         <div ref={buttonRef} class="a-slider-button">
                         </div>
                     </div>
                 </div>
+                {
+                    props.showInput && <AInputNumber v-model={inputNumberValue.value} width={100} max={100} min={0} step={props.step} />
+                }
             </div>
         )
     }

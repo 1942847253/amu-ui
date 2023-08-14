@@ -3,13 +3,27 @@
   height: 32px;
   display: flex;
   align-items: center;
+  input{
+    margin-left: 10px;
+  }
   .a-slider-runway {
+    position: relative;
     flex: 1;
     height: 6px;
     background-color: #e4e7ed;
     border-radius: 3px;
     position: relative;
     cursor: pointer;
+    .a-slider-stop-list {
+      .stop-item {
+        position: absolute;
+        top: 0px;
+        height: 6px;
+        width: 6px;
+        background-color: #ffffff;
+        border-radius: 50%;
+      }
+    }
     .a-slider-bar {
       position: absolute;
       height: 6px;
