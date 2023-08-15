@@ -2,7 +2,7 @@
 import Basic from './component/Basic.vue'
 import Step from './component/Step.vue'
 import Disabled from './component/Disabled.vue'
-
+import Number from './component/Number.vue'
 </script>
 
 # Slider 滑块
@@ -60,7 +60,7 @@ const value2 = ref(50);
 
 选项可以是离散的
 
-改变`step`的值可以改变步长
+改变`step`的值可以改变步长， 通过设置 `show-stops` 属性可以显示间断点
 
 <div class="example">
  <Step/>
@@ -73,18 +73,18 @@ const value2 = ref(50);
 <template>
   <div class="list">
     <div class="item">
-      <span>step {{ value1 }}</span> <a-slider v-model="value1" :step="5" />
+      <span>step </span> <a-slider v-model="value1" :step="5" />
     </div>
     <div class="item">
-      <span>step {{ value2 }}</span> <a-slider v-model="value2" :step="10" />
+      <span>stops</span> <a-slider show-stops v-model="value2" :step="10" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
-const value1 = ref(25);
-const value2 = ref(70);
+const value1 = ref(10);
+const value2 = ref(30);
 </script>
 
 <style lang="less" scoped>
@@ -103,12 +103,24 @@ const value2 = ref(70);
 
 </details>
 
+## 带有输入框的滑块
+
+通过输入框输入来改变当前的值。
+
+设置 `show-input` 属性会在右侧显示一个输入框
+
+<div class="example">
+ <Number/>
+</div>
+
 ## Slider API
 
-| 属性名  | 说明            | 类型   | 默认值 |
-| ------- | --------------- | ------ | ------ |
-| v-model | slider 绑定的值 | number | 0      |
-| step    | 步长            | number | 1      |
+| 属性名     | 说明            | 类型    | 默认值 |
+| ---------- | --------------- | ------- | ------ |
+| v-model    | slider 绑定的值 | number  | 0      |
+| step       | 步长            | number  | 1      |
+| show-stops | 是否显示间断点  | boolean | false  |
+| show-input | 是否显示输入框  | boolean | false  |
 
 ## Slider Events
 
