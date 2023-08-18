@@ -113,6 +113,12 @@ const value2 = ref(30);
  <Number/>
 </div>
 
+<style>
+table td {
+    width:200px
+}
+</style>
+
 ## Slider API
 
 | 属性名     | 说明            | 类型    | 默认值 |

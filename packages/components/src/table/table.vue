@@ -54,7 +54,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, App, createApp, reactive, ref, computed } from "vue";
+import {
+  defineComponent,
+  App,
+  createApp,
+  reactive,
+  ref,
+  computed,
+  onMounted,
+} from "vue";
 import { editTdStat, initTdStats } from "./baseData";
 import EditInput from "./component/table-input/table-input.vue";
 import "./style/index.less";
@@ -105,11 +113,13 @@ export default defineComponent({
       return isOperationTd;
     });
 
-    window.addEventListener(
-      "click",
-      () => removeEditInputApp(editInputApp),
-      false
-    );
+    onMounted(() => {
+      window.addEventListener(
+        "click",
+        () => removeEditInputApp(editInputApp),
+        false
+      );
+    });
 
     // 用于指定th表头宽度
     const getWidth = (key) => {

@@ -1,5 +1,5 @@
 <template>
-  <ATabs default-active-key="24" position="left">
+  <ATabs default-active-key="25" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <AButton type="primary">primary</AButton>
     </ATabsPanel>
@@ -331,6 +331,9 @@
      <div style="width: 800px;">
       <ASlider v-model="sliderValue" :step="10" showStops showInput @change="sliderChange" /> {{ sliderValue }}
      </div>
+    </ATabsPanel>
+    <ATabsPanel key="25" title="Progress 进度条">
+      <AProgress/>
     </ATabsPanel>
   </ATabs>
 </template>
