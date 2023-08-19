@@ -333,14 +333,18 @@
      </div>
     </ATabsPanel>
     <ATabsPanel key="25" title="Progress 进度条">
-      <AProgress/>
+      <AProgress style="width: 500px;" :percentage="50" />
+      <AProgress style="width: 500px;" :percentage="100" :format="format"/>
+      <AProgress style="width: 500px;" :percentage="100" status="success"/>
+      <AProgress style="width: 500px;" :percentage="100" status="prompt"/>
+      <AProgress style="width: 500px;" :percentage="50" status="error"/>
     </ATabsPanel>
   </ATabs>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref, watch } from "vue";
-import { AMessage, AMessageBox } from "../packages/amu-ui";
+import { AMessage, AMessageBox } from '@amu-ui/components';
 
 const numberValue = ref();
 const showLoading = ref(false);
@@ -353,6 +357,7 @@ const formState = reactive({
   school: 2,
   birthday: "",
 });
+const format = (percentage) => (percentage === 100 ? 'Full' : `${percentage}%`)
 const currentPage = ref(1);
 const sliderValue = ref(20)
 const pageChange = (page: number) => {
