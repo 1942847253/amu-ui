@@ -338,6 +338,8 @@
       <AProgress style="width: 500px;" :percentage="100" status="success"/>
       <AProgress style="width: 500px;" :percentage="100" status="prompt"/>
       <AProgress style="width: 500px;" :percentage="50" status="error"/>
+      <AProgress style="width: 500px;" :percentage="percentage" :strokeWidth="20"  textInside status="success"/>
+      <a-input-number v-model="percentage" :min="0" :step="5" style="margin-top: 10px;"/>
     </ATabsPanel>
   </ATabs>
 </template>
@@ -357,6 +359,7 @@ const formState = reactive({
   school: 2,
   birthday: "",
 });
+const percentage = ref(0)
 const format = (percentage) => (percentage === 100 ? 'Full' : `${percentage}%`)
 const currentPage = ref(1);
 const sliderValue = ref(20)
