@@ -17,18 +17,26 @@ export default defineComponent({
         color: {
             type: String,
             default: "#0468dc"
+        },
+        strokeWidth: {
+            type: Number,
+            default: 6
+        },
+        textInside: {
+            type: Boolean,
+            default: false
         }
     },
     emits: [],
     setup(props, { emit }) {
         const Percentage = computed(() => {
             if (props.percentage <= 0) {
-                return '0%'
+                return 0
             }
             if (props.percentage >= 100) {
-                return '100%'
+                return 100
             }
-            return props.percentage + '%'
+            return props.percentage
         })
 
 
@@ -50,21 +58,29 @@ export default defineComponent({
         const computedRightPercentageText = computed(() => {
             if (props.format) {
                 return props.format(props.percentage)
-            } else if (props.status) {
-                return <a-icon name={props.status} style={{ color:bgColor.value, fontSize: '16px' }} />
+            } else if (props.status && !props.textInside) {
+                // @ts-ignore
+                return <AIcon name={props.status} style={{ color: bgColor.value, fontSize: '16px' }} />
             } else {
-                return Percentage.value
+                return Percentage.value + '%'
             }
         })
 
+        const progressBarStyle = computed(() => ({ width: Percentage.value + '%', backgroundColor: bgColor.value, }))
+
         return () => (
             <div class="a-progress-content">
-                <div class="a-progress-runway" >
-                    <div class="a-progress-bar" style={{ width: Percentage.value,backgroundColor:bgColor.value}}></div>
+                <div class="a-progress-runway" style={{ height: props.strokeWidth + 'px' }}>
+                    <div class="a-progress-bar" style={progressBarStyle.value}>
+                        {props.textInside && Percentage.value >= 6 && <div class="a-percentage-inner-text"><span>{computedRightPercentageText.value}</span></div>}
+                    </div>
+                    {Percentage.value < 6 && <div class="test" style={{ marginLeft: Percentage.value + '%' }}>{computedRightPercentageText.value}</div>}
                 </div>
-                <div class="a-percentage-text">
-                    <span>{computedRightPercentageText.value}</span>
-                </div>
+                {
+                    !props.textInside && <div class="a-percentage-text">
+                        <span>{computedRightPercentageText.value}</span>
+                    </div>
+                }
             </div>
         )
     }
