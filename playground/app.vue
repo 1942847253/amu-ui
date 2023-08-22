@@ -339,7 +339,7 @@
       <AProgress style="width: 500px;" :percentage="100" status="prompt"/>
       <AProgress style="width: 500px;" :percentage="50" status="error"/>
       <AProgress style="width: 500px;margin-bottom: 10px;" :percentage="percentage" :strokeWidth="20"  textInside status="success"/>
-      <AProgress style="width: 500px;" :percentage="percentage" :strokeWidth="30"  textInside status="error"/>
+      <AProgress style="width: 200px;" :percentage="percentage" :strokeWidth="30"  textInside status="error"/>
       <a-input-number v-model="percentage" :min="0" :step="1" style="margin-top: 10px;"/>
     </ATabsPanel>
   </ATabs>

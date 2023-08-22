@@ -1,4 +1,4 @@
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, onMounted, PropType, ref, watch } from "vue";
 import { AIcon } from "../icon";
 import './style/index.less'
 
@@ -29,6 +29,7 @@ export default defineComponent({
     },
     emits: [],
     setup(props, { emit }) {
+        const progressBarRunwayRef = ref<null | HTMLDivElement>(null)
         const Percentage = computed(() => {
             if (props.percentage <= 0) {
                 return 0
@@ -39,6 +40,15 @@ export default defineComponent({
             return props.percentage
         })
 
+        const isTextWidthEnough = computed(() => {
+            let textMaxWidth = 31.79;
+            const percentageBarNumber = (progressBarRunwayRef.value?.offsetWidth || 0) * (Percentage.value / 100);
+            if (percentageBarNumber > textMaxWidth) {
+                return true
+            } else {
+                return false
+            }
+        })
 
         const bgColor = computed(() => {
             if (props.status) {
@@ -70,11 +80,11 @@ export default defineComponent({
 
         return () => (
             <div class="a-progress-content">
-                <div class="a-progress-runway" style={{ height: props.strokeWidth + 'px' }}>
+                <div class="a-progress-runway" ref={progressBarRunwayRef} style={{ height: props.strokeWidth + 'px' }}>
                     <div class="a-progress-bar" style={progressBarStyle.value}>
-                        {props.textInside && Percentage.value >= 6 && <div class="a-percentage-inner-text"><span>{computedRightPercentageText.value}</span></div>}
+                        {props.textInside && isTextWidthEnough.value && <div class="a-percentage-inner-text"><span>{computedRightPercentageText.value}</span></div>}
                     </div>
-                    {Percentage.value < 6 && <div class="test" style={{ marginLeft: Percentage.value + '%' }}>{computedRightPercentageText.value}</div>}
+                    {Percentage.value <= 50 && !isTextWidthEnough.value && <div class="test" style={{ marginLeft: Percentage.value + '%' }}>{computedRightPercentageText.value}</div>}
                 </div>
                 {
                     !props.textInside && <div class="a-percentage-text">
@@ -85,3 +95,4 @@ export default defineComponent({
         )
     }
 })
+
