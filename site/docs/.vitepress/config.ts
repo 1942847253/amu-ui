@@ -122,6 +122,10 @@ export default {
               text: "Pagination 分页",
               link: "/examples/pagination/",
             },
+            {
+              text: "Progress 进度条",
+              link: "/examples/progress/",
+            },
           ],
         },
         {
