@@ -2,6 +2,11 @@ import { computed, defineComponent, onMounted, PropType, ref, watch } from "vue"
 import { AIcon } from "../icon";
 import './style/index.less'
 
+interface ICustomColors {
+    color: string
+    percentage: number
+}
+
 export default defineComponent({
     name: 'AProgress',
     props: {
@@ -15,17 +20,17 @@ export default defineComponent({
             type: String as PropType<'success' | 'prompt' | 'error'>
         },
         color: {
-            type: String,
+            type: [String, Array] as PropType<string | ICustomColors[]>,
             default: "#0468dc"
+        },
+        textInside: {
+            type: Boolean,
+            default: false
         },
         strokeWidth: {
             type: Number,
             default: 6
         },
-        textInside: {
-            type: Boolean,
-            default: false
-        }
     },
     emits: [],
     setup(props, { emit }) {
@@ -76,7 +81,30 @@ export default defineComponent({
             }
         })
 
-        const progressBarStyle = computed(() => ({ width: Percentage.value + '%', backgroundColor: bgColor.value, }))
+        const findValue = (percent: number, colorArr: ICustomColors[]) => {
+            let result = '';
+            for (let i = 0; i < colorArr.length; i++) {
+                const { color, percentage } = colorArr[i];
+                if (percent <= percentage) {
+                    result = color;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        const progressBarStyle = computed(() => {
+            let backgroundColor = ''
+            if (Array.isArray(bgColor.value)) {
+                backgroundColor = findValue(Percentage.value, bgColor.value)
+            } else {
+                backgroundColor = bgColor.value!
+            }
+            return {
+                width: Percentage.value + '%',
+                backgroundColor,
+            }
+        })
 
         return () => (
             <div class="a-progress-content">
@@ -84,7 +112,7 @@ export default defineComponent({
                     <div class="a-progress-bar" style={progressBarStyle.value}>
                         {props.textInside && isTextWidthEnough.value && <div class="a-percentage-inner-text"><span>{computedRightPercentageText.value}</span></div>}
                     </div>
-                    {Percentage.value <= 50 && !isTextWidthEnough.value && <div class="test" style={{ marginLeft: Percentage.value + '%' }}>{computedRightPercentageText.value}</div>}
+                    {props.textInside && !isTextWidthEnough.value && <div class="a-percentage-outer-text" style={{ marginLeft: Percentage.value + '%' }}>{computedRightPercentageText.value}</div>}
                 </div>
                 {
                     !props.textInside && <div class="a-percentage-text">

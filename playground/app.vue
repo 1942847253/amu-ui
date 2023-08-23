@@ -333,14 +333,15 @@
      </div>
     </ATabsPanel>
     <ATabsPanel key="25" title="Progress 进度条">
-      <AProgress style="width: 500px;" :percentage="50" />
+      <AProgress style="width: 500px;" :percentage="percentage" />
       <AProgress style="width: 500px;" :percentage="100" :format="format"/>
       <AProgress style="width: 500px;" :percentage="100" status="success"/>
       <AProgress style="width: 500px;" :percentage="100" status="prompt"/>
       <AProgress style="width: 500px;" :percentage="50" status="error"/>
-      <AProgress style="width: 500px;margin-bottom: 10px;" :percentage="percentage" :strokeWidth="20"  textInside status="success"/>
-      <AProgress style="width: 200px;" :percentage="percentage" :strokeWidth="30"  textInside status="error"/>
-      <a-input-number v-model="percentage" :min="0" :step="1" style="margin-top: 10px;"/>
+      <AProgress style="width: 500px;margin-bottom: 10px;" :percentage="percentage" :strokeWidth="20"  textInside :color="customColors"/>
+      <AProgress style="width: 500px;margin-bottom: 10px;" :percentage="percentage" :strokeWidth="20"  textInside :color="customColors"/>
+      <AProgress style="width: 200px;" :percentage="percentage" :strokeWidth="25"  textInside status="error"/>
+      <a-input-number v-model="percentage" :min="0" :step="10" style="margin-top: 10px;"/>
     </ATabsPanel>
   </ATabs>
 </template>
@@ -362,6 +363,13 @@ const formState = reactive({
 });
 const percentage = ref(0)
 const format = (percentage) => (percentage === 100 ? 'Full' : `${percentage}%`)
+const customColors = [
+  { color: '#e53935', percentage: 20 },
+  { color: '#d69800', percentage: 40 },
+  { color: '#18a058', percentage: 60 },
+  { color: '#0468dc', percentage: 80 },
+  { color: '#4655ca', percentage: 100 },
+]
 const currentPage = ref(1);
 const sliderValue = ref(20)
 const pageChange = (page: number) => {
