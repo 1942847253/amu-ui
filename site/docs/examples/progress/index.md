@@ -136,3 +136,21 @@ const customColors = [
 ```
 
 </details>
+
+## Progress API
+
+| 属性名       | 说明                                                 | 类型             | 默认值 |
+| ------------ | ---------------------------------------------------- | ---------------- | ------ |
+| percentage   | 百分比，必填                                         | `number`         | 0      |
+| stroke-width | 进度条的宽度                                         | `number`         | 6      |
+| text-inside  | 文字显示在进度条内                                   | `boolean`        | false  |
+| status       | 进度条当前状态                                       | `string`         | ''     |
+| stroke-width | 进度条的宽度                                         | `number`         | 6      |
+| color        | 进度条背景色 进度条背景色 （会覆盖 status 状态颜色） | `string`/`Array` | --     |
+| format       | 指定进度条文字内容                                   | `Function`       | --     |
+
+<style>
+  table td {
+      width:max-content
+  }
+</style>
