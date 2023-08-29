@@ -28,5 +28,8 @@
     "vite-plugin-dts": "1.4.1",
     "vue": "^3.2.36",
     "vue-router": "^4.2.4"
+  },
+  "dependencies": {
+    "@vueuse/core": "^10.3.0"
   }
 }

@@ -74,7 +74,6 @@ const copyIcon = (icon: string) => {
 .icon-list {
   width: 100% !important;
   overflow: hidden;
-  *zoom: 1;
   display: flex;
   flex-wrap: wrap;
   padding-inline-start: 0px;
