@@ -1,5 +1,5 @@
 <template>
-  <ATabs default-active-key="25" position="left">
+  <ATabs default-active-key="26" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <AButton type="primary">primary</AButton>
     </ATabsPanel>
@@ -343,6 +343,24 @@
       <AProgress style="width: 200px;" :percentage="percentage" :strokeWidth="25"  textInside status="error"/>
       <a-input-number v-model="percentage" :min="0" :step="10" style="margin-top: 10px;"/>
     </ATabsPanel>
+    <ATabsPanel key="26" title="Popover 气泡卡片">
+      <APopover :visible="showVisible">
+        <template #reference>
+          <a-button type="primary">click me</a-button>
+        </template>
+        <ATable width="600px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+        <template #table="{ tableColumn, tableData }">
+          <a-tag type="success" v-if="tableColumn.key === 'age'">{{
+            tableData.age + " 岁"
+          }}</a-tag>
+        </template>
+        <template #operation="{ item, index }">
+          <a-button type="info" size="small">Edit</a-button>
+          <a-button type="danger" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</a-button>
+        </template>
+      </ATable>
+      </APopover>
+    </ATabsPanel>
   </ATabs>
 </template>
 
@@ -354,6 +372,11 @@ const numberValue = ref();
 const showLoading = ref(false);
 const showDrawer = ref(false);
 const formRef = ref();
+const showVisible = ref(false)
+
+setTimeout(() => {
+  showVisible.value = true
+}, 1000);
 const formState = reactive({
   name: "杨俊杰",
   age: "",
