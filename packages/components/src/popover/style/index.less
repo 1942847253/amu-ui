@@ -1,3 +1,9 @@
+.a-popover-content{
+  display: inline-block;
+}
+.a-reference{
+
+}
 .a-popover {
     position: absolute;
     padding: 10px;
@@ -21,45 +27,18 @@
     height: 0;
     border-width: 8px;
     border-style: solid;
- 
   }
   
-  .a-popover-arrow.left {
-    border-color: transparent transparent transparent var(--tooltip-bgColor);
-    right: -15px;
-    top: 50%;
-    transform: translate3d(0, -50%, 0);
-  }
-  
-  .a-popover-arrow.bottom {
-    top: -15px;
-    border-color: transparent transparent var(--tooltip-bgColor) transparent;
-    left: 50%;
-    transform: translate3d(-50%, 0, 0);
-  }
-  
-  .a-popover-arrow.right {
-    left: -15px;
-    top: 50%;
-    transform: translate3d(0, -50%, 0);
-    border-color: transparent var(--tooltip-bgColor) transparent transparent;
-  }
-  
-  .a-popover-arrow.top {
-    bottom: -15px;
-    border-color: var(--tooltip-bgColor) transparent transparent transparent;
-    left: 50%;
-    transform: translate3d(-50%, 0, 0);
-  }
+
   
   /* 动画 */
   .popover-enter-from,
   .popover-leave-to {
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
   }
   .popover-leave-from,
   .popover-enter-to {
-    transition: opacity 0.1s ease;
+    transition: opacity 0.3s ease;
   }
   

@@ -348,7 +348,7 @@
         <template #reference>
           <a-button type="primary">click me</a-button>
         </template>
-        <ATable width="600px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+        <ATable width="300px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
         <template #table="{ tableColumn, tableData }">
           <a-tag type="success" v-if="tableColumn.key === 'age'">{{
             tableData.age + " 岁"
