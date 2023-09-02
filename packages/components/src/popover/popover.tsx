@@ -1,50 +1,85 @@
-import { CSSProperties, computed, defineComponent, ref, Transition, watch, onMounted, Teleport, h, nextTick } from "vue";
+import { CSSProperties, computed, defineComponent, ref, Transition, PropType, onMounted, Teleport, h, nextTick } from "vue";
+import { onClickOutside } from "@vueuse/core";
+import { debounce } from "@/shared/utils";
 import './style/index.less'
 
 export default defineComponent({
     name: "APopover",
     props: {
-
+        trigger: {
+            type: String as PropType<'hover' | 'click'>,
+            default: 'click'
+        },
+        title: {
+            type: String,
+            default: ''
+        },
+        content: {
+            type: String,
+            default: ''
+        },
+        placement: {
+            type: String as PropType<'top' | 'left' | 'bottom' | 'right'>,
+            default: 'right'
+        }
     },
     emits: [],
     setup(props, { emit, slots }) {
         let timer: NodeJS.Timeout | null = null
-        const testRef = ref(null)
         const popoverRef = ref<HTMLDivElement | null>(null)
         const referenceSlotRef = ref<HTMLDivElement | null>(null)
         // 显示弹框
-        const tooltipShow = ref(false);
-
+        const popoverVisible = ref(false);
         const bgColor = ref("#ffff");
         // 方向
         const placements = ref("bottom");
-
-
         onMounted(() => {
-            if (tooltipShow.value) {
-                positionElement(referenceSlotRef.value!.firstElementChild, placements.value)
+            positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
+            if (props.trigger === 'click') {
+                referenceSlotRef.value!.addEventListener('click', () => showTip());
+                onClickOutside(referenceSlotRef.value!, (event) => {
+                    console.log(event.target);
+                    const currentClickElement = event.target as HTMLElement
+                    const isElementInPopover = (popoverRef.value?.contains(currentClickElement))
+                    if (!(currentClickElement.className === "a-popover" || isElementInPopover)) {
+                        hiddenTip()
+                    }
+                })
+            } else if (props.trigger === 'hover') {
+                referenceSlotRef.value!.addEventListener('mouseenter', () => showTip());
+                referenceSlotRef.value!.addEventListener('mouseleave', () => hiddenTip());
+                popoverRef.value!.addEventListener('mouseenter', () => showTip());
+                popoverRef.value!.addEventListener('mouseleave', () => hiddenTip());
             }
+            window.addEventListener('scroll', () => {
+                console.log(123);
+
+                positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
+            })
 
         })
         const referenceSlot = () => {
-            return h(slots!.reference, { ref: testRef })
+            if (slots!.reference) {
+                return slots!.reference()
+            } else {
+                return ''
+            }
         }
         // 显示
         function showTip() {
+
             if (timer) {
                 clearTimeout(timer)
                 timer = null
             }
-            tooltipShow.value = true;
-            setTimeout(() => {
-                positionElement(referenceSlotRef.value!.firstElementChild, placements.value)
-            });
+            popoverVisible.value = true;
+            positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
         }
         function hiddenTip() {
             timer = setTimeout(() => {
-                tooltipShow.value = false;
+                popoverVisible.value = false;
                 timer = null
-            }, 300);
+            }, 200);
 
         }
 
@@ -54,13 +89,37 @@ export default defineComponent({
             top: 0,
         });
         const tooltipStyle = computed<CSSProperties>(() => {
+            let scale = ""
+            let origin = ''
+            switch (props.placement) {
+                case 'bottom':
+                    scale = 'scaleY'
+                    origin = 'center top'
+                    break;
+                case 'left':
+                    scale = 'scaleX'
+                    origin = 'right'
+                    break
+                case 'top':
+                    scale = 'scaleY'
+                    origin = 'center bottom'
+                    break;
+                case 'right':
+                    scale = 'scaleX'
+                    origin = 'left'
+                    break
+                default:
+                    break;
+            }
             return {
                 left: tooltipPostiton.value.left + "px",
                 top: tooltipPostiton.value.top + "px",
-                backgroundColor: bgColor.value
+                backgroundColor: bgColor.value,
+                transform: `${scale}(${popoverVisible.value ? 1 : 0})`,// 面板收起
+                transformOrigin: origin
             };
         });
-        function positionElement(target, placements) {
+        function positionElement(target: Element, placements: string) {
             let Placements = placements
             if (!target) return;
             tooltipPostiton.value.left = 0;
@@ -80,17 +139,17 @@ export default defineComponent({
                     }
                     break;
                 case "bottom":
-                    if ((window.innerHeight - target_dom.bottom) < el_dom.height) {
+                    if ((window.innerHeight - target_dom.bottom) < ELDOM.clientHeight) {
                         Placements = 'top'
                     }
                     break;
                 case "left":
-                    if (target_dom.left < el_dom.width) {
+                    if (target_dom.left < ELDOM.clientWidth) {
                         Placements = 'right'
                     }
                     break;
                 case "right":
-                    if ((window.innerWidth - target_dom.right) < el_dom.width) {
+                    if ((window.innerWidth - target_dom.right) < ELDOM.clientWidth) {
                         Placements = 'left'
                     }
                     break;
@@ -99,53 +158,79 @@ export default defineComponent({
             }
 
             // tooltipArrow!.className = `a-popover-arrow ${Placements}`
+            console.log(Placements);
 
             switch (Placements) {
                 case "top":
-                    top = target_dom.top - ELDOM.offsetHeight - 5;
-                    left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2;
+                    top = target_dom.top - ELDOM.offsetHeight - 5 + window.scrollY;
+                    left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2 + window.scrollX;
                     break;
                 case "bottom":
-                    top = target_dom.bottom + 5;
-                    left = target_dom.left + (target_dom.width - el_dom.width) / 2;
+                    top = target_dom.bottom + 5 + window.scrollY;
+                    left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2 + window.scrollX;
                     break;
                 case "left":
-                    top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2;
-                    left = target_dom.left - ELDOM.offsetWidth - 5;
+                    top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2 + window.scrollY;
+                    left = target_dom.left - ELDOM.offsetWidth - 5 + window.scrollX;
                     break;
                 case "right":
-                    top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2;
-                    left = target_dom.right + 5;
+                    top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2 + window.scrollY;
+                    left = target_dom.right + 5 + window.scrollX;
                     break;
                 default:
                     throw new Error("Invalid direction");
             }
+
             tooltipPostiton.value.top = top
             tooltipPostiton.value.left = left
+        }
+
+        const triggerEventActions = (type?: 'show' | 'hidden') => {
+            switch (props.trigger) {
+                case 'hover':
+                    if (type === 'show') {
+
+                        showTip()
+                    } else {
+                        hiddenTip()
+                    }
+                    break;
+
+                case 'click':
+
+                    if (popoverVisible.value) {
+                        hiddenTip()
+                    } else {
+                        showTip()
+                    }
+                    break
+                default:
+                    break;
+            }
+        }
+
+        const popoverInnerContent = () => {
+            return (
+                <div class="a-popover-inner-content">
+                    <div class="title">{props.title}</div>
+                    <div class="content">{(slots.default && slots.default()) || props.content}</div>
+                </div>
+            )
         }
         return () => (
 
             <div class="a-popover-content">
-                <div class="a-reference" ref={referenceSlotRef} onMouseenter={() => showTip()} onMouseleave={() => hiddenTip()}>
+                <div class="a-reference" ref={referenceSlotRef} >
                     {referenceSlot()}
                 </div>
                 <Teleport to="body">
                     <Transition name="popover" appear>
                         {
-                            tooltipShow.value && <div ref={popoverRef} onMouseenter={() => showTip()} onMouseleave={() => hiddenTip()} class="a-popover" style={tooltipStyle.value}>
-                                <span class="a-popover-text">
-                                    {slots.default && slots.default()}
-                                </span>
-                                <div
-                                    class="a-popover-arrow"
-                                    style={{ '--tooltip-bgColor': bgColor.value }}
-                                    class={{
-                                        'left': placements.value === 'left',
-                                        'bottom': placements.value === 'bottom',
-                                        'right': placements.value === 'right',
-                                        'top': placements.value === 'top',
-                                    }}
-                                ></div>
+                            <div ref={popoverRef} class="a-popover" style={tooltipStyle.value}>
+                                {
+                                    popoverInnerContent()
+                                }
+
                             </div >
                         }
                     </Transition>
