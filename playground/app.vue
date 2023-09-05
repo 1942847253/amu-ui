@@ -258,7 +258,8 @@
       {{ numberValue }}
     </ATabsPanel>
     <ATabsPanel key="14" title="Tree 树形控件">
-      <ATree @node-click="treeNodeClick" @checked="treeChecked" :default-checked-keys="[90026, 90037]" node-key="key" :expand="true" :isSelect="isSelect" :data="treeData">
+      <ATree @node-click="treeNodeClick" @checked="treeChecked" :default-checked-keys="[90026, 90037]" node-key="key"
+        :expand="true" :isSelect="isSelect" :data="treeData">
       </ATree>
     </ATabsPanel>
     <ATabsPanel key="15" title="Message 消息">
@@ -319,7 +320,7 @@
           home
         </ABreadcrumbItem>
         <ABreadcrumbItem path="/Application/list">
-          <a-icon name="chart-bar"></a-icon> 
+          <a-icon name="chart-bar"></a-icon>
           Application List
         </ABreadcrumbItem>
         <ABreadcrumbItem path="/Application/list/item">
@@ -328,27 +329,38 @@
       </ABreadcrumb>
     </ATabsPanel>
     <ATabsPanel key="24" title="Slider 滑块">
-     <div style="width: 800px;">
-      <ASlider v-model="sliderValue" :step="10" showStops showInput @change="sliderChange" /> {{ sliderValue }}
-     </div>
+      <div style="width: 800px;">
+        <ASlider v-model="sliderValue" :step="10" showStops showInput @change="sliderChange" /> {{ sliderValue }}
+      </div>
     </ATabsPanel>
     <ATabsPanel key="25" title="Progress 进度条">
       <AProgress style="width: 500px;" :percentage="percentage" />
-      <AProgress style="width: 500px;" :percentage="100" :format="format"/>
-      <AProgress style="width: 500px;" :percentage="100" status="success"/>
-      <AProgress style="width: 500px;" :percentage="100" status="prompt"/>
-      <AProgress style="width: 500px;" :percentage="50" status="error"/>
-      <AProgress style="width: 500px;margin-bottom: 10px;" :percentage="percentage" :strokeWidth="20"  textInside :color="customColors"/>
-      <AProgress style="width: 500px;margin-bottom: 10px;" :percentage="percentage" :strokeWidth="20"  textInside :color="customColors"/>
-      <AProgress style="width: 200px;" :percentage="percentage" :strokeWidth="25"  textInside status="error"/>
-      <a-input-number v-model="percentage" :min="0" :step="10" style="margin-top: 10px;"/>
+      <AProgress style="width: 500px;" :percentage="100" :format="format" />
+      <AProgress style="width: 500px;" :percentage="100" status="success" />
+      <AProgress style="width: 500px;" :percentage="100" status="prompt" />
+      <AProgress style="width: 500px;" :percentage="50" status="error" />
+      <AProgress style="width: 500px;margin-bottom: 10px;" :percentage="percentage" :strokeWidth="20" textInside
+        :color="customColors" />
+      <AProgress style="width: 500px;margin-bottom: 10px;" :percentage="percentage" :strokeWidth="20" textInside
+        :color="customColors" />
+      <AProgress style="width: 200px;" :percentage="percentage" :strokeWidth="25" textInside status="error" />
+      <a-input-number v-model="percentage" :min="0" :step="10" style="margin-top: 10px;" />
     </ATabsPanel>
     <ATabsPanel key="26" title="Popover 气泡卡片">
-      <APopover :visible="showVisible" title="Title" content="This is a message">
+      <APopover content="This is a message" placement="top">
         <template #reference>
-          <a-button style="margin-top: 60px;" type="primary">click me</a-button>
+          <a-button style="margin-top: 70px;" type="primary">click me</a-button>
         </template>
-       
+      </APopover>
+      <APopover title="Title" content="This is a message" placement="top" trigger="hover">
+        <template #reference>
+          <a-button style="margin-top: 70px;" type="primary">hover me</a-button>
+        </template>
+      </APopover>
+      <APopover :visible="popoverVisible" title="Title" content="This is a message" placement="top" trigger="hover">
+        <template #reference>
+          <a-button @click="popoverVisible = !popoverVisible" style="margin-top: 70px;" type="primary">hover me</a-button>
+        </template>
       </APopover>
     </ATabsPanel>
   </ATabs>
@@ -363,7 +375,7 @@ const showLoading = ref(false);
 const showDrawer = ref(false);
 const formRef = ref();
 const showVisible = ref(false)
-
+const popoverVisible = ref(false)
 setTimeout(() => {
   showVisible.value = true
 }, 1000);
@@ -390,13 +402,13 @@ const pageChange = (page: number) => {
   currentPage.value = page;
 };
 
-const pathClick = (path)=>{
+const pathClick = (path) => {
   console.log(path);
 }
 
-const sliderChange = (val)=>{
+const sliderChange = (val) => {
   console.log(val);
-  
+
 }
 
 const sizeChange = (val: any) => {
@@ -410,14 +422,14 @@ const handelLoading = () => {
   }, 4000);
 };
 
-const treeNodeClick = (val)=>{
+const treeNodeClick = (val) => {
   console.log(val);
-  
+
 }
 
-const treeChecked = (val)=>{
+const treeChecked = (val) => {
   console.log(val);
-  
+
 }
 
 const beforeClose = (done: () => void) => {
