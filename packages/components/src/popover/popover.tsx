@@ -26,6 +26,10 @@ export default defineComponent({
         placement: {
             type: String as PropType<'top' | 'left' | 'bottom' | 'right'>,
             default: 'bottom'
+        },
+        width: {
+            type: String,
+            default: '150px'
         }
     },
     emits: [],
@@ -72,7 +76,8 @@ export default defineComponent({
                 top: popoverPostiton.value.top + "px",
                 backgroundColor: bgColor.value,
                 transform: `${scale}(${Visible ? 1 : 0})`,// 面板收起
-                transformOrigin: origin
+                transformOrigin: origin,
+                width: props.width
             };
         });
 
@@ -85,7 +90,7 @@ export default defineComponent({
             };
         }
         const ListenerFn = () => positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
-        const debounceFn =  debounce(ListenerFn,50)
+        const debounceFn = debounce(ListenerFn, 50)
         onMounted(() => {
             if (props.visible === null) {
                 const referenceSlotFirstElement = referenceSlotRef.value!.firstElementChild as HTMLElement

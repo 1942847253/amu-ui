@@ -168,6 +168,10 @@ export default {
               text: "Tooltip 文字提示",
               link: "/examples/tooltip/",
             },
+            {
+              text: "Popover 气泡卡片",
+              link: "/examples/popover/",
+            },
           ],
         },
       ],
