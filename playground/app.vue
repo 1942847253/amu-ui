@@ -351,16 +351,28 @@
         <template #reference>
           <a-button style="margin-top: 70px;" type="primary">click me</a-button>
         </template>
+ 
       </APopover>
       <APopover title="Title" content="This is a message" placement="top" trigger="hover">
         <template #reference>
           <a-button style="margin-top: 70px;" type="primary">hover me</a-button>
         </template>
       </APopover>
-      <APopover :visible="popoverVisible" title="Title" content="This is a message" placement="top" trigger="hover">
+      <APopover :visible="popoverVisible" content="This is a message" placement="top" trigger="hover">
         <template #reference>
           <a-button @click="popoverVisible = !popoverVisible" style="margin-top: 70px;" type="primary">hover me</a-button>
         </template>
+        <ATable width="400px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+        <template #table="{ tableColumn, tableData }">
+          <a-tag type="success" v-if="tableColumn.key === 'age'">{{
+            tableData.age + " 岁"
+          }}</a-tag>
+        </template>
+        <template #operation="{ item, index }">
+          <a-button type="info" size="small">Edit</a-button>
+          <a-button type="danger" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</a-button>
+        </template>
+      </ATable>
       </APopover>
     </ATabsPanel>
   </ATabs>
