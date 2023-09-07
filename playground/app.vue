@@ -1,5 +1,5 @@
 <template>
-  <ATabs default-active-key="26" position="left">
+  <ATabs default-active-key="21" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <AButton type="primary">primary</AButton>
     </ATabsPanel>
@@ -295,7 +295,7 @@
       </ATable>
     </ATabsPanel>
     <ATabsPanel key="21" title="Select 选择器">
-      <ASelect v-model="value1" :options="options1.slice(0, 2)" @setItemValue="setItemValue" placeholder="请选择一个小可爱">
+      <ASelect v-model="value1" :options="options1.slice(0, 5)" @setItemValue="setItemValue" placeholder="请选择一个小可爱">
       </ASelect>
     </ATabsPanel>
     <ATabsPanel key="22" title="Pagination 分页">
@@ -358,11 +358,11 @@
           <a-button style="margin-top: 70px;" type="primary">hover me</a-button>
         </template>
       </APopover>
-      <APopover :visible="popoverVisible" content="This is a message" placement="top" trigger="hover">
+      <APopover :visible="popoverVisible" content="This is a message" placement="top" trigger="hover" width="500px">
         <template #reference>
           <a-button @click="popoverVisible = !popoverVisible" style="margin-top: 70px;" type="primary">hover me</a-button>
         </template>
-        <ATable width="400px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+        <ATable width="500px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
         <template #table="{ tableColumn, tableData }">
           <a-tag type="success" v-if="tableColumn.key === 'age'">{{
             tableData.age + " 岁"
@@ -507,7 +507,7 @@ const rules = {
 };
 
 const value = ref(false);
-const value1 = ref(1);
+const value1 = ref(2);
 const rateValue = ref(3);
 const checkedList = ref([1, 2]);
 const options = ref([

@@ -44,9 +44,9 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const value = ref(props.inputValue);
-    const shrinkSelectMenuFn = inject("shrinkSelectMenuFn") as Ref<Function>;
-    const updateInputValue = inject("updateInputValue") as Function;
-    const updateLocalValue = inject("updateLocalValue") as Function;
+    const shrinkSelectMenuFn = inject("shrinkSelectMenuFn",()=>{}) as Function;
+    const updateInputValue = inject("updateInputValue",()=>{}) as Function;
+    const updateLocalValue = inject("updateLocalValue",()=>{}) as Function;
     const searchOptions = (event: Event) => {
       const target = event.target as HTMLInputElement;
       const val = target.value as string;
@@ -61,7 +61,7 @@ export default defineComponent({
     );
 
     const firstBurlSearch = () => {
-      shrinkSelectMenuFn.value(1, 0.15);
+      shrinkSelectMenuFn(true);
       emit("searchOptions", "");
     };
 

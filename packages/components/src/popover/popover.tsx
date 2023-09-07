@@ -1,4 +1,4 @@
-import { CSSProperties, computed, defineComponent, ref, Transition, PropType, onMounted, Teleport, onBeforeUnmount } from "vue";
+import { CSSProperties, computed, defineComponent, ref, PropType, onMounted, Teleport, onBeforeUnmount } from "vue";
 import { onClickOutside } from "@vueuse/core";
 import { debounce } from "@/shared/utils";
 import useElementPosition from "./hooks/useElementPosition";
@@ -13,7 +13,7 @@ export default defineComponent({
         },
         trigger: {
             type: String as PropType<'hover' | 'click'>,
-            default: 'click'
+            default: 'hover'
         },
         title: {
             type: String,
@@ -32,7 +32,7 @@ export default defineComponent({
             default: '150px'
         }
     },
-    emits: [],
+    emits: ['isClickElementInPopover'],
     setup(props, { emit, slots }) {
         let timer: NodeJS.Timeout | null = null
 
@@ -77,7 +77,8 @@ export default defineComponent({
                 backgroundColor: bgColor.value,
                 transform: `${scale}(${Visible ? 1 : 0})`,// 面板收起
                 transformOrigin: origin,
-                width: props.width
+                width: props.width,
+                padding: props.visible === null ? '12px' : '0px'
             };
         });
 
@@ -92,13 +93,13 @@ export default defineComponent({
         const ListenerFn = () => positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
         const debounceFn = debounce(ListenerFn, 50)
         onMounted(() => {
-            if (props.visible === null) {
-                const referenceSlotFirstElement = referenceSlotRef.value!.firstElementChild as HTMLElement
+            const referenceSlotFirstElement = referenceSlotRef.value!.firstElementChild as HTMLElement
                 if (props.trigger === 'click') {
                     referenceSlotFirstElement.addEventListener('click', showPopover);
                     onClickOutside(referenceSlotFirstElement, (event) => {
                         const currentClickElement = event.target as HTMLElement
                         const isElementInPopover = (popoverRef.value?.contains(currentClickElement))
+                        emit('isClickElementInPopover', isElementInPopover)
                         if (!(currentClickElement.className === "a-popover" || isElementInPopover)) {
                             hiddenPopover()
                         }
@@ -109,9 +110,9 @@ export default defineComponent({
                     popoverRef.value!.addEventListener('mouseenter', showPopover);
                     popoverRef.value!.addEventListener('mouseleave', hiddenPopover);
                 }
-            } else {
                 positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
-            }
+               
+          
             window.addEventListener('scroll', debounceFn)
 
         })

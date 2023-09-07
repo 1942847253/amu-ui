@@ -1,15 +1,22 @@
 <template>
   <div class="a-selector" :id="key" ref="selectRef">
-    <SelectorInput
-      :placeholder="placeholder"
-      :inputValue="inputValue"
-      :localValue="localValue"
-      :isSearch="isSearch"
-      :width="width"
-      @searchOptions="searchOptions"
-      @resetValue="resetValue"
-    />
-    <ShrinkBox :contentID="key" :shrinkViewSwitch="shrinkViewSwitch">
+    <Popover
+      :visible="popoverVisible"
+      trigger="click"
+      :width="Number(width) + 22 + 'px'"
+      @isClickElementInPopover="isClickElementInPopover"
+    >
+      <template #reference>
+        <SelectorInput
+          :placeholder="placeholder"
+          :inputValue="inputValue"
+          :localValue="localValue"
+          :isSearch="isSearch"
+          :width="width"
+          @searchOptions="searchOptions"
+          @resetValue="resetValue"
+        />
+      </template>
       <Menu
         @setItemValue="setItemValue"
         :options="options"
@@ -18,13 +25,18 @@
         :localValue="localValue"
         :isSearch="isSearch"
       />
-    </ShrinkBox>
+    </Popover>
+    <!-- 
+    <ShrinkBox :contentID="key" :shrinkViewSwitch="shrinkViewSwitch">
+    
+    </ShrinkBox> -->
   </div>
 </template>
 
 <script lang="ts">
 import {
   defineComponent,
+  nextTick,
   onBeforeMount,
   PropType,
   provide,
@@ -36,6 +48,7 @@ import {
 import SelectorInput from "./component/select-input/select-input.vue";
 import Menu from "./component/select-menu/select-menu.vue";
 import ShrinkBox from "../shrink-box";
+import Popover from "@components/popover/popover";
 import { IOptionItem } from "./baseData";
 import { uuid } from "../../shared/utils";
 import "./style/index.less";
@@ -45,6 +58,7 @@ export default defineComponent({
     SelectorInput,
     Menu,
     ShrinkBox,
+    Popover,
   },
   props: {
     modelValue: {
@@ -61,22 +75,16 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    width:{
-      type:String,
-      default:''
-    }
+    width: {
+      type: String,
+      default: "200",
+    },
   },
   emits: ["setItemValue", "update:modelValue"],
   setup(props, { emit }) {
     const key = uuid();
-    const shrinkSelectMenuFn = ref<Function>();
-    provide("shrinkSelectMenuFn", shrinkSelectMenuFn);
-    provide("updateInputValue", (val: string) => {
-      state.inputValue = val;
-    });
-    provide("updateLocalValue", (val: string) => {
-      state.inputValue = state.localValue;
-    });
+    const selectRef = ref<HTMLDivElement | null>();
+    const popoverVisible = ref(false);
     const state = reactive({
       inputValue: "",
       searchValue: "",
@@ -102,8 +110,9 @@ export default defineComponent({
       }
     };
 
-    const shrinkViewSwitch = (fn: Function) => {
-      shrinkSelectMenuFn.value = fn;
+    const shrinkSelectMenuFn = (visible: boolean) => {
+      console.log(visible);
+      popoverVisible.value = visible;
     };
 
     watch(
@@ -138,12 +147,29 @@ export default defineComponent({
       state.searchValue = value;
     };
 
+    const isClickElementInPopover = (flag: boolean) => {
+      console.log(flag);
+      if (!flag) {
+        popoverVisible.value = false;
+      }
+    };
+
+    provide("shrinkSelectMenuFn", shrinkSelectMenuFn);
+    provide("updateInputValue", (val: string) => {
+      state.inputValue = val;
+    });
+    provide("updateLocalValue", async (val: string) => {
+      state.inputValue = state.localValue;
+    });
+
     return {
       key,
+      selectRef,
       setItemValue,
       searchOptions,
-      shrinkViewSwitch,
       resetValue,
+      popoverVisible,
+      isClickElementInPopover,
       ...toRefs(state),
     };
   },
