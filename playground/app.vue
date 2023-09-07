@@ -295,7 +295,7 @@
       </ATable>
     </ATabsPanel>
     <ATabsPanel key="21" title="Select 选择器">
-      <ASelect v-model="value1" :options="options1.slice(0, 5)" @setItemValue="setItemValue" placeholder="请选择一个小可爱">
+      <ASelect isSearch v-model="value1" :options="options1.slice(0, 5)" @setItemValue="setItemValue" placeholder="请选择一个小可爱">
       </ASelect>
     </ATabsPanel>
     <ATabsPanel key="22" title="Pagination 分页">

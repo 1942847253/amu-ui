@@ -2,25 +2,32 @@
 .selector-menu {
   width: 100%;
   border-radius: 5px;
-  overflow:auto;
-  cursor: pointer;
+  overflow: auto;
   user-select: none;
   max-height: 215px;
   background-color: #fff;
   box-shadow: 0 12px 5px -10px rgba(0, 0, 0, 0.1), 0 0 4px 0 rgba(0, 0, 0, 0.1) !important;
   -webkit-box-shadow: 0 12px 5px -10px rgba(0, 0, 0, 0.1),
     0 0 4px 0 rgba(0, 0, 0, 0.1) !important;
-
+  
   .menu-item {
     font-size: 13px;
     padding: 9px 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease-in-out;
+    .label {
+      flex-grow: 1;
+    }
   }
   .menu-item:hover {
-    background-color: #0066ff09;
+    background-color: #585d6409;
   }
   .menu-checked {
     color: @primary-color;
     font-weight: 550;
+    background-color: #0066ff09;
   }
 }
 .selector-menu::-webkit-scrollbar {

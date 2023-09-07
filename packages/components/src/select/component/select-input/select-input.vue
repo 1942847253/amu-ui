@@ -3,7 +3,7 @@
     <AInput
       v-model="value"
       isSelector
-      :isSearch="false"
+      :isSearch="isSearch"
       :readonly="isSearch ? false : true"
       :placeholder="placeholder"
       :width="width"
@@ -32,6 +32,7 @@ export default defineComponent({
     },
     isSearch: {
       type: Boolean,
+      default:false
     },
     width:{
       type:String,

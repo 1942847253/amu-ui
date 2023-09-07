@@ -8,7 +8,7 @@
         v-for="(item, index) in searchData"
         :key="index"
       >
-        {{ item && item.text }}
+       <div  class="label"> {{ item && item.text }}</div> <AIcon v-show="localValue === item.text" name="select-bold" />
       </div>
     </template>
     <NoDataTip v-else />
@@ -27,6 +27,7 @@ import {
 } from "vue";
 import { IOptionItem } from "../../baseData";
 import NoDataTip from "../select-tip/select-tip.vue";
+import AIcon from "@components/icon";
 import "./style/index.less";
 
 export default defineComponent({

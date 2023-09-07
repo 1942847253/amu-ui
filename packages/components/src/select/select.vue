@@ -3,7 +3,7 @@
     <Popover
       :visible="popoverVisible"
       trigger="click"
-      :width="Number(width) + 22 + 'px'"
+      :width="Number(width) + 25 + 'px'"
       @isClickElementInPopover="isClickElementInPopover"
     >
       <template #reference>
@@ -38,6 +38,7 @@ import {
   defineComponent,
   nextTick,
   onBeforeMount,
+  onMounted,
   PropType,
   provide,
   reactive,
@@ -111,7 +112,6 @@ export default defineComponent({
     };
 
     const shrinkSelectMenuFn = (visible: boolean) => {
-      console.log(visible);
       popoverVisible.value = visible;
     };
 
@@ -133,7 +133,6 @@ export default defineComponent({
       () => state.inputValue,
       (val) => {
         if (val === "") {
-          state.inputValue = state.localValue;
           if (state.localValue !== "") {
             setTimeout(() => {
               state.searchValue = "";
@@ -148,7 +147,6 @@ export default defineComponent({
     };
 
     const isClickElementInPopover = (flag: boolean) => {
-      console.log(flag);
       if (!flag) {
         popoverVisible.value = false;
       }

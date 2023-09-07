@@ -1,4 +1,5 @@
 import { computed, CSSProperties, defineComponent, inject, onBeforeUnmount, onMounted, Ref, ref, watch } from "vue";
+import AIcon from "@/src/icon";
 import './style/index.less';
 import $bus from "../../bus/bus";
 
@@ -141,13 +142,13 @@ export default defineComponent({
             emit('blur', event);
             InputEventActions('blur')
             if (slectIconRef.value) {
-                slectIconRef.value.style.transform = `rotate(0deg)`
+                slectIconRef.value.$el.style.transform = `rotate(0deg)`
             }
         }
         const onInputFocus = (event: Event) => {
             if (value.value.toString().length > 0) showIconBtn.value = true;
             if (slectIconRef.value) {
-                slectIconRef.value.style.transform = `rotate(-180deg)`
+                slectIconRef.value.$el.style.transform = `rotate(-180deg)`
             }
             shrinkSelectMenuSwitchFn && shrinkSelectMenuSwitchFn.value(1, 0.2)
             emit('focus', event)
@@ -174,7 +175,7 @@ export default defineComponent({
         }
 
         const selectSlot = () => {
-            return <span ref={slectIconRef} onMousedown={() => soltBtnActions()} class="iconfont icon-xiangxia"></span>
+            return <AIcon name="arrow-down" ref={slectIconRef} onMousedown={() => soltBtnActions()} />
         }
 
         const initIconSlot = () => {
