@@ -10,6 +10,7 @@
       ],
     },
     "jsx": "preserve",
+    "types":["@amu-ui/components/src/components.d.ts"],
     "strict": false,
     "target": "ES2015",
     "module": "ESNext",
