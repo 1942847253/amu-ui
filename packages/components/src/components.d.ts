@@ -36,5 +36,8 @@ declare module "vue" {
         ASlider: typeof components.ASlider;
         AProgress: typeof components.AProgress;
         APopover: typeof components.APopover;
+        ADropdown: typeof components.ADropdown;
+        ADropdownMenu: typeof components.ADropdownMenu;
+        ADropdownItem: typeof components.ADropdownItem;
     }
 }

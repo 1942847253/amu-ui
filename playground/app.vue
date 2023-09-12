@@ -1,5 +1,5 @@
 <template>
-  <ATabs default-active-key="21" position="left">
+  <ATabs default-active-key="27" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <AButton type="primary">primary</AButton>
     </ATabsPanel>
@@ -295,7 +295,8 @@
       </ATable>
     </ATabsPanel>
     <ATabsPanel key="21" title="Select 选择器">
-      <ASelect isSearch v-model="value1" :options="options1.slice(0, 5)" @setItemValue="setItemValue" placeholder="请选择一个小可爱">
+      <ASelect isSearch v-model="value1" :options="options1.slice(0, 5)" @setItemValue="setItemValue"
+        placeholder="请选择一个小可爱">
       </ASelect>
     </ATabsPanel>
     <ATabsPanel key="22" title="Pagination 分页">
@@ -351,7 +352,7 @@
         <template #reference>
           <a-button style="margin-top: 70px;" type="primary">click me</a-button>
         </template>
- 
+
       </APopover>
       <APopover title="Title" content="This is a message" placement="top" trigger="hover">
         <template #reference>
@@ -363,17 +364,36 @@
           <a-button @click="popoverVisible = !popoverVisible" style="margin-top: 70px;" type="primary">hover me</a-button>
         </template>
         <ATable width="500px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
-        <template #table="{ tableColumn, tableData }">
-          <a-tag type="success" v-if="tableColumn.key === 'age'">{{
-            tableData.age + " 岁"
-          }}</a-tag>
-        </template>
-        <template #operation="{ item, index }">
-          <a-button type="info" size="small">Edit</a-button>
-          <a-button type="danger" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</a-button>
-        </template>
-      </ATable>
+          <template #table="{ tableColumn, tableData }">
+            <a-tag type="success" v-if="tableColumn.key === 'age'">{{
+              tableData.age + " 岁"
+            }}</a-tag>
+          </template>
+          <template #operation="{ item, index }">
+            <a-button type="info" size="small">Edit</a-button>
+            <a-button type="danger" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</a-button>
+          </template>
+        </ATable>
       </APopover>
+    </ATabsPanel>
+    <ATabsPanel key="27" title="Dropdown 下拉菜单">
+      <ADropdown>
+        <span class="a-dropdown-link">
+          Dropdown List
+          <a-icon class="a-icon--right">
+            <arrow-down />
+          </a-icon>
+        </span>
+        <template #dropdown>
+          <a-dropdown-menu>
+            <a-dropdown-item>Action 1</a-dropdown-item>
+            <a-dropdown-item>Action 2</a-dropdown-item>
+            <a-dropdown-item>Action 3</a-dropdown-item>
+            <a-dropdown-item disabled>Action 4</a-dropdown-item>
+            <a-dropdown-item divided>Action 5</a-dropdown-item>
+          </a-dropdown-menu>
+        </template>
+      </ADropdown>
     </ATabsPanel>
   </ATabs>
 </template>
