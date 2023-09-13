@@ -348,7 +348,7 @@
       <a-input-number v-model="percentage" :min="0" :step="10" style="margin-top: 10px;" />
     </ATabsPanel>
     <ATabsPanel key="26" title="Popover 气泡卡片">
-      <APopover content="This is a message" placement="top">
+      <APopover content="This is a message" placement="top" trigger='click'>
         <template #reference>
           <a-button style="margin-top: 70px;" type="primary">click me</a-button>
         </template>
@@ -377,20 +377,18 @@
       </APopover>
     </ATabsPanel>
     <ATabsPanel key="27" title="Dropdown 下拉菜单">
-      <ADropdown>
+      <ADropdown @command="dropdownCommand">
         <span class="a-dropdown-link">
           Dropdown List
-          <a-icon class="a-icon--right">
-            <arrow-down />
-          </a-icon>
+          <a-icon name="arrow-down" style="margin-left: 5px;"></a-icon>
         </span>
         <template #dropdown>
           <a-dropdown-menu>
-            <a-dropdown-item>Action 1</a-dropdown-item>
-            <a-dropdown-item>Action 2</a-dropdown-item>
-            <a-dropdown-item>Action 3</a-dropdown-item>
-            <a-dropdown-item disabled>Action 4</a-dropdown-item>
-            <a-dropdown-item divided>Action 5</a-dropdown-item>
+            <a-dropdown-item command="a" icon="add">Action 1</a-dropdown-item>
+            <a-dropdown-item disabled command="b" icon="add-circle">Action 2</a-dropdown-item>
+            <a-dropdown-item command="c" icon="select-bold">Action 3</a-dropdown-item>
+            <a-dropdown-item command="d" icon="success-filling" disabled>Action 4</a-dropdown-item>
+            <a-dropdown-item command="e" icon="success" divided>Action 5</a-dropdown-item>
           </a-dropdown-menu>
         </template>
       </ADropdown>
@@ -433,6 +431,10 @@ const pageChange = (page: number) => {
   console.log(page);
   currentPage.value = page;
 };
+
+const dropdownCommand = (command) => {
+  console.log(command);
+}
 
 const pathClick = (path) => {
   console.log(path);
@@ -801,3 +803,11 @@ const deleteItem = (id) => {
   });
 };
 </script>
+<style lang="less" scoped>
+.a-dropdown-link {
+  cursor: pointer;
+  color: #0468dc;
+  display: inline-flex;
+  align-items: center;
+}
+</style>

@@ -1,10 +1,13 @@
 import { defineComponent } from "vue";
+import './style/index.less'
 
 export default defineComponent({
     name: 'ADropdownMenu',
-    setup(props, { emit }) {
+    setup(props, { emit, slots }) {
         return () => (
-            <div>dropdown-menu</div>
+            <div class="a-dropdown-menu-content">
+                {slots.default && slots.default()}
+            </div>
         )
     }
 })

@@ -1,7 +1,4 @@
-<template>
-  <span :class="`iconfont icon-${name}`"></span>
-</template>
-<script lang="ts">
+
 import { defineComponent } from "vue";
 import "./style/index.less";
 export default defineComponent({
@@ -12,10 +9,9 @@ export default defineComponent({
       defalut: "amu-amudesign",
     },
   },
-  setup() {
-    return {};
+  setup(props) {
+    return () => (
+      <span class={`iconfont icon-${props.name}`}></span>
+    )
   },
 });
-</script>
-
-<style lang="less" scoped></style>

@@ -30,10 +30,14 @@ export default defineComponent({
         width: {
             type: String,
             default: '150px'
+        },
+        padding: {
+            type: String,
+            default: "12px"
         }
     },
     emits: ['isClickElementInPopover'],
-    setup(props, { emit, slots }) {
+    setup(props, { emit, slots, expose }) {
         let timer: NodeJS.Timeout | null = null
 
         const popoverRef = ref<HTMLDivElement | null>(null)
@@ -78,7 +82,8 @@ export default defineComponent({
                 transform: `${scale}(${Visible ? 1 : 0})`,// 面板收起
                 transformOrigin: origin,
                 width: props.width,
-                padding: props.visible === null ? '12px' : '0px'
+                minWidth: props.width || '150px',
+                padding: props.visible === null ? props.padding : '0px'
             };
         });
 
@@ -94,25 +99,25 @@ export default defineComponent({
         const debounceFn = debounce(ListenerFn, 50)
         onMounted(() => {
             const referenceSlotFirstElement = referenceSlotRef.value!.firstElementChild as HTMLElement
-                if (props.trigger === 'click') {
-                    referenceSlotFirstElement.addEventListener('click', showPopover);
-                    onClickOutside(referenceSlotFirstElement, (event) => {
-                        const currentClickElement = event.target as HTMLElement
-                        const isElementInPopover = (popoverRef.value?.contains(currentClickElement))
-                        emit('isClickElementInPopover', isElementInPopover)
-                        if (!(currentClickElement.className === "a-popover" || isElementInPopover)) {
-                            hiddenPopover()
-                        }
-                    })
-                } else if (props.trigger === 'hover') {
-                    referenceSlotFirstElement.addEventListener('mouseenter', showPopover);
-                    referenceSlotFirstElement.addEventListener('mouseleave', hiddenPopover);
-                    popoverRef.value!.addEventListener('mouseenter', showPopover);
-                    popoverRef.value!.addEventListener('mouseleave', hiddenPopover);
-                }
-                positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
-               
-          
+            if (props.trigger === 'click') {
+                referenceSlotFirstElement.addEventListener('click', showPopover);
+                onClickOutside(referenceSlotFirstElement, (event) => {
+                    const currentClickElement = event.target as HTMLElement
+                    const isElementInPopover = (popoverRef.value?.contains(currentClickElement))
+                    emit('isClickElementInPopover', isElementInPopover)
+                    if (!(currentClickElement.className === "a-popover" || isElementInPopover)) {
+                        hiddenPopover()
+                    }
+                })
+            } else if (props.trigger === 'hover') {
+                referenceSlotFirstElement.addEventListener('mouseenter', showPopover);
+                referenceSlotFirstElement.addEventListener('mouseleave', hiddenPopover);
+                popoverRef.value!.addEventListener('mouseenter', showPopover);
+                popoverRef.value!.addEventListener('mouseleave', hiddenPopover);
+            }
+            positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
+
+
             window.addEventListener('scroll', debounceFn)
 
         })
@@ -140,7 +145,7 @@ export default defineComponent({
                 timer = setTimeout(() => {
                     popoverVisible.value = false;
                     timer = null
-                }, 300);
+                }, 250);
             } else {
                 popoverVisible.value = false;
             }
@@ -161,6 +166,11 @@ export default defineComponent({
                 </div>
             )
         }
+
+        expose({
+            showPopover,
+            hiddenPopover
+        })
         return () => (
             <div class="a-popover-content">
                 <div class="a-reference" ref={referenceSlotRef} >
