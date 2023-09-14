@@ -29,9 +29,13 @@ export default defineComponent({
             }
         }
         return () => (
-            <div class={`a-dropdown-item ${props.disabled && 'disable'}`} onClick={() => !props.disabled && onClickDropdownItem(props.command!)}>
-                <div style={{ marginRight: '5px' }}>{slotIconJSX()}</div> {slots.default && slots.default()}
-            </div>
+            <>
+                {props.divided && <div class="divided"></div>}
+                <div class={`a-dropdown-item ${props.disabled && 'disable'}`} onClick={() => !props.disabled && onClickDropdownItem(props.command!)}>
+                    <div style={{ marginRight: '5px' }}>{slotIconJSX()}</div> {slots.default && slots.default()}
+                </div>
+
+            </>
         )
     }
 })

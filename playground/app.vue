@@ -377,10 +377,9 @@
       </APopover>
     </ATabsPanel>
     <ATabsPanel key="27" title="Dropdown 下拉菜单">
-      <ADropdown @command="dropdownCommand">
+      <ADropdown @click="handleClick" @command="dropdownCommand" split-button type="primary">
         <span class="a-dropdown-link">
           Dropdown List
-          <a-icon name="arrow-down" style="margin-left: 5px;"></a-icon>
         </span>
         <template #dropdown>
           <a-dropdown-menu>
@@ -416,6 +415,9 @@ const formState = reactive({
   school: 2,
   birthday: "",
 });
+const handleClick = ()=>{
+  alert('button click')
+}
 const percentage = ref(0)
 const format = (percentage) => (percentage === 100 ? 'Full' : `${percentage}%`)
 const customColors = [
@@ -806,7 +808,7 @@ const deleteItem = (id) => {
 <style lang="less" scoped>
 .a-dropdown-link {
   cursor: pointer;
-  color: #0468dc;
+  //color: #0468dc;
   display: inline-flex;
   align-items: center;
 }
