@@ -2,6 +2,7 @@
   <div class="a-selector" :id="key" ref="selectRef">
     <Popover
       :visible="popoverVisible"
+      padding="0"
       trigger="click"
       :width="Number(width) + 25 + 'px'"
       @isClickElementInPopover="isClickElementInPopover"

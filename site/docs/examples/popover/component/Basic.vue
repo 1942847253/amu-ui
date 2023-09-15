@@ -11,6 +11,7 @@
     </template>
   </APopover>
   <APopover
+   trigger='click'
     title="Title"
     width="200px"
     content="this is content, this is content, this is content"

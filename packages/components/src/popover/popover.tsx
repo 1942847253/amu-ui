@@ -83,7 +83,7 @@ export default defineComponent({
                 transformOrigin: origin,
                 width: props.width,
                 minWidth: props.width || '150px',
-                padding: props.visible === null ? props.padding : '0px'
+                padding: props.padding
             };
         });
 

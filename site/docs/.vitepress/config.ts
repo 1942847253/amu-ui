@@ -143,6 +143,10 @@ export default {
               text: "Breadcrumb 面包屑",
               link: "/examples/breadcrumb/",
             },
+            {
+              text: "Dropdown 下拉菜单",
+              link: "/examples/dropdown/",
+            },
           ],
         },
         {
