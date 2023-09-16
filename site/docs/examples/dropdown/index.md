@@ -396,7 +396,7 @@ const dropdownCommand = (command) => {
 
 </details>
 
-## Dropdown Attributes#
+## Dropdown Attributes
 
 | 属性名        | 说明                                                                       | 类型    | 可选值                | 默认值 |
 | ------------- | -------------------------------------------------------------------------- | ------- | --------------------- | ------ |
@@ -437,6 +437,6 @@ const dropdownCommand = (command) => {
 
 <style>
   table td {
-      width:fit-content
+      width:max-content
   }
 </style>
