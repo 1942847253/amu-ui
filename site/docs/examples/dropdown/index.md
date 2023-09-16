@@ -3,11 +3,13 @@ import Basic from './component/Basic.vue'
 import DisabledDivided from './component/Disabled-Divided.vue'
 import SplitButton from './component/SplitButton.vue'
 import trigger from './component/trigger.vue'
-import visible from './component/visible.vue'
-import Slot from './component/SplitButton.vue'
+import HideOnClick from './component/HideOnClick.vue'
+import command from './component/command.vue'
+
 </script>
 
 # Dropdown 下拉菜单
+
 将动作或菜单折叠到下拉菜单中。
 
 ## 基础用法
@@ -25,30 +27,48 @@ import Slot from './component/SplitButton.vue'
 
 ```vue
 <template>
-  <APopover
-    title="Title"
-    content="this is content, this is content, this is content"
-    placement="top"
-    trigger="hover"
-  >
-    <template #reference>
-      <a-button type="primary">Hover to activate</a-button>
+  <ADropdown>
+    <span class="a-dropdown-link">
+      Dropdown List
+      <span><a-icon name="arrow-down" /></span>
+    </span>
+    <template #dropdown>
+      <a-dropdown-menu>
+        <a-dropdown-item command="a" icon="add">Action 1</a-dropdown-item>
+        <a-dropdown-item command="b" icon="add-circle"
+          >Action 2</a-dropdown-item
+        >
+        <a-dropdown-item command="c" icon="select-bold"
+          >Action 3</a-dropdown-item
+        >
+        <a-dropdown-item command="d" icon="success-filling"
+          >Action 4</a-dropdown-item
+        >
+        <a-dropdown-item command="e" icon="success">Action 5</a-dropdown-item>
+      </a-dropdown-menu>
     </template>
-  </APopover>
-  <APopover
-    title="Title"
-    content="this is content, this is content, this is content"
-  >
-    <template #reference>
-      <a-button type="primary">Click to activate</a-button>
-    </template>
-  </APopover>
+  </ADropdown>
 </template>
+
+<style lang="less" scoped>
+.a-dropdown-link {
+  cursor: pointer;
+  color: #0468dc;
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-top: 2px;
+    margin-left: 2px;
+  }
+}
+</style>
 ```
 
 </details>
 
 ## 禁用选项与分隔符
+
 给`el-dropdown-item`添加 `disabled`属性可禁用当前选项 ，添加`divided`可显示分隔符
 
 <div class="example">
@@ -60,25 +80,52 @@ import Slot from './component/SplitButton.vue'
 
 ```vue
 <template>
-  <APopover
-    title="Title"
-    content="this is content, this is content, this is content"
-    placement="top"
-    trigger="hover"
-  >
-    <template #reference>
-      <a-button type="primary">Hover to activate</a-button>
-    </template>
-  </APopover>
-  <APopover
-    title="Title"
-    content="this is content, this is content, this is content"
-  >
-    <template #reference>
-      <a-button type="primary">Click to activate</a-button>
-    </template>
-  </APopover>
+  <div style="display: flex">
+    <ADropdown style="margin-right: 40px">
+      <span class="a-dropdown-link">
+        Disabled List
+        <span><a-icon name="arrow-down" /></span>
+      </span>
+      <template #dropdown>
+        <a-dropdown-menu>
+          <a-dropdown-item command="a">Action 1</a-dropdown-item>
+          <a-dropdown-item command="b" disabled>Action 2</a-dropdown-item>
+          <a-dropdown-item command="c">Action 3</a-dropdown-item>
+          <a-dropdown-item command="d" disabled>Action 4</a-dropdown-item>
+          <a-dropdown-item command="e">Action 5</a-dropdown-item>
+        </a-dropdown-menu>
+      </template>
+    </ADropdown>
+    <ADropdown>
+      <span class="a-dropdown-link">
+        Divided List
+        <span><a-icon name="arrow-down" /></span>
+      </span>
+      <template #dropdown>
+        <a-dropdown-menu>
+          <a-dropdown-item command="a">Action 1</a-dropdown-item>
+          <a-dropdown-item command="b">Action 2</a-dropdown-item>
+          <a-dropdown-item command="c">Action 3</a-dropdown-item>
+          <a-dropdown-item command="d">Action 4</a-dropdown-item>
+          <a-dropdown-item command="e" divided>Action 5</a-dropdown-item>
+        </a-dropdown-menu>
+      </template>
+    </ADropdown>
+  </div>
 </template>
+
+<style lang="less" scoped>
+.a-dropdown-link {
+  cursor: pointer;
+  color: #0468dc;
+  display: flex;
+  align-items: center;
+  span {
+    margin-top: 2px;
+    margin-left: 2px;
+  }
+}
+</style>
 ```
 
 </details>
@@ -98,24 +145,54 @@ import Slot from './component/SplitButton.vue'
 
 ```vue
 <template>
-  <APopover
-    :visible="popoverVisible"
-    title="Title"
-    content="this is content, this is content, this is content"
-  >
-    <template #reference>
-      <a-button @click="popoverVisible = !popoverVisible" type="primary"
-        >Manual to activate</a-button
-      >
-    </template>
-  </APopover>
+  <div style="display: flex">
+    <ADropdown>
+      <a-button type="primary">
+        Dropdown List <a-icon style="margin-left: 5px;" name="arrow-down"
+      /></a-button>
+      <template #dropdown>
+        <a-dropdown-menu>
+          <a-dropdown-item>Action 1</a-dropdown-item>
+          <a-dropdown-item>Action 2</a-dropdown-item>
+          <a-dropdown-item>Action 3</a-dropdown-item>
+          <a-dropdown-item>Action 4</a-dropdown-item>
+          <a-dropdown-item>Action 5</a-dropdown-item>
+        </a-dropdown-menu>
+      </template>
+    </ADropdown>
+    <ADropdown @click="handleClick" split-button type="primary">
+      Dropdown List
+      <template #dropdown>
+        <a-dropdown-menu>
+          <a-dropdown-item>Action 1</a-dropdown-item>
+          <a-dropdown-item>Action 2</a-dropdown-item>
+          <a-dropdown-item>Action 3</a-dropdown-item>
+          <a-dropdown-item>Action 4</a-dropdown-item>
+          <a-dropdown-item>Action 5</a-dropdown-item>
+        </a-dropdown-menu>
+      </template>
+    </ADropdown>
+  </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from "vue";
-
-const popoverVisible = ref(false);
+<script setup lang="ts">
+const handleClick = () => {
+  alert("button click");
+};
 </script>
+
+<style lang="less" scoped>
+.a-dropdown-link {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-top: 2px;
+    margin-left: 2px;
+  }
+}
+</style>
 ```
 
 </details>
@@ -135,116 +212,231 @@ const popoverVisible = ref(false);
 
 ```vue
 <template>
-  <APopover
-    width="400px"
-    content="this is content, this is content, this is content"
-  >
-    <template #reference>
-      <a-button type="primary">Click to activate</a-button>
-    </template>
-    <a-table :tableData="tableData.tBody" :tableColumn="tableData.tHead">
-    </a-table>
-  </APopover>
+  <div style="display: flex; align-items: center;">
+    <div style="margin-right: 100px;">
+      <span class="demonstration">hover to trigger</span>
+      <a-dropdown>
+        <span class="a-dropdown-link">
+          Dropdown List
+          <span><a-icon name="arrow-down" /></span>
+        </span>
+        <template #dropdown>
+          <a-dropdown-menu>
+            <a-dropdown-item command="a" icon="add">Action 1</a-dropdown-item>
+            <a-dropdown-item command="b" icon="add-circle"
+              >Action 2</a-dropdown-item
+            >
+            <a-dropdown-item command="c" icon="select-bold"
+              >Action 3</a-dropdown-item
+            >
+            <a-dropdown-item command="d" icon="success-filling"
+              >Action 4</a-dropdown-item
+            >
+            <a-dropdown-item command="e" icon="success"
+              >Action 5</a-dropdown-item
+            >
+          </a-dropdown-menu>
+        </template>
+      </a-dropdown>
+    </div>
+    <div>
+      <span class="demonstration">click to trigger</span>
+      <a-dropdown trigger="click">
+        <span class="a-dropdown-link">
+          Dropdown List
+          <span><a-icon name="arrow-down" /></span>
+        </span>
+        <template #dropdown>
+          <a-dropdown-menu>
+            <a-dropdown-item command="a" icon="add">Action 1</a-dropdown-item>
+            <a-dropdown-item command="b" icon="add-circle"
+              >Action 2</a-dropdown-item
+            >
+            <a-dropdown-item command="c" icon="select-bold"
+              >Action 3</a-dropdown-item
+            >
+            <a-dropdown-item command="d" icon="success-filling"
+              >Action 4</a-dropdown-item
+            >
+            <a-dropdown-item command="e" icon="success"
+              >Action 5</a-dropdown-item
+            >
+          </a-dropdown-menu>
+        </template>
+      </a-dropdown>
+    </div>
+  </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from "vue";
+<script lang="ts" setup></script>
 
-const tableData = ref({
-  tHead: [
-    {
-      key: "id",
-      text: "学号",
-    },
-    {
-      key: "name",
-      text: "姓名",
-    },
-    {
-      key: "age",
-      text: "年龄",
-    },
-    {
-      key: "chinese",
-      text: "语文",
-      editable: false,
-    },
-    {
-      key: "math",
-      text: "数学",
-      editable: false,
-    },
-    {
-      key: "english",
-      text: "英语",
-      editable: false,
-    },
-    // {
-    //     key: "operation",
-    //     text: "操作",
-    // },
-  ],
-  tBody: [
-    {
-      id: 1,
-      name: "Yjj",
-      age: 21,
-      chinese: 121,
-      math: 90,
-      english: 138,
-    },
-    {
-      id: 2,
-      name: "嘿毛",
-      age: 20,
-      chinese: 111,
-      math: 32,
-      english: 43,
-    },
-    {
-      id: 3,
-      name: "big龙",
-      age: 19,
-      chinese: 44,
-      math: 21,
-      english: 11,
-    },
-    {
-      id: 4,
-      name: "嫖瓜",
-      age: 21,
-      chinese: 80,
-      math: 40,
-      english: 45,
-    },
-  ],
-});
-</script>
+<style lang="less" scoped>
+.demonstration {
+  display: block;
+  color: #909399;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>
 ```
 
 </details>
 
-## Slots
+## 菜单隐藏方式
 
-| 属性名    | 说明                          |
-| --------- | ----------------------------- |
-| -         | Popover 内嵌 HTML 文本        |
-| reference | 触发 Popover 显示的 HTML 元素 |
+可以通过 `hide-on-click` 属性来配置。
 
-## Attributes
+下拉菜单默认在点击菜单项后会被隐藏，将 `hide-on-click` 属性设置为 `false` 可以关闭此功能。
 
-| 属性名    | 说明                                               | 类型    | 可选值                        | 默认值 |
-| --------- | -------------------------------------------------- | ------- | ----------------------------- | ------ |
-| trigger   | 触发方式                                           | string  | click/focus/hover/contextmenu | hover  |
-| title     | 标题                                               | string  | —                             | —      |
-| content   | 显示的内容，也可以通过写入默认 `slot` 修改显示内容 | string  | —                             | —      |
-| width     | 宽度                                               | string  | —                             | 150px  |
-| placement | 出现位置                                           | string  | top/left/bottom/right         | bottom |
-| visible   | Popover 是否显示                                   | Boolean | —                             | null   |
+<div class="example">
+ <HideOnClick />
+</div>
+
+<details>
+<summary>展开示例代码</summary>
+
+```vue
+<template>
+  <ADropdown :hide-on-click="false">
+    <span class="a-dropdown-link">
+      Dropdown List
+      <span><a-icon name="arrow-down" /></span>
+    </span>
+    <template #dropdown>
+      <a-dropdown-menu>
+        <a-dropdown-item command="a" icon="add">Action 1</a-dropdown-item>
+        <a-dropdown-item disabled command="b" icon="add-circle"
+          >Action 2</a-dropdown-item
+        >
+        <a-dropdown-item command="c" icon="select-bold"
+          >Action 3</a-dropdown-item
+        >
+        <a-dropdown-item command="d" icon="success-filling" disabled
+          >Action 4</a-dropdown-item
+        >
+        <a-dropdown-item command="e" icon="success">Action 5</a-dropdown-item>
+      </a-dropdown-menu>
+    </template>
+  </ADropdown>
+</template>
+
+<style lang="less" scoped>
+.a-dropdown-link {
+  cursor: pointer;
+  color: #0468dc;
+  display: flex;
+  align-items: center;
+  span {
+    margin-top: 2px;
+    margin-left: 2px;
+  }
+}
+</style>
+```
+
+</details>
+
+## 指令事件
+
+点击菜单项后会触发事件，用户可以通过相应的菜单项 key 进行不同的操作。
+
+<div class="example">
+ <command />
+</div>
+
+<details>
+<summary>展开示例代码</summary>
+
+```vue
+<template>
+  <ADropdown @command="dropdownCommand">
+    <span class="a-dropdown-link">
+      Dropdown List
+      <span><a-icon name="arrow-down" /></span>
+    </span>
+    <template #dropdown>
+      <a-dropdown-menu>
+        <a-dropdown-item command="a" icon="add">Action 1</a-dropdown-item>
+        <a-dropdown-item disabled command="b" icon="add-circle"
+          >Action 2</a-dropdown-item
+        >
+        <a-dropdown-item command="c" icon="select-bold"
+          >Action 3</a-dropdown-item
+        >
+        <a-dropdown-item command="d" icon="success-filling"
+          >Action 4</a-dropdown-item
+        >
+        <a-dropdown-item command="e" icon="success">Action 5</a-dropdown-item>
+      </a-dropdown-menu>
+    </template>
+  </ADropdown>
+</template>
+
+<script lang="ts" setup>
+import { AMessage } from "../../../../../packages/amu-ui";
+const dropdownCommand = (command) => {
+  AMessage.message({ message: `click on item ${command}` });
+};
+</script>
+
+<style lang="less" scoped>
+.a-dropdown-link {
+  cursor: pointer;
+  color: #0468dc;
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-top: 2px;
+    margin-left: 2px;
+  }
+}
+</style>
+```
+
+</details>
+
+## Dropdown Attributes#
+
+| 属性名        | 说明                                                                       | 类型    | 可选值                | 默认值 |
+| ------------- | -------------------------------------------------------------------------- | ------- | --------------------- | ------ |
+| trigger       | 触发方式                                                                   | string  | click/hover           | hover  |
+| hide-on-click | 是否在点击菜单项后隐藏菜单                                                 | boolean | —                     | true   |
+| split-button  | 下拉触发元素呈现为按钮组                                                   | boolean | —                     | false  |
+| type          | 菜单按钮类型，同 Button 组件一样，仅在 split-button 为 true 的情况下有效。 | string  | —                     | -      |
+| placement     | 出现位置                                                                   | string  | top/left/bottom/right | bottom |
+
+## Dropdown 插槽
+
+| 属性名   | 说明                                                                                                             |
+| -------- | ---------------------------------------------------------------------------------------------------------------- |
+| -        | 下拉菜单的内容。 `注意：必须是有效的 html DOM 元素（例如 <span>、<button> 等）或 el-component，以附加监听触发器` |
+| dropdown | 下拉列表，通常是 `<el-dropdown-menu>` 组件                                                                       |
+
+## Dropdown Events
+
+| 事件名  | 说明                                            | 参数                 |
+| ------- | ----------------------------------------------- | -------------------- |
+| click   | `split-button` 为 `true` 时，点击左侧按钮的回调 | —                    |
+| command | 点击菜单项触发的事件回调                        | dropdown-item 的指令 |
+
+## Dropdown-Menu Slots
+
+| 插槽名 | 说明           | 子标签        |
+| ------ | -------------- | ------------- |
+| —      | 下拉菜单的内容 | Dropdown-Item |
+
+## Dropdown-Item Attributes
+
+| 属性名   | 说明                                | 类型                 | 可选值 | 默认值 |
+| -------- | ----------------------------------- | -------------------- | ------ | ------ |
+| command  | 派发到 `command` 回调函数的指令参数 | string/number/object | —      | —      |
+| disabled | 是否禁用                            | boolean              | —      | false  |
+| divided  | 是否显示分隔符                      | boolean              | —      | false  |
+| icon     | 自定义图标                          | string               | —      | —      |
 
 <style>
   table td {
       width:fit-content
   }
 </style>
-

@@ -190,7 +190,7 @@ const tableData = ref({
 
 | 属性名    | 说明                                               | 类型    | 可选值                        | 默认值 |
 | --------- | -------------------------------------------------- | ------- | ----------------------------- | ------ |
-| trigger   | 触发方式                                           | string  | click/focus/hover/contextmenu | hover  |
+| trigger   | 触发方式                                           | string  | click/hover | hover  |
 | title     | 标题                                               | string  | —                             | —      |
 | content   | 显示的内容，也可以通过写入默认 `slot` 修改显示内容 | string  | —                             | —      |
 | width     | 宽度                                               | string  | —                             | 150px  |
