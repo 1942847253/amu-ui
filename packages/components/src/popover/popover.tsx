@@ -1,4 +1,4 @@
-import { CSSProperties, computed, defineComponent, ref, PropType, onMounted, Teleport, onBeforeUnmount } from "vue";
+import { CSSProperties, computed, defineComponent, ref, PropType, onMounted, Teleport, onBeforeUnmount, watch } from "vue";
 import { onClickOutside } from "@vueuse/core";
 import { debounce } from "@/shared/utils";
 import useElementPosition from "./hooks/useElementPosition";
@@ -46,10 +46,17 @@ export default defineComponent({
         const bgColor = ref("#ffff");
         const placements = ref("bottom");
         const popoverVisible = ref(false);
+        const Visible = ref(props.visible)
         const popoverPostiton = ref({
             left: 0,
             top: 0,
         });
+
+        watch(() => props.visible, (visible) => {
+            setTimeout(() => {
+                Visible.value = visible
+            }, visible ? 150 : 0);
+        })
 
         const popoverStyle = computed<CSSProperties>(() => {
             let scale = ""
@@ -74,12 +81,12 @@ export default defineComponent({
                 default:
                     break;
             }
-            let Visible = (props.visible === null) ? popoverVisible.value : props.visible
+            let isVisible = (Visible.value === null) ? popoverVisible.value : Visible.value
             return {
                 left: popoverPostiton.value.left + "px",
                 top: popoverPostiton.value.top + "px",
                 backgroundColor: bgColor.value,
-                transform: `${scale}(${Visible ? 1 : 0})`,// 面板收起
+                transform: `${scale}(${isVisible ? 1 : 0})`,// 面板收起
                 transformOrigin: origin,
                 width: props.width,
                 minWidth: props.width || '150px',
@@ -133,7 +140,7 @@ export default defineComponent({
         })
 
         const showPopover = () => {
-            if (props.visible === null && timer) {
+            if (Visible.value === null && timer) {
                 clearTimeout(timer)
                 timer = null
             }
@@ -141,7 +148,7 @@ export default defineComponent({
             popoverVisible.value = true;
         }
         const hiddenPopover = () => {
-            if (props.visible === null) {
+            if (Visible.value === null) {
                 timer = setTimeout(() => {
                     popoverVisible.value = false;
                     timer = null

@@ -1,5 +1,5 @@
 <template>
-  <ATabs default-active-key="27" position="left">
+  <ATabs default-active-key="6" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <AButton type="primary">primary</AButton>
     </ATabsPanel>
