@@ -19,16 +19,17 @@ export default defineComponent({
   components: {},
   setup(props, { emit }) {
     const shrinkCalendar = () => {
-      props.showDateSelectFn!(false)
+     // props.showDateSelectFn!(false)
       props.shrinkCalendarSwitchFn!(1, 0.18)
       // 解决日历展开时,日期选择闪烁的问题
+      return
       setTimeout(() => {
         props.showDateSelectFn!(true)
       }, 100);
     }
     return () => (
       <div class="a-date-selector-input">
-        <AInput readonly isDate modelValue={props.value} onResetValue={(value: string) => emit('resetValue', value)} onFocus={() => shrinkCalendar()} onBlur={() => emit('inputBlur')} />
+        <AInput width="200" readonly isDate modelValue={props.value} onResetValue={(value: string) => emit('resetValue', value)} onFocus={() => shrinkCalendar()} onBlur={() => emit('inputBlur')} />
       </div>
     );
   },

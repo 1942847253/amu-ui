@@ -1,6 +1,7 @@
 import { defineComponent, inject, provide, reactive, ref, watch } from "vue";
 import Calendar from "../date-calendar";
 import DateSelect from "../date-select";
+import APopover from "@components/popover";
 import { getDateInfo } from "../../tool";
 import ShrinkBox from "@components/shrink-box";
 import './style/index.less';
@@ -32,13 +33,14 @@ export default defineComponent({
             type: Boolean,
             default: false
         },
-        isInputBlur:Boolean
+        isInputBlur: Boolean,
+        showDateSelectFn: Function
     },
     emits: [],
     setup(props, { emit }) {
         const dateSelectContentKey = inject('dateSelectContentKey') as string
         const dateMenuRef = ref<HTMLDivElement | null>(null)
-        const shrinkSelectSwitchFn = ref<Function>()
+        const selectpopoverRef = ref()
         const dateState = reactive<IDateState>({
             currentYear: 0,
             currentMonth: 0,
@@ -49,7 +51,7 @@ export default defineComponent({
             initDateState()
         })
 
-        watch(() => props.isInputBlur,(val)=>{
+        watch(() => props.isInputBlur, (val) => {
             initDateState();
         })
 
@@ -93,16 +95,18 @@ export default defineComponent({
             }
         }
 
-        const shrinkSelectSwitch = (shrinkViewConfigSwitch: Function) => {
-            shrinkSelectSwitchFn.value = shrinkViewConfigSwitch
-        }
-
         const openShrinkSelect = () => {
-            shrinkSelectSwitchFn.value!(1)
-            const selectYearEl = dateMenuRef.value!.querySelector(`.select-year`) as HTMLElement
-            const selectMonthEl = dateMenuRef.value!.querySelector(`.select-month`) as HTMLElement
-            const commentInYear = dateMenuRef.value!.querySelector(`.select-year-index-${dateState.currentYear}`) as HTMLElement
-            const commentInMonth = dateMenuRef.value!.querySelector(`.select-month-index-${dateState.currentMonth}`) as HTMLElement
+            if (props.showDateSelect) {
+                props.showDateSelectFn!(false)
+                return
+            } else {
+                props.showDateSelectFn!(true)
+            }
+            const { popoverRef } = selectpopoverRef.value
+            const selectYearEl = popoverRef.querySelector(`.select-year`) as HTMLElement
+            const selectMonthEl = popoverRef.querySelector(`.select-month`) as HTMLElement
+            const commentInYear = popoverRef.querySelector(`.select-year-index-${dateState.currentYear}`) as HTMLElement
+            const commentInMonth = popoverRef.querySelector(`.select-month-index-${dateState.currentMonth}`) as HTMLElement
             setTimeout(() => {
                 selectYearEl.scrollTo({ 'behavior': 'auto', 'top': commentInYear.offsetTop - 5 })
                 selectMonthEl.scrollTo({ 'behavior': 'auto', 'top': commentInMonth.offsetTop - 5 })
@@ -116,6 +120,13 @@ export default defineComponent({
                 dateState.currentMonth = date
             }
         }
+
+        const isClickElementInPopover = (flag: boolean) => {
+            if (!flag) {
+                props.showDateSelectFn!(false)
+            }
+        };
+
         provide('dateState', dateState)
         return () => (
             <div class="a-date-menu" ref={dateMenuRef}>
@@ -125,10 +136,12 @@ export default defineComponent({
                         <span onClick={() => changeDate(EDateType.TYPE_MONTH, EClickFlag.FLAG_DECREASE)} class="one iconfont icon-left1"></span>
                     </div>
                     <div class="head-center">
-                        <div onClick={() => openShrinkSelect()} tabindex="1" class="year-month">{dateState.currentYear} {dateState.currentMonth}月</div>
-                        {props.showDateSelect && <ShrinkBox contentID={dateSelectContentKey} shrinkViewSwitch={shrinkSelectSwitch}>
-                            <DateSelect showDateSelect={props.showDateSelect}  updateYearOrMonthFn={updateYearOrMonthFn} currentYear={dateState.currentYear} currentMonth={dateState.currentMonth} dateValue={props.dateValue} />
-                        </ShrinkBox>}
+                        <APopover onIsClickElementInPopover={(flag) => isClickElementInPopover(flag)} ref={selectpopoverRef} trigger="click" visible={props.showDateSelect} width="max-content" padding="0">
+                            {{
+                                reference: () => <div onClick={() => openShrinkSelect()} tabindex="1" style={{ backgroundColor: props.showDateSelect ? ' #f3f3f3' : '' }} class="year-month">{dateState.currentYear} {dateState.currentMonth}月</div>,
+                                default: () => <DateSelect updateYearOrMonthFn={updateYearOrMonthFn} currentYear={dateState.currentYear} currentMonth={dateState.currentMonth} dateValue={props.dateValue} />,
+                            }}
+                        </APopover>
                     </div>
                     <div class="head-right">
                         <span onClick={() => changeDate(EDateType.TYPE_MONTH, EClickFlag.FLAG_ADD)} class="one iconfont icon-right-copy"></span>

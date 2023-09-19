@@ -53,9 +53,10 @@ export default defineComponent({
         });
 
         watch(() => props.visible, (visible) => {
+            positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
             setTimeout(() => {
                 Visible.value = visible
-            }, visible ? 150 : 0);
+            }, visible ? 120 : 0);
         })
 
         const popoverStyle = computed<CSSProperties>(() => {
@@ -176,7 +177,8 @@ export default defineComponent({
 
         expose({
             showPopover,
-            hiddenPopover
+            hiddenPopover,
+            popoverRef
         })
         return () => (
             <div class="a-popover-content">
