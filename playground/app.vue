@@ -1,5 +1,5 @@
 <template>
-  <ATabs default-active-key="6" position="left">
+  <ATabs default-active-key="28" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <AButton type="primary">primary</AButton>
     </ATabsPanel>
@@ -392,6 +392,12 @@
         </template>
       </ADropdown>
     </ATabsPanel>
+    <ATabsPanel key="28" title="Dialog 对话框">
+       <AButton type="primary" @click="dialogVisible = true">open</AButton>
+       <ADialog width="30%"  title="Tips" v-model="dialogVisible">
+          <span>This is a message</span>
+       </ADialog>
+    </ATabsPanel>
   </ATabs>
 </template>
 
@@ -399,6 +405,7 @@
 import { onMounted, reactive, ref, watch } from "vue";
 import { AMessage, AMessageBox } from '@amu-ui/components';
 
+const dialogVisible = ref(false)
 const numberValue = ref();
 const showLoading = ref(false);
 const showDrawer = ref(false);
