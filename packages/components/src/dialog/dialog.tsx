@@ -14,6 +14,10 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
+        modal: {
+            type: Boolean,
+            default: true,
+        },
         title: {
             type: String,
             default: '',
@@ -42,15 +46,26 @@ export default defineComponent({
             type: String,
             default: "确认"
         },
+        center: {
+            type: Boolean,
+            default: false
+        },
+        destroyOnClose: {
+            type: Boolean,
+            default: false
+        },
+        icon: {
+            type: String,
+            default: '',
+        },
     },
     emits: ['update:modelValue', 'cancel-click', 'confirm-click', 'close-click'],
     setup(props, { emit, slots, expose }) {
         const dialogRef = ref<HTMLDialogElement | null>(null);
-
         const dialogBoxStyle = computed<CSSProperties>(() => {
             return {
                 width: props.width,
-                top: props.offsetTop
+                top: props.offsetTop,
             };
         });
 
@@ -59,10 +74,10 @@ export default defineComponent({
             (visible) => {
                 if (visible) {
                     showModal();
-                    document.body.style.overflow = 'hidden'
+                    props.modal && (document.body.style.overflow = 'hidden')
                 } else {
                     closeModal();
-                    document.body.style.overflow = 'auto'
+                    props.modal && (document.body.style.overflow = 'auto')
                 }
             },
         );
@@ -76,7 +91,13 @@ export default defineComponent({
             };
         });
 
-        const showModal = () => dialogRef.value!.showModal();
+        const showModal = () => {
+            if (props.modal) {
+                dialogRef.value!.showModal()
+            } else {
+                dialogRef.value!.show();
+            }
+        };
         const closeModal = () => dialogRef.value!.close();
 
         const closeEvent = (event: 'cancel-click' | 'confirm-click' | 'close-click') => {
@@ -88,21 +109,32 @@ export default defineComponent({
             showModal,
             closeModal,
         });
-        console.log(slots);
 
+        const defaultSlotRender = computed(() => {
+            if (slots.default) {
+                if (props.destroyOnClose) {
+
+                    return props.modelValue && slots.default()
+                } else {
+                    return slots.default()
+                }
+            } else {
+                return ''
+            }
+        })
 
         return () => (
             <div class="a-dialog-content">
                 <dialog ref={dialogRef} style={dialogBoxStyle.value}>
                     <div class="dialog-box" >
-                        <div v-show={props.title} class="header">
-                            <div class="title">{props.title}</div>
+                        <div v-show={props.title} class="header" style={{ justifyContent: props.center ? 'center' : 'left' }}>
+                            <div class="title"><a-icon style="font-size:20px;margin-right:5px" name={props.icon}></a-icon>{props.title}</div>
                         </div>
                         <div class="close-btn" onClick={() => closeEvent('close-click')}><a-icon name="close" /></div>
                         <div class="content">
-                            {slots.default && slots.default()}
+                            {defaultSlotRender.value}
                         </div>
-                        <div class="footer">
+                        <div class="footer" style={{ justifyContent: props.center ? 'center' : 'right' }}>
                             {
                                 slots.footer ? slots.footer() : (
                                     <>

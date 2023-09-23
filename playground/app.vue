@@ -394,7 +394,7 @@
     </ATabsPanel>
     <ATabsPanel key="28" title="Dialog 对话框">
        <AButton type="primary" @click="dialogVisible = true">open</AButton>
-       <ADialog width="30%"  title="Tips" v-model="dialogVisible">
+       <ADialog  width="30%"  title="Tips" icon="prompt" v-model="dialogVisible">
           <span>This is a message</span>
        </ADialog>
     </ATabsPanel>
