@@ -5,6 +5,8 @@ import { AMessage } from "./src/message";
 import { AMessageBox } from "./src/message-box";
 import { Tooltip } from "./src/tooltip";
 
+window.$ = {}
+window.$.amuui = {}
 type TComponets = {
   [key: string]: Plugin;
 };

@@ -87,6 +87,7 @@ export default defineComponent({
                 left: popoverPostiton.value.left + "px",
                 top: popoverPostiton.value.top + "px",
                 backgroundColor: bgColor.value,
+                transition: `transform ${isVisible ? 0.18 : 0.08}s ease`,
                 transform: `${scale}(${isVisible ? 1 : 0})`,// 面板收起
                 transformOrigin: origin,
                 width: props.width,
@@ -125,7 +126,7 @@ export default defineComponent({
             }
             positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
 
-
+            window.addEventListener('resize', debounceFn)
             window.addEventListener('scroll', debounceFn)
 
         })
@@ -185,13 +186,11 @@ export default defineComponent({
                 <div class="a-reference" ref={referenceSlotRef} >
                     {referenceSlot()}
                 </div>
-                <Teleport to="body">
-                    {
-                        <div ref={popoverRef} class="a-popover" style={popoverStyle.value}>
-                            {popoverInnerContent()}
-                        </div >
-                    }
-                </Teleport>
+                {
+                    <div ref={popoverRef} class="a-popover" style={popoverStyle.value}>
+                        {popoverInnerContent()}
+                    </div >
+                }
             </div>
         )
     }

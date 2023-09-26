@@ -1,4 +1,4 @@
-import { CSSProperties, computed, defineComponent, onMounted, ref, watch } from "vue";
+import { CSSProperties, Teleport, computed, defineComponent, onMounted, ref, Transition, watch } from "vue";
 import { AButton } from "..";
 import { AIcon } from "..";
 import './style/index.less';
@@ -28,7 +28,7 @@ export default defineComponent({
         },
         offsetTop: {
             type: String,
-            default: '15vh',
+            default: '15%',
         },
         showCancelButton: {
             type: Boolean,
@@ -58,31 +58,61 @@ export default defineComponent({
             type: String,
             default: '',
         },
+        zIndex: {
+            type: Number,
+            default: 1000
+        }
     },
     emits: ['update:modelValue', 'cancel-click', 'confirm-click', 'close-click'],
     setup(props, { emit, slots, expose }) {
+        const dialogZIndex = ref(0)
         const dialogRef = ref<HTMLDialogElement | null>(null);
+        const dialogVisible = ref(props.modelValue)
         const dialogBoxStyle = computed<CSSProperties>(() => {
             return {
                 width: props.width,
                 top: props.offsetTop,
             };
         });
+        const isDefined = (target: any) => {
+            try {
+                return !!(target)
+            } catch {
+                return false
+            }
+        }
+        if (isDefined(window.$?.amuui?.zIndex)) {
+            dialogZIndex.value = window.$.amuui.zIndex + 1
+        } else {
+            dialogZIndex.value = 1000
+            window.$.amuui.zIndex = dialogZIndex.value
+        }
+
+        const highestZIndex = Math.max(
+            ...Array.from(document.querySelectorAll('*'), el => {
+                const zIndex = parseInt(window.getComputedStyle(el).zIndex);
+                return isNaN(zIndex) ? 0 : zIndex;
+            })
+        );
 
         watch(
             () => props.modelValue,
             (visible) => {
+                setTimeout(() => {
+                    dialogVisible.value = visible
+                }, visible ? 0 : 80);
                 if (visible) {
-                    showModal();
                     props.modal && (document.body.style.overflow = 'hidden')
                 } else {
-                    closeModal();
                     props.modal && (document.body.style.overflow = 'auto')
                 }
             },
         );
 
         onMounted(() => {
+            console.log(highestZIndex);
+
+            return
             if (props.modelValue === true) {
                 showModal();
             }
@@ -114,7 +144,7 @@ export default defineComponent({
             if (slots.default) {
                 if (props.destroyOnClose) {
 
-                    return props.modelValue && slots.default()
+                    return dialogVisible.value && slots.default()
                 } else {
                     return slots.default()
                 }
@@ -124,29 +154,32 @@ export default defineComponent({
         })
 
         return () => (
-            <div class="a-dialog-content">
-                <dialog ref={dialogRef} style={dialogBoxStyle.value}>
-                    <div class="dialog-box" >
-                        <div v-show={props.title} class="header" style={{ justifyContent: props.center ? 'center' : 'left' }}>
-                            <div class="title"><a-icon style="font-size:20px;margin-right:5px" name={props.icon}></a-icon>{props.title}</div>
+            <Teleport to="body">
+                <Transition name="dialog">
+                    <div class="a-dialog-content" v-show={dialogVisible.value} style={{ zIndex: dialogZIndex.value }}>
+                        <div class="dialog-box" style={dialogBoxStyle.value}>
+                            <div v-show={props.title} class="a-dialog-header" style={{ justifyContent: props.center ? 'center' : 'left' }}>
+                                <div class="title"><a-icon v-show={props.icon} style="font-size:20px;margin-right:5px" name={props.icon}></a-icon>{props.title}</div>
+                            </div>
+                            <div class="close-btn" onClick={() => closeEvent('close-click')}><a-icon name="close" /></div>
+                            <div class="a-dialog-body">
+                                {defaultSlotRender.value}
+                            </div>
+                            <div class="a-dialog-footer" style={{ justifyContent: props.center ? 'center' : 'right' }}>
+                                {
+                                    slots.footer ? slots.footer() : (
+                                        <>
+                                            <a-button v-show={props.showCancelButton} onClick={() => closeEvent('cancel-click')}>{props.cancelButtonText}</a-button>
+                                            <a-button style="margin-right:0px" v-show={props.showConfirmButton} onClick={() => closeEvent('confirm-click')} type="primary">{props.confirmButtonText}</a-button>
+                                        </>
+                                    )
+                                }
+                            </div>
                         </div>
-                        <div class="close-btn" onClick={() => closeEvent('close-click')}><a-icon name="close" /></div>
-                        <div class="content">
-                            {defaultSlotRender.value}
-                        </div>
-                        <div class="footer" style={{ justifyContent: props.center ? 'center' : 'right' }}>
-                            {
-                                slots.footer ? slots.footer() : (
-                                    <>
-                                        <a-button v-show={props.showCancelButton} onClick={() => closeEvent('cancel-click')}>{props.cancelButtonText}</a-button>
-                                        <a-button style="margin-right:0px" v-show={props.showConfirmButton} onClick={() => closeEvent('confirm-click')} type="primary">{props.confirmButtonText}</a-button>
-                                    </>
-                                )
-                            }
-                        </div>
-                    </div>
-                </dialog >
-            </div >
+                    </div >
+                </Transition>
+            </Teleport>
+
         )
     }
 })

@@ -176,6 +176,10 @@ export default {
               text: "Popover 气泡卡片",
               link: "/examples/popover/",
             },
+            {
+              text: "Dialog 对话框",
+              link: "/examples/dialog/",
+            },
           ],
         },
       ],

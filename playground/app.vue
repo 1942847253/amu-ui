@@ -393,10 +393,15 @@
       </ADropdown>
     </ATabsPanel>
     <ATabsPanel key="28" title="Dialog 对话框">
-       <AButton type="primary" @click="dialogVisible = true">open</AButton>
-       <ADialog  width="30%"  title="Tips" icon="prompt" v-model="dialogVisible">
-          <span>This is a message</span>
-       </ADialog>
+      <AButton type="primary" @click="dialogVisible = true">open</AButton>
+      <ADialog width="30%" title="Tips" icon="prompt" v-model="dialogVisible">
+        <ASelect :options="options1.slice(0, 6)" placeholder="请选择学校" v-model="formState.school">
+        </ASelect>
+      </ADialog>
+      <ADialog width="30%" title="Tips" icon="prompt" v-model="dialogVisible">
+        <ASelect :options="options1.slice(0, 6)" placeholder="请选择学校" v-model="formState.school">
+        </ASelect>
+      </ADialog>
     </ATabsPanel>
   </ATabs>
 </template>
@@ -422,7 +427,7 @@ const formState = reactive({
   school: 2,
   birthday: "",
 });
-const handleClick = ()=>{
+const handleClick = () => {
   alert('button click')
 }
 const percentage = ref(0)
