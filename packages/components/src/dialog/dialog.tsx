@@ -2,6 +2,7 @@ import { CSSProperties, Teleport, computed, defineComponent, onMounted, ref, Tra
 import { AButton } from "..";
 import { AIcon } from "..";
 import './style/index.less';
+import { isDefined } from "@/shared/utils";
 
 export default defineComponent({
     name: 'ADialog',
@@ -74,20 +75,15 @@ export default defineComponent({
                 top: props.offsetTop,
             };
         });
-        const isDefined = (target: any) => {
-            try {
-                return !!(target)
-            } catch {
-                return false
-            }
-        }
+
         if (isDefined(window.$?.amuui?.zIndex)) {
             dialogZIndex.value = window.$.amuui.zIndex + 1
         } else {
-            dialogZIndex.value = 1000
+            window.$ = { amuui: {} }
+            dialogZIndex.value = 2000
             window.$.amuui.zIndex = dialogZIndex.value
         }
-
+        window.$.amuui.zIndex = dialogZIndex.value
         const highestZIndex = Math.max(
             ...Array.from(document.querySelectorAll('*'), el => {
                 const zIndex = parseInt(window.getComputedStyle(el).zIndex);

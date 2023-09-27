@@ -1,6 +1,6 @@
 import { CSSProperties, computed, defineComponent, ref, PropType, onMounted, Teleport, onBeforeUnmount, watch } from "vue";
 import { onClickOutside } from "@vueuse/core";
-import { debounce } from "@/shared/utils";
+import { debounce, isDefined } from "@/shared/utils";
 import useElementPosition from "./hooks/useElementPosition";
 import './style/index.less'
 
@@ -39,10 +39,15 @@ export default defineComponent({
     emits: ['isClickElementInPopover'],
     setup(props, { emit, slots, expose }) {
         let timer: NodeJS.Timeout | null = null
-
         const popoverRef = ref<HTMLDivElement | null>(null)
         const referenceSlotRef = ref<HTMLDivElement | null>(null)
-
+        const Index = ref(2000)
+        if (isDefined(window.$?.amuui?.zIndex)) {
+            Index.value = window.$?.amuui?.zIndex + 1
+        } else {
+            window.$ = { amuui: {} }
+        }
+        window.$.amuui.zIndex = Index.value
         const bgColor = ref("#ffff");
         const placements = ref("bottom");
         const popoverVisible = ref(false);
@@ -84,10 +89,11 @@ export default defineComponent({
             }
             let isVisible = (Visible.value === null) ? popoverVisible.value : Visible.value
             return {
+                zIndex: Index.value,
                 left: popoverPostiton.value.left + "px",
                 top: popoverPostiton.value.top + "px",
                 backgroundColor: bgColor.value,
-                transition: `transform ${isVisible ? 0.18 : 0.08}s ease`,
+                transition: `transform ${isVisible ? 0.18 : 0.09}s ease`,
                 transform: `${scale}(${isVisible ? 1 : 0})`,// 面板收起
                 transformOrigin: origin,
                 width: props.width,
@@ -105,7 +111,7 @@ export default defineComponent({
             };
         }
         const ListenerFn = () => positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
-        const debounceFn = debounce(ListenerFn, 50)
+        const debounceFn = debounce(ListenerFn, 20)
         onMounted(() => {
             const referenceSlotFirstElement = referenceSlotRef.value!.firstElementChild as HTMLElement
             if (props.trigger === 'click') {
@@ -186,11 +192,13 @@ export default defineComponent({
                 <div class="a-reference" ref={referenceSlotRef} >
                     {referenceSlot()}
                 </div>
-                {
-                    <div ref={popoverRef} class="a-popover" style={popoverStyle.value}>
-                        {popoverInnerContent()}
-                    </div >
-                }
+                <Teleport to="body">
+                    {
+                        <div ref={popoverRef} class="a-popover" style={popoverStyle.value}>
+                            {popoverInnerContent()}
+                        </div >
+                    }
+                </Teleport>
             </div>
         )
     }

@@ -3,7 +3,6 @@ import Calendar from "../date-calendar";
 import DateSelect from "../date-select";
 import APopover from "@components/popover";
 import { getDateInfo } from "../../tool";
-import ShrinkBox from "@components/shrink-box";
 import './style/index.less';
 
 export interface IDateState {

@@ -98,3 +98,34 @@ export const getStyleAttributeValue = (
 export const scrollIntoView = (parentEl: Element, height: number) => {
   parentEl.scrollTop = height;
 };
+
+export const isDefined = (target: any) => {
+  try {
+    return !!(target)
+  } catch {
+    return false
+  }
+}
+
+export const watchElementStyleChange = (targetElement: HTMLElement, style: string, callback: Function) => {
+  if (!targetElement) {
+    console.error('找不到指定的目标元素');
+    return;
+  }
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'style') {
+        const displayStyle = window.getComputedStyle(targetElement).getPropertyValue(style);
+        if (displayStyle === 'block') {
+          callback();
+        }
+      }
+    });
+  });
+
+  const config = { attributes: true, attributeFilter: ['style'] };
+  observer.observe(targetElement, config);
+
+  return observer; // 返回 observer，以便后续可以调用 observer.disconnect() 停止监听
+}

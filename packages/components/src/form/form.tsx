@@ -1,5 +1,5 @@
-import { getStyleAttributeValue, uuid } from "../../shared/utils";
-import { defineComponent, onMounted, provide, ref } from "vue";
+import { getStyleAttributeValue, uuid, watchElementStyleChange } from "../../shared/utils";
+import { defineComponent, onMounted, onUnmounted, provide, ref } from "vue";
 import './style/index.less';
 import $bus from "../../bus/bus";
 
@@ -17,6 +17,7 @@ export default defineComponent({
     },
     emits: ['submit'],
     setup(props, { emit, slots, expose }) {
+        let observer: IntersectionObserver | null = null
         const uniKey = uuid();
         const fromRef = ref<HTMLDivElement | null>(null);
         const model = JSON.parse(JSON.stringify(props.model));
@@ -24,13 +25,22 @@ export default defineComponent({
         provide('rules', props.rules);
         provide('uniKey', uniKey);
         onMounted(() => {
-            initItemLabelWidth(); 
+            observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    initItemLabelWidth()
+                }
+            });
+            observer.observe(fromRef.value!);
         })
 
+        onUnmounted(() => {
+            observer?.disconnect()
+            observer = null
+        })
         const initItemLabelWidth = () => {
             const allLabels = fromRef.value!.querySelectorAll('.a-form-item-label') as unknown as HTMLDivElement[]
             let labelWidth = 0;
-            allLabels.forEach((label) => {
+            allLabels.forEach((label: HTMLElement) => {
                 const width = getStyleAttributeValue(label, 'width');
                 width > labelWidth && (labelWidth = width)
             })

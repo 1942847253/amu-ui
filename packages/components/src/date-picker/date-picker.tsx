@@ -2,7 +2,6 @@ import { defineComponent, provide, ref } from "vue";
 import DateInput from "./component/date-input";
 import Calendar from "./component/date-calendar";
 import Menu from "./component/date-menu/date-menu";
-import ShrinkBox from "../shrink-box";
 import { APopover } from "..";
 import { IDayObj } from "./hooks/useCalendar";
 import { getFormetDate } from "./tool";

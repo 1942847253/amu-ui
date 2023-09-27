@@ -395,12 +395,29 @@
     <ATabsPanel key="28" title="Dialog 对话框">
       <AButton type="primary" @click="dialogVisible = true">open</AButton>
       <ADialog width="30%" title="Tips" icon="prompt" v-model="dialogVisible">
-        <ASelect :options="options1.slice(0, 6)" placeholder="请选择学校" v-model="formState.school">
-        </ASelect>
-      </ADialog>
-      <ADialog width="30%" title="Tips" icon="prompt" v-model="dialogVisible">
-        <ASelect :options="options1.slice(0, 6)" placeholder="请选择学校" v-model="formState.school">
-        </ASelect>
+        <AForm :model="formState" :rules="rules" ref="formRef">
+          <AFormItem label="姓名:" prop="name">
+            <AInput placeholder="请输入姓名" v-model="formState.name" />
+          </AFormItem>
+          <AFormItem label="年龄:" prop="age">
+            <AInput type="number" show-password placeholder="请输入年龄" v-model="formState.age" />
+          </AFormItem>
+          <AFormItem label="家庭住址:" prop="address">
+            <AInput clearable placeholder="请输入家庭住址" v-model="formState.address" />
+          </AFormItem>
+          <AFormItem label="出生日期:" prop="birthday">
+            <ADatePicker v-model="formState.birthday" />
+          </AFormItem>
+          <AFormItem label="学校:" prop="school">
+            <ASelect :options="options1.slice(0, 6)" placeholder="请选择学校" v-model="formState.school">
+            </ASelect>
+          </AFormItem>
+        </AForm>
+        <template #footer>
+          <AButton @click="onReset">Reset</AButton>
+          <AButton @click="onSubmit" type="primary">Submit</AButton>
+            
+        </template>
       </ADialog>
     </ATabsPanel>
   </ATabs>

@@ -4,10 +4,6 @@ declare module "*.vue" {
 }
 
 declare interface Window {
-  $: {
-    amuui: {
-      zIndex: number
-    }
-  }
+  $: any
 }
 
