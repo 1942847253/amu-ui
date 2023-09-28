@@ -400,7 +400,7 @@
             <AInput placeholder="请输入姓名" v-model="formState.name" />
           </AFormItem>
           <AFormItem label="年龄:" prop="age">
-            <AInput type="number" show-password placeholder="请输入年龄" v-model="formState.age" />
+            <AInput type="number"  placeholder="请输入年龄" v-model="formState.age" />
           </AFormItem>
           <AFormItem label="家庭住址:" prop="address">
             <AInput clearable placeholder="请输入家庭住址" v-model="formState.address" />
@@ -545,7 +545,7 @@ const rules = {
   ],
   age: [
     { required: true, message: "Please input Activity age", trigger: "blur" },
-    { min: 3, max: 5, message: "Length should be 3 to 5", trigger: "blur" },
+    { min: 2, max: 4, message: "Length should be 2 to 4", trigger: "blur" },
   ],
   address: [
     {

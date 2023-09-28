@@ -62,6 +62,10 @@ export default defineComponent({
         zIndex: {
             type: Number,
             default: 1000
+        },
+        closeOnClickModal: {
+            type: Boolean,
+            default: true
         }
     },
     emits: ['update:modelValue', 'cancel-click', 'confirm-click', 'close-click'],
@@ -131,6 +135,14 @@ export default defineComponent({
             emit(event);
         };
 
+        const closeOnClickModal = (event: MouseEvent) => {
+            const targetElement = event.target as unknown as HTMLElement
+            if (targetElement.className !== 'a-dialog-content') return
+            if (props.closeOnClickModal) {
+                closeEvent('close-click')
+            }
+        }
+
         expose({
             showModal,
             closeModal,
@@ -152,7 +164,7 @@ export default defineComponent({
         return () => (
             <Teleport to="body">
                 <Transition name="dialog">
-                    <div class="a-dialog-content" v-show={dialogVisible.value} style={{ zIndex: dialogZIndex.value }}>
+                    <div class="a-dialog-content" onClick={(event) => closeOnClickModal(event)} v-show={dialogVisible.value} style={{ zIndex: dialogZIndex.value }}>
                         <div class="dialog-box" style={dialogBoxStyle.value}>
                             <div v-show={props.title} class="a-dialog-header" style={{ justifyContent: props.center ? 'center' : 'left' }}>
                                 <div class="title"><a-icon v-show={props.icon} style="font-size:20px;margin-right:5px" name={props.icon}></a-icon>{props.title}</div>

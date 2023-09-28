@@ -93,7 +93,7 @@ export default defineComponent({
                 left: popoverPostiton.value.left + "px",
                 top: popoverPostiton.value.top + "px",
                 backgroundColor: bgColor.value,
-                transition: `transform ${isVisible ? 0.18 : 0.09}s ease`,
+                transition: `transform ${isVisible ? 0.18 : 0.1}s ease`,
                 transform: `${scale}(${isVisible ? 1 : 0})`,// 面板收起
                 transformOrigin: origin,
                 width: props.width,

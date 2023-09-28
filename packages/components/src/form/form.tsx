@@ -57,7 +57,7 @@ export default defineComponent({
                 Object.keys(props.rules).forEach(key => {
                     for (let i = 0; i < props.rules[key].length; i++) {
                         const rule = props.rules[key][i]
-                        const keyValue = props.model[key]
+                        const keyValue = props.model[key] + ''
                         if (rule.required === true) {
                             if (keyValue === "") {
                                 $bus.$emit(VALIDATE_EVENT + key, 'error', rule.message)
@@ -70,7 +70,9 @@ export default defineComponent({
                         }
 
                         if (rule.min || rule.max) {
+                            debugger
                             if (keyValue.length < rule.min || keyValue.length > rule.max) {
+
                                 $bus.$emit(VALIDATE_EVENT + key, 'error', rule.message)
                                 reject(rule.message)
                                 isResolved = false
