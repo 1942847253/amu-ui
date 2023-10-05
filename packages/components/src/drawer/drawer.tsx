@@ -1,6 +1,7 @@
-import { computed, defineComponent, ref, watch } from "vue";
+import { Teleport, computed, defineComponent, ref, watch } from "vue";
 import ATransition from '../transition/transition'
 import './style/index.less';
+import useZIndex from "@/shared/hooks/useZIndex";
 
 type TPosition = 'top' | 'left' | 'bottom' | 'right'
 type TSize = 'width' | 'height'
@@ -40,8 +41,11 @@ export default defineComponent({
             type: Function,
         },
     },
-    emits: ['update:modelValue', 'opened','closed'],
+    emits: ['update:modelValue', 'opened', 'closed'],
     setup(props, { emit, slots }) {
+        const { ZIndex, setZIndex } = useZIndex()
+        const drawerZIndex = ref(ZIndex)
+        setZIndex(drawerZIndex.value)
         const directionKey = ['top', 'bottom', 'left', 'right']
         const contentSizeStyle = computed(() => typeof props.size === 'number' ? props.size + 'px' : props.size);
         const drawerHideRange = ref(props.modelValue ? '0' : `-${contentSizeStyle.value}`)
@@ -117,11 +121,12 @@ export default defineComponent({
             }
         })
         return () => (
-            <ATransition>
+          <Teleport to="body">
+              <ATransition>
                 {props.modelValue &&
-                    <div class="a-drawer-mantle" onClick={() => closeDrawerOnModal()}>
+                    <div class="a-drawer-mantle" style={{ zIndex: drawerZIndex.value }} onClick={() => closeDrawerOnModal()}>
                         <div onClick={(e) => e.stopPropagation()} class="a-drawer-content" style={drawerContentStyle.value}>
-                            { drawerHeaderEl() }
+                            {drawerHeaderEl()}
                             <div class="a-drawer-body">
                                 {slots.default && slots.default()}
                             </div>
@@ -134,6 +139,7 @@ export default defineComponent({
                     </div>
                 }
             </ATransition>
+          </Teleport>
         )
     }
 })

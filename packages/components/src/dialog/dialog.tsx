@@ -3,6 +3,7 @@ import { AButton } from "..";
 import { AIcon } from "..";
 import './style/index.less';
 import { isDefined } from "@/shared/utils";
+import useZIndex from "@/shared/hooks/useZIndex";
 
 export default defineComponent({
     name: 'ADialog',
@@ -51,6 +52,10 @@ export default defineComponent({
             type: Boolean,
             default: false
         },
+        alignCenter: {
+            type: Boolean,
+            default: false
+        },
         destroyOnClose: {
             type: Boolean,
             default: false
@@ -70,30 +75,18 @@ export default defineComponent({
     },
     emits: ['update:modelValue', 'cancel-click', 'confirm-click', 'close-click'],
     setup(props, { emit, slots, expose }) {
-        const dialogZIndex = ref(0)
+        const { ZIndex, setZIndex } = useZIndex()
+        const dialogZIndex = ref(ZIndex)
+        setZIndex(dialogZIndex.value)
         const dialogRef = ref<HTMLDialogElement | null>(null);
         const dialogVisible = ref(props.modelValue)
         const dialogBoxStyle = computed<CSSProperties>(() => {
             return {
                 width: props.width,
-                top: props.offsetTop,
+                top: props.alignCenter ? '40%' : props.offsetTop,
             };
         });
 
-        if (isDefined(window.$?.amuui?.zIndex)) {
-            dialogZIndex.value = window.$.amuui.zIndex + 1
-        } else {
-            window.$ = { amuui: {} }
-            dialogZIndex.value = 2000
-            window.$.amuui.zIndex = dialogZIndex.value
-        }
-        window.$.amuui.zIndex = dialogZIndex.value
-        const highestZIndex = Math.max(
-            ...Array.from(document.querySelectorAll('*'), el => {
-                const zIndex = parseInt(window.getComputedStyle(el).zIndex);
-                return isNaN(zIndex) ? 0 : zIndex;
-            })
-        );
 
         watch(
             () => props.modelValue,
@@ -109,17 +102,14 @@ export default defineComponent({
             },
         );
 
-        onMounted(() => {
-            console.log(highestZIndex);
-
-            return
-            if (props.modelValue === true) {
-                showModal();
-            }
-            dialogRef.value!.onclose = () => {
-                emit('update:modelValue', false);
-            };
-        });
+        // if (isDefined(window.$?.amuui?.zIndex)) {
+        //     dialogZIndex.value = window.$.amuui.zIndex + 1
+        // } else {
+        //     window.$ = { amuui: {} }
+        //     dialogZIndex.value = 2000
+        //     window.$.amuui.zIndex = dialogZIndex.value
+        // }
+        // window.$.amuui.zIndex = dialogZIndex.value
 
         const showModal = () => {
             if (props.modal) {

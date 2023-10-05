@@ -36,20 +36,20 @@ const useElementPosition = (target: Element, popoverElement: HTMLElement, placem
     }
     switch (Placements) {
         case "top":
-            top = target_dom.top - ELDOM.offsetHeight - 5 + window.scrollY;
-            left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2 + window.scrollX;
+            top = target_dom.top - ELDOM.offsetHeight - 5 + window.screenTop;
+            left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2 + window.screenLeft;
             break;
         case "bottom":
-            top = target_dom.bottom + 5 + window.scrollY;
-            left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2 + window.scrollX;
+            top = target_dom.bottom + 5 + window.screenTop;
+            left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2 + window.screenLeft;
             break;
         case "left":
-            top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2 + window.scrollY;
-            left = target_dom.left - ELDOM.offsetWidth - 5 + window.scrollX;
+            top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2 + window.screenTop;
+            left = target_dom.left - ELDOM.offsetWidth - 5 + window.screenLeft;
             break;
         case "right":
-            top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2 + window.scrollY;
-            left = target_dom.right + 5 + window.scrollX;
+            top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2 + window.screenTop;
+            left = target_dom.right + 5 + window.screenLeft;
             break;
         default:
             left = 0

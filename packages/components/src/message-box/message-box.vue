@@ -1,32 +1,33 @@
 <template>
-  <Transition name="modal">
-    <div v-if="visible" class="a-message-box" @click="cancelMantleClose">
-      <div class="a-message-box-wrapper" @click.stop>
-        <div class="a-message-title">
-          <div class="title">{{ title }}</div>
-          <span class="iconfont icon-close2" @click="cancelBtnClick"></span>
-        </div>
-        <div class="a-message-content">
-          <ContentView :fied="props.field" />
-        </div>
-        <div class="a-message-footer">
-          <a-button type="primary" @click="confirmBtnClick"
-            >{{ confirmBtnText }}
-          </a-button>
-          <a-button v-if="showCancelBtn" @click="cancelBtnClick"
-            >{{ cancelBtnText }}
-          </a-button>
+  <Teleport to="body">
+    <Transition name="modal">
+      <div v-if="visible" class="a-message-box" :style="[{ zIndex: messageBoxZIndex }]" @click="cancelMantleClose">
+        <div class="a-message-box-wrapper" @click.stop>
+          <div class="a-message-title">
+            <div class="title">{{ title }}</div>
+            <span class="iconfont icon-close2" @click="cancelBtnClick"></span>
+          </div>
+          <div class="a-message-content">
+            <ContentView :fied="props.field" />
+          </div>
+          <div class="a-message-footer">
+            <a-button type="primary" @click="confirmBtnClick">{{ confirmBtnText }}
+            </a-button>
+            <a-button v-if="showCancelBtn" @click="cancelBtnClick">{{ cancelBtnText }}
+            </a-button>
+          </div>
         </div>
       </div>
-    </div>
-  </Transition>
+    </Transition>
+  </Teleport>
 </template>
 
 <script lang="ts" setup>
-import { h, reactive, toRefs } from "vue";
+import { h, reactive, ref, toRefs } from "vue";
 import AButton from "../button";
 import { fields } from "./index";
 import "./style/index.less";
+import useZIndex from "@/shared/hooks/useZIndex";
 
 const props = defineProps({
   title: {
@@ -65,6 +66,10 @@ const props = defineProps({
     },
   },
 });
+
+const { ZIndex, setZIndex } = useZIndex()
+const messageBoxZIndex = ref(ZIndex)
+setZIndex(messageBoxZIndex.value)
 
 const state = reactive({
   visible: false,

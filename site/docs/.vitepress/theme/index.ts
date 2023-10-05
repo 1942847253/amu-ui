@@ -2,7 +2,7 @@
 
 import DefaultTheme from "vitepress/theme";
 // import AmuUI from "amu-ui";
-//import AmuUI from '../../../../packages/components'
+// import AmuUI from '../../../../packages/components'
 import AmuUI from '../../../../packages/amu-ui'
 // import '../../../../y-ui/dist/assets/index.css';
 import './style.less';

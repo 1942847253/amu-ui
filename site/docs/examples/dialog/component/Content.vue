@@ -1,6 +1,11 @@
 <template>
-  <a-button type="info" @click="dialogVisible = true">open</a-button>
-  <a-dialog width="30%" title="Tips" v-model="dialogVisible">
+  <a-button type="primary" @click="dialogVisible1 = true"> 用户列表</a-button>
+  <a-button type="primary" @click="dialogVisible = true"> <a-icon name="add" />&nbsp;新建用户</a-button>
+  <a-dialog width="50%" title="用户列表" v-model="dialogVisible1">
+    <a-table :tableData="tableData.tBody" :tableColumn="tableData.tHead">
+    </a-table>
+  </a-dialog>
+  <a-dialog icon="add" width="50%" title="新建成员" v-model="dialogVisible">
     <AForm :model="formState" :rules="rules" ref="formRef">
       <AFormItem label="姓名:" prop="name">
         <AInput placeholder="请输入姓名" v-model="formState.name" />
@@ -18,11 +23,12 @@
         <ASelect :options="options.slice(0, 6)" placeholder="请选择学校" v-model="formState.school">
         </ASelect>
       </AFormItem>
-      <AFormItem>
-        <AButton @click="onSubmit" type="primary">Submit</AButton>
-        <AButton @click="onReset">Reset</AButton>
-      </AFormItem>
+
     </AForm>
+    <template #footer>
+      <AButton @click="onReset">重置</AButton>
+      <AButton @click="onSubmit" type="primary">提交</AButton>
+    </template>
   </a-dialog>
 </template>
 
@@ -31,6 +37,7 @@ import { reactive, ref } from "vue";
 import { AMessage } from "amu-ui";
 
 const dialogVisible = ref(false)
+const dialogVisible1 = ref(false)
 const formRef = ref();
 const formState = reactive({
   name: "坤坤",
@@ -38,6 +45,76 @@ const formState = reactive({
   address: "",
   school: 2,
   birthday: "",
+});
+
+const tableData = ref({
+  tHead: [
+    {
+      key: "id",
+      text: "学号",
+    },
+    {
+      key: "name",
+      text: "姓名",
+    },
+    {
+      key: "age",
+      text: "年龄",
+    },
+    {
+      key: "chinese",
+      text: "语文",
+      editable: false,
+    },
+    {
+      key: "math",
+      text: "数学",
+      editable: false,
+    },
+    {
+      key: "english",
+      text: "英语",
+      editable: false,
+    },
+    // {
+    //     key: "operation",
+    //     text: "操作",
+    // },
+  ],
+  tBody: [
+    {
+      id: 1,
+      name: "Yjj",
+      age: 21,
+      chinese: 121,
+      math: 90,
+      english: 138,
+    },
+    {
+      id: 2,
+      name: "嘿毛",
+      age: 20,
+      chinese: 111,
+      math: 32,
+      english: 43,
+    },
+    {
+      id: 3,
+      name: "big龙",
+      age: 19,
+      chinese: 44,
+      math: 21,
+      english: 11,
+    },
+    {
+      id: 4,
+      name: "嫖瓜",
+      age: 21,
+      chinese: 80,
+      math: 40,
+      english: 45,
+    },
+  ],
 });
 
 const options = ref([
@@ -83,6 +160,7 @@ const onSubmit = () => {
       AMessage.success({
         message: "提交成功",
       });
+      dialogVisible.value = false
     })
     .catch((err) => {
       AMessage.error({

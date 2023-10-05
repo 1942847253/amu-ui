@@ -3,6 +3,7 @@ import { onClickOutside } from "@vueuse/core";
 import { debounce, isDefined } from "@/shared/utils";
 import useElementPosition from "./hooks/useElementPosition";
 import './style/index.less'
+import useZIndex from "@/shared/hooks/useZIndex";
 
 export default defineComponent({
     name: "APopover",
@@ -38,16 +39,14 @@ export default defineComponent({
     },
     emits: ['isClickElementInPopover'],
     setup(props, { emit, slots, expose }) {
+        const { ZIndex, setZIndex } = useZIndex()
+        const drawerZIndex = ref(ZIndex)
+        setZIndex(drawerZIndex.value)
         let timer: NodeJS.Timeout | null = null
         const popoverRef = ref<HTMLDivElement | null>(null)
         const referenceSlotRef = ref<HTMLDivElement | null>(null)
-        const Index = ref(2000)
-        if (isDefined(window.$?.amuui?.zIndex)) {
-            Index.value = window.$?.amuui?.zIndex + 1
-        } else {
-            window.$ = { amuui: {} }
-        }
-        window.$.amuui.zIndex = Index.value
+        const Index = ref(ZIndex)
+        setZIndex(Index.value)
         const bgColor = ref("#ffff");
         const placements = ref("bottom");
         const popoverVisible = ref(false);
@@ -111,7 +110,7 @@ export default defineComponent({
             };
         }
         const ListenerFn = () => positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
-        const debounceFn = debounce(ListenerFn, 20)
+        const debounceFn = debounce(ListenerFn, 0)
         onMounted(() => {
             const referenceSlotFirstElement = referenceSlotRef.value!.firstElementChild as HTMLElement
             if (props.trigger === 'click') {

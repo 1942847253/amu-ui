@@ -70,7 +70,6 @@ export default defineComponent({
                         }
 
                         if (rule.min || rule.max) {
-                            debugger
                             if (keyValue.length < rule.min || keyValue.length > rule.max) {
 
                                 $bus.$emit(VALIDATE_EVENT + key, 'error', rule.message)
