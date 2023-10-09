@@ -1,4 +1,4 @@
-const useElementPosition = (target: Element, popoverElement: HTMLElement, placement: string) => {
+const useElementPosition = (target: HTMLDivElement, popoverElement: HTMLElement, placement: string) => {
     let top = 0, left = 0;
     let Placements = placement
     if (!target) {
@@ -10,6 +10,9 @@ const useElementPosition = (target: Element, popoverElement: HTMLElement, placem
     };
     const ELDOM = popoverElement;
     const target_dom = target.getBoundingClientRect()
+    console.log(target_dom);
+    console.log(target);
+
     switch (Placements) {
         case "top":
             if (target_dom.top < ELDOM.clientHeight) {
@@ -36,20 +39,20 @@ const useElementPosition = (target: Element, popoverElement: HTMLElement, placem
     }
     switch (Placements) {
         case "top":
-            top = target_dom.top - ELDOM.offsetHeight - 5 + window.screenTop;
-            left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2 + window.screenLeft;
+            top = target_dom.top - ELDOM.offsetHeight - 5;
+            left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2;
             break;
         case "bottom":
-            top = target_dom.bottom + 5 + window.screenTop;
-            left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2 + window.screenLeft;
+            top = target_dom.bottom + 5;
+            left = target_dom.left + (target_dom.width - ELDOM.offsetWidth) / 2;
             break;
         case "left":
-            top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2 + window.screenTop;
-            left = target_dom.left - ELDOM.offsetWidth - 5 + window.screenLeft;
+            top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2;
+            left = target_dom.left - ELDOM.offsetWidth - 5;
             break;
         case "right":
-            top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2 + window.screenTop;
-            left = target_dom.right + 5 + window.screenLeft;
+            top = target_dom.top + (target_dom.height - ELDOM.offsetHeight) / 2;
+            left = target_dom.right + 5;
             break;
         default:
             left = 0
