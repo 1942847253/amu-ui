@@ -1,5 +1,5 @@
 <template>
-    <a-pagination total="80" :current-page="currentPage" @page-change="pageChange" background  showSizeChanger showQuickJumper/>
+    <a-pagination showTotal total="60" :current-page="currentPage" @page-change="pageChange" background  showSizeChanger showQuickJumper/>
  </template>
  
  <script setup>

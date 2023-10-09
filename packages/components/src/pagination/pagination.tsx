@@ -25,6 +25,10 @@ export default defineComponent({
         showQuickJumper: {
             type: Boolean,
             default: false
+        },
+        showTotal: {
+            type: Boolean,
+            default: false
         }
     },
     emits: ["page-change", "size-change"],
@@ -205,6 +209,7 @@ export default defineComponent({
 
         return () => (
             <div class="a-pagination-content">
+                {props.showTotal && <div class="a-pagination-total">Total {props.total}</div>}
                 <div class={`btn ${props.background ? 'background' : ''} prev ${disableBtnClass.value('prev')}`} onClick={() => prevNextPageActions('prev')}><span class="iconfont icon-left"></span></div>
                 <div class="pagination-list">
                     {pageList.value.map((item, index) => (

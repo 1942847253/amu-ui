@@ -300,7 +300,7 @@
       </ASelect>
     </ATabsPanel>
     <ATabsPanel key="22" title="Pagination 分页">
-      <APagination background v-tooltip.bottom="'显示在下部'" :current-page="currentPage" total="50" @page-change="pageChange"
+      <APagination showTotal v-tooltip.bottom="'显示在下部'" :current-page="currentPage" total="50" @page-change="pageChange"
         @size-change="sizeChange">
       </APagination>
       <a-tag v-tooltip="'显示在下部'">123</a-tag>
@@ -400,7 +400,7 @@
             <AInput placeholder="请输入姓名" v-model="formState.name" />
           </AFormItem>
           <AFormItem label="年龄:" prop="age">
-            <AInput type="number"  placeholder="请输入年龄" v-model="formState.age" />
+            <AInput type="number" placeholder="请输入年龄" v-model="formState.age" />
           </AFormItem>
           <AFormItem label="家庭住址:" prop="address">
             <AInput clearable placeholder="请输入家庭住址" v-model="formState.address" />
@@ -416,7 +416,7 @@
         <template #footer>
           <AButton @click="onReset">Reset</AButton>
           <AButton @click="onSubmit" type="primary">Submit</AButton>
-            
+
         </template>
       </ADialog>
     </ATabsPanel>
