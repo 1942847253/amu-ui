@@ -19,7 +19,7 @@ export const chunk = (arr: Array<any>, size: number) => {
   return bigArr;
 };
 
-export const debounce = (callback, time) => {
+export const debounce = (callback: Function, time: number) => {
   let timeId = null;
   return (e) => {
     if (timeId !== null) {
@@ -101,31 +101,37 @@ export const scrollIntoView = (parentEl: Element, height: number) => {
 
 export const isDefined = (target: any) => {
   try {
-    return !!(target)
+    return !!target;
   } catch {
-    return false
+    return false;
   }
-}
+};
 
-export const watchElementStyleChange = (targetElement: HTMLElement, style: string, callback: Function) => {
+export const watchElementStyleChange = (
+  targetElement: HTMLElement,
+  style: string,
+  callback: Function
+) => {
   if (!targetElement) {
-    console.error('找不到指定的目标元素');
+    console.error("找不到指定的目标元素");
     return;
   }
 
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
-      if (mutation.attributeName === 'style') {
-        const displayStyle = window.getComputedStyle(targetElement).getPropertyValue(style);
-        if (displayStyle === 'block') {
+      if (mutation.attributeName === "style") {
+        const displayStyle = window
+          .getComputedStyle(targetElement)
+          .getPropertyValue(style);
+        if (displayStyle === "block") {
           callback();
         }
       }
     });
   });
 
-  const config = { attributes: true, attributeFilter: ['style'] };
+  const config = { attributes: true, attributeFilter: ["style"] };
   observer.observe(targetElement, config);
 
   return observer; // 返回 observer，以便后续可以调用 observer.disconnect() 停止监听
-}
+};

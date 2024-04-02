@@ -1,13 +1,13 @@
-import { defineComponent } from "vue";
+import { computed, defineComponent, reactive } from "vue";
 import waterRipple from "../../directives/water-ripple";
-import './style/index.less';
+import "./style/index.less";
 
 export default defineComponent({
-  name: 'AButton',
+  name: "AButton",
   props: {
     type: {
       type: String,
-      default: () => "",
+      default: () => "default",
     },
     size: {
       type: String,
@@ -19,66 +19,70 @@ export default defineComponent({
     },
     loading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+    dashed: {
+      type: Boolean,
+      default: false,
+    },
   },
   directives: {
     waterRipple,
   },
   setup(props, { slots }) {
-    const getButtonType = (type: string) => {
-      switch (type) {
-        case "primary":
-          return "button-primary";
-        case "success":
-          return "button-success";
-        case "danger":
-          return "button-danger";
-        case "warning":
-          return "button-warning";
-        case "info":
-          return "button-info";
-        default:
-          return "button-default";
-      }
-    };
+    const colorState = reactive({
+      color: '',
+      hover: '',
+      active: '',
+    })
 
-    const getButtonSize = (size: string) => {
-      switch (size) {
-        case "small":
-          return "size-small";
-        case "default":
-          return "size-default";
-        case "large":
-          return "size-large";
+    const getButtonSize = () => {
+      switch (props.size) {
+        case 'small':
+          return 'size-s'
+        case 'default':
+          return 'size-m'
+        case 'large':
+          return 'size-l'
         default:
-          return "size-default";
+          return '';
       }
-    };
-
-    const iconSlotJSX = () => {
-      return (
-        <div class="icon-slot-content">
-          {props.loading ? (
-            <div class="iconfont icon-loading is-loading"></div>
-          ) : (
-            slots.icon && <div class="a-icon">{slots.icon()}</div>
-          )}
-        </div>
-      )
     }
 
+    const setColorState = (color: string, hover: string, active: string) => {
+      colorState.color = color;
+      colorState.hover = hover;
+      colorState.active = active;
+    }
+
+    const getButtonColor = () => {
+      const { type } = props;
+      setColorState(typeToVar('color'), typeToVar('hover'), typeToVar('active'))
+      function typeToVar(action: string = '') {
+        if (type === 'default') {
+          return `var(--a-primary-color)`
+        } else {
+          const actionSuffix = action === 'color' ? '' : `-${action}`;
+          return `var(--a-${type}${actionSuffix}-color)`;
+        }
+      }
+    }
+
+    getButtonColor()
+
+    const buttonStyle = computed(() => {
+      return {
+        '--button-color': colorState.color,
+        '--button-hover-color': colorState.hover,
+        '--button-active-color': colorState.active,
+      }
+    })
     return () => (
-      <div class="a-button-content">
-        <button
-          v-waterRipple={`${props.type === '' ? 'rgba(29, 29, 29, 0.365)' : '#ffffff42'}`}
-          disabled={props.disabled}
-          class={`${(props.disabled || props.loading) && 'a-button-disabled'} a-button ${getButtonType(props.type)
-            } ${getButtonSize(props.size)}`}
-        >
-          {iconSlotJSX()} {slots.default ? slots.default() : ''}
-        </button>
-      </div>
-    )
+      <button style={buttonStyle.value} class={['a-button', getButtonSize(), props.type === 'default' ? 'bg-default' : '']}>
+        <span class="a-button-content">
+          {slots.default ? slots.default() : ""}
+        </span>
+      </button>
+    );
   },
 });

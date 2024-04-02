@@ -1,7 +1,11 @@
 <template>
-  <ATabs default-active-key="28" position="left">
+  <ATabs default-active-key="1" position="left">
     <ATabsPanel key="1" title="Button 按钮">
-      <AButton type="primary">primary</AButton>
+      <AButton>Default</AButton>
+      <AButton style="margin-left:10px" type="primary">Primary</AButton>
+      <AButton style="margin-left:10px" type="success">Success</AButton>
+      <AButton style="margin-left:10px" type="error">Error</AButton>
+      <AButton style="margin-left:10px" type="warning">Warning</AButton>
     </ATabsPanel>
     <ATabsPanel key="2" title="Collapse 折叠面板">
       <ACollapse v-model="activatCollapes">

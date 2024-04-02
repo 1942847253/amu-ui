@@ -37,3 +37,4 @@ export * from './dropdown'
 export * from './dropdown-menu'
 export * from './dropdown-item'
 export * from './dialog'
+import '../assets/theme/index.css';
