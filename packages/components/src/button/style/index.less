@@ -126,38 +126,72 @@
 // }
 
 .a-button {
-  border: 1px solid;
+  border: 1px var(--button-line-type);
   margin: 0;
   line-height: 1;
   font-family: inherit;
   cursor: pointer;
   width: initial;
   border-radius: 3px;
-  transition: all 0.3s ease-in;
+  transition: border-color 0.3s, color 0.3s, width 0.2s, background-color 0.3s;
   text-align: center;
   position: relative;
-  color: var(--a-text-color-white);
-  background-color: var(--button-color);
-  border-color: var(--button-color);
+  color: var(--button-color);
+  background-color: var(--button-bg-color);
+  border-color: var(--button-border-color);
+  user-select: none;
   &-content {
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
-    min-width: 0;
+    width: 100%;
+    .icon-slot-content {
+      display: flex;
+      align-items: center;
+      margin-right: 4px;
+      margin-left: -2px;
+      .is-loading {
+        display: flex;
+        align-items: center;
+        animation: spin 2s linear infinite;
+        .a-loading-icon {
+          font-size: 19px;
+        }
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    }
+  }
+  &-masker {
+    z-index: var(--button-masker-zIndex);
+    cursor: var(--button-cursor-type);
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    background-color: transparent;
+    width: calc(100% + 2px);
+    border-radius: 3px;
+    height: calc(100% + 2px);
   }
 }
 
-.a-button:hover {
+.a-solid-button:hover {
   background-color: var(--button-hover-color);
   border-color: var(--button-hover-color);
 }
 
-.a-button:active {
+.a-solid-button:active {
   background-color: var(--button-active-color) !important;
   border-color: var(--button-active-color) !important;
 }
 
-.a-button:focus {
+.a-solid-button:focus {
   background-color: var(--button-hover-color);
   border-color: var(--button-hover-color);
 }
@@ -165,11 +199,16 @@
 .a-button::after {
   content: "";
   position: absolute;
+  margin-top: -1px;
+  margin-left: -1px;
   inset: 0;
   border-radius: inherit;
-  box-shadow: 0 0 0 5px var(--button-color);
+  box-shadow: 0 0 0 5px var(--button-ripple-color);
   opacity: 0;
   transition: 0.5s;
+  width: calc(100% + 2px);
+  border-radius: 3px;
+  height: calc(100% + 2px);
 }
 
 .a-button:active::after {
@@ -177,8 +216,6 @@
   opacity: 1;
   transition: 0s; /*取消过渡*/
 }
-
-
 
 .size-s {
   font-size: 14px;
@@ -205,22 +242,43 @@
 }
 
 .bg-default:hover {
-  border-color: var(--a-primary-color);
-  color: var(--a-primary-color);
+  border-color: var(--button-border-color);
+  color: var(--button-color);
   background-color: var(--a-bg-color);
 }
 
 .bg-default:focus {
-  border-color: var(--a-primary-color);
-  color: var(--a-primary-color);
+  border-color: var(--button-border-color);
+  color: var(--button-color);
   background-color: var(--a-bg-color);
 }
 
 .bg-default:active {
-  border-color: var(--a-primary-color);
-  color: var(--a-primary-color);
+  border-color: var(--button-border-color) !important;
+  color: var(--button-color);
   background-color: var(--a-bg-color) !important;
 }
+
+.bg-text {
+  color: var(--a-text-color);
+  border: transparent;
+  background-color: transparent !important;
+}
+
+.bg-text:hover {
+  color: var(--button-color);
+}
+
+.bg-text:focus {
+  color: var(--button-color);
+}
+
+.bg-disabled,
+.bg-disabled:hover,
+.bg-disabled:focus {
+  opacity: 0.5;
+}
+
 
 // .bg-primary {
 //   color: var(--a-text-color-white);

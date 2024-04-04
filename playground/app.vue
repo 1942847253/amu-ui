@@ -1,11 +1,92 @@
 <template>
   <ATabs default-active-key="1" position="left">
     <ATabsPanel key="1" title="Button 按钮">
-      <AButton>Default</AButton>
-      <AButton style="margin-left:10px" type="primary">Primary</AButton>
-      <AButton style="margin-left:10px" type="success">Success</AButton>
-      <AButton style="margin-left:10px" type="error">Error</AButton>
-      <AButton style="margin-left:10px" type="warning">Warning</AButton>
+      <div style="display: flex">
+        <AButton>Default</AButton>
+        <AButton style="margin-left:10px" type="primary">
+          <template #icon>
+            <a-icon name="bottom" />
+          </template>
+          下载附件
+        </AButton>
+        <AButton style="margin-left:10px" :type="buttonType">
+          <template #icon>
+            <AIcon name="upload" />
+          </template>
+          Upload
+        </AButton>
+        <AButton style="margin-left:10px" type="error">Error</AButton>
+        <AButton style="margin-left:10px" type="warning">Warning</AButton>
+        <AButton style="margin-left:10px" type="info">Info</AButton>
+        <AButton style="margin-left:10px" loading>Loading</AButton>
+      </div>
+      <p></p>
+      <div style="display: flex">
+        <AButton disabled >Default</AButton>
+        <AButton disabled style="margin-left:10px" type="primary">
+          <template #icon>
+            <a-icon name="bottom" />
+          </template>
+          下载附件
+        </AButton>
+        <AButton disabled style="margin-left:10px" :type="buttonType">
+          <template #icon>
+            <AIcon name="upload" />
+          </template>
+          Upload
+        </AButton>
+        <AButton disabled style="margin-left:10px" type="error">Error</AButton>
+        <AButton disabled style="margin-left:10px" type="warning">Warning</AButton>
+        <AButton disabled style="margin-left:10px" type="info">Info</AButton>
+        <AButton style="margin-left:10px" disabled loading>Loading</AButton>
+      </div>
+      <p></p>
+
+      <div style="display: flex;">
+        <AButton ghost>Default</AButton>
+        <AButton style="margin-left:10px" type="primary" ghost>Primary</AButton>
+        <AButton style="margin-left:10px" type="success" ghost>Success</AButton>
+        <AButton style="margin-left:10px" type="error" ghost>Error</AButton>
+        <AButton style="margin-left:10px" type="warning" ghost>Warning</AButton>
+        <AButton style="margin-left:10px" type="info" ghost>Info</AButton>
+      </div>
+      <p></p>
+      <div style="display: flex;">
+        <AButton disabled ghost>Default</AButton>
+        <AButton style="margin-left:10px" type="primary" ghost disabled>Primary</AButton>
+        <AButton disabled style="margin-left:10px" type="success" ghost>Success</AButton>
+        <AButton disabled style="margin-left:10px" type="error" ghost>Error</AButton>
+        <AButton disabled style="margin-left:10px" type="warning" ghost>Warning</AButton>
+        <AButton disabled style="margin-left:10px" type="info" ghost>Info</AButton>
+      </div>
+      <p></p>
+      <div style="display: flex;">
+        <AButton dashed>Default</AButton>
+        <AButton style="margin-left:10px" type="primary" dashed>Primary</AButton>
+        <AButton style="margin-left:10px" type="success" dashed>Success</AButton>
+        <AButton style="margin-left:10px" type="error" dashed>Error</AButton>
+        <AButton style="margin-left:10px" type="warning" dashed>Warning</AButton>
+        <AButton style="margin-left:10px" type="info" dashed>Info</AButton>
+      </div>
+      <p></p>
+      <div style="display: flex;">
+        <AButton disabled dashed>Default</AButton>
+        <AButton style="margin-left:10px" type="primary" dashed disabled>Primary</AButton>
+        <AButton disabled style="margin-left:10px" type="success" dashed>Success</AButton>
+        <AButton disabled style="margin-left:10px" type="error" dashed>Error</AButton>
+        <AButton disabled style="margin-left:10px" type="warning" dashed>Warning</AButton>
+        <AButton disabled style="margin-left:10px" type="info" dashed>Info</AButton>
+      </div>
+
+      <p></p>
+      <AButton style="margin-left:10px" type="info" text icon="operation">
+        点击此处查看详情
+      </AButton>
+
+      <p></p>
+      <AButton disabled style="margin-left:10px" type="info" text icon="operation">
+        点击此处查看详情
+      </AButton>
     </ATabsPanel>
     <ATabsPanel key="2" title="Collapse 折叠面板">
       <ACollapse v-model="activatCollapes">
@@ -167,7 +248,7 @@
                   tableData.age + " 岁"
                 }}</y-tag>
               </template>
-              <template #operation="{ item, index }">
+    <template #operation="{ item, index }">
                 <y-button type="info" size="small">Edit</y-button>
                 <y-button
                   type="danger"
@@ -177,18 +258,14 @@
                   >Delete</y-button
                 >
               </template>
-            </YTable>
-            <YTable
-              :tableData="tableData.tBody"
-              :tableColumn="tableData.tHead"
-              @editData="editData"
-            >
-              <template #table="{ tableColumn, tableData }">
+    </YTable>
+    <YTable :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+      <template #table="{ tableColumn, tableData }">
                 <y-tag type="success" v-if="tableColumn.key === 'age'">{{
                   tableData.age + " 岁"
                 }}</y-tag>
               </template>
-              <template #operation="{ item, index }">
+      <template #operation="{ item, index }">
                 <y-button type="info" size="small">Edit</y-button>
                 <y-button
                   type="danger"
@@ -198,7 +275,7 @@
                   >Delete</y-button
                 >
               </template>
-            </YTable> -->
+    </YTable> -->
           <AForm :model="formState" :rules="rules" ref="formRef">
             <AFormItem label="姓名:" prop="name">
               <AInput placeholder="请输入姓名" v-model="formState.name" />
@@ -240,8 +317,8 @@
         <ATable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
           <template #table="{ tableColumn, tableData }">
             <a-tag type="success" v-if="tableColumn.key === 'age'">{{
-              tableData.age + " 岁"
-            }}</a-tag>
+          tableData.age + " 岁"
+        }}</a-tag>
           </template>
           <template #operation="{ item, index }">
             <a-button type="info" size="small">Edit</a-button>
@@ -289,8 +366,8 @@
       <ATable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
         <template #table="{ tableColumn, tableData }">
           <a-tag type="success" v-if="tableColumn.key === 'age'">{{
-            tableData.age + " 岁"
-          }}</a-tag>
+          tableData.age + " 岁"
+        }}</a-tag>
         </template>
         <template #operation="{ item, index }">
           <a-button type="info" size="small">Edit</a-button>
@@ -309,9 +386,9 @@
       </APagination>
       <a-tag v-tooltip="'显示在下部'">123</a-tag>
       <a-button v-tooltip.top="{
-        text: '显示在下方',
-        bgColor: 'orange',
-      }" type="primary">
+          text: '显示在下方',
+          bgColor: 'orange',
+        }" type="primary">
         <template #icon>
           <a-icon name="upload" />
         </template>
@@ -365,13 +442,14 @@
       </APopover>
       <APopover :visible="popoverVisible" content="This is a message" placement="top" trigger="hover" width="500px">
         <template #reference>
-          <a-button @click="popoverVisible = !popoverVisible" style="margin-top: 70px;" type="primary">hover me</a-button>
+          <a-button @click="popoverVisible = !popoverVisible" style="margin-top: 70px;" type="primary">hover
+            me</a-button>
         </template>
         <ATable width="500px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
           <template #table="{ tableColumn, tableData }">
             <a-tag type="success" v-if="tableColumn.key === 'age'">{{
-              tableData.age + " 岁"
-            }}</a-tag>
+          tableData.age + " 岁"
+        }}</a-tag>
           </template>
           <template #operation="{ item, index }">
             <a-button type="info" size="small">Edit</a-button>
@@ -438,6 +516,15 @@ const showDrawer = ref(false);
 const formRef = ref();
 const showVisible = ref(false)
 const popoverVisible = ref(false)
+const isLoading = ref(false)
+const buttonType = ref('success')
+
+
+const changeButtonType = () => {
+  console.log('error');
+
+  buttonType.value = 'error'
+}
 setTimeout(() => {
   showVisible.value = true
 }, 1000);

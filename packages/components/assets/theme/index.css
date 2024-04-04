@@ -16,6 +16,11 @@
   --a-success-color:#18a058;        /* 成功色 */
   --a-success-hover-color:#36ad6a; 
   --a-success-active-color:#0c7a43; 
+
+
+  --a-info-color:#6684a1;        /* 信息色 */
+  --a-info-hover-color:#7d9dbb; 
+  --a-info-active-color:#556e86; 
   
   --a-text-color: #333639;          /* 文本颜色 */
   --a-text-color-white:#ffffff;     /* 深色背景颜色 */
@@ -29,9 +34,9 @@
    --a-btn-height-l:40px;
 
      /* 按钮边框 */ 
-     --a-btn-padding-s: 0px 10px;
-     --a-btn-padding-m: 0px 14px;
-     --a-btn-padding-l: 0px 18px;
+     --a-btn-padding-s: 0px 8px;
+     --a-btn-padding-m: 0px 12px;
+     --a-btn-padding-l: 0px 16px;
 
   /* 阴影变量 */ 
   --a-box-shadow: 0px 0px 12px rgba(0, 0, 0, .12); /* 元素阴影效果 */    
