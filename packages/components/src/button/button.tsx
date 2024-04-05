@@ -36,7 +36,19 @@ export default defineComponent({
     ghost: {
       type: Boolean,
       default: false
-    }
+    },
+    round: {
+      type: Boolean,
+      default: false
+    },
+    circle: {
+      type: Boolean,
+      default: false
+    },
+    color: {
+      type: String,
+      default: ''
+    },
   },
   setup(props, { slots }) {
     const colorState = reactive({
@@ -100,19 +112,30 @@ export default defineComponent({
         type,
         disabled,
         loading,
-        ghost
+        ghost,
+        round,
+        circle,
+        color,
+        size
       } = props;
 
       const buttonColor = (dashed || ghost || text || type === 'default') ? colorState.color : 'var(--a-text-color-white)';
       const buttonBorderColor = disabled ? (type === 'default') ? 'var(--a-border-color)' : colorState.color : colorState.color;
       const buttonBgColor = (dashed || ghost) ? 'var(--a-bg-color)' : colorState.color;
       const buttonHoverColor = disabled ? colorState.color : colorState.hover;
-      const buttonRippleColor = (loading || text || disabled) ? '' : colorState.color;
+      const buttonRippleColor = (loading || text || disabled) ? '' : color ? color : colorState.color;
       const buttonActiveColor = disabled ? colorState.color : colorState.active;
       const buttonLineType = dashed ? 'dashed' : 'solid';
       const buttonMaskerZIndex = loading || disabled ? '100' : '0';
       const buttonCursorType = disabled ? 'not-allowed' : loading ? 'wait' : '';
-
+      const buttonBorderRadius = round ? '34px' : circle ? '50%' : '3px';
+      const selfDefineColor = ghost || text ? color : 'var(--a-text-color-white)'
+      const selfDefineBgColor = ghost || text ? 'var(--a-bg-color)' : color
+      const selfDefineBorderColor = text ? 'transparent' : color
+      const selfDefineFilter = disabled ? 'brightness(1)' : 'brightness(.9)'
+      const selfDefineOpacity = disabled ? '0.5' : '0.8'
+      const buttonCircleWidth = size === 'default' ? '34px' : size === 'small' ? '28px' : '40px'
+      const buttonCircleHeight = size === 'default' ? '34px' : size === 'small' ? '28px' : '40px'
       return {
         '--button-color': buttonColor,
         '--button-border-color': buttonBorderColor,
@@ -122,7 +145,17 @@ export default defineComponent({
         '--button-active-color': buttonActiveColor,
         '--button-line-type': buttonLineType,
         '--button-masker-zIndex': buttonMaskerZIndex,
-        '--button-cursor-type': buttonCursorType
+        '--button-cursor-type': buttonCursorType,
+        '--button-border-radius': buttonBorderRadius,
+        // 自定义按钮颜色
+        '--button-self-define-filter': selfDefineFilter,
+        '--button-self-define-opacity': selfDefineOpacity,
+        '--button-self-define-color': selfDefineColor,
+        '--button-self-define-bg-color': selfDefineBgColor,
+        '--button-self-define-border-color': selfDefineBorderColor,
+        // 圆形按钮宽高
+        '--button-circle-width': buttonCircleWidth,
+        '--button-circle-height': buttonCircleHeight,
       };
     });
 
@@ -139,22 +172,31 @@ export default defineComponent({
       }
     }
 
-    const buttonClasses = [
-      'a-button',
-      getButtonSize(),
-      props.type === 'default' ? 'bg-default' : '',
-      (props.dashed || props.text || props.ghost) ? '' : 'a-solid-button',
-      props.text ? 'bg-text' : '',
-      props.disabled ? 'bg-disabled' : ''
-    ].filter(Boolean);
+    const getButtonClasses = () => {
+      const { type, dashed, text, ghost, disabled, circle, color } = props
+      return [
+        'a-button',
+        getButtonSize(),
+        type === 'default' ? 'bg-default' : '',
+        dashed || text || ghost ? '' : 'a-solid-button',
+        text ? 'bg-text' : '',
+        disabled ? 'bg-disabled' : '',
+        color ? 'bg-self-define' : '',
+        circle ? 'bg-circle' : ''
+      ].filter(Boolean)
+    };
 
     getButtonColor()
     return () => (
-      <button style={buttonStyle.value} class={buttonClasses}>
+      <button style={buttonStyle.value} class={getButtonClasses()}>
         <div class="a-button-content">
-          <div class='icon-slot-content'>
-            {iconSlotRender()}
-          </div>
+          {
+            (props.loading || props.icon || slots.icon) && (
+              <div class='icon-slot-content'>
+                {iconSlotRender()}
+              </div>
+            )
+          }
           {slots.default ? slots.default() : ''}
         </div>
         <div onClick={(event) => event.stopPropagation()} class="a-button-masker"></div>

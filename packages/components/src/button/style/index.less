@@ -132,8 +132,9 @@
   font-family: inherit;
   cursor: pointer;
   width: initial;
-  border-radius: 3px;
-  transition: border-color 0.3s, color 0.3s, width 0.2s, background-color 0.3s;
+  border-radius: var(--button-border-radius);
+  transition: border-color 0.3s, color 0.3s, background-color 0.3s, opacity 0.3s,
+    filter 0.3s;
   text-align: center;
   position: relative;
   color: var(--button-color);
@@ -142,6 +143,7 @@
   user-select: none;
   &-content {
     display: flex;
+    justify-content: center;
     align-items: center;
     flex-wrap: nowrap;
     width: 100%;
@@ -207,7 +209,7 @@
   opacity: 0;
   transition: 0.5s;
   width: calc(100% + 2px);
-  border-radius: 3px;
+  border-radius: var(--button-border-radius);
   height: calc(100% + 2px);
 }
 
@@ -279,6 +281,38 @@
   opacity: 0.5;
 }
 
+.bg-self-define {
+  color: var(--button-self-define-color);
+  background-color: var(--button-self-define-bg-color);
+  border-color: var(--button-self-define-border-color);
+}
+
+.bg-self-define:hover {
+  opacity: var(--button-self-define-opacity);
+  color: var(--button-self-define-color);
+  background-color: var(--button-self-define-bg-color);
+  border-color: var(--button-self-define-border-color);
+}
+
+.bg-self-define:active {
+  filter: var(--button-self-define-filter);
+  color: var(--button-self-define-color) !important;
+  background-color: var(--button-self-define-bg-color) !important;
+  border-color: var(--button-self-define-border-color) !important;
+}
+
+.bg-self-define:focus {
+  opacity: var(--button-self-define-opacity);
+  color: var(--button-self-define-color);
+  background-color: var(--button-self-define-bg-color);
+  border-color: var(--button-self-define-border-color);
+}
+
+.bg-circle {
+  width: var(--button-circle-width);
+  height: var(--button-circle-height);
+  border-radius: var(--button-border-radius);
+}
 
 // .bg-primary {
 //   color: var(--a-text-color-white);

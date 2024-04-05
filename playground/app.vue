@@ -1,6 +1,7 @@
 <template>
   <ATabs default-active-key="1" position="left">
     <ATabsPanel key="1" title="Button 按钮">
+      <p>主要按钮</p>
       <div style="display: flex">
         <AButton>Default</AButton>
         <AButton style="margin-left:10px" type="primary">
@@ -22,7 +23,7 @@
       </div>
       <p></p>
       <div style="display: flex">
-        <AButton disabled >Default</AButton>
+        <AButton disabled>Default</AButton>
         <AButton disabled style="margin-left:10px" type="primary">
           <template #icon>
             <a-icon name="bottom" />
@@ -40,7 +41,7 @@
         <AButton disabled style="margin-left:10px" type="info">Info</AButton>
         <AButton style="margin-left:10px" disabled loading>Loading</AButton>
       </div>
-      <p></p>
+      <p>透明背景</p>
 
       <div style="display: flex;">
         <AButton ghost>Default</AButton>
@@ -59,7 +60,7 @@
         <AButton disabled style="margin-left:10px" type="warning" ghost>Warning</AButton>
         <AButton disabled style="margin-left:10px" type="info" ghost>Info</AButton>
       </div>
-      <p></p>
+      <p>虚线按钮</p>
       <div style="display: flex;">
         <AButton dashed>Default</AButton>
         <AButton style="margin-left:10px" type="primary" dashed>Primary</AButton>
@@ -77,16 +78,120 @@
         <AButton disabled style="margin-left:10px" type="warning" dashed>Warning</AButton>
         <AButton disabled style="margin-left:10px" type="info" dashed>Info</AButton>
       </div>
-
-      <p></p>
+      <p>文本按钮</p>
       <AButton style="margin-left:10px" type="info" text icon="operation">
         点击此处查看详情
       </AButton>
-
       <p></p>
       <AButton disabled style="margin-left:10px" type="info" text icon="operation">
         点击此处查看详情
       </AButton>
+      <p>圆形按钮</p>
+      <div style="display: flex">
+        <AButton style="margin-left:10px" circle>
+          <a-icon name="operation"></a-icon>
+        </AButton>
+        <AButton style="margin-left:10px" type="primary" circle>
+          <a-icon name="upload"></a-icon>
+        </AButton>
+        <AButton style="margin-left:10px" :type="buttonType" circle>
+          <a-icon name="good"></a-icon>
+        </AButton>
+        <AButton style="margin-left:10px" type="error" circle>
+          <a-icon name="unlock" />
+        </AButton>
+        <AButton style="margin-left:10px" type="warning" circle><a-icon name="warning" /></AButton>
+        <AButton style="margin-left:10px" type="info" circle><a-icon name="notification" /></AButton>
+      </div>
+      <p></p>
+      <div style="display: flex">
+        <AButton style="margin-left:10px" circle disabled>
+          <a-icon name="operation"></a-icon>
+        </AButton>
+        <AButton style="margin-left:10px" type="primary" circle disabled>
+          <a-icon name="upload"></a-icon>
+        </AButton>
+        <AButton style="margin-left:10px" :type="buttonType" circle disabled>
+          <a-icon name="good"></a-icon>
+        </AButton>
+        <AButton style="margin-left:10px" type="error" circle disabled>
+          <a-icon name="unlock" />
+        </AButton>
+        <AButton style="margin-left:10px" type="warning" circle disabled><a-icon name="warning" /></AButton>
+        <AButton style="margin-left:10px" type="info" circle disabled><a-icon name="notification" /></AButton>
+      </div>
+      <p>圆角按钮</p>
+      <div style="display: flex">
+        <AButton style="margin-left:10px" round icon="operation">
+          查看详情
+        </AButton>
+        <AButton style="margin-left:10px" type="primary" round>
+          <template #icon>
+            <a-icon name="bottom" />
+          </template>
+          下载附件
+        </AButton>
+        <AButton style="margin-left:10px" :type="buttonType" round>
+          <template #icon>
+            <AIcon name="upload" />
+          </template>
+          Upload
+        </AButton>
+        <AButton style="margin-left:10px" type="error" round>Error</AButton>
+        <AButton style="margin-left:10px" type="warning" round>Warning</AButton>
+        <AButton style="margin-left:10px" type="info" round>Info</AButton>
+        <AButton style="margin-left:10px" loading round>Loading</AButton>
+      </div>
+      <p></p>
+      <div style="display: flex;">
+        <AButton disabled style="margin-left:10px" round icon="operation">
+          查看详情
+        </AButton>
+        <AButton disabled style="margin-left:10px" type="primary" round>
+          <template #icon>
+            <a-icon name="bottom" />
+          </template>
+          下载附件
+        </AButton>
+        <AButton disabled style="margin-left:10px" :type="buttonType" round>
+          <template #icon>
+            <AIcon name="upload" />
+          </template>
+          Upload
+        </AButton>
+        <AButton disabled style="margin-left:10px" type="error" round>Error</AButton>
+        <AButton disabled style="margin-left:10px" type="warning" round>Warning</AButton>
+        <AButton disabled style="margin-left:10px" type="info" round>Info</AButton>
+        <AButton disabled style="margin-left:10px" loading round>Loading</AButton>
+      </div>
+      <p>自定义按钮颜色</p>
+      <div style="display: flex">
+        <AButton style="margin-left:10px" color="hotpink">
+          Hotpink
+        </AButton>
+        <AButton style="margin-left:10px" type="primary" color="#7200da">
+          #7200da
+        </AButton>
+        <AButton style="margin-left:10px" :type="buttonType" color="hotpink" ghost>
+          Hotpink
+        </AButton>
+        <AButton style="margin-left:10px" type="warning" color="#7200da" ghost> #7200da</AButton>
+
+      </div>
+      <p></p>
+      <div style="display: flex">
+        <AButton style="margin-left:10px" color="hotpink" disabled>
+          Hotpink
+        </AButton>
+        <AButton style="margin-left:10px" type="primary" color="#7200da" disabled>
+          #7200da
+        </AButton>
+        <AButton style="margin-left:10px" :type="buttonType" color="hotpink" ghost disabled>
+          Hotpink
+        </AButton>
+        <AButton style="margin-left:10px" type="warning" color="#7200da" ghost disabled> #7200da</AButton>
+
+      </div>
     </ATabsPanel>
     <ATabsPanel key="2" title="Collapse 折叠面板">
       <ACollapse v-model="activatCollapes">
@@ -371,7 +476,7 @@
         </template>
         <template #operation="{ item, index }">
           <a-button type="info" size="small">Edit</a-button>
-          <a-button type="danger" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</a-button>
+          <a-button type="error" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</a-button>
         </template>
       </ATable>
     </ATabsPanel>
