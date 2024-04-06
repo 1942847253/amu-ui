@@ -51,8 +51,8 @@ export default defineComponent({
         }
 
         const openContent = () => {
-            collapseContentRef.value!.style.borderBottom = '1px solid #ebeef5'
-            collapseHeadRef.value!.style.borderBottom = 'none'
+           // collapseContentRef.value!.style.borderBottom = '1px solid var(--a-border-color)'
+           // collapseHeadRef.value!.style.borderBottom = 'none'
             collapseContentRef.value!.style.height = mainHeight.value + 'px'
             iconDom.style.transform = 'rotate(90deg)'
         }
@@ -60,10 +60,10 @@ export default defineComponent({
         const closeContent = () => {
             iconDom.style.transform = 'rotate(0deg)'
             collapseContentRef.value!.style.height = '0px'
-            setTimeout(() => {
-                collapseHeadRef.value!.style.borderBottom = '1px solid #ebeef5'
-                collapseContentRef.value!.style.borderBottom = 'none'
-            }, 300);
+            // setTimeout(() => {
+            //     collapseHeadRef.value!.style.borderBottom = '1px solid var(--a-border-color)'
+            //     collapseContentRef.value!.style.borderBottom = 'none'
+            // }, 300);
         }
 
         return () => (

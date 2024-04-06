@@ -7,4 +7,5 @@ import '@amu-ui/components/assets/theme/index.css'
 
 const app = createApp(App);
 app.use(AmuUI);
+
 app.mount("#app");

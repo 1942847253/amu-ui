@@ -1,4 +1,7 @@
 <template>
+  <div style="position: fixed;right: 0;">
+    <a-switch v-model="isDark"></a-switch>
+  </div>
   <ATabs default-active-key="1" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <p>主要按钮</p>
@@ -233,6 +236,7 @@
     </ATabsPanel>
     <ATabsPanel key="4" title="DatePicker 日期选择">
       <ADatePicker v-model="dateValue" />
+      <p/>
       <ADatePicker v-model="dateValue1" />
     </ATabsPanel>
     <ATabsPanel key="5" title="Input 输入框">
@@ -422,8 +426,8 @@
         <ATable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
           <template #table="{ tableColumn, tableData }">
             <a-tag type="success" v-if="tableColumn.key === 'age'">{{
-          tableData.age + " 岁"
-        }}</a-tag>
+      tableData.age + " 岁"
+    }}</a-tag>
           </template>
           <template #operation="{ item, index }">
             <a-button type="info" size="small">Edit</a-button>
@@ -471,8 +475,8 @@
       <ATable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
         <template #table="{ tableColumn, tableData }">
           <a-tag type="success" v-if="tableColumn.key === 'age'">{{
-          tableData.age + " 岁"
-        }}</a-tag>
+      tableData.age + " 岁"
+    }}</a-tag>
         </template>
         <template #operation="{ item, index }">
           <a-button type="info" size="small">Edit</a-button>
@@ -491,9 +495,9 @@
       </APagination>
       <a-tag v-tooltip="'显示在下部'">123</a-tag>
       <a-button v-tooltip.top="{
-          text: '显示在下方',
-          bgColor: 'orange',
-        }" type="primary">
+      text: '显示在下方',
+      bgColor: 'orange',
+    }" type="primary">
         <template #icon>
           <a-icon name="upload" />
         </template>
@@ -553,8 +557,8 @@
         <ATable width="500px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
           <template #table="{ tableColumn, tableData }">
             <a-tag type="success" v-if="tableColumn.key === 'age'">{{
-          tableData.age + " 岁"
-        }}</a-tag>
+      tableData.age + " 岁"
+    }}</a-tag>
           </template>
           <template #operation="{ item, index }">
             <a-button type="info" size="small">Edit</a-button>
@@ -623,8 +627,17 @@ const showVisible = ref(false)
 const popoverVisible = ref(false)
 const isLoading = ref(false)
 const buttonType = ref('success')
+const isDark = ref(false)
 
 
+watch(isDark, (val) => {
+  const html = document.querySelector('html')
+  if (val) {
+    html.className = 'dark'
+  }else{
+    html.className = 'light'
+  }
+})
 const changeButtonType = () => {
   console.log('error');
 

@@ -103,8 +103,8 @@ export default defineComponent({
             class="tabs-nav-wrap"
             style={
               isTop
-                ? { borderBottom: "1px solid #dcdee2" }
-                : { borderRight: "1px solid #dcdee2" }
+                ? { borderBottom: "1px solid var(--a-border-color)" }
+                : { borderRight: "1px solid var(--a-border-color)" }
             }
           >
             <div

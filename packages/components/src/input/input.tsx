@@ -63,11 +63,12 @@ export default defineComponent({
         const type = ref(props.type)
         const showIconBtn = ref(false);
         const showEyeCloseBtn = ref(false)
+        const isFocus = ref(false);
         // Dom相关
-        const inputFocusBorder = ref('#0468dc');
-        const inputBorder = ref('#dcdfe6')
-        const inputHoverBorder = ref('#c2c3c7')
-        const inputFocusShadow = ref('#e1eef8')
+        const inputFocusBorder = ref('var(--a-primary-color)');
+        const inputBorder = ref('var(--a-border-color)')
+        const inputHoverBorder = ref('var(--a-primary-color)')
+        const inputFocusShadow = ref('var(--a-primary-color)')
         const inputContentRef = ref<HTMLDivElement | null>(null);
         const inputRef = ref<HTMLInputElement | null>(null);
         const slectIconRef = ref<HTMLInputElement | null>(null);
@@ -139,6 +140,7 @@ export default defineComponent({
             InputEventActions('change')
         }
         const blurInput = (event: Event) => {
+            isFocus.value = false
             emit('blur', event);
             InputEventActions('blur')
             if (slectIconRef.value) {
@@ -146,6 +148,7 @@ export default defineComponent({
             }
         }
         const onInputFocus = (event: Event) => {
+            isFocus.value = true
             if (value.value.toString().length > 0) showIconBtn.value = true;
             if (slectIconRef.value) {
                 slectIconRef.value.$el.style.transform = `rotate(-180deg)`
@@ -241,17 +244,17 @@ export default defineComponent({
 
         const setInputStatusStyle = (flag: 'error' | 'right' = 'right', message: string = '') => {
             if (flag === 'error') {
-                inputFocusBorder.value = '#e53935';
-                inputBorder.value = '#e53935'
-                inputHoverBorder.value = '#e53935'
-                inputFocusShadow.value = '#fadfdf'
+                inputFocusBorder.value = 'var(--a-error-color)';
+                inputBorder.value = 'var(--a-error-color)'
+                inputHoverBorder.value = 'var(--a-error-color)'
+                inputFocusShadow.value = 'var(--a-error-color)'
                 changeErrorMessage(message)
                 shrinkFormErrorSwitchFn.value(1, 0.2)
             } else {
-                inputFocusBorder.value = '#0468dc';
-                inputBorder.value = '#dcdfe6'
-                inputHoverBorder.value = '#c2c3c7'
-                inputFocusShadow.value = '#e1eef8'
+                inputFocusBorder.value = 'var(--a-primary-color)';
+                inputBorder.value = 'var(--a-border-color)'
+                inputHoverBorder.value = 'var(--a-primary-color)'
+                inputFocusShadow.value = 'var(--a-primary-color)'
                 shrinkFormErrorSwitchFn.value(0, 0.2)
             }
         }
@@ -278,14 +281,18 @@ export default defineComponent({
         })
 
         return () => (
-            <div class="a-input-content" style={`cursor: ${props.disabled ? 'no-drop' : ''};`}>
+            <div class="a-input-content" style={{
+                "--border-focus-shadow": isFocus.value ? inputFocusShadow.value : '',
+                '--input-focus-opacity': isFocus.value ? 0.2 : 1,
+                cursor: props.disabled ? 'no-drop' : '',
+            }}>
                 <div class="a-input-wrapper" style={{
                     backgroundColor: (props.disabled ? "#f5f7fa" : ''),
                     pointerEvents: (props.disabled ? 'none' : 'auto'),
                     "--border-focus-color": inputFocusBorder.value,
                     "--border-color": inputBorder.value,
                     "--border-hover-color": inputHoverBorder.value,
-                    "--border-focus-shadow": inputFocusShadow.value
+
                 }} ref={inputContentRef}>
                     <input
                         style={inputxStyle.value}

@@ -137,7 +137,7 @@ export default defineComponent({
                     <div class="head-center">
                         <APopover onIsClickElementInPopover={(flag) => isClickElementInPopover(flag)} ref={selectpopoverRef} trigger="click" visible={props.showDateSelect} width="max-content" padding="0">
                             {{
-                                reference: () => <div onClick={() => openShrinkSelect()} tabindex="1" style={{ backgroundColor: props.showDateSelect ? ' #f3f3f3' : '' }} class="year-month">{dateState.currentYear} {dateState.currentMonth}月</div>,
+                                reference: () => <div onClick={() => openShrinkSelect()} tabindex="1" style={{ backgroundColor: props.showDateSelect ? 'var(--a-bg-hover-color)' : '' }} class="year-month">{dateState.currentYear} {dateState.currentMonth}月</div>,
                                 default: () => <DateSelect updateYearOrMonthFn={updateYearOrMonthFn} currentYear={dateState.currentYear} currentMonth={dateState.currentMonth} dateValue={props.dateValue} />,
                             }}
                         </APopover>

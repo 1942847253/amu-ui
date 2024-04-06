@@ -1,54 +1,60 @@
 /* 白天模式下的变量 */
 :root {
+  transition: background-color 0.3s;
   /* 颜色变量 */
-  --a-primary-color: #007bff;       /* 主要颜色 */
+  --a-primary-color: #007bff; /* 主要颜色 */
   --a-primary-hover-color: #4098fc;
   --a-primary-active-color: #1060c9;
 
-  --a-error-color:#d03050;          /* 错误色 */
-  --a-error-hover-color:#de576d;
-  --a-error-active-color:#ab1f3f;
+  --a-error-color: #d03050; /* 错误色 */
+  --a-error-hover-color: #de576d;
+  --a-error-active-color: #ab1f3f;
 
-  --a-warning-color:#f0a020;        /* 警告色 */
-  --a-warning-hover-color:#fcb040; 
-  --a-warning-active-color:#c97c10; 
+  --a-warning-color: #f0a020; /* 警告色 */
+  --a-warning-hover-color: #fcb040;
+  --a-warning-active-color: #c97c10;
 
-  --a-success-color:#18a058;        /* 成功色 */
-  --a-success-hover-color:#36ad6a; 
-  --a-success-active-color:#0c7a43; 
+  --a-success-color: #18a058; /* 成功色 */
+  --a-success-hover-color: #36ad6a;
+  --a-success-active-color: #0c7a43;
 
+  --a-info-color: #6684a1; /* 信息色 */
+  --a-info-hover-color: #7d9dbb;
+  --a-info-active-color: #556e86;
 
-  --a-info-color:#6684a1;        /* 信息色 */
-  --a-info-hover-color:#7d9dbb; 
-  --a-info-active-color:#556e86; 
-  
-  --a-text-color: #333639;          /* 文本颜色 */
-  --a-text-color-white:#ffffff;     /* 深色背景颜色 */
-  --a-bg-color: #ffffff;            /* 背景颜色 */
-  --a-bg-color-overlay: #ffffff;    /* 背景颜色 */ 
-  --a-border-color: #dcdfe6;        /* 边框颜色 */
+  --a-text-color: #333639; /* 文本颜色 */
+  --a-text-disable-color: #c2c2c2;
+  --a-text-color-white: #ffffff; /* 深色背景颜色 */
+  --a-bg-color: #ffffff; /* 背景颜色 */
+  --a-bg-hover-color: #f3f3f5;
+  --a-bg-color-overlay: #ffffff; /* 背景颜色 */
+  --a-border-color: #dcdfe6; /* 边框颜色 */
 
-   /* 按钮尺寸 */ 
-   --a-btn-height-s:28px;
-   --a-btn-height-m:34px;
-   --a-btn-height-l:40px;
+  /* 按钮尺寸 */
+  --a-btn-height-s: 28px;
+  --a-btn-height-m: 34px;
+  --a-btn-height-l: 40px;
 
-     /* 按钮边框 */ 
-     --a-btn-padding-s: 0px 8px;
-     --a-btn-padding-m: 0px 12px;
-     --a-btn-padding-l: 0px 16px;
+  /* 按钮边框 */
+  --a-btn-padding-s: 0px 8px;
+  --a-btn-padding-m: 0px 12px;
+  --a-btn-padding-l: 0px 16px;
 
-  /* 阴影变量 */ 
-  --a-box-shadow: 0px 0px 12px rgba(0, 0, 0, .12); /* 元素阴影效果 */    
+  /* 阴影变量 */
+  --a-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12); /* 元素阴影效果 */
 }
 
 /* 黑夜模式下的变量 */
 :root.dark {
+  background-color: #18181c;
+  color: #ffffffd1;
   /* 颜色变量 */
-  --a-text-color: #CFD3DC;          /* 文本颜色 */
-  --a-bg-color: #141414;            /* 背景颜色 */
-  --a-bg-color-overlay: #1d1e1f;    /* 背景颜色 */ 
-  --a-border-color: #4C4D4F;        /* 边框颜色 */
+  --a-text-color: #ffffffd1; /* 文本颜色 */
+  --a-text-disable-color: #ffffff61;
+  --a-bg-color: #141414; /* 背景颜色 */
+  --a-bg-hover-color: #ffffff17;
+  --a-bg-color-overlay: #1d1e1f; /* 背景颜色 */
+  --a-border-color: #4c4d4f; /* 边框颜色 */
 
-  --a-box-shadow: 0px 0px 12px rgba(0, 0, 0, .72); /* 元素阴影效果 */
+  --a-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.72); /* 元素阴影效果 */
 }

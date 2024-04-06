@@ -1,4 +1,4 @@
-@import "../../../assets/index.less";
+
 .tabs-content {
   display: flex;
   .tabs {
@@ -6,6 +6,7 @@
       position: relative;
       margin-bottom: 16px;
       font-size: 14px;
+      transition: border-color 0.3s;
       .tab-list {
         display: flex;
         width: max-content;
@@ -16,20 +17,21 @@
           line-height: 40px;
           padding: 0 20px;
           cursor: pointer;
+          transition: color .2s;
         }
         .tabs-tab:hover {
-          color: @primary-color;
+          color: var(--a-primary-color);
         }
         .tabs-tab-active {
-          color: @primary-color;
+          color: var(--a-primary-color);
         }
       }
       .tabs-inv-bar-left {
         position: absolute;
         right: 0;
         right: -1.5px;
-        background-color: @primary-color;
-        width: 2px !important;
+        background-color: var(--a-primary-color);
+        width: 3px !important;
         height: 40px;
         border-radius: 5%;
         transition: transform 250ms ease-in-out;
@@ -38,7 +40,7 @@
         position: absolute;
         left: 0;
         bottom: -1.5px;
-        background-color: @primary-color;
+        background-color: var(--a-primary-color);
         height: 2px;
         transition: transform 250ms ease-in-out;
       }

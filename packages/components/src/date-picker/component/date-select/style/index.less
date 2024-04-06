@@ -1,91 +1,73 @@
-@import "../../../../../assets/index.less";
 .a-date-select-content {
+  ::-webkit-scrollbar {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-corner, /* 滚动条角落 */
+  ::-webkit-scrollbar-thumb,
+  ::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: transparent;
+    margin-top: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    /* 滚动条手柄 */
+    background-color: transparent;
+  }
+  .select-year:hover::-webkit-scrollbar-thumb {
+    background-color: #97979692;
+  }
+  .select-month:hover::-webkit-scrollbar-thumb {
+    background-color: #97979692;
+  }
+
   cursor: pointer;
   font-size: 14px;
-
   display: flex;
-  background-color: #ffff;
+  background-color: var(--a-bg-color);
   padding: 5px;
   width: 164px;
   height: 248px;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--a-box-shadow);
   border-radius: 5px;
   overflow: hidden;
   .select-year {
     flex: 1;
     text-align: center;
+    width: calc(100%);
     margin-right: 4px;
     overflow: overlay;
     .year {
       border-radius: 3px;
       height: 36px;
       line-height: 36px;
-      width: 100%;
       margin-bottom: 4px;
     }
     .year:hover {
-      background-color: #f3f3f3;
+      background-color: var(--a-bg-hover-color);
     }
     .current {
-      background-color: #f3f3f3;
-      color: @primary-color;
+      background-color: var(--a-bg-hover-color);
+      color: var(--a-primary-color);
     }
   }
   .select-month {
     flex: 1;
     text-align: center;
-    width: 100%;
+    width: calc(100%);
     overflow: overlay;
     .month {
       border-radius: 3px;
       height: 36px;
       line-height: 36px;
-      width: 100%;
       margin-bottom: 4px;
     }
     .month:hover {
-      background-color: #f3f3f3;
+      background-color: var(--a-bg-hover-color);
     }
     .current {
-      background-color: #f3f3f3;
-      color: @primary-color;
+      background-color: var(--a-bg-hover-color);
+      color: var(--a-primary-color);
     }
   }
-}
-
-.select-year::-webkit-scrollbar {
-  width: 6px;
-}
-.select-year::-webkit-scrollbar-corner, /* 滚动条角落 */
-  .select-year::-webkit-scrollbar-thumb,
-  .select-year::-webkit-scrollbar-track {
-  border-radius: 5px;
-}
-.select-year::-webkit-scrollbar-corner,
-.select-year::-webkit-scrollbar-track {
-  /* 滚动条轨道 */
-  background-color: none;
-}
-.select-year::-webkit-scrollbar-thumb {
-  /* 滚动条手柄 */
-  background-color: #97979692;
-}
-
-.select-month::-webkit-scrollbar {
-  width: 6px;
-}
-
-.select-month::-webkit-scrollbar-corner, /* 滚动条角落 */
-  .select-month::-webkit-scrollbar-thumb,
-  .select-month::-webkit-scrollbar-track {
-  border-radius: 5px;
-}
-.select-month::-webkit-scrollbar-corner,
-.select-month::-webkit-scrollbar-track {
-  /* 滚动条轨道 */
-  background-color: none;
-}
-.select-month::-webkit-scrollbar-thumb {
-  /* 滚动条手柄 */
-  background-color: #97979692;
 }
