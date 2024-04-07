@@ -47,7 +47,7 @@ export default defineComponent({
         const referenceSlotRef = ref<HTMLDivElement | null>(null)
         const Index = ref(ZIndex)
         setZIndex(Index.value)
-        const bgColor = ref("#ffff");
+        const bgColor = ref("var(--a-bg-color)");
         const placements = ref("bottom");
         const popoverVisible = ref(false);
         const Visible = ref(props.visible)

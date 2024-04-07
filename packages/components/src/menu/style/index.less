@@ -1,28 +1,29 @@
 .a-menu-content {
-  border-right: 1px solid #dcdfe6;
+  border-right: 1px solid var(--a-border-color);
   width: 100%;
   padding: 5px;
   width: 210px;
+  transition: background-color 0.2s,border-color 0.2s,color 0.2s;
 }
 
-.a-menu-content::-webkit-scrollbar {
-  width: 4px;
+::-webkit-scrollbar {
+  background-color: transparent;
 }
-.a-menu-content::-webkit-scrollbar-corner, /* 滚动条角落 */
-  .a-menu-content::-webkit-scrollbar-thumb,
-  .a-menu-content::-webkit-scrollbar-track {
+::-webkit-scrollbar-corner, /* 滚动条角落 */
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
   border-radius: 5px;
-}
-.a-menu-content::-webkit-scrollbar-corner,
-.a-menu-content::-webkit-scrollbar-track {
-  /* 滚动条轨道 */
-  background-color: none;
-}
-.a-menu-content::-webkit-scrollbar-thumb {
-  /* 滚动条手柄 */
-  background-color: #93939399;
+  background-color: transparent;
 }
 
-.select-month::-webkit-scrollbar {
-  width: 4px;
+::-webkit-scrollbar-thumb {
+  /* 滚动条手柄 */
+  background-color: transparent;
 }
+.a-menu-content:hover::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background-color: #97979692;
+}
+
+
+

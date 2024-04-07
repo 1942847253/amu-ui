@@ -31,7 +31,7 @@ export default defineComponent({
 
         watch(() => defaultActive.value, () => {
             if (checkExpandByDefault()) {
-                subItemRef.value.style.color = (dark ? '#FFFFFF' : '#0468dc')
+                subItemRef.value.style.color = (dark ? '#FFFFFF' : 'var(--a-primary-color)')
             } else {
                 subItemRef.value.style.color = ''
             }
@@ -98,7 +98,7 @@ export default defineComponent({
       */
         const expandByDefault = () => {
             if (checkExpandByDefault()) {
-                subItemRef.value.style.color = (dark ? '#FFFFFF' : '#0468dc')
+                subItemRef.value.style.color = (dark ? '#FFFFFF' : 'var(--a-primary-color)')
                 isContentOpen.value = true
                 subSlotRef.value.style.height = subContentHeight.value + 'px';
             }

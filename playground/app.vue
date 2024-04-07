@@ -267,7 +267,7 @@
       </AForm>
     </ATabsPanel>
     <ATabsPanel key="7" title="Menu 侧边栏">
-      <AMenu default-active="5-1-2" dark>
+      <AMenu default-active="5-1-2"  style="">
         <AMenuItem index="1">
           <template #icon>◎</template>
           <span>Dashboard</span>

@@ -5,7 +5,8 @@
   justify-items: center;
   margin-bottom: 18px;
   label {
-    color: #606266;
+    transition: color 0.2s, width 0s;
+    color: var(--a-text-color);
     font-size: 14px;
     line-height: 32px;
     padding: 0 12px 0 0;
@@ -13,14 +14,14 @@
     width:max-content;
     span{
       margin-top: -2px;
-      color: #f56c6c;
+      color: var(--a-error-color);
     }
   }
   .a-form-item-slot {
      position: relative;
     flex: 1;
     .a-form-item-error{
-    color: #f56c6c;
+    color:var(--a-error-color);
     font-size: 12px;
     line-height: 1;
     padding-top: 2px;

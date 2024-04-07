@@ -5,7 +5,8 @@
         <div class="a-message-box-wrapper" @click.stop>
           <div class="a-message-title">
             <div class="title">{{ title }}</div>
-            <span class="iconfont icon-close2" @click="cancelBtnClick"></span>
+            <AIcon name="close" />
+            <!-- <span class="iconfont icon-close2" @click="cancelBtnClick"></span> -->
           </div>
           <div class="a-message-content">
             <ContentView :fied="props.field" />
@@ -25,6 +26,7 @@
 <script lang="ts" setup>
 import { h, reactive, ref, toRefs } from "vue";
 import AButton from "../button";
+import { AIcon } from "../icon";
 import { fields } from "./index";
 import "./style/index.less";
 import useZIndex from "@/shared/hooks/useZIndex";
@@ -117,13 +119,11 @@ const ContentView = ({ fied }: { [key: string]: string }) => {
 };
 
 const openMaskFun = () => {
-  document.body.style.borderRight = "5px solid transparent";
   document.body.style.overflow = "hidden";
 };
 
 const closeMaskFun = () => {
-  document.body.style.borderRight = "none";
-  document.body.style.overflow = "auto";
+  document.body.style.removeProperty('overflow')                
 };
 
 defineExpose({

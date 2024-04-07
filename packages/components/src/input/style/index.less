@@ -4,10 +4,10 @@
   display: flex;
   user-select: none;
   background-color: var(--a-bg-color);
-  transition: all 0.2s;
+  transition: background-color 0.2s, color 0.2s,border-color 0.2s;
   border-radius: 3px;
   .a-input-wrapper {
-    transition: all 0.2s;
+    transition: background-color 0.2s, color 0.2s,border-color 0.2s;
     border: 1px solid var(--border-color);
     background-color: var(--a-bg-color);
     border-radius: 3px;
@@ -15,7 +15,7 @@
     padding: 0 10px;
     user-select: none;
     input {
-      transition: all 0.2s;
+      transition: background-color 0.2s, color 0.2s,border-color 0.2s;
       outline: medium;
       border: none;
       border-radius: 2px;
@@ -25,19 +25,19 @@
       color: var(--a-text-color);
     }
     input::-webkit-input-placeholder {
-      transition: all 0.2s;
+      transition: background-color 0.2s, color 0.2s,border-color 0.2s;
       color: var(--a-text-color);
       font-size: 14px;
     }
     .placeholder {
-      transition: all 0.2s;
+      transition: background-color 0.2s, color 0.2s,border-color 0.2s;
       position: absolute;
       left: calc(10px);
       color: var(--a-text-color);
       font-size: 13px;
     }
     .iconfont {
-      transition: all 0.2s;
+      transition: background-color 0.2s, color 0.2s,border-color 0.2s;
       position: absolute;
       right: calc(10px);
       color: var(--a-text-color);
@@ -53,16 +53,15 @@
   .a-input-slot {
     pointer-events: none;
     position: absolute;
-    top: 8px;
+    top: 50%;
+    transform: translateY(-50%);
     right: 9px;
     display: flex;
     align-items: center;
-    span {
-      align-items: center;
-      cursor: pointer;
-      color: var(--a-text-color);
+    color: var(--a-text-disable-color);
+    span {  
+      cursor: pointer;   
       pointer-events: painted;
-      transition: all 0.2s;
     }
   }
 }

@@ -5,10 +5,9 @@
   overflow: auto;
   user-select: none;
   max-height: 215px;
-  background-color: #fff;
-  box-shadow: 0 12px 5px -10px rgba(0, 0, 0, 0.1), 0 0 4px 0 rgba(0, 0, 0, 0.1) !important;
-  -webkit-box-shadow: 0 12px 5px -10px rgba(0, 0, 0, 0.1),
-    0 0 4px 0 rgba(0, 0, 0, 0.1) !important;
+  background-color: var(--a-bg-color);
+  box-shadow: var(--a-box-shadow);
+
   
   .menu-item {
     font-size: 13px;
@@ -16,35 +15,36 @@
     display: flex;
     align-items: center;
     cursor: pointer !important;
-    transition: background-color 0.2s ease-in-out;
+    transition: background-color 0.2s;
     .label {
       flex-grow: 1;
     }
   }
   .menu-item:hover {
-    background-color: #585d6409;
+    background-color: var(--a-bg-hover-color);
   }
   .menu-checked {
-    color: @primary-color;
+    color:var(--a-primary-color);
     font-weight: 550;
-    background-color: #0066ff09 !important;
+    background-color: var(--a-bg-color);
   }
 }
-.selector-menu::-webkit-scrollbar {
-  width: 5px;
-  background: white;
+::-webkit-scrollbar {
+  background-color: transparent;
 }
-.selector-menu::-webkit-scrollbar-corner, /* 滚动条角落 */
-  .selector-menu::-webkit-scrollbar-thumb,
-  .selector-menu::-webkit-scrollbar-track {
+::-webkit-scrollbar-corner, /* 滚动条角落 */
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
   border-radius: 5px;
+  background-color: transparent;
 }
-.selector-menu::-webkit-scrollbar-corner,
-.selector-menu::-webkit-scrollbar-track {
-  /* 滚动条轨道 */
-  background-color: rgba(89, 88, 85, 0.041);
-}
-.selector-menu::-webkit-scrollbar-thumb {
+
+::-webkit-scrollbar-thumb {
   /* 滚动条手柄 */
-  background-color: rgba(151, 151, 150, 0.141);
+  background-color: transparent;
 }
+.selector-menu:hover::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background-color: #97979629;
+}
+

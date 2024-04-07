@@ -11,11 +11,12 @@ export default defineComponent({
         dark: {
             type: Boolean,
             default: false
-        }
+        },
+
     },
     setup(props, { emit, slots }) {
         const defaultActive = ref(props.defaultActive)
-        const showScrollBar = ref(false)
+        const showScrollBar = ref(true)
         const updateDefaultValue = (value: string) => {
             if (value === defaultActive.value) return;
             defaultActive.value = value
@@ -23,8 +24,8 @@ export default defineComponent({
 
         const menuComputedStyle = computed(() => {
             return {
-                backgroundColor: props.dark ? '#001428' : '#FFFFFF',
-                overflow: showScrollBar.value ? 'overlay' : 'hidden'
+                backgroundColor: props.dark ? '#001428' : 'var(--a-bg-color)',
+                overflow: showScrollBar.value ? 'overlay' : 'overlay'
             }
         })
 
@@ -32,7 +33,7 @@ export default defineComponent({
         provide('dark', props.dark)
         provide('updateDefaultValue', updateDefaultValue)
         return () => (
-            <nav onMouseenter={() => showScrollBar.value = true} onMouseleave={() => showScrollBar.value = false} class="a-menu-content" style={menuComputedStyle.value}>
+            <nav class="a-menu-content" style={menuComputedStyle.value}>
                 <div class="a-menu-item-list">
                     {slots.default!()}
                 </div>

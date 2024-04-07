@@ -66,7 +66,7 @@ export default defineComponent({
             } else {
                 drawerHideRange.value = range
                 emit('closed')
-                document.body.style.removeProperty('overflow')
+                document.body.style.removeProperty('overflow')           
             }
         })
 

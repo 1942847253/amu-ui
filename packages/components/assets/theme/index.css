@@ -1,3 +1,7 @@
+body{
+  padding: 0;
+  margin: 0;
+}
 /* 白天模式下的变量 */
 :root {
   transition: background-color 0.3s;

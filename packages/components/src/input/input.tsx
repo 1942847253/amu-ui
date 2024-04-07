@@ -164,21 +164,20 @@ export default defineComponent({
 
         const passwordSlot = () => {
             return <div>
-                {showIconBtn.value && <span onMousedown={() => soltBtnActions()} class={`iconfont ${showEyeCloseBtn.value ? 'icon-yanjing' : 'icon-yanjing1'}`}></span>}
+                {showIconBtn.value && <div onMousedown={() => soltBtnActions()}><AIcon name={showEyeCloseBtn.value ? "select" : 'hide'} /></div>}
             </div>
 
         }
 
         const dateSlot = () => {
-            return <span onMousedown={() => soltBtnActions()} class="iconfont icon-riqi"></span>
+            return <div onMousedown={() => soltBtnActions()}><AIcon name="calendar" /></div>
         }
-
         const searchSlot = () => {
-            return <span onMousedown={() => soltBtnActions()} class="iconfont icon-sousuo"></span>
+            return <div onMousedown={() => soltBtnActions()}><AIcon name="search" /></div>
         }
 
         const selectSlot = () => {
-            return <AIcon name="arrow-down" ref={slectIconRef} onMousedown={() => soltBtnActions()} />
+            return <div onMousedown={() => soltBtnActions()}><AIcon name="arrow-down" ref={slectIconRef} /></div>
         }
 
         const initIconSlot = () => {

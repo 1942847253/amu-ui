@@ -9,17 +9,20 @@
     justify-content: center;
     z-index: 1;
     position: absolute;
-    right: 1.5px;
-    top: 1.1px;
+    right: 0.75px;
+    top: 0.8px;
     width: 32px;
-    height: 31.5px;
-    border-left: 1px solid #dcdfe6;
-    background-color: #f5f7fa;
-    color: #8d8e8f;
+    height: 32.2px;
+    border-top-right-radius: 2px; /* 右上角圆角半径 */
+    border-bottom-right-radius: 2px; /* 右下角圆角半径 */
+    border-left: 1px solid var(--a-border-color);
+    background-color: var(--a-border-color);
+    color: var(--a-text-color);
     font-size: 15px;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
   }
-  .add-button:hover{
-    color: #0468dc;
+  .add-button:hover {
+    color: var(--a-primary-color);
   }
   .subtract-button {
     user-select: none;
@@ -29,15 +32,18 @@
     justify-content: center;
     z-index: 1;
     position: absolute;
-    left: 1.5px;
-    top: 1.1px;
+    left: 0.75px;
+    top: 0.8px;
     width: 32px;
-    height: 31.5px;
-    border-right: 1px solid #dcdfe6;
-    background-color: #f5f7fa;
-    color: #8d8e8f;
+    height: 32.2px;
+    border-top-left-radius: 2px; /* 右上角圆角半径 */
+    border-bottom-left-radius: 2px; /* 右下角圆角半径 */
+    border-right: 1px solid var(--a-border-color);
+    background-color: var(--a-border-color);
+    color: var(--a-text-color);
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
   }
-   .subtract-button:hover{
-    color: #0468dc;
+  .subtract-button:hover {
+    color: var(--a-primary-color);
   }
 }

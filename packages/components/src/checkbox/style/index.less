@@ -8,8 +8,9 @@
   font-size: 14px;
   margin-right: 25px;
   width: max-content;
-
+  transition: all 0.2s;
   input[type="checkbox"] {
+   
     position: absolute;
     clip: rect(0, 0, 0, 0);
   }
@@ -19,7 +20,8 @@
     position: relative;
     line-height: 0.9rem;
     user-select: none;
-    color: @text-color-black;
+    color: var(--a-text-color);
+    transition: all 0.2s;
   }
 
   input[type="checkbox"] + label:not(:nth-of-type(1)) {
@@ -28,7 +30,7 @@
   }
 
   input[type="checkbox"]:checked + label {
-    color: @primary-color;
+    color: var(--a-primary-color);
   }
 
   input[type="checkbox"] + label:not(:nth-of-type(6)) {
@@ -38,7 +40,7 @@
 
   input[type="checkbox"]:disabled + label {
     cursor: not-allowed;
-    color: #999;
+    color: var(--a-text-color);
   }
 
   input[type="checkbox"] + label::before {
@@ -50,13 +52,14 @@
     border-radius: 2px;
     vertical-align: top;
     margin-right: 0.2em;
-    border: 1px solid #ccc;
-    background-color: #fff;
+    border: 1px solid var(--a-border-color);
+    background-color: var(--a-bg-color);
     transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    transition: all 0.2s;
   }
 
   input[type="checkbox"]:not(:disabled) + label:hover::before {
-    border-color: @primary-color;
+    border-color: var(--a-primary-color);
   }
 
   input[type="checkbox"] + label::after {
@@ -67,7 +70,7 @@
     display: inline-block;
     width: 4px;
     height: 8px;
-    border: 1px solid #fff;
+    border: 1px solid var(--a-text-color-white);
     border-top: 0;
     border-left: 0;
     transform: rotate(45deg) scale(0);
@@ -75,8 +78,8 @@
   }
 
   input[type="checkbox"]:checked + label::before {
-    border-color: @primary-color !important;
-    background-color: @primary-color;
+    border-color: var(--a-primary-color) !important;
+    background-color: var(--a-primary-color);
   }
 
   input[type="checkbox"]:checked + label::after {
@@ -85,20 +88,20 @@
   }
   input[type="checkbox"]:disabled + label::before,
   input[type="checkbox"]:disabled.checked + label::before {
-    border-color: #ccc !important;
-    background-color: #f2f2f2;
+    border-color: var(--a-border-color) !important;
+    background-color: var(--a-bg-color);
   }
 
   input[type="checkbox"]:disabled.checked + label::after {
-    border-color: #ccc;
+    border-color:var(--a-border-color);
     transform: rotate(45deg) scale(1);
   }
 
   input[type="checkbox"]:indeterminate + label::before {
     position: relative;
-    border-color: @primary-color;
-    background-color: @primary-color;
-    color: #fff;
+    border-color:var(--a-primary-color);
+    background-color: var(--a-primary-color);
+    color: var(--a-bg-color);
     content: "";
     width: 13px;
     height: 13px;
@@ -114,7 +117,8 @@
     margin-top: 6px;
     transform: translate(-50%, -50%);
     width:6px; /* 调整横线的宽度 */
-    height: 0px; /* 调整横线的高度 */
-    background-color: #fff; /* 设置横线的颜色 */
+    height: 0; /* 调整横线的高度 */
+    border-color: var(--a-text-color-white);
+    background-color:var(--a-primary-color); /* 设置横线的颜色 */
   }
 }
