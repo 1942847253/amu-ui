@@ -2,15 +2,10 @@ import { CSSProperties, Teleport, computed, defineComponent, onMounted, ref, Tra
 import { AButton } from "..";
 import { AIcon } from "..";
 import './style/index.less';
-import { isDefined } from "@/shared/utils";
 import useZIndex from "@/shared/hooks/useZIndex";
 
 export default defineComponent({
     name: 'ADialog',
-    components: {
-        AButton,
-        AIcon
-    },
     props: {
         modelValue: {
             type: Boolean,
@@ -157,9 +152,9 @@ export default defineComponent({
                     <div class="a-dialog-content" onClick={(event) => closeOnClickModal(event)} v-show={dialogVisible.value} style={{ zIndex: dialogZIndex.value }}>
                         <div class="dialog-box" style={dialogBoxStyle.value}>
                             <div v-show={props.title} class="a-dialog-header" style={{ justifyContent: props.center ? 'center' : 'left' }}>
-                                <div class="title"><a-icon v-show={props.icon} style="font-size:20px;margin-right:5px" name={props.icon}></a-icon>{props.title}</div>
+                                <div class="title"><AIcon v-show={props.icon} style="font-size:20px;margin-right:5px" name={props.icon}></AIcon>{props.title}</div>
                             </div>
-                            <div class="close-btn" onClick={() => closeEvent('close-click')}><a-icon name="close" /></div>
+                            <div class="close-btn" onClick={() => closeEvent('close-click')}><AIcon name="close" /></div>
                             <div class="a-dialog-body">
                                 {defaultSlotRender.value}
                             </div>
@@ -167,8 +162,8 @@ export default defineComponent({
                                 {
                                     slots.footer ? slots.footer() : (
                                         <>
-                                            <a-button v-show={props.showCancelButton} onClick={() => closeEvent('cancel-click')}>{props.cancelButtonText}</a-button>
-                                            <a-button style="margin-right:0px" v-show={props.showConfirmButton} onClick={() => closeEvent('confirm-click')} type="primary">{props.confirmButtonText}</a-button>
+                                            <AButton v-show={props.showCancelButton} onClick={() => closeEvent('cancel-click')}>{props.cancelButtonText}</AButton>
+                                            <AButton style="margin-right:0px" v-show={props.showConfirmButton} onClick={() => closeEvent('confirm-click')} type="primary">{props.confirmButtonText}</AButton>
                                         </>
                                     )
                                 }

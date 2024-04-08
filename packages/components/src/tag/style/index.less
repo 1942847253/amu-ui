@@ -1,5 +1,3 @@
-@import "../../../assets/index.less";
-@import "../../../iconfont/iconfont.less";
 
 .tag {
   position: relative;
@@ -37,33 +35,33 @@
   }
 
   .close-success {
-    background-color: @success-color;
+    background-color: var(--a-success-color);
   }
 
   .close-info {
-    background-color: @info-color;
+    background-color: var(--a-info-color);
   }
 
   .close-danger {
-    background-color: @danger-color;
+    background-color:var(--a-error-color);
   }
 
   .close-warning {
-    background-color: @warning-color;
+    background-color: var(--a-warning-color);
   }
 
   .close-default {
-    background-color: rgba(0, 0, 0, 0.385);
+    background-color: var(--a-bg-color);
   }
 }
 
 .tag-default {
-  background-color: #dedede8d;
-  border-color: #c6c6c678;
-  color: #1d1d1d;
+  background-color: var(--a-bg-color);
+  border-color: var(--a-border-color);
+  color: var(--a-text-color);
 
   span:hover {
-    color: #0000000c;
+    color: var(--a-bg-hover-color);
   }
 }
 

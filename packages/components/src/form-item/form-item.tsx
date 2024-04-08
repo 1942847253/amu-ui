@@ -1,13 +1,9 @@
 import { computed, defineComponent, inject, onMounted, provide, ref } from "vue";
-import AButton from '../button/button'
 import ShrinkBox from "../shrink-box";
 import './style/index.less';
 
 export default defineComponent({
     name: 'AFormItem',
-    components:{
-        AButton
-    },
     props: {
         label: {
             type: String,

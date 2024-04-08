@@ -8,15 +8,9 @@ p {
 }
 .VPNav {
   border-bottom: 1px solid #cdced259;
-  background-color: #ffffff00;
-  .VPNavBarAppearance {
-    display: none;
-  }
+
   .VPNavBar {
     .container {
-      .title {
-        background-color: #ffff;
-      }
       .content {
         .curtain::before {
           height: min-content;
@@ -38,9 +32,9 @@ p {
   overflow: hidden !important;
   margin-top: 15px;
   padding-top: 0;
-  background: #fff !important;
-  .curtain {
-    background-color: #ffffff;
+  background-color: var(--vp-c-bg) !important;
+  .curtain{
+    background-color: var(--vp-c-bg) !important;
   }
   .nav {
     .group {
@@ -63,7 +57,7 @@ p {
         }
         .is-active {
           transition: background-color 0.25s ease;
-          background-color: #1570cb11;
+          background-color: var(--a-bg-hover-color);
           border-radius: 5px;
           font-weight: 899;
           .text {
@@ -94,7 +88,8 @@ p {
 }
 
 :root {
-  --vp-c-brand: #066ace;
+  --vp-c-bg:var(--a-bg-color);
+  --vp-c-brand: var(--a-primary-color);
   --vp-c-brand-light: #066ace;
   --vp-c-brand-dark: #066ace;
   --vp-c-white-soft: #fff;
@@ -134,13 +129,13 @@ details > summary:first-of-type {
   font-size: 10px;
   padding: 8px 0;
   cursor: pointer;
-  color: #1989fa;
+  color: var(--a-primary-color);
 }
 .vp-doc li + li {
   margin-top: 0px !important;
 }
 .example {
-  border: 1px solid #dcdfe6ba;
+  border: 1px solid var(--a-border-color);
   border-radius: 5px;
   padding: 20px;
   .a-pagination-content .btn {
@@ -171,9 +166,6 @@ details > summary:first-of-type {
   tr {
     border-top: none;
     transition: background-color 0.5s;
-  }
-  tr:nth-child(2n) {
-    background-color: #ffff;
   }
   td {
     padding: 0;

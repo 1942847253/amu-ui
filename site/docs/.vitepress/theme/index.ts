@@ -3,9 +3,11 @@
 import DefaultTheme from "vitepress/theme";
 // import AmuUI from "amu-ui";
 // import AmuUI from '../../../../packages/components'
-import AmuUI from '../../../../packages/amu-ui'
 // import '../../../../y-ui/dist/assets/index.css';
 import './style.less';
+import '../../../../packages/components/assets/theme/index.css'
+
+import AmuUI from '../../../../packages/components/index'
 // 主题样式
 
 export default {

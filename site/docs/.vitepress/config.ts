@@ -1,6 +1,5 @@
 export default {
   base: process.env.NODE_ENV === "production" ? "/amu-ui/" : "/",
-  appearance: 'false',
   themeConfig: {
     smoothScroll: true,
     siteTitle: false,

@@ -1,4 +1,4 @@
-@import "../../../assets/index.less";
+
 .radio-main {
   display: inline-flex;
   flex-direction: column;
@@ -7,7 +7,7 @@
   user-select: none;
   font-size: 14px;
   margin-right: 25px;
-  color: @text-color-black;
+  color: var(--a-text-color);
   width: max-content;
 
   input[type="radio"] {
@@ -30,8 +30,8 @@
   }
   input[type="radio"]:disabled + label {
     cursor: not-allowed;
-    color: #999;
-    border-color: #ccc !important;
+    color: var(--a-text-disable-color);
+    border-color: var(--a-border-color) !important;
   }
   input[type="radio"] + label::before {
     content: "";
@@ -41,23 +41,23 @@
     border-radius: 8px;
     vertical-align: top;
     margin-right: 0.2em;
-    border: 1px solid #ccc;
-    background-color: #fff;
+    border: 1px solid var(--a-border-color);
+    background-color: var(--a-bg-color);
     transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
   }
   input[type="radio"]:not(:disabled) + label:hover::before {
-    border-color: @primary-color;
+    border-color: var(--a-primary-color);
   }
   input[type="radio"]:checked + label::before {
-    border-color: @primary-color;
-    background-color: @primary-color;
+    border-color: var(--a-primary-color);
+    background-color: var(--a-primary-color);
   }
   input[type="radio"] + label::after {
     content: "";
     display: inline-block;
     width: 4px;
     height: 4px;
-    background-color: #fff;
+    background-color: var(--a-bg-color);
     border-radius: 4px;
     position: absolute;
     left: 5.5px;
@@ -71,12 +71,12 @@
   }
   input[type="radio"]:disabled + label::before,
   input[type="radio"]:disabled.checked + label::before {
-    border-color: #ccc;
-    background-color: #f2f2f2;
+    border-color: var(--a-border-color);
+    background-color: var(--a-bg-color);
   }
   input[type="radio"]:disabled.checked + label::after {
-    border-color: #ccc;
-    background-color: #ccc;
+    border-color: var(--a-bg-color);
+    background-color: var(--a-bg-color);
     transform: translateY(-50%) scale(1);
   }
 }

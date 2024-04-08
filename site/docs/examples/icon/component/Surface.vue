@@ -85,7 +85,8 @@ const copyIcon = (icon: string) => {
     text-align: center;
     list-style: none !important;
     cursor: default;
-    border: 1px solid #e8e8e888;
+    border: 1px solid var(--a-border-color);
+    border-bottom: none;
     .iconfont {
       cursor: pointer;
       display: block;
@@ -93,13 +94,12 @@ const copyIcon = (icon: string) => {
       line-height: 64px;
       font-size: 35px;
       margin: 0px auto 10px;
-      color: #1e2025;
-      transition: font-size 0.3s ease-in-out, width 0.3s ease-in-out !important;
-      transition: color 0.3s ease-in-out, width 0.3s ease-in-out;
+      color: var(--a-text-color);
+      transition: color 0.3s, width 0.3s,font-size 0.3s, width 0.3s !important;
     }
     .iconfont:hover {
       font-size: 55px;
-      color: #0468dc;
+      color: var(--a-primary-color);
     }
     .svg-icon {
       /* 通过设置 font-size 来改变图标大小 */
