@@ -33,7 +33,7 @@ body{
   --a-bg-hover-color: #f3f3f5;
   --a-bg-color-overlay: #ffffff; /* 背景颜色 */
   --a-border-color: #dcdfe6; /* 边框颜色 */
-
+  --a-border-weak-color:#efeff5; /* 边框颜色(淡化) */
   /* 按钮尺寸 */
   --a-btn-height-s: 28px;
   --a-btn-height-m: 34px;
@@ -59,6 +59,6 @@ body{
   --a-bg-hover-color: #ffffff17;
   --a-bg-color-overlay: #1d1e1f; /* 背景颜色 */
   --a-border-color: #4c4d4f; /* 边框颜色 */
-
+  --a-border-weak-color:#ffffff17; /* 边框颜色(淡化) */
   --a-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.72); /* 元素阴影效果 */
 }

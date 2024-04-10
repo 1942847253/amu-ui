@@ -1,4 +1,3 @@
-
 body {
   overflow: overlay;
   line-height: normal;
@@ -6,38 +5,139 @@ body {
 p {
   font-size: 15px;
 }
-.VPNav {
-  border-bottom: 1px solid #cdced259;
 
-  .VPNavBar {
-    .container {
-      .content {
-        .curtain::before {
-          height: min-content;
+.VPPluginSearch-modal-back {
+  z-index: 99999 !important;
+  background-color: #03030476;
+  .VPPluginSearch-modal {
+    padding: 10px 20px;
+
+    .DocSearch-Form {
+      input {
+        border: 1px solid var(--a-border-color);
+        transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        outline: medium;
+        border-radius: 5px;
+        outline: invert;
+        outline-color: var(--a-primary-color) !important;
+        background-color: var(--a-bg-color);
+        color: var(--a-text-color);
+        height: 50px;
+      }
+      input:focus {
+        border: 1px solid var(--a-primary-color) !important;
+      }
+      .VPPluginSearch-flex-logo {
+        display: none;
+      }
+      .DocSearch-MagnifierLabel {
+        transform: scale(1.5);
+      }
+    }
+    .VPPluginSearch-search-item-icon {
+      display: none;
+    }
+  }
+  .VPPluginSearch-search-list {
+    .search-group {
+      a.link-focused .VPPluginSearch-search-item{
+        background-color: var(--a-primary-color);
+        color: var(--a-text-color-white);
+      }
+      .VPPluginSearch-search-item {
+        color: var(--a-text-color);
+        border: 1px solid var(--a-border-color);
+        margin-bottom: 10px;
+       
+        .VPPluginSearch-search-item-icon {
+          display: none;
         }
       }
     }
   }
-  .VPNavBarTitle {
-    a {
-      border-bottom: none;
-      img {
-        height: 100px;
+  .VPPluginSearch-flex-logo {
+    display: none;
+  }
+}
+.VPNav {
+  z-index: 9999 !important;
+  border-bottom: 1px solid var(--a-border-weak-color) !important;
+  .VPNavBar {
+    padding: 0;
+    .container {
+      max-width: none !important;
+      .title {
+        padding-left: 35px;
+        width: 120px !important;
+        .VPNavBarTitle {
+          width: 120px !important;
+          a {
+            width: 120px;
+            border-bottom: none;
+          }
+          a:hover {
+            opacity: 1 !important;
+          }
+          img {
+            pointer-events: none;
+            transform: scale(5);
+            z-index: 10 !important;
+          }
+          img:hover {
+            opacity: 0.5;
+          }
+        }
+      }
+      .content {
+        padding-left: 0;
+        padding-right: 5%;
+        .curtain::before {
+          height: min-content;
+        }
+        .VPNavBarSearch {
+          position: fixed;
+          left: 300px;
+          padding-left: 0;
+          .DocSearch {
+            justify-content: flex-start;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 0 10px 0 12px;
+            width: 100%;
+            height: 40px;
+            background-color: var(--vp-c-bg-alt);
+            transition: border-color 0.2s;
+          }
+          .DocSearch:hover {
+            border-color: var(--a-primary-color);
+          }
+          .DocSearch-Button-Keys {
+            border: 1px solid var(--a-border-color);
+            border-radius: 5px;
+          }
+        }
       }
     }
   }
 }
 
 .VPSidebar {
-  overflow: hidden !important;
+  z-index: 999 !important;
+  padding-left: 30px !important;
+  width: max-content !important;
   margin-top: 15px;
   padding-top: 0;
+  border-right: 1px solid var(--a-border-weak-color) !important;
   background-color: var(--vp-c-bg) !important;
-  .curtain{
+  .curtain {
     background-color: var(--vp-c-bg) !important;
   }
   .nav {
     .group {
+      border-top: none;
+      .VPSidebarItem {
+        padding-bottom: 0;
+      }
       .title {
         margin-bottom: 10px;
         title .title-text {
@@ -46,6 +146,9 @@ p {
         }
       }
       .items {
+        .text {
+          color: var(--a-text-color);
+        }
         margin-top: 10px;
         .VPLink {
           padding: 8px 16px !important;
@@ -71,24 +174,43 @@ p {
     }
   }
 }
-.VPSidebar:hover {
-  overflow: overlay !important;
-}
-::-webkit-scrollbar {
-  width: 5px;
-}
-::-webkit-scrollbar-corner, /* 滚动条角落 */
-::-webkit-scrollbar-thumb,
-::-webkit-scrollbar-track {
-  border-radius: 5px;
-}
-::-webkit-scrollbar-thumb {
-  /* 滚动条手柄 */
-  background-color: rgba(200, 199, 199, 0.185);
+
+.VPContent {
+  .VPDoc {
+    padding-left: none !important;
+    padding-right: none !important;
+    .container {
+      .content {
+        .content-container {
+          max-width: 100%;
+        }
+      }
+    }
+
+    .aside {
+      .content {
+        border-left: 4px solid var(--a-border-weak-color);
+        .outline-title {
+          font-size: 15px;
+        }
+        .outline-marker {
+          width: 4px;
+          left: -4px;
+        }
+        .outline-link {
+          font-size: 15px;
+        }
+        .outline-link.active {
+          color: var(--a-primary-color);
+        }
+      }
+    }
+  }
 }
 
 :root {
-  --vp-c-bg:var(--a-bg-color);
+  --vp-layout-max-width: 1700px;
+  --vp-c-bg: var(--a-bg-color);
   --vp-c-brand: var(--a-primary-color);
   --vp-c-brand-light: #066ace;
   --vp-c-brand-dark: #066ace;
@@ -110,7 +232,9 @@ button {
 }
 details {
   summary {
+    text-align: right;
     user-select: none;
+    font-size: 13px !important;
   }
 }
 
@@ -135,7 +259,7 @@ details > summary:first-of-type {
   margin-top: 0px !important;
 }
 .example {
-  border: 1px solid var(--a-border-color);
+  border: 1px solid var(--a-border-weak-color);
   border-radius: 5px;
   padding: 20px;
   .a-pagination-content .btn {
@@ -158,7 +282,6 @@ details > summary:first-of-type {
   th,
   td {
     border: none;
-
   }
   table {
     margin: 0;
@@ -188,12 +311,4 @@ details > summary:first-of-type {
 .prev-next[data-v-e0c6bdab] {
   border-top: none;
   padding-top: 0;
-}
-
-.VPNavBarTitle[data-v-7b235247] {
-  overflow: hidden;
-  border-bottom: none;
-}
-.image-container[data-v-4c7fb2e3] img {
-  margin-left: 20%;
 }

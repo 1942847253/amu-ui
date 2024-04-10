@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref, Ref, watch } from "vue";
-import AInput from "../../../Input";
+import AInput from "@/src/input";
 import "./style/index.less";
 export default defineComponent({
   name: "SelectInput",
