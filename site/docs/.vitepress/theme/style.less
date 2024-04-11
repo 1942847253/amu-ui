@@ -1,10 +1,49 @@
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 5px !important;
+}
+::-webkit-scrollbar-corner, /* 滚动条角落 */
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: transparent;
+  margin-top: 10px;
+  width: 5px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  /* 滚动条手柄 */
+  width: 5px !important;
+  background-color: transparent;
+}
 body {
-  overflow: overlay;
+  overflow-x: hidden;
   line-height: normal;
+ 
 }
 p {
   font-size: 15px;
 }
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--a-border-color);
+}
+
+.VPContent.has-sidebar{
+    padding-right: 0 !important;
+    padding-left: 287.6px !important;
+}
+
+.VPHero{
+  margin-top: 0 !important;
+  transform: scale(1.15);
+}
+
+.VPFeatures {
+  margin-top: 20px;
+  transform: scale(1.15);
+}
+
 
 .VPPluginSearch-modal-back {
   z-index: 99999 !important;
@@ -60,8 +99,9 @@ p {
   }
 }
 .VPNav {
-  z-index: 9999 !important;
+  z-index:1000 !important;
   border-bottom: 1px solid var(--a-border-weak-color) !important;
+
   .VPNavBar {
     padding: 0;
     .container {
@@ -91,22 +131,32 @@ p {
       .content {
         padding-left: 0;
         padding-right: 5%;
+        .content-body{
+          background-color: transparent;
+          background-image: radial-gradient(transparent 1px, var(--a-bg-color) 1px);
+          background-size: 4px 4px;
+          backdrop-filter: saturate(50%) blur(4px);
+          -webkit-backdrop-filter: saturate(50%) blur(4px);
+        }
         .curtain::before {
           height: min-content;
         }
         .VPNavBarSearch {
-          position: fixed;
-          left: 300px;
-          padding-left: 0;
+         
+         margin-right: 20px;
           .DocSearch {
             justify-content: flex-start;
             border: 1px solid transparent;
             border-radius: 8px;
             padding: 0 10px 0 12px;
-            width: 100%;
+            width: 200px;
             height: 40px;
-            background-color: var(--vp-c-bg-alt);
+           
+            background-color: var(--a-bg-hover-color) !important;
             transition: border-color 0.2s;
+            .DocSearch-Button-Placeholder{
+              color: var(--a-text-color);
+            }
           }
           .DocSearch:hover {
             border-color: var(--a-primary-color);
@@ -175,6 +225,10 @@ p {
   }
 }
 
+.VPSidebar:hover::-webkit-scrollbar-thumb {
+  background-color: var(--a-border-color);
+}
+
 .VPContent {
   .VPDoc {
     padding-left: none !important;
@@ -183,6 +237,13 @@ p {
       .content {
         .content-container {
           max-width: 100%;
+          .VPDocFooter{
+            border: none;
+            margin-top: 0 !important;
+            .prev-next{
+              border-top: none;
+            }
+          }
         }
       }
     }
@@ -312,3 +373,6 @@ details > summary:first-of-type {
   border-top: none;
   padding-top: 0;
 }
+
+
+

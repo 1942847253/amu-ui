@@ -99,7 +99,6 @@ const showLoading = () => {
 </details>
 
 ## Button API
-
 | 属性名   | 说明               | 类型    | 默认值 |
 | -------- | ------------------ | ------- | ------ |
 | size     | 尺寸               | enum    | —      |
@@ -108,7 +107,29 @@ const showLoading = () => {
 | disabled | 按钮是否为禁用状态 | boolean | false  |
 
 <style>
-  table td {
-      width:200px
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border:1px solid var(--a-border-weak-color);
+  border-top:none;
+  border-radius:5px;
+  font-family: Arial, sans-serif;
+  thead,tbody{
+    display: flex;
+    flex-direction: column;
+    tr{
+      width: 100%;
+      display: flex;
+      th,td{
+        border: none !important;
+        flex: 1;
+        padding: 15px !important;
+      }
+    }
+    tr:nth-child(2n){
+      background-color: transparent !important;
+    }
   }
+ 
+}
 </style>
