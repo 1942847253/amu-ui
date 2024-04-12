@@ -1,5 +1,5 @@
 <template>
-  <div class="icon-content">
+  <div class="icon-content vp-raw">
     <ul class="icon-list">
       <li v-for="icon in iconList">
         <a-icon @click="copyIcon(icon)" :name="icon"></a-icon>
@@ -172,7 +172,7 @@ const copyIcon = (icon: string) => {
 
 <style lang="less" scoped>
 .icon-list {
-  width: 100% !important;
+  width: 90% !important;
   overflow: hidden;
   display: flex;
   flex-wrap: wrap;
@@ -186,7 +186,7 @@ const copyIcon = (icon: string) => {
     text-align: center;
     list-style: none !important;
     cursor: default;
-    border: 1px solid var(--a-border-color);
+    border: 1px solid var(--a-border-weak-color);
     border-bottom: none;
     .iconfont {
       cursor: pointer;

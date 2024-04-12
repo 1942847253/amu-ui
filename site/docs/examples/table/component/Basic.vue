@@ -1,5 +1,5 @@
 <template>
-    <a-table  :tableData="tableData.tBody" :tableColumn="tableData.tHead">
+    <a-table   class="vp-raw"  :tableData="tableData.tBody" :tableColumn="tableData.tHead">
     </a-table>
 </template>
 
@@ -80,3 +80,4 @@ const tableData = ref({
     ],
 }) as any;
 </script>
+

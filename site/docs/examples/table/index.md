@@ -1,8 +1,7 @@
 <script setup>
 import Basic from './component/Basic.vue'
-import Border from './component/border.vue'
+import Border from './component/Border.vue'
 import SelfDefined from './component/SelfDefined.vue'
-
 </script>
 
 # Table 表格
@@ -291,3 +290,7 @@ const tableData = ref({
 ```
 
 </details>
+
+<style>
+
+</style>

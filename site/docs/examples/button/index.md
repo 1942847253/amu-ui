@@ -106,30 +106,3 @@ const showLoading = () => {
 | loading  | 是否为加载中状态   | boolean | false  |
 | disabled | 按钮是否为禁用状态 | boolean | false  |
 
-<style>
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border:1px solid var(--a-border-weak-color);
-  border-top:none;
-  border-radius:5px;
-  font-family: Arial, sans-serif;
-  thead,tbody{
-    display: flex;
-    flex-direction: column;
-    tr{
-      width: 100%;
-      display: flex;
-      th,td{
-        border: none !important;
-        flex: 1;
-        padding: 15px !important;
-      }
-    }
-    tr:nth-child(2n){
-      background-color: transparent !important;
-    }
-  }
- 
-}
-</style>

@@ -13,9 +13,10 @@
   "license": "ISC",
   "devDependencies": {
     "flexsearch": "^0.7.43",
-    "vitepress": "1.0.0-alpha.47",
+    "postcss": "^8.4.38",
+    "vitepress": "1.1.0",
     "vitepress-plugin-search": "1.0.4-alpha.22",
-    "vue": "^3.2.36"
+    "vue": "^3.4.21"
   },
   "dependencies": {
     "amu-ui": "workspace:^1.0.0"

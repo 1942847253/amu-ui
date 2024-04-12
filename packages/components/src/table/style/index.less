@@ -2,11 +2,13 @@
   table {
     position: relative;
     border-collapse: collapse;
+    border:1px solid var(--a-border-weak-color);
     tr {
-      color: #606266;
+      color: var(--a-text-color);
       height: 44px;
       border: none;
-      border-bottom: 1px solid #ebeef5c8;
+      transition: all 0.2s;
+      border-bottom: 1px solid var(--a-border-weak-color);
       td {
         position: relative;
         text-align: left;
@@ -18,31 +20,28 @@
     thead {
       th {
         position: relative;
-        color: #909399;
+        color: var(--a-text-color) !important;
         font-size: 14px;
         text-align: left;
+        font-weight: 500;
         padding: 0 8px;
-        background-color: #ffff;
+        transition: background-color 0.2s;
+        background-color: var(--a-bg-grey-color);
       }
     }
-    tbody {
-      tr{
-        transition: background 0.2s;
-      }
-      tr:hover {
-        background-color: #ececec4c;
-      }
-    }
+
   }
 
   .no-data {
     height: 60px;
     line-height: 60px;
-    color: #909399;
+    color: var( --a-text-color);
     font-size: 14px;
-    font-weight: 550;
+    font-weight: 500;
     text-align: center;
-    border-bottom: 1px solid #ebeef5;
+    transition: all 0.2s;
+    border-bottom: 1px solid var(--a-border-weak-color);
+    
     span{
       width: 100%;
     }
@@ -55,15 +54,4 @@
   border-top: none;
 }
 
-.t-head-falg {
-  th:not(:last-child)::before {
-    position: absolute;
-    top: 50%;
-    right: 5px;
-    width: 1.4px;
-    height: 1.6em;
-    background-color: #0000000f;
-    transform: translateY(-50%);
-    content: "";
-  }
-}
+

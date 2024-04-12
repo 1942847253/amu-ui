@@ -1,5 +1,5 @@
 <template>
-    <a-table border :tableData="tableData.tBody" :tableColumn="tableData.tHead">
+    <a-table  class="vp-raw"  border :tableData="tableData.tBody" :tableColumn="tableData.tHead">
     </a-table>
 </template>
 

@@ -1,9 +1,9 @@
 <template>
-    <div style="margin-bottom: 10px">
+    <div class="vp-raw"  style="margin-bottom: 10px">
         checkedList：<a-tag type="info" v-for="item in checkedList" :key="item">选项 {{ item }}
         </a-tag>
     </div>
-    <a-checkbox-group v-model="checkedList" :options="options"></a-checkbox-group>
+    <a-checkbox-group class="vp-raw" v-model="checkedList" :options="options"></a-checkbox-group>
 </template>
 
 <script lang="ts" setup>

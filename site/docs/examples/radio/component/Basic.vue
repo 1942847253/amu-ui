@@ -1,6 +1,9 @@
 <template>
-  <a-radio-group v-model="checked1" :options="options1"></a-radio-group>
-  <a-radio-group v-model="checked2" :options="options2"></a-radio-group>
+  <div class="vp-raw">
+    <a-radio-group class="vp-raw"  v-model="checked1" :options="options1"></a-radio-group>
+    <a-radio-group class="vp-raw" v-model="checked2" :options="options2"></a-radio-group>
+  </div>
+
 </template>
 
 <script lang="ts" setup>
@@ -34,8 +37,5 @@ const options2 = ref([
 </script>
 
 <style>
-input[type="radio"] + label[data-v-1324e8c6]::after {
-  top: 51%;
-  left: 7.5%;
-}
+
 </style>

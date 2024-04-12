@@ -19,5 +19,5 @@ export default defineConfig({
       "@components": path.resolve(__dirname, "../../packages/components/src"),
     },
   },
-  plugins: [vueJsx(),SearchPlugin(options)],
+  plugins: [vueJsx()],
 });
