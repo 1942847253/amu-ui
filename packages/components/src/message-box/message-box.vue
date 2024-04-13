@@ -12,10 +12,12 @@
             <ContentView :fied="props.field" />
           </div>
           <div class="a-message-footer">
-            <a-button type="primary" @click="confirmBtnClick">{{ confirmBtnText }}
-            </a-button>
-            <a-button v-if="showCancelBtn" @click="cancelBtnClick">{{ cancelBtnText }}
-            </a-button>
+            <ASpace>
+              <a-button v-if="showCancelBtn" @click="cancelBtnClick">{{ cancelBtnText }}
+              </a-button>
+              <a-button type="primary" @click="confirmBtnClick">{{ confirmBtnText }}
+              </a-button>
+            </ASpace>
           </div>
         </div>
       </div>
@@ -26,6 +28,7 @@
 <script lang="ts" setup>
 import { h, reactive, ref, toRefs } from "vue";
 import AButton from "../button";
+import { ASpace } from "..";
 import { AIcon } from "../icon";
 import { fields } from "./index";
 import "./style/index.less";
@@ -123,7 +126,7 @@ const openMaskFun = () => {
 };
 
 const closeMaskFun = () => {
-  document.body.style.removeProperty('overflow')                
+  document.body.style.removeProperty('overflow')
 };
 
 defineExpose({

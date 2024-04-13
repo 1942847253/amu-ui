@@ -1,5 +1,5 @@
 <template>
-  <a-input-number v-model="input" placeholder="Please input" />
+  <a-input-number class="vp-raw" v-model="input" placeholder="Please input" />
 </template>
 
 <script lang="ts" setup>
@@ -9,9 +9,9 @@ const input = ref(520)
 
 <style lang="less" scoped>
 :deep(.subtract-button){
-  height: 29.5px;
+  height: 30px;
 }
 :deep(.add-button){
-   height: 29.5px;
+   height: 30px;
 }
 </style>

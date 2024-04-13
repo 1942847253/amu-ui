@@ -2,7 +2,7 @@
   <div style="position: fixed;right: 0;">
     <a-switch v-model="isDark"></a-switch>
   </div>
-  <ATabs default-active-key="1" position="left">
+  <ATabs default-active-key="29" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <p>主要按钮</p>
       <div style="display: flex">
@@ -236,7 +236,7 @@
     </ATabsPanel>
     <ATabsPanel key="4" title="DatePicker 日期选择">
       <ADatePicker v-model="dateValue" />
-      <p/>
+      <p />
       <ADatePicker v-model="dateValue1" />
     </ATabsPanel>
     <ATabsPanel key="5" title="Input 输入框">
@@ -261,13 +261,15 @@
           </ASelect>
         </AFormItem>
         <AFormItem>
-          <AButton @click="onSubmit" type="primary">Submit</AButton>
-          <AButton @click="onReset">Reset</AButton>
+          <ASpace>
+            <AButton @click="onSubmit" type="primary">Submit</AButton>
+            <AButton @click="onReset">Reset</AButton>
+          </ASpace>
         </AFormItem>
       </AForm>
     </ATabsPanel>
     <ATabsPanel key="7" title="Menu 侧边栏">
-      <AMenu default-active="5-1-2"  style="">
+      <AMenu default-active="5-1-2" style="">
         <AMenuItem index="1">
           <template #icon>◎</template>
           <span>Dashboard</span>
@@ -405,8 +407,10 @@
           </AForm>
         </template>
         <template #footer>
-          <AButton @click="onReset">取消</AButton>
-          <AButton @click="onSubmit" type="primary">提交订单</AButton>
+          <ASpace>
+            <AButton @click="onReset">取消</AButton>
+            <AButton @click="onSubmit" type="primary">提交订单</AButton>
+          </ASpace>
         </template>
       </ADrawer>
     </ATabsPanel>
@@ -426,8 +430,8 @@
         <ATable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
           <template #table="{ tableColumn, tableData }">
             <a-tag type="success" v-if="tableColumn.key === 'age'">{{
-      tableData.age + " 岁"
-    }}</a-tag>
+              tableData.age + " 岁"
+              }}</a-tag>
           </template>
           <template #operation="{ item, index }">
             <a-button type="info" size="small">Edit</a-button>
@@ -475,8 +479,8 @@
       <ATable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
         <template #table="{ tableColumn, tableData }">
           <a-tag type="success" v-if="tableColumn.key === 'age'">{{
-      tableData.age + " 岁"
-    }}</a-tag>
+            tableData.age + " 岁"
+            }}</a-tag>
         </template>
         <template #operation="{ item, index }">
           <a-button type="info" size="small">Edit</a-button>
@@ -495,9 +499,9 @@
       </APagination>
       <a-tag v-tooltip="'显示在下部'">123</a-tag>
       <a-button v-tooltip.top="{
-      text: '显示在下方',
-      bgColor: 'orange',
-    }" type="primary">
+        text: '显示在下方',
+        bgColor: 'orange',
+      }" type="primary">
         <template #icon>
           <a-icon name="upload" />
         </template>
@@ -557,8 +561,8 @@
         <ATable width="500px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
           <template #table="{ tableColumn, tableData }">
             <a-tag type="success" v-if="tableColumn.key === 'age'">{{
-      tableData.age + " 岁"
-    }}</a-tag>
+              tableData.age + " 岁"
+              }}</a-tag>
           </template>
           <template #operation="{ item, index }">
             <a-button type="info" size="small">Edit</a-button>
@@ -605,11 +609,33 @@
           </AFormItem>
         </AForm>
         <template #footer>
-          <AButton @click="onReset">Reset</AButton>
-          <AButton @click="onSubmit" type="primary">Submit</AButton>
-
+          <ASpace>
+            <AButton @click="onReset">Reset</AButton>
+            <AButton @click="onSubmit" type="primary">Submit</AButton>
+          </ASpace>
         </template>
       </ADialog>
+    </ATabsPanel>
+    <ATabsPanel key="29" title="Space 间距">
+      <ASpace>
+        <AButton>Default</AButton>
+        <AButton type="primary">
+          <template #icon>
+            <a-icon name="bottom" />
+          </template>
+          下载附件
+        </AButton>
+        <AButton :type="buttonType">
+          <template #icon>
+            <AIcon name="upload" />
+          </template>
+          Upload
+        </AButton>
+        <AButton type="error">Error</AButton>
+        <AButton type="warning">Warning</AButton>
+        <AButton type="info">Info</AButton>
+        <AButton loading>Loading</AButton>
+      </ASpace>
     </ATabsPanel>
   </ATabs>
 </template>
@@ -634,7 +660,7 @@ watch(isDark, (val) => {
   const html = document.querySelector('html')
   if (val) {
     html.className = 'dark'
-  }else{
+  } else {
     html.className = 'light'
   }
 })
