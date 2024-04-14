@@ -619,22 +619,10 @@
     <ATabsPanel key="29" title="Space 间距">
       <ASpace>
         <AButton>Default</AButton>
-        <AButton type="primary">
-          <template #icon>
-            <a-icon name="bottom" />
-          </template>
-          下载附件
-        </AButton>
-        <AButton :type="buttonType">
-          <template #icon>
-            <AIcon name="upload" />
-          </template>
-          Upload
-        </AButton>
+        <AButton type="primary">下载附件</AButton>
         <AButton type="error">Error</AButton>
         <AButton type="warning">Warning</AButton>
         <AButton type="info">Info</AButton>
-        <AButton loading>Loading</AButton>
       </ASpace>
     </ATabsPanel>
   </ATabs>

@@ -49,6 +49,10 @@ export default defineComponent({
       type: String,
       default: ''
     },
+    full: {
+      type: Boolean,
+      default: false
+    }
   },
   setup(props, { slots }) {
     const colorState = reactive({
@@ -119,6 +123,7 @@ export default defineComponent({
         size
       } = props;
 
+      const buttonWidth = props.full ? '100%' : 'auto';
       const buttonColor = (dashed || ghost || text || type === 'default') ? colorState.color : 'var(--a-text-color-white)';
       const buttonBorderColor = disabled ? (type === 'default') ? 'var(--a-border-color)' : colorState.color : colorState.color;
       const buttonBgColor = (dashed || ghost) ? 'var(--a-bg-color)' : colorState.color;
@@ -137,6 +142,7 @@ export default defineComponent({
       const buttonCircleWidth = size === 'default' ? '34px' : size === 'small' ? '28px' : '40px'
       const buttonCircleHeight = size === 'default' ? '34px' : size === 'small' ? '28px' : '40px'
       return {
+        '--button-width': buttonWidth,
         '--button-color': buttonColor,
         '--button-border-color': buttonBorderColor,
         '--button-bg-color': buttonBgColor,

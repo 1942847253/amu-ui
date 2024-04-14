@@ -1,5 +1,5 @@
 :root {
-  --docsearch-modal-background:#fafafa;
+  --docsearch-modal-background: #fafafa;
   --vp-layout-max-width: 1700px;
   --vp-c-bg: var(--a-bg-color);
   --vp-c-brand: var(--a-primary-color);
@@ -53,9 +53,22 @@ body::-webkit-scrollbar-thumb {
   background-color: var(--a-border-color);
 }
 
-.VPContent.has-sidebar {
-  padding-right: 0 !important;
-  padding-left: 287.6px !important;
+// .VPContent {
+//   padding-right: 0 !important;
+//   padding-left: 287.6px !important;
+// }
+
+@media (min-width: 1960px) {
+  .VPContent.has-sidebar {
+    margin: var(--vp-layout-top-height, 0px) 0 0;
+    padding-left: 0 !important;
+  }
+}
+@media (min-width: 1440px) {
+  .VPContent.has-sidebar {
+    padding-right: 0 !important;
+    padding-left: 287.6px !important;
+  }
 }
 
 .VPHero {
@@ -121,13 +134,13 @@ body::-webkit-scrollbar-thumb {
 //     display: none;
 //   }
 // }
-.VPLocalSearchBox{
+.VPLocalSearchBox {
   z-index: 99999 !important;
-  .shell{
+  .shell {
     background-color: var(--docsearch-modal-background) !important;
     width: 600px !important;
     padding: 15px !important;
-    .search-bar{
+    .search-bar {
       height: 50px !important;
       min-height: 50px !important;
       border: 2px solid var(--a-primary-color) !important;
@@ -137,48 +150,46 @@ body::-webkit-scrollbar-thumb {
         border: 1px solid transparent !important;
         outline: medium;
         border-radius: 5px;
-        outline:none;
+        outline: none;
         outline-color: transparent !important;
         color: var(--a-text-color);
-       
       }
       input:focus {
         border: 1px solid transparent !important;
-        outline:none;
+        outline: none;
       }
     }
-   
-    ul{
-     
-      li{
+
+    ul {
+      li {
         border-radius: 5px;
         background-color: var(--a-bg-color);
         border: 1px solid var(--a-border-weak-color) !important;
-        .result{
-         height: 56px;
+        .result {
+          height: 56px;
           border: none;
-         .title mark, .excerpt mark{
-          background-color: transparent;
-          color: var(--a-primary-color);
+          .title mark,
+          .excerpt mark {
+            background-color: transparent;
+            color: var(--a-primary-color);
+          }
         }
-        }
-        .result.selected{
+        .result.selected {
           background-color: var(--a-primary-color);
           color: var(--a-text-color);
-          .titles, .result.selected .title-icon{
+          .titles,
+          .result.selected .title-icon {
             color: var(--a-text-color-white) !important;
           }
-          .title mark, .excerpt mark{
+          .title mark,
+          .excerpt mark {
             background-color: transparent;
             color: var(--a-text-color-white) !important;
           }
         }
-       
       }
     }
-    
   }
- 
 }
 .VPNav {
   z-index: 1000 !important;
@@ -224,8 +235,7 @@ body::-webkit-scrollbar-thumb {
           -webkit-backdrop-filter: saturate(50%) blur(4px);
           @media (min-width: 768px) {
             .VPNavBarSearch {
-              flex-grow:inherit;
-             ;
+              flex-grow: inherit;
             }
           }
         }
@@ -367,11 +377,6 @@ details {
   }
 }
 
-
-
-
-
-
 details > summary:first-of-type {
   font-size: 10px;
   padding: 8px 0;
@@ -379,31 +384,31 @@ details > summary:first-of-type {
   color: var(--a-primary-color);
 }
 
-
 table {
   width: 100%;
   border-collapse: collapse;
-  border:1px solid var(--a-border-weak-color);
-  border-top:none;
-  border-radius:5px;
+  border: 1px solid var(--a-border-weak-color);
+  border-top: none;
+  border-radius: 5px;
   font-family: Arial, sans-serif;
-  thead,tbody{
+  thead,
+  tbody {
     display: flex;
     flex-direction: column;
-    tr{
+    tr {
       width: 100%;
       display: flex;
-      th,td{
+      th,
+      td {
         border: none !important;
         flex: 1;
         padding: 15px !important;
       }
     }
-    tr:nth-child(2n){
+    tr:nth-child(2n) {
       background-color: transparent !important;
     }
   }
- 
 }
 .example {
   border: 1px solid var(--a-border-weak-color);
@@ -414,13 +419,12 @@ table {
     top: 50%;
   }
   table {
-    tr{
+    tr {
       width: 100%;
-      display:inline-table;    
+      display: inline-table;
     }
   }
 }
-
 
 #基础用法 {
   border: none;

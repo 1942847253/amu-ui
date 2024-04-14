@@ -1,5 +1,5 @@
 <template>
-  <div class="icon-content">
+  <div class="icon-content vp-raw">
     <ul class="icon-list">
       <li v-for="icon in iconList">
         <a-icon @click="copyIcon(icon)" :name="icon"></a-icon>
@@ -72,11 +72,12 @@ const copyIcon = (icon: string) => {
 
 <style lang="less" scoped>
 .icon-list {
-  width: 100% !important;
+  width: 90% !important;
   overflow: hidden;
   display: flex;
   flex-wrap: wrap;
   padding-inline-start: 0px;
+
   li {
     width: 138px;
     padding: 16px;
@@ -85,7 +86,7 @@ const copyIcon = (icon: string) => {
     text-align: center;
     list-style: none !important;
     cursor: default;
-    border: 1px solid var(--a-border-color);
+    border: 1px solid var(--a-border-weak-color);
     border-bottom: none;
     .iconfont {
       cursor: pointer;
@@ -97,10 +98,12 @@ const copyIcon = (icon: string) => {
       color: var(--a-text-color);
       transition: color 0.3s, width 0.3s,font-size 0.3s, width 0.3s !important;
     }
+
     .iconfont:hover {
-      font-size: 55px;
+      font-size: 50px;
       color: var(--a-primary-color);
     }
+
     .svg-icon {
       /* 通过设置 font-size 来改变图标大小 */
       width: 1em;
@@ -112,6 +115,7 @@ const copyIcon = (icon: string) => {
       normalize.css 中也包含这行 */
       overflow: hidden;
     }
+
     .code-name {
       line-height: 1.2;
       font-size: 10px;

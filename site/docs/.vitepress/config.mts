@@ -45,12 +45,16 @@ export default defineConfig({
           text: "Basic 基础组件",
           items: [
             {
-              text: "Button按钮",
+              text: "Button 按钮",
               link: "/examples/button/",
             },
             {
-              text: "Icon图标",
+              text: "Icon 图标",
               link: "/examples/icon/",
+            },
+            {
+              text: "Space 间距",
+              link: "/examples/space/",
             },
           ],
         },

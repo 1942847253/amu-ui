@@ -10,9 +10,9 @@ body {
   --a-primary-hover-color: #4098fc;
   --a-primary-active-color: #1060c9;
 
-  --a-error-color: #d03050; /* 错误色 */
-  --a-error-hover-color: #de576d;
-  --a-error-active-color: #ab1f3f;
+  --a-error-color: #f53f3f; /* 错误色 */
+  --a-error-hover-color: #f76560;
+  --a-error-active-color: #cb272d;
 
   --a-warning-color: #f0a020; /* 警告色 */
   --a-warning-hover-color: #fcb040;
