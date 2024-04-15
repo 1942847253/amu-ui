@@ -1,5 +1,5 @@
 <template>
-    <a-select v-model="value" isSearch :options="options" placeholder="请选择一个小可爱">
+    <a-select class="vp-raw" v-model="value" isSearch :options="options" placeholder="请选择一个小可爱">
     </a-select>
 </template>
 

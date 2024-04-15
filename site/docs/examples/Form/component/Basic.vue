@@ -4,34 +4,23 @@
       <AInput placeholder="请输入姓名" v-model="formState.name" />
     </AFormItem>
     <AFormItem label="年龄:">
-      <AInput
-        type="password"
-        show-password
-        placeholder="请输入年龄"
-        v-model="formState.age"
-      />
+      <AInput type="password" show-password placeholder="请输入年龄" v-model="formState.age" />
     </AFormItem>
     <AFormItem label="家庭住址:">
-      <AInput
-        clearable
-        placeholder="请输入家庭住址"
-        v-model="formState.address"
-      />
+      <AInput clearable placeholder="请输入家庭住址" v-model="formState.address" />
     </AFormItem>
     <AFormItem label="出生日期:">
       <ADatePicker v-model="formState.birthday" />
     </AFormItem>
     <AFormItem label="学校:">
-      <ASelect
-        :options="options.slice(0, 6)"
-        placeholder="请选择学校"
-        v-model="formState.school"
-      >
+      <ASelect :options="options.slice(0, 6)" placeholder="请选择学校" v-model="formState.school">
       </ASelect>
     </AFormItem>
     <AFormItem>
-      <AButton type="primary">Submit</AButton>
-      <AButton>Reset</AButton>
+      <ASpace>
+        <AButton>Reset</AButton>
+        <AButton type="primary">Submit</AButton>
+      </ASpace>
     </AFormItem>
   </AForm>
 </template>

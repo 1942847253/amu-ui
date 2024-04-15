@@ -8,10 +8,5 @@ const input = ref(520)
 </script>
 
 <style lang="less" scoped>
-:deep(.subtract-button){
-  height: 30px;
-}
-:deep(.add-button){
-   height: 30px;
-}
+
 </style>

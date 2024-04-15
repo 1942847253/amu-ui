@@ -84,7 +84,9 @@ export default defineComponent({
             return {
                 width: props.width ? props.width + 'px' : '100%',
                 height: props.height ? props.height + 'px' : '30px',
-                textAlign: props.textCenter ? 'center' : ''
+                textAlign: props.textCenter ? 'center' : '',
+                backgroundColor: props.disabled ? 'var(--a-bg-grey-color)' : '',
+                '--input-text-color': props.disabled ? 'var(--a-text-disable-color)' : 'var(--a-text-color)'
             } as CSSProperties
         })
 
@@ -286,7 +288,7 @@ export default defineComponent({
                 cursor: props.disabled ? 'no-drop' : '',
             }}>
                 <div class="a-input-wrapper" style={{
-                    backgroundColor: (props.disabled ? "#f5f7fa" : ''),
+                    backgroundColor: (props.disabled ? "var(--a-bg-grey-color)" : ''),
                     pointerEvents: (props.disabled ? 'none' : 'auto'),
                     "--border-focus-color": inputFocusBorder.value,
                     "--border-color": inputBorder.value,
@@ -309,7 +311,7 @@ export default defineComponent({
                     />
                 </div>
                 <div v-show={showInputSlot.value} class="a-input-slot" style={{
-                    backgroundColor: (props.disabled ? "#f5f7fa" : ''),
+                    backgroundColor: (props.disabled ? "var(--a-bg-grey-color)" : ''),
                 }}>
                     {initIconSlot()}
                 </div>

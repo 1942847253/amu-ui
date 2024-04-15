@@ -5,7 +5,7 @@ import DefaultTheme from "vitepress/theme";
 // import AmuUI from '../../../../packages/components'
 // import '../../../../y-ui/dist/assets/index.css';
 
-import AmuUI from '../../../../packages/components/index'
+import AmuUI from '../../../../packages/components'
 import '../../../../packages/components/assets/theme/index.css'
 import './style.less';
 // 主题样式

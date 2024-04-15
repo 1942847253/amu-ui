@@ -2,7 +2,7 @@
   <div style="position: fixed;right: 0;">
     <a-switch v-model="isDark"></a-switch>
   </div>
-  <ATabs default-active-key="29" position="left">
+  <ATabs default-active-key="20" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <p>主要按钮</p>
       <div style="display: flex">

@@ -4,32 +4,23 @@
       <AInput placeholder="请输入姓名" v-model="formState.name" />
     </AFormItem>
     <AFormItem label="年龄:" prop="age">
-      <AInput
-        placeholder="请输入年龄"
-        v-model="formState.age"
-      />
+      <AInput placeholder="请输入年龄" v-model="formState.age" />
     </AFormItem>
     <AFormItem label="家庭住址:" prop="address">
-      <AInput
-        clearable
-        placeholder="请输入家庭住址"
-        v-model="formState.address"
-      />
+      <AInput clearable placeholder="请输入家庭住址" v-model="formState.address" />
     </AFormItem>
     <AFormItem label="出生日期:" prop="birthday">
       <ADatePicker v-model="formState.birthday" />
     </AFormItem>
     <AFormItem label="学校:" prop="school">
-      <ASelect
-        :options="options.slice(0, 6)"
-        placeholder="请选择学校"
-        v-model="formState.school"
-      >
+      <ASelect :options="options.slice(0, 6)" placeholder="请选择学校" v-model="formState.school">
       </ASelect>
     </AFormItem>
     <AFormItem>
-      <AButton @click="onSubmit" type="primary">Submit</AButton>
-      <AButton @click="onReset">Reset</AButton>
+      <ASpace>
+        <AButton @click="onReset">Reset</AButton>
+        <AButton @click="onSubmit" type="primary">Submit</AButton>
+      </ASpace>
     </AFormItem>
   </AForm>
 </template>
@@ -98,7 +89,7 @@ const onSubmit = () => {
       console.log(err);
     });
 };
-const onReset = ()=>{
+const onReset = () => {
   formRef.value.resetFields()
 }
 const rules = {
@@ -119,6 +110,6 @@ const rules = {
     { min: 4, max: 15, message: "Length should be 5 to 15", trigger: "change" },
   ],
   birthday: [{ required: true, message: "请选择出生日期", trigger: "change" }],
-  school:[{ required: true, message: "请选择学校", trigger: "change" }],
+  school: [{ required: true, message: "请选择学校", trigger: "change" }],
 };
 </script>

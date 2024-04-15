@@ -6,14 +6,16 @@
       }}</a-tag>
     </template>
     <template #operation="{ item, index }">                                                   
+     <ASpace style="margin-top: -7px;">
       <a-button type="info" size="small">Edit</a-button>
       <a-button
-        type="danger"
+        type="error"
         size="small"
         :disabled="false"
         @click="deleteItem(item.id)"
         >Delete</a-button
       >
+     </ASpace>
     </template>
   </ATable>
 </template>

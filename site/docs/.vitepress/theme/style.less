@@ -419,9 +419,52 @@ table {
     top: 50%;
   }
   table {
+    display: block;
+    th{
+      width: 100vw;
+    }
+    td{
+      
+    }
     tr {
-      width: 100%;
-      display: inline-table;
+    
+    
+   
+   
+   
+    }
+  }
+  .subtract-button{
+    height: 29.5px;
+  }
+  .add-button{
+     height: 29.5px;
+  }
+}
+
+.a-popover{
+  table {
+    border: none;
+    border-top: none;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    thead,
+    tbody {
+      display: flex;
+      flex-direction: column;
+      tr {
+        width: 100%;
+        display: flex;
+        th,
+        td {
+          border: none !important;
+          flex: 1;
+          padding: 0 !important;
+        }
+      }
+      tr:nth-child(2n) {
+        background-color: transparent !important;
+      }
     }
   }
 }

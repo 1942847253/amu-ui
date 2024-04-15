@@ -1,26 +1,13 @@
 <template>
   <div class="rotation">
-    <div
-      class="inner"
-      :style="`height:${contentHeight + 'px'};`"
-      @mouseenter="showDirectorFn(true)"
-      @mouseleave="showDirectorFn(false)"
-    >
+    <div class="inner" :style="`height:${contentHeight + 'px'};width:${contentWidth + 'px'}`"
+      @mouseenter="showDirectorFn(true)" @mouseleave="showDirectorFn(false)">
       <div ref="slotContent">
         <slot></slot>
       </div>
-      <Dot
-        :hasDot="hasDot"
-        :currentIndex="currentIndex"
-        :dotLength="picLength"
-        :dotBgColor="dotBgColor"
-        :dotPositon="dotPositon"
-        @dotClick="dotClick"
-      />
-      <Director
-        :showDirector="hasDirector && showDirector"
-        @clickDirector="clickDirector"
-      />
+      <Dot :hasDot="hasDot" :currentIndex="currentIndex" :dotLength="picLength" :dotBgColor="dotBgColor"
+        :dotPositon="dotPositon" @dotClick="dotClick" />
+      <Director :showDirector="hasDirector && showDirector" @clickDirector="clickDirector" />
     </div>
   </div>
 </template>

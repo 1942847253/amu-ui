@@ -39,7 +39,7 @@ const picList = [
 <style lang="less" scoped>
 .img-item {
   height: 300px;
-  width: 648px;
+  width: 800px;
   display: flex;
   align-items: center;
   justify-content: center;
