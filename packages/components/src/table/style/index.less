@@ -1,57 +1,113 @@
+// .a-table {
+//   table {
+//     position: relative;
+//     border-collapse: collapse;
+//     border:1px solid var(--a-border-weak-color);
+//     tr {
+//       color: var(--a-text-color);
+//       height: 44px;
+//       border: none;
+//       transition: all 0.2s;
+//       border-bottom: 1px solid var(--a-border-weak-color);
+//       td {
+//         position: relative;
+//         text-align: left;
+//         font-size: 13px;
+//         cursor: pointer;
+//         padding: 10px 10px;
+//       }
+//     }
+//     thead {
+//       th {
+//         position: relative;
+//         color: var(--a-text-color) !important;
+//         font-size: 14px;
+//         text-align: left;
+//         font-weight: 500;
+//         padding: 0 8px;
+//         transition: background-color 0.2s;
+//         background-color: var(--a-bg-grey-color);
+//       }
+//     }
+
+//   }
+
+//   .no-data {
+//     height: 60px;
+//     line-height: 60px;
+//     color: var( --a-text-color);
+//     font-size: 14px;
+//     font-weight: 500;
+//     text-align: center;
+//     transition: all 0.2s;
+//     border-bottom: 1px solid var(--a-border-weak-color);
+
+//     span{
+//       width: 100%;
+//     }
+//   }
+// }
+// .td-ediit {
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   border-top: none;
+// }
+
 .a-table {
-  table {
-    position: relative;
-    border-collapse: collapse;
-    border:1px solid var(--a-border-weak-color);
-    tr {
-      color: var(--a-text-color);
-      height: 44px;
-      border: none;
-      transition: all 0.2s;
-      border-bottom: 1px solid var(--a-border-weak-color);
-      td {
-        position: relative;
-        text-align: left;
-        font-size: 13px;
-        cursor: pointer;
-        padding: 10px 10px;
-      }
-    }
-    thead {
-      th {
-        position: relative;
-        color: var(--a-text-color) !important;
-        font-size: 14px;
-        text-align: left;
-        font-weight: 500;
-        padding: 0 8px;
-        transition: background-color 0.2s;
-        background-color: var(--a-bg-grey-color);
-      }
-    }
+  .a-table-wrapper {
+    .a-scrollbar-container {
+      .a-table-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
 
-  }
+        .a-table-thead {
+          background-color: var(--a-bg-grey-color);
+          .a-table-tr {
+            box-sizing: border-box;
+            background-clip: padding-box;
+            transition: background-color 0.3s;
+            th {
+              padding: 12px;
+              position: relative;
+              text-align: start;
+              box-sizing: border-box;
+              background-color: #fafafc;
+              border-color: #efeff5;
+              border-bottom: 1px solid #efeff5;
+              color: #1f2225;
+              transition: border-color 0.3s, color 0.3s, background-color 0.3s;
+              font-weight: 500;
+              .a-table-th_title-wrapper {
+                display: flex;
+                align-items: center;
+                flex-wrap: nowrap;
+                max-width: 100%;
+                .a-table-th__title {
+                  flex: 1;
+                  min-width: 0;
+                }
+              }
+            }
+          }
+        }
 
-  .no-data {
-    height: 60px;
-    line-height: 60px;
-    color: var( --a-text-color);
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-    transition: all 0.2s;
-    border-bottom: 1px solid var(--a-border-weak-color);
-    
-    span{
-      width: 100%;
+        .a-table-tbody {
+          .a-table-tr {
+            td {
+              padding: 8px;
+              border-bottom: 1px solid #ddd;
+              text-align: left;
+              vertical-align: top;
+
+              &[data-col-key] {
+                /* Specific styling for cells with data-col-key attribute */
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
-.td-ediit {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-top: none;
-}
-
-

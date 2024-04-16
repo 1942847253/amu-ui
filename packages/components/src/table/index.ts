@@ -1,4 +1,4 @@
-import _Table from "./table.vue";
+import _Table from "./table";
 import type { App, Plugin } from "vue";
 type SFCWithInstall<T> = T & Plugin;
 const withInstall = <T>(comp: T) => {

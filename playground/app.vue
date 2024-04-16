@@ -476,7 +476,8 @@
       </ARotation>
     </ATabsPanel>
     <ATabsPanel key="20" title="Table 表格">
-      <ATable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+      <ATable :data="tableData.tBody" :columns="tableData.tHead"></ATable>
+      <!-- <ATable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
         <template #table="{ tableColumn, tableData }">
           <a-tag type="success" v-if="tableColumn.key === 'age'">{{
             tableData.age + " 岁"
@@ -486,7 +487,7 @@
           <a-button type="info" size="small">Edit</a-button>
           <a-button type="error" size="small" :disabled="false" @click="deleteItem(item.id)">Delete</a-button>
         </template>
-      </ATable>
+      </ATable> -->
     </ATabsPanel>
     <ATabsPanel key="21" title="Select 选择器">
       <ASelect isSearch v-model="value1" :options="options1.slice(0, 5)" @setItemValue="setItemValue"
@@ -919,31 +920,31 @@ const tableData = ref({
   tHead: [
     {
       key: "id",
-      text: "学号",
+      title: "学号",
     },
     {
       key: "name",
-      text: "姓名",
+      title: "姓名",
     },
     {
       key: "age",
-      text: "年龄",
+      title: "年龄",
     },
     {
       key: "chinese",
-      text: "语文",
+      title: "语文",
     },
     {
       key: "math",
-      text: "数学",
+      title: "数学",
     },
     {
       key: "english",
-      text: "英语",
+      title: "英语",
     },
     {
       key: "operation",
-      text: "操作",
+      title: "操作",
     },
   ],
   tBody: [
