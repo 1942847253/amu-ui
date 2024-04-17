@@ -61,22 +61,28 @@
         width: 100%;
         border-collapse: collapse;
         border-spacing: 0;
-
+        font-variant-numeric: tabular-nums;
+        width: 100%;
+        word-break: break-word;
+        border-collapse: separate;
+        border-spacing: 0;
         .a-table-thead {
           background-color: var(--a-bg-grey-color);
           .a-table-tr {
             box-sizing: border-box;
             background-clip: padding-box;
             transition: background-color 0.3s;
+            background-color: var(--a-bg-grey-color);
             th {
+              text-align: start;
+              font-size: 14px;
               padding: 12px;
               position: relative;
               text-align: start;
               box-sizing: border-box;
-              background-color: #fafafc;
-              border-color: #efeff5;
-              border-bottom: 1px solid #efeff5;
-              color: #1f2225;
+              border-color: var(--a-border-weak-color);
+              border-bottom: 1px solid var(--a-border-weak-color);
+              color: var(--a-text-color);
               transition: border-color 0.3s, color 0.3s, background-color 0.3s;
               font-weight: 500;
               .a-table-th_title-wrapper {
@@ -95,16 +101,23 @@
 
         .a-table-tbody {
           .a-table-tr {
+            transition: background-color 0.3s;
+            background-color: var(--a-bg-color);
             td {
-              padding: 8px;
-              border-bottom: 1px solid #ddd;
-              text-align: left;
-              vertical-align: top;
-
-              &[data-col-key] {
-                /* Specific styling for cells with data-col-key attribute */
-              }
+              text-align: start;
+              font-size: 14px;
+              padding: 12px;
+              position: relative;
+              text-align: start;
+              box-sizing: border-box;
+              border-color: var(--a-border-weak-color);
+              border-bottom: 1px solid var(--a-border-weak-color);
+              color: var(--a-text-color);
+              transition: border-color 0.3s, color 0.3s, background-color 0.3s;
             }
+          }
+          .a-table-tr:hover{
+            background-color: var(--a-bg-hover-color) !important;
           }
         }
       }

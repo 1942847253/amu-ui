@@ -1,5 +1,5 @@
 <template>
-  <div style="position: fixed;right: 0;">
+  <div style="position: fixed;right: 0;z-index: 9999;">
     <a-switch v-model="isDark"></a-switch>
   </div>
   <ATabs default-active-key="20" position="left">
@@ -476,7 +476,7 @@
       </ARotation>
     </ATabsPanel>
     <ATabsPanel key="20" title="Table 表格">
-      <ATable :data="tableData.tBody" :columns="tableData.tHead"></ATable>
+      <ATable  :data="tableData.tBody" :columns="tableData.tHead"></ATable>
       <!-- <ATable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
         <template #table="{ tableColumn, tableData }">
           <a-tag type="success" v-if="tableColumn.key === 'age'">{{
@@ -630,8 +630,8 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref, watch } from "vue";
-import { AMessage, AMessageBox } from '@amu-ui/components';
+import { h, onMounted, reactive, ref, watch } from "vue";
+import { AButton, AMessage, AMessageBox } from '@amu-ui/components';
 
 const dialogVisible = ref(false)
 const numberValue = ref();
@@ -878,6 +878,7 @@ const options1 = ref([
   {
     value: 3,
     text: "嘿毛",
+  
   },
   {
     value: 4,
@@ -921,10 +922,24 @@ const tableData = ref({
     {
       key: "id",
       title: "学号",
+
     },
     {
       key: "name",
       title: "姓名",
+
+      render(row){
+        return h(
+          AButton,
+          {
+            size:'small',
+            type:'success',
+          },
+          {
+            default:()=>row.name
+          }
+        )
+      }
     },
     {
       key: "age",
@@ -938,6 +953,7 @@ const tableData = ref({
       key: "math",
       title: "数学",
     },
+
     {
       key: "english",
       title: "英语",
@@ -945,6 +961,20 @@ const tableData = ref({
     {
       key: "operation",
       title: "操作",
+      width:100,
+      render(row){
+        return h(
+          AButton,
+          {
+            size:'small',
+            type:'info',
+            onClick:()=> play(row)
+          },
+          {
+            default:()=>'Play'
+          }
+        )
+      }
     },
   ],
   tBody: [
@@ -983,6 +1013,12 @@ const tableData = ref({
   ],
 }) as any;
 
+
+const play = (row)=>{
+  AMessage.message({
+    message:row
+  })
+}
 watch(
   () => activatCollapes.value,
   (val) => { }

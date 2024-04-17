@@ -1,9 +1,11 @@
-import { PropType, defineComponent, reactive, toRefs } from 'vue'
+import { PropType, VNode, computed, defineComponent, reactive, toRefs } from 'vue'
 import './style/index.less';
 
 export type ATableColumns = {
     title: string | number;
-    key: string | number
+    key: string | number;
+    width: string | number
+    render?: (row: any) => VNode
 }
 
 export default defineComponent({
@@ -25,14 +27,29 @@ export default defineComponent({
             columns: props.columns
         })
 
+        const isKeyCoincident = (key: string | number) => {
+            return !!(state.columns.find(c => c.key === key))
+        }
+
+
+        const operationTd = computed(() => {
+            let isOperationTd = false;
+            state.columns.forEach((item: any) => {
+                if (item.key === "operation") {
+                    isOperationTd = true;
+                }
+            });
+            return isOperationTd;
+        });
+
         const theadRender = () => (
             <thead class="a-table-thead">
                 <tr class="a-table-tr">
                     {
-                        state.columns.map((item, _) => (
-                            <th class="a-table-th" key={item.key}>
+                        state.columns.map(({ key, title, width }, _) => (
+                            <th class="a-table-th" key={key} style={{ width: width ? typeof width === 'number' ? width + 'px' : width : 'auto' }}>
                                 <div class="a-table-th_title-wrapper">
-                                    <div class="a-table-th__title">{item.title}</div>
+                                    <div class="a-table-th__title">{title}</div>
                                 </div>
                             </th>
                         ))
@@ -44,18 +61,15 @@ export default defineComponent({
         const tbodyRender = () => (
             <tbody class="a-table-tbody">
                 {
-                    state.data.map(((item: never) => (
+                    state.data.map(((item: any) => (
                         <tr class="a-table-tr">
                             {
-                                Object.keys(item).map((key => (
+                                state.columns.map(({ key, render }) => (
                                     <td data-col-key={key} class="a-table-td">
-                                        {item[key]}
+                                        {render ? render(item) : item[key]}
                                     </td>
-                                )))
+                                ))
                             }
-                            <td class="a-table-td_last">
-                                123
-                            </td>
                         </tr>
                     )))
                 }
