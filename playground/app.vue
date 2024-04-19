@@ -476,7 +476,7 @@
       </ARotation>
     </ATabsPanel>
     <ATabsPanel key="20" title="Table 表格">
-      <ATable  :data="tableData.tBody" :columns="tableData.tHead"></ATable>
+      <ATable max-height="530px" :data="tableData.tBody" :columns="tableData.tHead"></ATable>
       <!-- <ATable width="1000px" :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
         <template #table="{ tableColumn, tableData }">
           <a-tag type="success" v-if="tableColumn.key === 'age'">{{
@@ -978,6 +978,70 @@ const tableData = ref({
     },
   ],
   tBody: [
+    {
+      id: 1,
+      name: "Yjj",
+      age: 21,
+      chinese: 121,
+      math: 90,
+      english: 138,
+    },
+    {
+      id: 2,
+      name: "嘿毛",
+      age: 20,
+      chinese: 111,
+      math: 32,
+      english: 43,
+    },
+    {
+      id: 3,
+      name: "big龙",
+      age: 19,
+      chinese: 44,
+      math: 21,
+      english: 11,
+    },
+    {
+      id: 4,
+      name: "嫖瓜",
+      age: 21,
+      chinese: 80,
+      math: 40,
+      english: 45,
+    },
+    {
+      id: 1,
+      name: "Yjj",
+      age: 21,
+      chinese: 121,
+      math: 90,
+      english: 138,
+    },
+    {
+      id: 2,
+      name: "嘿毛",
+      age: 20,
+      chinese: 111,
+      math: 32,
+      english: 43,
+    },
+    {
+      id: 3,
+      name: "big龙",
+      age: 19,
+      chinese: 44,
+      math: 21,
+      english: 11,
+    },
+    {
+      id: 4,
+      name: "嫖瓜",
+      age: 21,
+      chinese: 80,
+      math: 40,
+      english: 45,
+    },
     {
       id: 1,
       name: "Yjj",

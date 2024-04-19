@@ -1,4 +1,4 @@
-import { PropType, VNode, computed, defineComponent, reactive, toRefs } from 'vue'
+import { PropType, VNode, VNodeRef, computed, defineComponent, onMounted, reactive, ref, toRefs } from 'vue'
 import './style/index.less';
 
 export type ATableColumns = {
@@ -20,42 +20,45 @@ export default defineComponent({
             type: Array as any,
             default: () => [],
         },
+        maxHeight: {
+            type: String,
+            default: () => '100%'
+        }
     },
     setup(props, { emit }) {
+        const tableContainerRef = ref<HTMLDivElement | null>(null)
         const state = reactive({
             data: props.data,
-            columns: props.columns
+            columns: props.columns,
+            gutterWidth: 15
         })
 
-        const isKeyCoincident = (key: string | number) => {
-            return !!(state.columns.find(c => c.key === key))
+        onMounted(() => {
+            getScrollbarWidth(tableContainerRef.value!)
+            window.addEventListener('resize', () => getScrollbarWidth(tableContainerRef.value!))
+        })
+
+        function getScrollbarWidth(div: HTMLDivElement) {
+            state.gutterWidth = div.offsetWidth - div.clientWidth
         }
-
-
-        const operationTd = computed(() => {
-            let isOperationTd = false;
-            state.columns.forEach((item: any) => {
-                if (item.key === "operation") {
-                    isOperationTd = true;
-                }
-            });
-            return isOperationTd;
-        });
 
         const theadRender = () => (
             <thead class="a-table-thead">
                 <tr class="a-table-tr">
                     {
                         state.columns.map(({ key, title, width }, _) => (
-                            <th class="a-table-th" key={key} style={{ width: width ? typeof width === 'number' ? width + 'px' : width : 'auto' }}>
+                            <th class="a-table-th" key={key} style={{ width: width ? width + 'px' : 'auto' }}>
                                 <div class="a-table-th_title-wrapper">
                                     <div class="a-table-th__title">{title}</div>
                                 </div>
                             </th>
+
                         ))
+
                     }
+                    <th class="gutter" style={{ width: state.gutterWidth + 'px' }}></th>
                 </tr>
-            </thead>
+            </thead >
         )
 
         const tbodyRender = () => (
@@ -64,8 +67,8 @@ export default defineComponent({
                     state.data.map(((item: any) => (
                         <tr class="a-table-tr">
                             {
-                                state.columns.map(({ key, render }) => (
-                                    <td data-col-key={key} class="a-table-td">
+                                state.columns.map(({ key, render,width }) => (
+                                    <td data-col-key={key} class="a-table-td" style={{ width: width ? width + 'px' : 'auto' }}>
                                         {render ? render(item) : item[key]}
                                     </td>
                                 ))
@@ -75,15 +78,18 @@ export default defineComponent({
                 }
             </tbody>
         )
+
         return () => (
             <div class="a-table">
-                <div class="a-table-wrapper">
-                    <div class="a-scrollbar-container">
-                        <table class="a-table-table">
-                            {theadRender()}
-                            {tbodyRender()}
-                        </table>
-                    </div>
+                <table class="table">
+                    {
+                        theadRender()
+                    }
+                </table>
+                <div class="a-table--body-wrapper" style={{ maxHeight: props.maxHeight }} ref={tableContainerRef}>
+                    <table class="table" >
+                        {tbodyRender()}
+                    </table>
                 </div>
             </div>
         )
