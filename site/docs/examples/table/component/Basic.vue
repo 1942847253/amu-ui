@@ -1,5 +1,5 @@
 <template>
-    <a-table class="vp-raw" :tableData="tableData.tBody" :tableColumn="tableData.tHead">
+    <a-table :bordered="false" class="vp-raw" :data="tableData.tBody" :columns="tableData.tHead">
     </a-table>
 </template>
 
@@ -10,39 +10,28 @@ const tableData = ref({
     tHead: [
         {
             key: "id",
-            text: "学号",
-
+            title: "学号",
         },
         {
             key: "name",
-            text: "姓名",
+            title: "姓名",
         },
         {
             key: "age",
-            text: "年龄",
-
+            title: "年龄"
         },
         {
             key: "chinese",
-            text: "语文",
-            editable: false,
-
+            title: "语文",
         },
         {
             key: "math",
-            text: "数学",
-            editable: false,
+            title: "数学",
         },
         {
             key: "english",
-            text: "英语",
-            editable: false,
-
+            title: "英语",
         },
-        // {
-        //     key: "operation",
-        //     text: "操作",
-        // },
     ],
     tBody: [
         {

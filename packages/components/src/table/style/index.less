@@ -2,6 +2,7 @@
 
 .a-table {
   position: relative;
+  border-radius: 3px;
   .table {
     table-layout: fixed;
     margin-bottom: 0;
@@ -62,20 +63,44 @@
           position: relative;
           text-align: start;
           box-sizing: border-box;
-          border-color: var(--a-border-weak-color);
-          border-bottom: 1px solid var(--a-border-weak-color);
+          border-bottom: 1px solid var(--a-border-weak-color) !important;
           color: var(--a-text-color);
           transition: border-color 0.3s, color 0.3s, background-color 0.3s;
         }
+     
+      }
+      .a-table-tr:last-child{
+       td{
+        border-bottom: var(--a-table-tr-bottom) !important;
+       }
       }
       .a-table-tr:hover{
         background-color: var(--a-bg-hover-color) !important;
       }
+    }
+    .single-line{
+      border-right: 1px solid var(--a-border-weak-color) !important;
+    }
+    .single-line:last-child{
+      border-right: none !important;
     }
   }
 }
 
 .a-table--body-wrapper {
   overflow: auto;
+}
 
+.a-table-empty_wrapper{
+  width: 100%;
+  padding: 48px 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .text{
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--a-text-disable-color);
+  }
 }

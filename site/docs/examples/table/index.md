@@ -1,5 +1,6 @@
 <script setup>
 import Basic from './component/Basic.vue'
+import Empty from './component/Empty.vue'
 import Border from './component/Border.vue'
 import SelfDefined from './component/SelfDefined.vue'
 </script>
@@ -21,81 +22,124 @@ import SelfDefined from './component/SelfDefined.vue'
 
 ```vue
 <template>
-  <a-table :tableData="tableData.tBody" :tableColumn="tableData.tHead">
-  </a-table>
+    <a-table class="vp-raw" :data="tableData.tBody" :columns="tableData.tHead">
+    </a-table>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 
 const tableData = ref({
-  tHead: [
-    {
-      key: "id",
-      text: "学号",
-    },
-    {
-      key: "name",
-      text: "姓名",
-    },
-    {
-      key: "age",
-      text: "年龄",
-    },
-    {
-      key: "chinese",
-      text: "语文",
-      editable: false,
-    },
-    {
-      key: "math",
-      text: "数学",
-      editable: false,
-    },
-    {
-      key: "english",
-      text: "英语",
-      editable: false,
-    },
-    // {
-    //     key: "operation",
-    //     text: "操作",
-    // },
-  ],
-  tBody: [
-    {
-      id: 1,
-      name: "Yjj",
-      age: 21,
-      chinese: 121,
-      math: 90,
-      english: 138,
-    },
-    {
-      id: 2,
-      name: "嘿毛",
-      age: 20,
-      chinese: 111,
-      math: 32,
-      english: 43,
-    },
-    {
-      id: 3,
-      name: "big龙",
-      age: 19,
-      chinese: 44,
-      math: 21,
-      english: 11,
-    },
-    {
-      id: 4,
-      name: "嫖瓜",
-      age: 21,
-      chinese: 80,
-      math: 40,
-      english: 45,
-    },
-  ],
+    tHead: [
+        {
+            key: "id",
+            title: "学号",
+        },
+        {
+            key: "name",
+            title: "姓名",
+        },
+        {
+            key: "age",
+            title: "年龄"
+        },
+        {
+            key: "chinese",
+            title: "语文",
+        },
+        {
+            key: "math",
+            title: "数学",
+        },
+        {
+            key: "english",
+            title: "英语",
+        },
+    ],
+    tBody: [
+        {
+            id: 1,
+            name: "Yjj",
+            age: 21,
+            chinese: 121,
+            math: 90,
+            english: 138,
+        },
+        {
+            id: 2,
+            name: "嘿毛",
+            age: 20,
+            chinese: 111,
+            math: 32,
+            english: 43,
+        },
+        {
+            id: 3,
+            name: "big龙",
+            age: 19,
+            chinese: 44,
+            math: 21,
+            english: 11,
+        },
+        {
+            id: 4,
+            name: "嫖瓜",
+            age: 21,
+            chinese: 80,
+            math: 40,
+            english: 45,
+        },
+    ],
+}) as any;
+</script>
+```
+
+</details>
+
+## 空表格
+<div class="example">
+ <Empty/>
+</div>
+
+<details>
+<summary>展开示例代码</summary>
+
+```vue
+<template>
+    <a-table class="vp-raw" :data="[]" :columns="tableData.tHead">
+    </a-table>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+
+const tableData = ref({
+    tHead: [
+        {
+            key: "id",
+            title: "学号",
+        },
+        {
+            key: "name",
+            title: "姓名",
+        },
+        {
+            key: "age",
+            title: "年龄"
+        },
+        {
+            key: "chinese",
+            title: "语文",
+        },
+        {
+            key: "math",
+            title: "数学",
+        },
+        {
+            key: "english",
+            title: "英语",
+        },
+    ]
 }) as any;
 </script>
 ```
@@ -104,7 +148,7 @@ const tableData = ref({
 
 ## 带边框的表格
 
-默认情况下，Table 组件是不具有竖直方向的边框的， 如果需要，可以使用 `border` 属性，把该属性设置为 true 即可启用。
+默认情况下，Table 组件是不具有竖直方向的边框的， 如果需要，可以使用 `single-line` 属性，把该属性设置为 `false` 即可启用。
 
 <div class="example">
  <Border/>
@@ -115,83 +159,77 @@ const tableData = ref({
 
 ```vue
 <template>
-  <a-table border :tableData="tableData.tBody" :tableColumn="tableData.tHead">
-  </a-table>
+    <a-table  class="vp-raw" :single-line="false"  :data="tableData.tBody" :columns="tableData.tHead">
+    </a-table>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 
 const tableData = ref({
-  tHead: [
-    {
-      key: "id",
-      text: "学号",
-    },
-    {
-      key: "name",
-      text: "姓名",
-    },
-    {
-      key: "age",
-      text: "年龄",
-    },
-    {
-      key: "chinese",
-      text: "语文",
-      editable: false,
-    },
-    {
-      key: "math",
-      text: "数学",
-      editable: false,
-    },
-    {
-      key: "english",
-      text: "英语",
-      editable: false,
-    },
-    // {
-    //     key: "operation",
-    //     text: "操作",
-    // },
-  ],
-  tBody: [
-    {
-      id: 1,
-      name: "Yjj",
-      age: 21,
-      chinese: 121,
-      math: 90,
-      english: 138,
-    },
-    {
-      id: 2,
-      name: "嘿毛",
-      age: 20,
-      chinese: 111,
-      math: 32,
-      english: 43,
-    },
-    {
-      id: 3,
-      name: "big龙",
-      age: 19,
-      chinese: 44,
-      math: 21,
-      english: 11,
-    },
-    {
-      id: 4,
-      name: "嫖瓜",
-      age: 21,
-      chinese: 80,
-      math: 40,
-      english: 45,
-    },
-  ],
+    tHead: [
+        {
+            key: "id",
+            title: "学号",
+        },
+        {
+            key: "name",
+            title: "姓名",
+        },
+        {
+            key: "age",
+            title: "年龄"
+        },
+        {
+            key: "chinese",
+            title: "语文",
+        },
+        {
+            key: "math",
+            title: "数学",
+        },
+        {
+            key: "english",
+            title: "英语",
+        },
+    ],
+    tBody: [
+        {
+            id: 1,
+            name: "Yjj",
+            age: 21,
+            chinese: 121,
+            math: 90,
+            english: 138,
+        },
+        {
+            id: 2,
+            name: "嘿毛",
+            age: 20,
+            chinese: 111,
+            math: 32,
+            english: 43,
+        },
+        {
+            id: 3,
+            name: "big龙",
+            age: 19,
+            chinese: 44,
+            math: 21,
+            english: 11,
+        },
+        {
+            id: 4,
+            name: "嫖瓜",
+            age: 21,
+            chinese: 80,
+            math: 40,
+            english: 45,
+        },
+    ],
 }) as any;
 </script>
+
 ```
 
 </details>
@@ -210,46 +248,74 @@ const tableData = ref({
 
 ```vue
 <template>
-  <a-table border :tableData="tableData.tBody" :tableColumn="tableData.tHead">
-  </a-table>
+  <ATable class="vp-raw" :data="tableData.tBody" :columns="tableData.tHead">
+  </ATable>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { AMessageBox } from "amu-ui";
+import { ref, h } from "vue";
+import { AButton, AMessage } from "amu-ui";
 
 const tableData = ref({
   tHead: [
     {
       key: "id",
-      text: "学号",
+      title: "学号",
+
     },
     {
       key: "name",
-      text: "姓名",
+      title: "姓名",
+
+      render(row) {
+        return h(
+          AButton,
+          {
+            size: 'small',
+            type: 'success',
+          },
+          {
+            default: () => row.name
+          }
+        )
+      }
     },
     {
       key: "age",
-      text: "年龄",
+      title: "年龄",
     },
     {
       key: "chinese",
-      text: "语文",
-      editable: false,
+      title: "语文",
     },
     {
       key: "math",
-      text: "数学",
-      editable: false,
+      title: "数学",
     },
+
     {
       key: "english",
-      text: "英语",
-      editable: false,
+      title: "英语",
     },
-    // {
-    //     key: "operation",
-    //     text: "操作",
-    // },
+    {
+      key: "operation",
+      title: "操作",
+      width: 100,
+      render(row) {
+        return h(
+          AButton,
+          {
+            size: 'small',
+            type: 'info',
+            onClick: () => play(row)
+          },
+          {
+            default: () => 'Play'
+          }
+        )
+      }
+    },
   ],
   tBody: [
     {
@@ -283,14 +349,17 @@ const tableData = ref({
       chinese: 80,
       math: 40,
       english: 45,
-    },
-  ],
+    }
+  ]
 }) as any;
+
+const play = (row) => {
+  AMessage.message({
+    message: row
+  })
+}
 </script>
+
 ```
 
 </details>
-
-<style>
-
-</style>

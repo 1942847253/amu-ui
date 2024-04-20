@@ -1,58 +1,71 @@
 <template>
-  <ATable :tableData="tableData.tBody" :tableColumn="tableData.tHead">
-    <template #table="{ tableColumn, tableData }">
-      <a-tag type="success" v-if="tableColumn.key === 'name'">{{
-        tableData.name
-      }}</a-tag>
-    </template>
-    <template #operation="{ item, index }">                                                   
-     <ASpace style="margin-top: -7px;">
-      <a-button type="info" size="small">Edit</a-button>
-      <a-button
-        type="error"
-        size="small"
-        :disabled="false"
-        @click="deleteItem(item.id)"
-        >Delete</a-button
-      >
-     </ASpace>
-    </template>
+  <ATable class="vp-raw" :data="tableData.tBody" :columns="tableData.tHead">
   </ATable>
 </template>
 
 <script lang="ts" setup>
 import { AMessageBox } from "amu-ui";
-import { ref } from "vue";
+import { ref, h } from "vue";
+import { AButton, AMessage } from "amu-ui";
 
 const tableData = ref({
   tHead: [
     {
       key: "id",
-      text: "学号",
+      title: "学号",
+
     },
     {
       key: "name",
-      text: "姓名",
+      title: "姓名",
+
+      render(row) {
+        return h(
+          AButton,
+          {
+            size: 'small',
+            type: 'success',
+          },
+          {
+            default: () => row.name
+          }
+        )
+      }
     },
     {
       key: "age",
-      text: "年龄",
+      title: "年龄",
     },
     {
       key: "chinese",
-      text: "语文",
+      title: "语文",
     },
     {
       key: "math",
-      text: "数学",
+      title: "数学",
     },
+
     {
       key: "english",
-      text: "英语",
+      title: "英语",
     },
     {
       key: "operation",
-      text: "操作",
+      title: "操作",
+      width: 100,
+      render(row) {
+        return h(
+          AButton,
+          {
+            size: 'small',
+            type: 'info',
+            onClick: () => play(row)
+          },
+          {
+            default: () => 'Play'
+          }
+        )
+      }
     },
   ],
   tBody: [
@@ -87,21 +100,13 @@ const tableData = ref({
       chinese: 80,
       math: 40,
       english: 45,
-    },
-  ],
+    }
+  ]
 }) as any;
 
-const deleteItem = (id: any) => {
-  AMessageBox({
-    showCancelBtn: true,
-    title: "提示",
-    confirmBtnText: "确认",
-    cancelBtnText: "取消",
-    content: "确认删除当前学生吗？",
-  }).then(() => {
-    tableData.value.tBody = tableData.value.tBody.filter(
-      (item: any) => item.id !== id
-    );
-  });
-};
+const play = (row) => {
+  AMessage.message({
+    message: row
+  })
+}
 </script>

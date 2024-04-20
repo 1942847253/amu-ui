@@ -384,7 +384,7 @@ details > summary:first-of-type {
   color: var(--a-primary-color);
 }
 
-table {
+.vp-doc table:not(:where(.vp-raw, .vp-raw *)) {
   width: 100%;
   border-collapse: collapse;
   border: 1px solid var(--a-border-weak-color);
@@ -410,6 +410,9 @@ table {
     }
   }
 }
+// table {
+
+// }
 .example {
   border: 1px solid var(--a-border-weak-color);
   border-radius: 5px;
@@ -418,31 +421,15 @@ table {
     left: 4.5px;
     top: 50%;
   }
-  table {
-    display: block;
-    th{
-      width: 100vw;
-    }
-    td{
-      
-    }
-    tr {
-    
-    
-   
-   
-   
-    }
-  }
-  .subtract-button{
+  .subtract-button {
     height: 29.5px;
   }
-  .add-button{
-     height: 29.5px;
+  .add-button {
+    height: 29.5px;
   }
 }
 
-.a-popover{
+.a-popover {
   table {
     border: none;
     border-top: none;
