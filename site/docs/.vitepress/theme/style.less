@@ -291,16 +291,15 @@ body::-webkit-scrollbar-thumb {
       .VPSidebarItem {
         padding-bottom: 0;
       }
-      .title {
-        margin-bottom: 10px;
-        title .title-text {
-          font-weight: 700;
-          font-size: 1.1rem;
+      .item{
+        .text{
+          font-size: 16px;
         }
       }
       .items {
         .text {
           color: var(--a-text-color);
+          font-size: 14px;
         }
         margin-top: 10px;
         .VPLink {
@@ -429,32 +428,7 @@ details > summary:first-of-type {
   }
 }
 
-.a-popover {
-  table {
-    border: none;
-    border-top: none;
-    border-radius: 5px;
-    font-family: Arial, sans-serif;
-    thead,
-    tbody {
-      display: flex;
-      flex-direction: column;
-      tr {
-        width: 100%;
-        display: flex;
-        th,
-        td {
-          border: none !important;
-          flex: 1;
-          padding: 0 !important;
-        }
-      }
-      tr:nth-child(2n) {
-        background-color: transparent !important;
-      }
-    }
-  }
-}
+
 
 #基础用法 {
   border: none;

@@ -2,7 +2,7 @@
   <div style="position: fixed;right: 0;z-index: 9999;">
     <a-switch v-model="isDark"></a-switch>
   </div>
-  <ATabs default-active-key="20" position="left">
+  <ATabs default-active-key="30" position="left">
     <ATabsPanel key="1" title="Button 按钮">
       <p>主要按钮</p>
       <div style="display: flex">
@@ -431,7 +431,7 @@
           <template #table="{ tableColumn, tableData }">
             <a-tag type="success" v-if="tableColumn.key === 'age'">{{
               tableData.age + " 岁"
-              }}</a-tag>
+            }}</a-tag>
           </template>
           <template #operation="{ item, index }">
             <a-button type="info" size="small">Edit</a-button>
@@ -563,7 +563,7 @@
           <template #table="{ tableColumn, tableData }">
             <a-tag type="success" v-if="tableColumn.key === 'age'">{{
               tableData.age + " 岁"
-              }}</a-tag>
+            }}</a-tag>
           </template>
           <template #operation="{ item, index }">
             <a-button type="info" size="small">Edit</a-button>
@@ -625,6 +625,17 @@
         <AButton type="warning">Warning</AButton>
         <AButton type="info">Info</AButton>
       </ASpace>
+    </ATabsPanel>
+    <ATabsPanel key="30" title="Scrollbar 滚动条">
+      <AScrollbar x-scrollable  style="width:200px">
+        <div style="white-space: nowrap; padding: 12px">
+      我们在田野上面找猪 想象中已找到了三只 小鸟在白云上面追逐 它们在树底下跳舞
+      啦啦啦啦啦啦啦啦咧 啦啦啦啦咧 我们在想象中度过了许多年
+      想象中我们是如此的疯狂 我们在城市里面找猪 想象中已找到了几百万只
+      小鸟在公园里面唱歌 它们独自在想象里跳舞 啦啦啦啦啦啦啦啦咧 啦啦啦啦咧
+      我们在想象中度过了许多年 许多年之后我们又开始想象 啦啦啦啦啦啦啦啦咧
+    </div>
+      </AScrollbar>
     </ATabsPanel>
   </ATabs>
 </template>
@@ -878,7 +889,7 @@ const options1 = ref([
   {
     value: 3,
     text: "嘿毛",
-  
+
   },
   {
     value: 4,
@@ -928,15 +939,15 @@ const tableData = ref({
       key: "name",
       title: "姓名",
 
-      render(row){
+      render(row) {
         return h(
           AButton,
           {
-            size:'small',
-            type:'success',
+            size: 'small',
+            type: 'success',
           },
           {
-            default:()=>row.name
+            default: () => row.name
           }
         )
       }
@@ -961,17 +972,17 @@ const tableData = ref({
     {
       key: "operation",
       title: "操作",
-      width:100,
-      render(row){
+      width: 100,
+      render(row) {
         return h(
           AButton,
           {
-            size:'small',
-            type:'info',
-            onClick:()=> play(row)
+            size: 'small',
+            type: 'info',
+            onClick: () => play(row)
           },
           {
-            default:()=>'Play'
+            default: () => 'Play'
           }
         )
       }
@@ -1078,9 +1089,9 @@ const tableData = ref({
 }) as any;
 
 
-const play = (row)=>{
+const play = (row) => {
   AMessage.message({
-    message:row
+    message: row
   })
 }
 watch(

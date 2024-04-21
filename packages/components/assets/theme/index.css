@@ -35,6 +35,10 @@ body {
   --a-bg-color-overlay: #ffffff; /* 背景颜色 */
   --a-border-color: #dcdfe6; /* 边框颜色 */
   --a-border-weak-color: #efeff5; /* 边框颜色(淡化) */
+
+  --a-scrollbar-color: #00000040;
+  --a-scrollbar-hover-color:#00000066;
+
   /* 按钮尺寸 */
   --a-btn-height-s: 28px;
   --a-btn-height-m: 34px;
@@ -63,4 +67,7 @@ body {
   --a-border-color: #4c4d4f; /* 边框颜色 */
   --a-border-weak-color: #ffffff17; /* 边框颜色(淡化) */
   --a-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.72); /* 元素阴影效果 */
+
+  --a-scrollbar-color: #ffffff33;
+  --a-scrollbar-hover-color:#ffffff4d;
 }

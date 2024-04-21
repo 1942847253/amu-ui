@@ -40,6 +40,7 @@ declare module "vue" {
         ADropdownMenu: typeof components.ADropdownMenu;
         ADropdownItem: typeof components.ADropdownItem;
         ADialog: typeof components.ADialog;
-        ASpace:typeof components.ASpace
+        ASpace:typeof components.ASpace;
+        AScrollbar:typeof components.AScrollbar;
     }
 }

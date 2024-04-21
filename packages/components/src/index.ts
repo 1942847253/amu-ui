@@ -38,4 +38,6 @@ export * from './dropdown-menu'
 export * from './dropdown-item'
 export * from './dialog'
 export * from './space'
+export * from './scrollbar'
+
 import '../assets/theme/index.css';

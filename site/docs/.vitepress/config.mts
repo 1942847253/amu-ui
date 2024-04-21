@@ -56,6 +56,10 @@ export default defineConfig({
               text: "Space 间距",
               link: "/examples/space/",
             },
+            {
+              text: "Scrollbar 滚动条",
+              link: "/examples/scrollbar/",
+            },
           ],
         },
         {
