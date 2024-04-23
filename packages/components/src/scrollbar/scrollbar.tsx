@@ -1,4 +1,4 @@
-import { PropType, computed, defineComponent, onMounted, onUnmounted, ref } from "vue";
+import { PropType, computed, defineComponent, nextTick, onMounted, onUnmounted, ref } from "vue";
 import "./style/index.less";
 
 export default defineComponent({
@@ -51,8 +51,10 @@ export default defineComponent({
         })
 
         const initScrollBarXY = () => {
-            initScrollBarYHeight()
-            initScrollBarXWidth()
+            nextTick(() => {
+                initScrollBarYHeight()
+                initScrollBarXWidth()
+            })
         }
 
         const initScrollBarYHeight = () => {
@@ -63,6 +65,10 @@ export default defineComponent({
             };
             const scrollbarHeight = (clientHeight / scrollHeight) * 100 + "%";
             scrollbarVerticalRef.value!.style.height = scrollbarHeight;
+            if (props.trigger === 'hover') {
+                scrollbarRailVerticalRef.value!.style.opacity = '0';
+            }
+           
         }
 
         const initScrollBarXWidth = () => {
@@ -74,6 +80,9 @@ export default defineComponent({
                 };
                 const initScrollBarXWidth = (clientWidth / scrollWidth) * 100 + "%";
                 scrollbarHorizontalRef.value!.style.width = initScrollBarXWidth;
+                if (props.trigger === 'hover') {
+                    scrollbarRailHorizontalRef.value!.style.opacity = '0';
+                }
             }
         }
 
@@ -141,7 +150,9 @@ export default defineComponent({
         };
 
         const onScrollbarUp = () => {
+            if (isDragging.value === false) return;
             isDragging.value = false;
+            if (!scrollbarRailVerticalRef.value) return
             if (!isMouseInContainer.value && props.trigger !== 'none') {
                 if (props.xScrollable) {
                     scrollbarRailHorizontalRef.value!.style.opacity = '0';
@@ -164,7 +175,9 @@ export default defineComponent({
             if (props.trigger === 'none') return
             isMouseInContainer.value = false
             if (!isDragging.value) {
-                if (showScrollbarVertical.value) { scrollbarRailVerticalRef.value!.style.opacity = '0' };
+                if (showScrollbarVertical.value) {
+                    scrollbarRailVerticalRef.value!.style.opacity = '0'
+                };
                 if (showScrollbarHorizontal.value && props.xScrollable) {
                     scrollbarRailHorizontalRef.value!.style.opacity = '0'
                 }
@@ -188,7 +201,6 @@ export default defineComponent({
                     showScrollbarVertical.value && (
                         <div ref={scrollbarRailVerticalRef}
                             class={["a-scrollbar-rail", 'a-scrollbar-rail--vertical']}
-                            style={{ opacity: props.trigger === 'hover' ? 0 : 1 }}
                         >
                             <div class="a-scrollbar-rail__scrollbar" ref={scrollbarVerticalRef} onMousedown={(event) => onScrollbarDown(event, 'vertical')}></div>
                         </div>
@@ -198,7 +210,6 @@ export default defineComponent({
                     props.xScrollable && showScrollbarHorizontal.value && (
                         <div ref={scrollbarRailHorizontalRef}
                             class={["a-scrollbar-rail", 'a-scrollbar-rail--horizontal']}
-                            style={{ opacity: props.trigger === 'hover' ? 0 : 1 }}
                         >
                             <div class="a-scrollbar-rail__scrollbar" ref={scrollbarHorizontalRef} onMousedown={(event) => onScrollbarDown(event, 'horizontal')}></div>
                         </div>

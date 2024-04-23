@@ -83,7 +83,7 @@ export default defineComponent({
         const inputxStyle = computed(() => {
             return {
                 width: props.width ? props.width + 'px' : '100%',
-                height: props.height ? props.height + 'px' : '30px',
+                height: props.height ? props.height + 'px' : '34px',
                 textAlign: props.textCenter ? 'center' : '',
                 backgroundColor: props.disabled ? 'var(--a-bg-grey-color)' : '',
                 '--input-text-color': props.disabled ? 'var(--a-text-disable-color)' : 'var(--a-text-color)'

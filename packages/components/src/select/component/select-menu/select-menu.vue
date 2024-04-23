@@ -1,18 +1,16 @@
 <template>
-  <div class="selector-menu">
-    <template v-if="searchData.length > 0">
-      <div
-        :class="`menu-item ${localValue === item.text ? 'menu-checked' : ''}`"
-        @click="setItemValue(item)"
-        @mousedown=""
-        v-for="(item, index) in searchData"
-        :key="index"
-      >
-       <div  class="label"> {{ item && item.text }}</div> <AIcon v-show="localValue === item.text" name="select-bold" />
-      </div>
-    </template>
-    <NoDataTip v-else />
-  </div>
+  <AScrollbar style="max-height: 215px;max-width: 223px;">
+    <div class="selector-menu">
+      <template v-if="searchData.length > 0">
+        <div :class="`menu-item ${localValue === item.text ? 'menu-checked' : ''}`" @click="setItemValue(item)"
+          @mousedown="" v-for="(item, index) in searchData" :key="index">
+          <div class="label"> {{ item && item.text }}</div>
+          <AIcon v-show="localValue === item.text" name="select-bold" />
+        </div>
+      </template>
+      <NoDataTip v-else />
+    </div>
+  </AScrollbar>
 </template>
 
 <script lang="ts">
@@ -28,6 +26,7 @@ import {
 import { IOptionItem } from "../../baseData";
 import NoDataTip from "../select-tip/select-tip.vue";
 import AIcon from "@components/icon";
+import AScrollbar from "@components/scrollbar";
 import "./style/index.less";
 
 export default defineComponent({
@@ -71,7 +70,7 @@ export default defineComponent({
   emits: ["setItemValue"],
   setup(props, { emit }) {
     const searchData = ref<IOptionItem[]>([]);
-    const shrinkSelectMenuFn = inject("shrinkSelectMenuFn",()=>{}) as Function;
+    const shrinkSelectMenuFn = inject("shrinkSelectMenuFn", () => { }) as Function;
     onMounted(() => {
       searchData.value = props.options;
     });

@@ -10,8 +10,6 @@ const useElementPosition = (target: HTMLDivElement, popoverElement: HTMLElement,
     };
     const ELDOM = popoverElement;
     const target_dom = target.getBoundingClientRect()
-    console.log(target_dom);
-    console.log(target);
 
     switch (Placements) {
         case "top":

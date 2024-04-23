@@ -1,6 +1,6 @@
 import { PropType, VNode, VNodeRef, computed, defineComponent, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import './style/index.less';
-import { AIcon } from '..';
+import { AIcon, AScrollbar } from '..';
 
 export type ATableColumns = {
     title: string | number;
@@ -50,13 +50,13 @@ export default defineComponent({
         const isEmpty = computed(() => state.data.length === 0)
 
         onMounted(() => {
-            getScrollbarWidth(tableContainerRef.value!)
-            window.addEventListener('resize', () => getScrollbarWidth(tableContainerRef.value!))
+            // getScrollbarWidth(tableContainerRef.value!)
+            // window.addEventListener('resize', () => getScrollbarWidth(tableContainerRef.value!))
         })
 
         function getScrollbarWidth(div: HTMLDivElement) {
-            if (!tableContainerRef.value) return
-            state.gutterWidth = div.offsetWidth - div.clientWidth
+            // if (!tableContainerRef.value) return
+            // state.gutterWidth = div.offsetWidth - div.clientWidth
         }
 
         const theadRender = () => (
@@ -73,7 +73,7 @@ export default defineComponent({
                         ))
 
                     }
-                    {state.gutterWidth > 0 && <th class="gutter" style={{ width: state.gutterWidth + 'px' }}></th>}
+                    {/* {state.gutterWidth > 0 && <th class="gutter" style={{ width: state.gutterWidth + 'px' }}></th>} */}
                 </tr>
             </thead >
         )
@@ -128,11 +128,13 @@ export default defineComponent({
                 </table>
                 {
                     isEmpty.value ? emptyWrapperRender() : (
-                        <div class="a-table--body-wrapper" style={{ maxHeight: props.maxHeight }} ref={tableContainerRef}>
-                            <table class="table" >
-                                {tbodyRender()}
-                            </table>
-                        </div>
+                        <AScrollbar style={{ maxHeight: props.maxHeight }}>
+                            <div class="a-table--body-wrapper" ref={tableContainerRef}>
+                                <table class="table" >
+                                    {tbodyRender()}
+                                </table>
+                            </div>
+                        </AScrollbar>
                     )
                 }
             </div>
