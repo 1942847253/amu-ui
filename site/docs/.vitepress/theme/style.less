@@ -416,6 +416,8 @@ details > summary:first-of-type {
   border: 1px solid var(--a-border-weak-color);
   border-radius: 5px;
   padding: 20px;
+  padding-top: 42px;
+  overflow: hidden;
   .radio-main input[type="radio"] + label::after {
     left: 4.5px;
     top: 50%;
@@ -426,6 +428,22 @@ details > summary:first-of-type {
   .add-button {
     height: 29.5px;
   }
+}
+
+.custom-block.details{
+  background-color: transparent;
+  padding: 0;
+ 
+  summary{
+    display: none;
+  }
+  .language-vue{
+    margin-top: 20px !important;
+  }
+}
+
+.vp-doc .custom-block:not(:where(.vp-raw, .vp-raw *)){
+  margin: 0;
 }
 
 

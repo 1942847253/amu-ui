@@ -1,55 +1,46 @@
 <template>
-   <ATable class="vp-raw"  max-height="350px" :data="tableData.tBody" :columns="tableData.tHead"></ATable>
-  </template>
-  
-  <script lang="ts" setup>
-  import { AMessageBox } from "amu-ui";
-  import { ref, h } from "vue";
-  import { AButton } from "amu-ui";
-  
-  const tableData = ref({
+  <ATable
+    class="vp-raw"
+    style="max-width: max-content"
+    max-height="350px"
+    :data="tableData.tBody"
+    :columns="tableData.tHead"
+  ></ATable>
+</template>
+
+<script lang="ts" setup>
+import { ref, h } from "vue";
+import { AButton } from "amu-ui";
+
+const tableData = ref({
   tHead: [
     {
       key: "id",
       title: "ID",
-      width:120
-    },
-    {
-      key: "category",
-      title: "类别",
-      width:170,
     },
     {
       key: "name",
       title: "商品名称",
-      width:200,
-      render(row) {
-        return h(
-          AButton,
-          {
-            size: 'small',
-            type: 'success'
-          },
-          {
-            default: () => row.name
-          }
-        )
-      }
     },
     {
       key: "brand",
       title: "品牌",
-      width:170,
+      render(row) {
+        return h(
+          AButton,
+          {
+            size: "small",
+            type: "success",
+          },
+          {
+            default: () => row.brand,
+          }
+        );
+      },
     },
     {
       key: "price",
       title: "价格",
-      width:170,
-    },
-    {
-      key: "quantity",
-      title: "数量",
-      width:150,
     },
     {
       key: "description",
@@ -58,19 +49,19 @@
     {
       key: "operation",
       title: "操作",
-      width: 120,
+
       render() {
         return h(
           AButton,
           {
-            size: 'small',
-            type: 'error'
+            size: "small",
+            type: "error",
           },
           {
-            default: () => '删除'
+            default: () => "删除",
           }
-        )
-      }
+        );
+      },
     },
   ],
   tBody: [
@@ -220,6 +211,4 @@
     },
   ],
 }) as any;
-
-  </script>
-  
+</script>
