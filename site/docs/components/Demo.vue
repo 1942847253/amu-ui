@@ -4,8 +4,9 @@
             <slot></slot>
         </div>
         <div class="tools">
-            <a-icon name="code" @click="foldCode" />
-            <a-icon name="layers" />
+            <a-icon name="code" v-tooltip.top="`查看源代码`" @click="foldCode" />
+            <a-icon name="copy" v-tooltip.top="`复制代码`" />
+            <a-icon name="layers" v-tooltip.top="`在 playground 中编辑`" />
         </div>
     </div>
 </template>

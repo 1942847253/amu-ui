@@ -4,7 +4,7 @@ import Empty from './component/Empty.vue'
 import Border from './component/Border.vue'
 import SelfDefined from './component/SelfDefined.vue'
 import Height from './component/Height.vue'
-import Demo from '../../components/Demo.vue'
+
 </script>
 
 # Table 表格
