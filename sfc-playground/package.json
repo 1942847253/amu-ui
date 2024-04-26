@@ -1,0 +1,123 @@
+{
+  "name": "sfc-playground",
+  "version": "1.0.15",
+  "description": "Try AmuUI in the Playground. ",
+  "keywords": [
+    "sfc",
+    "playground",
+    "repl"
+  ],
+  "license": "MIT",
+  "main": "index.html",
+  "scripts": {
+    "build": "wireit",
+    "check-fresh-deps": "wireit",
+    "check:all": "wireit",
+    "check:js": "wireit",
+    "check:markdownlint": "wireit",
+    "check:sort-package-json": "wireit",
+    "dev": "wireit",
+    "fresh-deps": "wireit",
+    "preinstall": "wireit",
+    "lint": "wireit",
+    "markdownlint-fix": "wireit",
+    "prepare": "wireit",
+    "preview": "wireit",
+    "release": "wireit",
+    "serve": "wireit",
+    "sort-package-json": "wireit"
+  },
+  "dependencies": {
+    "@vue/repl": "^1.4.1",
+    "fflate": "^0.8.0",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
+    "vue": "3.3.4"
+  },
+  "devDependencies": {
+    "@changesets/cli": "2.26.1",
+    "@commitlint/cli": "17.6.5",
+    "@commitlint/config-conventional": "17.6.5",
+    "@types/file-saver": "2.0.5",
+    "@types/node": "18.16.16",
+    "@typescript-eslint/eslint-plugin": "5.59.9",
+    "@typescript-eslint/parser": "5.59.9",
+    "@vitejs/plugin-vue": "4.2.3",
+    "consola": "2.15.3",
+    "eslint": "8.42.0",
+    "eslint-config-standard": "17.1.0",
+    "eslint-module-utils": "2.8.0",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-n": "15.7.0",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-promise": "6.1.1",
+    "eslint-plugin-vue": "9.14.1",
+    "execa": "6.1.0",
+    "husky": "8.0.3",
+    "lint-staged": "13.2.2",
+    "markdownlint-cli2": "0.7.1",
+    "ora": "6.3.1",
+    "prettier": "2.8.8",
+    "sort-package-json": "2.4.1",
+    "typescript": "4.9.5",
+    "vite": "4.3.9",
+    "vite-plugin-style-import": "2.0.0",
+    "vue-eslint-parser": "9.3.0",
+    "wireit": "0.9.5",
+    "zx": "7.2.2"
+  },
+  "renovate": {
+    "enabled": false
+  },
+  "wireit": {
+    "build": {
+      "command": "vite build"
+    },
+    "dev": {
+      "command": "vite"
+    },
+    "preinstall": {
+      "command": "node scripts/only-allow.mjs pnpm"
+    },
+    "prepare": {
+      "command": "husky install"
+    },
+    "release": {
+      "command": "zx scripts/release.mjs --npmPublish"
+    },
+    "serve": {
+      "command": "vite preview"
+    },
+    "check:js": {
+      "command": "eslint --ext .mjs,.ts,.js,.vue ./"
+    },
+    "check:markdownlint": {
+      "command": "markdownlint-cli2 '**.md' '#node_modules'"
+    },
+    "check:sort-package-json": {
+      "command": "sort-package-json --check"
+    },
+    "check:all": {
+      "dependencies": [
+        "check:js",
+        "check:markdownlint",
+        "check:sort-package-json"
+      ]
+    },
+    "lint": {
+      "command": "zx scripts/lint.mjs --all"
+    },
+    "markdownlint-fix": {
+      "command": "markdownlint-cli2-fix '**.md' '#node_modules'"
+    },
+    "sort-package-json": {
+      "command": "sort-package-json"
+    },
+    "check-fresh-deps": {
+      "command": "npx taze"
+    },
+    "fresh-deps": {
+      "command": "npx taze -w"
+    }
+  }
+}

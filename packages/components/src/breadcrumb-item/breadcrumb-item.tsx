@@ -1,6 +1,5 @@
 import { defineComponent, inject } from "vue";
 import './style/index.less'
-import { useRouter } from 'vue-router'
 
 export default defineComponent({
     name: "ABreadcrumbItem",
@@ -15,7 +14,6 @@ export default defineComponent({
         const flag = inject<string>('flag', '/')
         const isRouter = inject<boolean>('isRouter', false)
         const pathClick = inject<Function>('pathClick', () => { })
-        const router = isRouter ? useRouter() : null;
         const defaultSlot = () => {
             if (slots.default) {
                 return slots.default()
@@ -25,7 +23,6 @@ export default defineComponent({
         }
 
         const onPathClick = () => {
-            isRouter && router?.push(props.path)
             pathClick(props.path)
         }
         return () => (

@@ -4,7 +4,8 @@
   "description": "",
   "main": "./index.ts",
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "build:sfc": "vite build --config vite.config.sfc.ts"
   },
   "keywords": [],
   "author": "",

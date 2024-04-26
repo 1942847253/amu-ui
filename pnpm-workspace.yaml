@@ -2,3 +2,4 @@ packages:
   - "packages/**"
   - "playground"
   - "site"
+  - "sfc-playground"

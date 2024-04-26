@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build:amu-ui": "gulp -f packages/components/script/build/index.ts",
     "publish:amu-ui": "gulp -f packages/components/script/publish/index.ts"
