@@ -46,6 +46,9 @@ body {
  
   border-bottom:3px solid var(--a-primary-color) !important;
 }
+.file:first-child{
+  display: none !important;
+}
 .add{
   display: none;
 }

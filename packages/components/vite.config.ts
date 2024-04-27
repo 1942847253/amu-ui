@@ -23,9 +23,9 @@ export default defineConfig({
       output: [
         {
           //打包格式
-          format: 'esm',
+          format: 'es',
           //打包后文件名
-          entryFileNames: "[name].esm.js",
+          entryFileNames: "[name].mjs",
           //让打包目录和我们目录对应
           preserveModules: true,
           exports: "named",

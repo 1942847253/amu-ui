@@ -42,7 +42,7 @@ export class ReplStore implements Store {
   private defaultVueServerRendererURL: string
   private pendingCompiler: Promise<any> | null = null
 
-  constructor ({
+  constructor({
     serializedState = '',
     defaultVueRuntimeURL = getVueRuntimeURL(version),
     defaultVueServerRendererURL = `https://unpkg.com/@vue/server-renderer@${version}/dist/server-renderer.esm-browser.js`,
@@ -53,25 +53,24 @@ export class ReplStore implements Store {
 
     if (serializedState) {
       const saved = JSON.parse(atou(serializedState))
+      files[defaultMainFile] = new File(defaultMainFile, AppWrapperCode)
       // eslint-disable-next-line no-restricted-syntax
       for (const filename of Object.keys(saved)) {
         let codeContent = saved[filename]
         // fix some error cdn url
         if (filename === 'import-map.json') {
-     
+
           const json = JSON.parse(codeContent)
           convertBugImportMapCdnUrl(json.imports)
           codeContent = JSON.stringify(json, null, 2)
         }
-        console.log(filename);
-        
         files[filename] = new File(filename, codeContent)
       }
     } else {
-      
+
       files = {
         [defaultMainFile]: new File(defaultMainFile, AppWrapperCode),
-        [appFile] : new File(appFile, welcomeCode),
+        [appFile]: new File(appFile, welcomeCode),
       }
     }
 
@@ -85,7 +84,7 @@ export class ReplStore implements Store {
     this.initialOutputMode = outputMode as OutputModes
 
     this.state = reactive({
-      mainFile:defaultMainFile,
+      mainFile: defaultMainFile,
       files,
       activeFile: files[appFile],
       errors: [],
@@ -97,7 +96,7 @@ export class ReplStore implements Store {
   }
 
   // don't start compiling until the options are set
-  init () {
+  init() {
     watchEffect(() => compileFile(this, this.state.activeFile))
 
     for (const file in this.state.files) {
@@ -107,18 +106,18 @@ export class ReplStore implements Store {
     }
   }
 
-  setActive (filename: string) {
+  setActive(filename: string) {
     this.state.activeFile = this.state.files[filename]
   }
 
-  addFile (fileOrFilename: string | File) {
+  addFile(fileOrFilename: string | File) {
     const file = typeof fileOrFilename === 'string' ? new File(fileOrFilename) : fileOrFilename
     this.state.files[file.filename] = file
     if (!file.hidden) this.setActive(file.filename)
   }
 
-  deleteFile (filename: string) {
-  
+  deleteFile(filename: string) {
+
     for (const file of additionalFiles) {
       if (filename === file.filename && file.canDelete === false) {
         alert(file.deleteTips || defaultDeleteTips)
@@ -133,11 +132,11 @@ export class ReplStore implements Store {
     // }
   }
 
-  serialize () {
+  serialize() {
     return '#' + utoa(JSON.stringify(this.getFiles()))
   }
 
-  getFiles () {
+  getFiles() {
     const exported: Record<string, string> = {}
     for (const filename in this.state.files) {
       exported[filename] = this.state.files[filename].code
@@ -145,7 +144,7 @@ export class ReplStore implements Store {
     return exported
   }
 
-  async setFiles (newFiles: Record<string, string>, mainFile = defaultMainFile) {
+  async setFiles(newFiles: Record<string, string>, mainFile = defaultMainFile) {
     const files: Record<string, File> = {}
     if (mainFile === defaultMainFile && !newFiles[mainFile]) {
       files[mainFile] = new File(mainFile, welcomeCode)
@@ -164,7 +163,7 @@ export class ReplStore implements Store {
     this.setActive(mainFile)
   }
 
-  private initImportMap () {
+  private initImportMap() {
     const map = this.state.files['import-map.json']
     if (!map) {
       this.state.files['import-map.json'] = new File(
@@ -189,7 +188,7 @@ export class ReplStore implements Store {
           json.imports.vue = this.defaultVueRuntimeURL
           map.code = JSON.stringify(json, null, 2)
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     // additionalFiles inject
@@ -200,7 +199,7 @@ export class ReplStore implements Store {
     })
   }
 
-  getImportMap () {
+  getImportMap() {
     try {
       const codeJson = JSON.parse(this.state.files['import-map.json'].code)
       convertBugImportMapCdnUrl(codeJson.imports)
@@ -211,14 +210,14 @@ export class ReplStore implements Store {
     }
   }
 
-  setImportMap (map: {
+  setImportMap(map: {
     imports: Record<string, string>
     scopes?: Record<string, Record<string, string>>
   }) {
     this.state.files['import-map.json'].code = JSON.stringify(map, null, 2)
   }
 
-  async setVueVersion (version: string) {
+  async setVueVersion(version: string) {
     const compilerUrl = getVueCompilerURL(version)
     const runtimeUrl = getVueRuntimeURL(version)
     this.pendingCompiler = import(/* @vite-ignore */ compilerUrl)
@@ -226,12 +225,12 @@ export class ReplStore implements Store {
     this.pendingCompiler = null
     this.state.vueRuntimeURL = runtimeUrl
     const importMap = this.getImportMap()
-    ;(importMap.imports || (importMap.imports = {})).vue = runtimeUrl
+      ; (importMap.imports || (importMap.imports = {})).vue = runtimeUrl
     this.setImportMap(importMap)
     console.info(`[@vue/repl] Now using Vue version: ${version}`)
   }
 
-  resetVueVersion () {
+  resetVueVersion() {
     this.compiler = defaultCompiler
     this.state.vueRuntimeURL = this.defaultVueRuntimeURL
   }

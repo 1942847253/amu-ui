@@ -4,7 +4,6 @@
 </template>
 
 <script lang="ts" setup>
-import { AMessageBox } from "amu-ui";
 import { ref, h } from "vue";
 import { AButton, AMessage } from "amu-ui";
 

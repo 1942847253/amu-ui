@@ -59,7 +59,7 @@ nav {
   --bg: var(--a-bg-color);
   --bg-light: #fff;
   --border: #ddd;
-
+  user-select: none;
   color: var(--base);
   height: var(--nav-height);
   box-sizing: border-box;
@@ -81,6 +81,7 @@ h1 {
 }
 
 h1 img {
+  user-select: none;
   height: 24px;
   vertical-align: middle;
   margin-right: 10px;
