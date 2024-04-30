@@ -1,6 +1,6 @@
 
 <p align="center" style="margin-top:-60px">
-  <img width="150"  src="./site/docs/public/logo.PNG" />
+  <img width="150"  src="https://amu-environment.github.io/amu-ui/logo.PNG" />
 </p>
 <p align="center">
   <img style="display:inline" src="https://img.shields.io/npm/v/amu-ui" />
