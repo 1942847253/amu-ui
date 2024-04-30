@@ -12,8 +12,6 @@ export const removeDist = () => {
 
 //打包样式
 export const buildStyle = () => {
-   console.log("test" + componentPath);
-
   return src(`${componentPath}/src/**/style/**.less`)
     .pipe(less())
     .pipe(autoprefixer())
@@ -23,8 +21,6 @@ export const buildStyle = () => {
 
 //打包组件
 export const buildComponent = async () => {
-  console.log('test'+componentPath);
-
   run("pnpm run build", componentPath);
 };
 

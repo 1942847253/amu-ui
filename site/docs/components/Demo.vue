@@ -33,7 +33,7 @@ const toPlayground = () => {
         ['App.vue']: code,
     }
     const encoded = utoa(JSON.stringify(originCode))
-    window.open(`http://localhost:5173/#${encoded}`)
+    window.open(`https://amu-environment.github.io/amu-ui-playground/#${encoded}`)
 }
 
 const foldCode = () => {

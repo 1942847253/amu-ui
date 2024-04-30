@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { h, reactive, ref, toRefs } from "vue";
+import { h, onMounted, reactive, ref, toRefs } from "vue";
 import AButton from "../button";
 import { ASpace } from "..";
 import { AIcon } from "../icon";
@@ -72,9 +72,7 @@ const props = defineProps({
   },
 });
 
-const { ZIndex, setZIndex } = useZIndex()
-const messageBoxZIndex = ref(ZIndex)
-setZIndex(messageBoxZIndex.value)
+const messageBoxZIndex = ref(2000)
 
 const state = reactive({
   visible: false,
@@ -82,6 +80,12 @@ const state = reactive({
   btnType: "confirm",
 });
 const { visible } = toRefs(state);
+
+onMounted(() => {
+  setTimeout(() => {
+    messageBoxZIndex.value = useZIndex()
+  });
+})
 
 const setVisible = (isVisible: boolean) => {
   state.visible = isVisible;

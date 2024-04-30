@@ -70,9 +70,8 @@ export default defineComponent({
     },
     emits: ['update:modelValue', 'cancel-click', 'confirm-click', 'close-click'],
     setup(props, { emit, slots, expose }) {
-        const { ZIndex, setZIndex } = useZIndex()
-        const dialogZIndex = ref(ZIndex)
-        setZIndex(dialogZIndex.value)
+
+        const dialogZIndex = ref(2000)
         const dialogRef = ref<HTMLDialogElement | null>(null);
         const dialogVisible = ref(props.modelValue)
         const dialogBoxStyle = computed<CSSProperties>(() => {
@@ -82,6 +81,11 @@ export default defineComponent({
             };
         });
 
+        onMounted(() => {
+            setTimeout(() => {
+                dialogZIndex.value = useZIndex()
+               });
+        })
 
         watch(
             () => props.modelValue,
@@ -96,15 +100,6 @@ export default defineComponent({
                 }
             },
         );
-
-        // if (isDefined(window.$?.amuui?.zIndex)) {
-        //     dialogZIndex.value = window.$.amuui.zIndex + 1
-        // } else {
-        //     window.$ = { amuui: {} }
-        //     dialogZIndex.value = 2000
-        //     window.$.amuui.zIndex = dialogZIndex.value
-        // }
-        // window.$.amuui.zIndex = dialogZIndex.value
 
         const showModal = () => {
             if (props.modal) {

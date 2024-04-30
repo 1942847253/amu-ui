@@ -1,4 +1,4 @@
-import { Teleport, computed, defineComponent, ref, watch } from "vue";
+import { Teleport, computed, defineComponent, onMounted, ref, watch } from "vue";
 import ATransition from '../transition/transition'
 import './style/index.less';
 import useZIndex from "@/shared/hooks/useZIndex";
@@ -43,9 +43,7 @@ export default defineComponent({
     },
     emits: ['update:modelValue', 'opened', 'closed'],
     setup(props, { emit, slots }) {
-        const { ZIndex, setZIndex } = useZIndex()
-        const drawerZIndex = ref(ZIndex)
-        setZIndex(drawerZIndex.value)
+        const drawerZIndex = ref(2000)
         const directionKey = ['top', 'bottom', 'left', 'right']
         const contentSizeStyle = computed(() => typeof props.size === 'number' ? props.size + 'px' : props.size);
         const drawerHideRange = ref(props.modelValue ? '0' : `-${contentSizeStyle.value}`)
@@ -54,6 +52,13 @@ export default defineComponent({
             const isY = props.direction === "left" || props.direction === 'right';
             return isY ? 'width' : 'height'
         })
+
+        onMounted(() => {
+            setTimeout(() => {
+                drawerZIndex.value = useZIndex()
+            });
+        })
+
 
         watch(() => props.modelValue, (val) => {
             const range = drawerHideRange.value
@@ -66,7 +71,7 @@ export default defineComponent({
             } else {
                 drawerHideRange.value = range
                 emit('closed')
-                document.body.style.removeProperty('overflow')           
+                document.body.style.removeProperty('overflow')
             }
         })
 
@@ -121,25 +126,25 @@ export default defineComponent({
             }
         })
         return () => (
-          <Teleport to="body">
-              <ATransition>
-                {props.modelValue &&
-                    <div class="a-drawer-mantle" style={{ zIndex: drawerZIndex.value }} onClick={() => closeDrawerOnModal()}>
-                        <div onClick={(e) => e.stopPropagation()} class="a-drawer-content" style={drawerContentStyle.value}>
-                            {drawerHeaderEl()}
-                            <div class="a-drawer-body">
-                                {slots.default && slots.default()}
-                            </div>
-                            {
-                                slots.footer && <div class="a-drawer-footer">
-                                    {slots.footer()}
+            <Teleport to="body">
+                <ATransition>
+                    {props.modelValue &&
+                        <div class="a-drawer-mantle" style={{ zIndex: drawerZIndex.value }} onClick={() => closeDrawerOnModal()}>
+                            <div onClick={(e) => e.stopPropagation()} class="a-drawer-content" style={drawerContentStyle.value}>
+                                {drawerHeaderEl()}
+                                <div class="a-drawer-body">
+                                    {slots.default && slots.default()}
                                 </div>
-                            }
+                                {
+                                    slots.footer && <div class="a-drawer-footer">
+                                        {slots.footer()}
+                                    </div>
+                                }
+                            </div>
                         </div>
-                    </div>
-                }
-            </ATransition>
-          </Teleport>
+                    }
+                </ATransition>
+            </Teleport>
         )
     }
 })

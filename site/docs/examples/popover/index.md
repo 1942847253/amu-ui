@@ -9,175 +9,35 @@ import Slot from './component/slot.vue'
 ## 基础用法
 
 `trigger` 属性被用来决定 popover 的触发方式，支持的触发方式： `hover`、`click`
+<Demo>
+<Basic/>
 
-<div class="example">
- <Basic/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <APopover
-    title="Title"
-    content="this is content, this is content, this is content"
-    placement="top"
-    trigger="hover"
-  >
-    <template #reference>
-      <a-button type="primary">Hover to activate</a-button>
-    </template>
-  </APopover>
-  <APopover
-    title="Title"
-    content="this is content, this is content, this is content"
-  >
-    <template #reference>
-      <a-button type="primary">Click to activate</a-button>
-    </template>
-  </APopover>
-</template>
-```
-
-</details>
+::: details
+<<< @/examples/popover/component/Basic.vue
+:::
+</Demo>
 
 ## 受控模式
 
 如果你想手动控制显示与隐藏，可以设置 `visible` 属性。
+<Demo>
+<visible/>
 
-<div class="example">
- <visible/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <APopover
-    :visible="popoverVisible"
-    title="Title"
-    content="this is content, this is content, this is content"
-  >
-    <template #reference>
-      <a-button @click="popoverVisible = !popoverVisible" type="primary"
-        >Manual to activate</a-button
-      >
-    </template>
-  </APopover>
-</template>
-
-<script lang="ts" setup>
-import { ref } from "vue";
-
-const popoverVisible = ref(false);
-</script>
-```
-
-</details>
+::: details
+<<< @/examples/popover/component/visible.vue
+:::
+</Demo>
 
 ## 内容可扩展
 
 可以在 Popover 中嵌套其它组件， 以下为嵌套表格的例子。
+<Demo>
+<Slot/>
 
-<div class="example">
- <Slot />
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <APopover
-    width="400px"
-    content="this is content, this is content, this is content"
-  >
-    <template #reference>
-      <a-button type="primary">Click to activate</a-button>
-    </template>
-    <a-table :tableData="tableData.tBody" :tableColumn="tableData.tHead">
-    </a-table>
-  </APopover>
-</template>
-
-<script lang="ts" setup>
-import { ref } from "vue";
-
-const tableData = ref({
-  tHead: [
-    {
-      key: "id",
-      text: "学号",
-    },
-    {
-      key: "name",
-      text: "姓名",
-    },
-    {
-      key: "age",
-      text: "年龄",
-    },
-    {
-      key: "chinese",
-      text: "语文",
-      editable: false,
-    },
-    {
-      key: "math",
-      text: "数学",
-      editable: false,
-    },
-    {
-      key: "english",
-      text: "英语",
-      editable: false,
-    },
-    // {
-    //     key: "operation",
-    //     text: "操作",
-    // },
-  ],
-  tBody: [
-    {
-      id: 1,
-      name: "Yjj",
-      age: 21,
-      chinese: 121,
-      math: 90,
-      english: 138,
-    },
-    {
-      id: 2,
-      name: "嘿毛",
-      age: 20,
-      chinese: 111,
-      math: 32,
-      english: 43,
-    },
-    {
-      id: 3,
-      name: "big龙",
-      age: 19,
-      chinese: 44,
-      math: 21,
-      english: 11,
-    },
-    {
-      id: 4,
-      name: "嫖瓜",
-      age: 21,
-      chinese: 80,
-      math: 40,
-      english: 45,
-    },
-  ],
-});
-</script>
-```
-
-</details>
+::: details
+<<< @/examples/popover/component/slot.vue
+:::
+</Demo>
 
 ## Slots
 

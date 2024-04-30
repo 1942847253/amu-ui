@@ -1,6 +1,6 @@
-import { CSSProperties, computed, defineComponent, ref, PropType, onMounted, Teleport, onBeforeUnmount, watch } from "vue";
+import { CSSProperties, computed, defineComponent, ref, PropType, onMounted, Teleport, onBeforeUnmount, watch,nextTick } from "vue";
 import { onClickOutside } from "@vueuse/core";
-import { debounce, isDefined } from "@/shared/utils";
+import { debounce } from "@/shared/utils";
 import useElementPosition from "./hooks/useElementPosition";
 import './style/index.less'
 import useZIndex from "@/shared/hooks/useZIndex";
@@ -39,14 +39,10 @@ export default defineComponent({
     },
     emits: ['isClickElementInPopover'],
     setup(props, { emit, slots, expose }) {
-        const { ZIndex, setZIndex } = useZIndex()
-        const drawerZIndex = ref(ZIndex)
-        setZIndex(drawerZIndex.value)
         let timer: NodeJS.Timeout | null = null
         const popoverRef = ref<HTMLDivElement | null>(null)
         const referenceSlotRef = ref<HTMLDivElement | null>(null)
-        const Index = ref(ZIndex)
-        setZIndex(Index.value)
+        const Index = ref(2000)
         const bgColor = ref("var(--a-bg-color)");
         const placements = ref("bottom");
         const popoverVisible = ref(false);
@@ -112,6 +108,9 @@ export default defineComponent({
         const ListenerFn = () => positionElement(referenceSlotRef.value!.firstElementChild!, props.placement)
         const debounceFn = debounce(ListenerFn, 0)
         onMounted(() => {
+           setTimeout(() => {
+            Index.value = useZIndex()
+           });
             const referenceSlotFirstElement = referenceSlotRef.value!.firstElementChild as HTMLElement
             if (props.trigger === 'click') {
                 referenceSlotFirstElement.addEventListener('click', showPopover);

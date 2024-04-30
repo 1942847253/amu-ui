@@ -12,26 +12,10 @@ import Length from './component/Length.vue'
 ## 基础用法
 
 通过 v-model 来绑定当前日期。
+<Demo>
+<Basic/>
 
-<div class="example">
- <Basic/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
- <ADatePicker v-model="dateValue" />
-</template>
-
-<script lang="ts" setup>
-import { ref } from 'vue';
-
-const dateValue = ref("");
-
-</script>
-
-```
-
-</details>
+::: details
+<<< @/examples/date-picker/component/Basic.vue
+:::
+</Demo>
