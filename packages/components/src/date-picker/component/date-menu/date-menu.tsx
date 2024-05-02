@@ -102,14 +102,13 @@ export default defineComponent({
                 props.showDateSelectFn!(true)
             }
             const { popoverRef } = selectpopoverRef.value
-            const selectYearEl = popoverRef.querySelector(`.select-year`) as HTMLElement
-            const selectMonthEl = popoverRef.querySelector(`.select-month`) as HTMLElement
-            const commentInYear = popoverRef.querySelector(`.select-year-index-${dateState.currentYear}`) as HTMLElement
-            const commentInMonth = popoverRef.querySelector(`.select-month-index-${dateState.currentMonth}`) as HTMLElement
-            setTimeout(() => {
-                selectYearEl.scrollTo({ 'behavior': 'auto', 'top': commentInYear.offsetTop - 5 })
-                selectMonthEl.scrollTo({ 'behavior': 'auto', 'top': commentInMonth.offsetTop - 5 })
-            }, 50);
+            const scrollbarContainers = popoverRef.querySelectorAll('.a-scrollbar-container')
+
+            const commentInYear = scrollbarContainers[0].querySelector(`.select-year-index-${dateState.currentYear}`) as HTMLElement
+            const commentInMonth = scrollbarContainers[1].querySelector(`.select-month-index-${dateState.currentMonth}`) as HTMLElement
+
+            scrollbarContainers[0].scrollTo({ 'top': commentInYear.offsetTop })
+            scrollbarContainers[1].scrollTo({ 'top': commentInMonth.offsetTop })
         }
 
         const updateYearOrMonthFn = (type: 'year' | 'month', date: number) => {
@@ -126,6 +125,10 @@ export default defineComponent({
             }
         };
 
+        const showPopover = ref(false)
+        setTimeout(() => {
+            showPopover.value = true
+        });
         provide('dateState', dateState)
         return () => (
             <div class="a-date-menu" ref={dateMenuRef}>
@@ -135,12 +138,16 @@ export default defineComponent({
                         <span onClick={() => changeDate(EDateType.TYPE_MONTH, EClickFlag.FLAG_DECREASE)} class="one iconfont icon-left1"></span>
                     </div>
                     <div class="head-center">
-                        <APopover onIsClickElementInPopover={(flag) => isClickElementInPopover(flag)} ref={selectpopoverRef} trigger="click" visible={props.showDateSelect} width="max-content" padding="0">
-                            {{
-                                reference: () => <div onClick={() => openShrinkSelect()} tabindex="1" style={{ backgroundColor: props.showDateSelect ? 'var(--a-bg-hover-color)' : '' }} class="year-month">{dateState.currentYear} {dateState.currentMonth}月</div>,
-                                default: () => <DateSelect updateYearOrMonthFn={updateYearOrMonthFn} currentYear={dateState.currentYear} currentMonth={dateState.currentMonth} dateValue={props.dateValue} />,
-                            }}
-                        </APopover>
+                        {
+                            showPopover.value && (
+                                <APopover onIsClickElementInPopover={(flag) => isClickElementInPopover(flag)} ref={selectpopoverRef} trigger="click" visible={props.showDateSelect} width="max-content" padding="0">
+                                    {{
+                                        reference: () => <div onClick={() => openShrinkSelect()} tabindex="1" style={{ backgroundColor: props.showDateSelect ? 'var(--a-bg-hover-color)' : '' }} class="year-month">{dateState.currentYear} {dateState.currentMonth}月</div>,
+                                        default: () => <DateSelect updateYearOrMonthFn={updateYearOrMonthFn} currentYear={dateState.currentYear} currentMonth={dateState.currentMonth} dateValue={props.dateValue} />,
+                                    }}
+                                </APopover>
+                            )
+                        }
                     </div>
                     <div class="head-right">
                         <span onClick={() => changeDate(EDateType.TYPE_MONTH, EClickFlag.FLAG_ADD)} class="one iconfont icon-right-copy"></span>

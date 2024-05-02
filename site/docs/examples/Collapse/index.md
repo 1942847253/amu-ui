@@ -10,55 +10,23 @@ import Accordion from './component/Accordion.vue'
 ## 基础用法
 
 可同时展开多个面板，面板之间不影响
+<Demo>
+<Basic/>
 
-<div class="example">
- <Basic/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
- <ADatePicker v-model="dateValue" />
-</template>
-
-<script lang="ts" setup>
-import { ref } from 'vue';
-
-const dateValue = ref("");
-
-</script>
-
-```
-
-</details>
+::: details
+<<< @/examples/Collapse/component/Basic.vue
+:::
+</Demo>
 
 ## 手风琴效果
 
 每次只能展开一个面板
 
 通过 `accordion` 属性来设置是否以手风琴模式显示
+<Demo>
+<Accordion/>
 
-<div class="example">
- <Accordion />
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <ARate v-model="rateValue" color="red"></ARate>
-</template>
-
-<script lang="ts" setup>
-import { ref } from 'vue';
-
-const rateValue = ref(4);
-</script>
-```
-
-</details>
-
-
+::: details
+<<< @/examples/Collapse/component/Accordion.vue
+:::
+</Demo>

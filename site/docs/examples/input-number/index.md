@@ -9,49 +9,23 @@ import Disabled from './component/Disabled.vue'
 
 ## 基础用法
 要使用它，只需要在 `<a-input-number>` 元素中使用 v-model 绑定变量即可，变量的初始值即为默认值。
+<Demo>
+<Basic/>
 
-<div class="example">
- <Basic/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <a-input-number v-model="input" placeholder="Please input" />
-</template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-const input = ref(520)
-</script>
-
-```
-
-</details>
+::: details
+<<< @/examples/input-number/component/Basic.vue
+:::
+</Demo>
 
 ## 禁用状态
 
 通过 `disabled` 属性指定是否禁用 input-number 组件
+<Demo>
+<Disabled/>
 
-<div class="example">
- <Disabled />
-</div>
+::: details
+<<< @/examples/input-number/component/Disabled.vue
+:::
+</Demo>
 
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <a-input v-model="input" disabled placeholder="Please input" />
-</template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-const input = ref('')
-</script>
-```
-
-</details>
 

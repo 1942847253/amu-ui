@@ -12,102 +12,46 @@ import Length from './component/Length.vue'
 ## 基础用法
 
 通过 v-model 来绑定当前评分值。
+<Demo>
+<Basic/>
 
-<div class="example">
- <Basic/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <ARate v-model="rateValue"></ARate>
-</template>
-
-<script lang="ts" setup>
-import { ref } from "vue";
-
-const rateValue = ref(3);
-</script>
-```
-
-</details>
+::: details
+<<< @/examples/Rate/component/Basic.vue
+:::
+</Demo>
 
 ## 可自定义颜色
 
 设置 `color` 属性可以设置选中时的颜色
+<Demo>
+<Color/>
 
-<div class="example">
- <Color />
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <ARate v-model="rateValue" color="red"></ARate>
-</template>
-
-<script lang="ts" setup>
-import { ref } from "vue";
-
-const rateValue = ref(4);
-</script>
-```
-
-</details>
+::: details
+<<< @/examples/Rate/component/Color.vue
+:::
+</Demo>
 
 ## 禁用状态
 
 设置 `disabled` 来禁用评分。
+<Demo>
+<Disabled/>
 
-<div class="example">
- <Disabled />
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <ARate v-model="rateValue" color="red" disabled></ARate>
-</template>
-
-<script lang="ts" setup>
-import { ref } from "vue";
-
-const rateValue = ref(4);
-</script>
-```
-
-</details>
+::: details
+<<< @/examples/Rate/component/Disabled.vue
+:::
+</Demo>
 
 ## 自定义长度
 
 设置 `max` 来定义评分的长度。
+<Demo>
+<Length/>
 
-<div class="example">
- <Length />
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <ARate :max="10" v-model="rateValue" color="red"></ARate>
-</template>
-
-<script lang="ts" setup>
-import { ref } from "vue";
-
-const rateValue = ref(7);
-</script>
-```
-
-</details>
+::: details
+<<< @/examples/Rate/component/Length.vue
+:::
+</Demo>
 
 | 属性名   | 说明     | 类型    | 默认值 |
 | -------- | -------- | ------- | ------ |

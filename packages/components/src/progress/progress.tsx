@@ -21,7 +21,7 @@ export default defineComponent({
         },
         color: {
             type: [String, Array] as PropType<string | ICustomColors[]>,
-            default: "#0468dc"
+            default: "var(--a-primary-color)"
         },
         textInside: {
             type: Boolean,
@@ -58,11 +58,11 @@ export default defineComponent({
         const bgColor = computed(() => {
             if (props.status) {
                 if (props.status === 'success') {
-                    return '#18a058'
+                    return 'var(--a-success-color)'
                 } else if (props.status === 'prompt') {
-                    return '#d69800'
+                    return 'var(--a-warning-color)'
                 } else if (props.status === 'error') {
-                    return '#e53935'
+                    return 'var(--a-error-color)'
                 }
             } else {
                 return props.color

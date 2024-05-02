@@ -10,91 +10,25 @@ import Disabled from './component/Disabled.vue'
 ## 基础用法
 
 一般为一组数据中单选某个数据，如需选择多个选项推荐使用 Checkbox 多选框
+<Demo>
+<Basic/>
 
-<div class="example">
- <Basic/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <a-radio-group v-model="checked1" :options="options1"></a-radio-group>
-  <a-radio-group v-model="checked2" :options="options2"></a-radio-group>
-</template>
-
-<script lang="ts" setup>
-import { ref } from "vue";
-
-const checked1 = ref(2);
-const checked2 = ref(3);
-
-const options1 = ref([
-  {
-    label: "选项 A",
-    value: 1,
-  },
-  {
-    label: "选项 B",
-    value: 2,
-  },
-]);
-const options2 = ref([
-  {
-    label: "选项 C",
-    value: 3,
-    disabled: true,
-  },
-  {
-    label: "选项 D",
-    value: 4,
-    disabled: true,
-  },
-]);
-</script>
-```
-
-</details>
+::: details
+<<< @/examples/radio/component/Basic.vue
+:::
+</Demo>
 
 ## 禁用状态
 
 单选框不可用状态。
 设置 `disabled` 属性即可。
+<Demo>
+<Disabled/>
 
-<div class="example">
- <Disabled/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <a-radio-group v-model="checked1" :options="options1"></a-radio-group>
-</template>
-
-<script lang="ts" setup>
-import { ref } from "vue";
-
-const checked1 = ref(2);
-
-const options1 = ref([
-  {
-    label: "选项 一",
-    value: 1,
-    disabled: true,
-  },
-  {
-    label: "选项 二",
-    value: 2,
-    disabled: true,
-  },
-]);
-</script>
-```
-
-</details>
+::: details
+<<< @/examples/radio/component/Disabled.vue
+:::
+</Demo>
 
 ## Radio API
 

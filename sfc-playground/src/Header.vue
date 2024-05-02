@@ -31,7 +31,7 @@ function toggleDark() {
 <template>
   <nav>
     <h1>
-      <img alt="logo" src="https://yjjanmusang.gitee.io/amu-ui/logo.PNG">
+      <img alt="logo" src="https://amu-environment.github.io/amu-ui/logo.PNG">
       <span style="margin-left: 60px;color: #3073dd;">SFC Playground</span>
     </h1>
     <div class="links">

@@ -35,6 +35,7 @@
   }
   input[type="radio"] + label::before {
     content: "";
+    box-sizing: initial;
     display: inline-block;
     width: 13px;
     height: 13px;
@@ -49,6 +50,7 @@
     border-color: var(--a-primary-color);
   }
   input[type="radio"]:checked + label::before {
+    box-sizing: initial;
     border-color: var(--a-primary-color);
     background-color: var(--a-primary-color);
   }

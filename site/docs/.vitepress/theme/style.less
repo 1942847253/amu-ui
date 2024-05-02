@@ -1,4 +1,5 @@
 :root {
+  --vp-c-text-1:var(--a-text-color) !important;
   --docsearch-modal-background: #fafafa;
   --vp-layout-max-width: 1700px;
   --vp-c-bg: var(--a-bg-color);
@@ -409,26 +410,6 @@ details > summary:first-of-type {
     }
   }
 }
-// table {
-
-// }
-.example {
-  border: 1px solid var(--a-border-weak-color);
-  border-radius: 5px;
-  padding: 20px;
-  padding-top: 42px;
-  overflow: hidden;
-  .radio-main input[type="radio"] + label::after {
-    left: 4.5px;
-    top: 50%;
-  }
-  .subtract-button {
-    height: 29.5px;
-  }
-  .add-button {
-    height: 29.5px;
-  }
-}
 
 .custom-block.details{
   background-color: transparent;
@@ -446,7 +427,16 @@ details > summary:first-of-type {
   margin: 0;
 }
 
+.vp-doc h2:not(:where(.vp-raw, .vp-raw *)){
+  border: none;
+}
+.vp-doc h1:not(:where(.vp-raw, .vp-raw *)){
+ color: var(--a-text-color);
+}
 
+.vp-doc :not(pre, h1, h2, h3, h4, h5, h6) > code:not(:where(.vp-raw, .vp-raw *)){
+  color: var(--a-text-color);
+}
 
 #基础用法 {
   border: none;

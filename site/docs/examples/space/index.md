@@ -13,52 +13,24 @@ import Size from './component/Size.vue'
 
 间距组件的基本用法。
 使用 `size` 在设置间距大小, 默认为 `small` ,也可设定为数字值
+<Demo>
+<Basic/>
 
-<div class="example">
- <Basic/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <ASpace>
-    <AButton>Default</AButton>
-    <AButton type="primary">Primary</AButton>
-    <AButton type="error">Error</AButton>
-    <AButton type="warning">Warning</AButton>
-    <AButton type="info">Info</AButton>
-  </ASpace>
-</template>
-```
-
-</details>
+::: details
+<<< @/examples/space/component/Basic.vue
+:::
+</Demo>
 
 ## 垂直布局
 
 将 `direction` 设置为 `column` 即可实现垂直布局 , 背后实际上是利用了 flex-direction 来控制.
+<Demo>
+<Column/>
 
-<div class="example">
- <Column/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <ASpace direction="column" align="center" style="width: 400px;">
-    <AButton full>Default</AButton>
-    <AButton full type="primary">Primary</AButton>
-    <AButton full type="error">Error</AButton>
-    <AButton full type="warning">Warning</AButton>
-    <AButton full type="info">Info</AButton>
-  </ASpace>
-</template>
-```
-
-</details>
+::: details
+<<< @/examples/space/component/Column.vue
+:::
+</Demo>
 
 ## 控制间距的大小
 
@@ -67,74 +39,24 @@ import Size from './component/Size.vue'
 使用内置的 `small`、`default`、`large` 来设置间距大小，分别对应 `8px`、`12px` 和 `16px` 的间距。 默认的间距大小为 `small`，也就是 `8px`。
 
 您也可以通过自定义的 `size` 来控制大小， 参见下一个部分。
+<Demo>
+<Size/>
 
-<div class="example">
- <Size/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <ASelect v-model="size" :options="options"></ASelect>
-  <ASpace align="center" style="margin-top: 20px;" :size="size">
-    <span>{{ size }}:</span>
-    <AButton>Default</AButton>
-    <AButton type="primary">Primary</AButton>
-    <AButton type="error">Error</AButton>
-    <AButton type="warning">Warning</AButton>
-    <AButton type="info">Info</AButton>
-  </ASpace>
-</template>
-
-<script lang="ts" setup>
-import { ref } from "vue";
-const size = ref("small");
-
-const options = [
-  {
-    text: "Small",
-    value: "small",
-  },
-  {
-    text: "Default",
-    value: "default",
-  },
-  {
-    text: "Large",
-    value: "large",
-  },
-];
-</script>
-```
-
-</details>
+::: details
+<<< @/examples/space/component/Size.vue
+:::
+</Demo>
 
 ## 自定义 Size
 
 很多时候，内建的大小不满足设计师的要求，我们可以通过传入自己定义的大小 (数值类型) 来设置。
+<Demo>
+<CustomSize/>
 
-<div class="example">
- <CustomSize/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <ASpace>
-    <AButton>Default</AButton>
-    <AButton type="primary">Primary</AButton>
-    <AButton type="error">Error</AButton>
-    <AButton type="warning">Warning</AButton>
-    <AButton type="info">Info</AButton>
-  </ASpace>
-</template>
-```
-
-</details>
+::: details
+<<< @/examples/space/component/CustomSize.vue
+:::
+</Demo>
 
 ## Space API
 

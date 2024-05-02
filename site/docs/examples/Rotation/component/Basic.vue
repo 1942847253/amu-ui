@@ -36,19 +36,20 @@ const picList = [
 ];
 </script>
 
-<style lang="less" scoped>
+<style  scoped>
 .img-item {
   height: 300px;
-  width: 800px;
+  width: 1000px;
   display: flex;
   align-items: center;
   justify-content: center;
-  h3 {
+}
+
+h3 {
     color: #475669;
     opacity: 0.75;
     line-height: 200px;
     margin: 0;
     text-align: center;
   }
-}
 </style>

@@ -25,7 +25,8 @@
   </AForm>
 </template>
 
-<script lang="ts" setup>import { reactive, ref } from 'vue';
+<script lang="ts" setup>
+import { reactive, ref } from 'vue';
 
 const formState = reactive({
   name: "坤坤",

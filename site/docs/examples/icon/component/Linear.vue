@@ -172,22 +172,16 @@ const copyIcon = (icon: string) => {
 
 <style lang="less" scoped>
 .icon-list {
-  width: 90% !important;
   overflow: hidden;
   display: flex;
   flex-wrap: wrap;
-  padding-inline-start: 0px;
-
   li {
-    width: 138px;
+    width: 137px;
     padding: 16px;
-    margin-bottom: -1px;
-    margin-right: -1px;
     text-align: center;
     list-style: none !important;
     cursor: default;
     border: 1px solid var(--a-border-weak-color);
-    border-bottom: none;
     .iconfont {
       cursor: pointer;
       display: block;

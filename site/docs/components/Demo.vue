@@ -5,7 +5,7 @@
         </div>
         <div class="tools">
             <a-icon name="code" v-tooltip.top="`查看源代码`" @click="foldCode" />
-            <a-icon name="copy" v-tooltip.top="`复制代码`" />
+            <a-icon name="copy" v-tooltip.top="`复制代码`" @click="copyCode" />
             <a-icon name="layers" v-tooltip.top="`在 playground 中编辑`" @click="toPlayground" />
         </div>
     </div>
@@ -13,6 +13,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
+import { AMessage } from 'amu-ui'
 
 const demoRef = ref<HTMLDivElement>()
 
@@ -40,11 +41,25 @@ const foldCode = () => {
     const codeElement = demoRef.value!.querySelector('summary')
     codeElement?.click()
 }
+
+const copyCode = () => {
+    const copyBtn = demoRef.value!.querySelector('.copy') as HTMLButtonElement;
+    copyBtn?.click()
+    AMessage.success({
+        message: '复制成功 !'
+    })
+}
 </script>
 
 <style lang="less" scoped>
 .example {
     position: relative;
+    border: 1px solid var(--a-border-weak-color);
+    border-radius: 5px;
+    padding: 20px;
+    padding-top: 48px;
+    overflow: hidden;
+  
 
     .tools {
         position: absolute;
@@ -68,6 +83,7 @@ const foldCode = () => {
 
         span:hover {
             background-color: var(--a-bg-hover-color);
+
         }
 
         span:active {

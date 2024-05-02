@@ -10,58 +10,22 @@ import Closeable from './component/Closeable.vue'
 ## 基础用法
 
 使用 `type` 来定义选择 tag 的类型。
+<Demo>
+<Basic/>
 
-<div class="example">
- <Basic/>
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <div>
-    <a-button>default</a-button>
-    <a-button type="primary">primary</a-button>
-    <a-button type="success">success</a-button>
-    <a-button type="warning">warning</a-button>
-    <a-button type="danger">error</a-button>
-    <a-button type="info">info</a-button>
-  </div>
-</template>
-<script lang="ts" setup>
-import { YButton } from "amu-ui";
-</script>
-```
-
-</details>
+::: details
+<<< @/examples/tag/component/Basic.vue
+:::
+</Demo>
 
 ## 可移除标签
 
 设置 `closable` 属性可以定义一个标签是否可移除。
+<Demo>
+<Closeable/>
 
-<div class="example">
- <Closeable />
-</div>
-
-<details>
-<summary>展开示例代码</summary>
-
-```vue
-<template>
-  <div>
-    <a-button>default</a-button>
-    <a-button type="primary">primary</a-button>
-    <a-button type="success">success</a-button>
-    <a-button type="warning">warning</a-button>
-    <a-button type="danger">error</a-button>
-    <a-button type="info">info</a-button>
-  </div>
-</template>
-<script lang="ts" setup>
-import { YButton } from "amu-ui";
-</script>
-```
-
-</details>
+::: details
+<<< @/examples/tag/component/Closeable.vue
+:::
+</Demo>
 

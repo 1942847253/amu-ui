@@ -1,5 +1,5 @@
 <template>
-  <div class="vp-raw">
+  <div class="vp-raw test" style="box-sizing:initial !important;">
     <a-radio-group class="vp-raw"  v-model="checked1" :options="options1"></a-radio-group>
     <a-radio-group class="vp-raw" v-model="checked2" :options="options2"></a-radio-group>
   </div>
@@ -36,6 +36,11 @@ const options2 = ref([
 ]);
 </script>
 
-<style>
-
+<style scoped>
+test::before{
+  box-sizing: none !important;
+}
+test::after{
+  box-sizing: none !important;
+}
 </style>
