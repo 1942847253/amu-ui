@@ -1,8 +1,10 @@
 <template>
-  <a-button type="primary" @click="dialogVisible1 = true"> 用户列表</a-button>
-  <a-button type="primary" @click="dialogVisible = true"> <a-icon name="add" />&nbsp;新建用户</a-button>
+  <ASpace>
+    <a-button type="primary" @click="dialogVisible1 = true"> 用户列表</a-button>
+    <a-button type="primary" @click="dialogVisible = true"> <a-icon name="add" />&nbsp;新建用户</a-button>
+  </ASpace>
   <a-dialog width="50%" title="用户列表" v-model="dialogVisible1">
-    <a-table :tableData="tableData.tBody" :tableColumn="tableData.tHead">
+    <a-table class="vp-row" :data="tableData.tBody" :columns="tableData.tHead">
     </a-table>
   </a-dialog>
   <a-dialog icon="add" width="50%" title="新建成员" v-model="dialogVisible">
@@ -26,8 +28,10 @@
 
     </AForm>
     <template #footer>
+     <ASpace>
       <AButton @click="onReset">重置</AButton>
       <AButton @click="onSubmit" type="primary">提交</AButton>
+     </ASpace>
     </template>
   </a-dialog>
 </template>
@@ -51,35 +55,28 @@ const tableData = ref({
   tHead: [
     {
       key: "id",
-      text: "学号",
+      title: "学号",
     },
     {
       key: "name",
-      text: "姓名",
+      title: "姓名",
     },
     {
       key: "age",
-      text: "年龄",
+      title: "年龄",
     },
     {
       key: "chinese",
-      text: "语文",
-      editable: false,
+      title: "语文",
     },
     {
       key: "math",
-      text: "数学",
-      editable: false,
+      title: "数学",
     },
     {
       key: "english",
-      text: "英语",
-      editable: false,
+      title: "英语",
     },
-    // {
-    //     key: "operation",
-    //     text: "操作",
-    // },
   ],
   tBody: [
     {
@@ -120,35 +117,35 @@ const tableData = ref({
 const options = ref([
   {
     value: 1,
-    text: "Yjj",
+    title: "Yjj",
   },
   {
     value: 2,
-    text: "Big龙",
+    title: "Big龙",
   },
   {
     value: 3,
-    text: "嘿毛",
+    title: "嘿毛",
   },
   {
     value: 4,
-    text: "嫖瓜",
+    title: "嫖瓜",
   },
   {
     value: 5,
-    text: "吊毛",
+    title: "吊毛",
   },
   {
     value: 6,
-    text: "吴彦祖",
+    title: "吴彦祖",
   },
   {
     value: 7,
-    text: "陈冠希",
+    title: "陈冠希",
   },
   {
     value: 8,
-    text: "林俊杰",
+    title: "林俊杰",
   },
 ]);
 

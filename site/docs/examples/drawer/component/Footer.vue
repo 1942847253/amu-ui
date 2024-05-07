@@ -30,8 +30,10 @@
       </AForm>
     </template>
     <template #footer>
-      <AButton @click="onReset">Reset</AButton>
-      <AButton @click="onSubmit" type="primary">Submit</AButton>
+      <ASpace>
+        <AButton @click="onReset">Reset</AButton>
+        <AButton @click="onSubmit" type="primary">Submit</AButton>
+      </ASpace>
     </template>
   </ADrawer>
 </template>

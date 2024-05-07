@@ -5,23 +5,24 @@
   cursor: pointer;
   font-size: 14px;
   line-height: 22px;
-  color: #606266;
+  color: var(--a-text-color);
+  transition: background-color 0.2s, color 0.2s;
 }
 .disable {
-  color: #c0c4cc;
+  color: var(--a-text-disable-color);
   cursor: not-allowed;
   user-select: none;
 }
 .disable:hover {
-  color: #c0c4cc !important;
-  background-color: #ffff !important;
+  color: var(--a-text-disable-color) !important;
+  background-color: var(--a-bg-color) !important;
 }
 .a-dropdown-item:hover {
-  color: #0468dc;
-  background-color: #0066ff09;
+  color: var(--a-primary-color);
+  background-color: var(--a-bg-hover-color);
 }
 
 .divided{
   margin: 6px 0;
-  border-top: 1px solid #ebeef5;
+  border-top: 1px solid var(--a-border-weak-color);
 }

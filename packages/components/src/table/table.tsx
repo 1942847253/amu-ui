@@ -5,7 +5,7 @@ import { AIcon, AScrollbar } from '..';
 export type ATableColumns = {
     title: string | number;
     key: string | number;
-    width: string | number
+    width?: string | number
     render?: (row: any) => VNode
 }
 
@@ -96,7 +96,7 @@ export default defineComponent({
                             <tr class="a-table-tr">
                                 {
                                     state.columns.map(({ key, render, width }) => (
-                                        <td data-col-key={key} class={classes} style={style(width)}>
+                                        <td data-col-key={key} class={classes} style={style(width!)}>
                                             {render ? render(item) : item[key]}
                                         </td>
                                     ))

@@ -1,5 +1,5 @@
 import { CSSProperties, Teleport, computed, defineComponent, onMounted, ref, Transition, watch } from "vue";
-import { AButton } from "..";
+import { AButton, ASpace } from "..";
 import { AIcon } from "..";
 import './style/index.less';
 import useZIndex from "@/shared/hooks/useZIndex";
@@ -84,7 +84,7 @@ export default defineComponent({
         onMounted(() => {
             setTimeout(() => {
                 dialogZIndex.value = useZIndex()
-               });
+            });
         })
 
         watch(
@@ -156,10 +156,10 @@ export default defineComponent({
                             <div class="a-dialog-footer" style={{ justifyContent: props.center ? 'center' : 'right' }}>
                                 {
                                     slots.footer ? slots.footer() : (
-                                        <>
+                                        <ASpace>
                                             <AButton v-show={props.showCancelButton} onClick={() => closeEvent('cancel-click')}>{props.cancelButtonText}</AButton>
                                             <AButton style="margin-right:0px" v-show={props.showConfirmButton} onClick={() => closeEvent('confirm-click')} type="primary">{props.confirmButtonText}</AButton>
-                                        </>
+                                        </ASpace>
                                     )
                                 }
                             </div>

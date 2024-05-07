@@ -1,12 +1,12 @@
 <template>
   <APopover
-    width="400px"
+    width="500px"
     content="this is content, this is content, this is content"
   >
     <template #reference>
       <a-button type="primary">Click to activate</a-button>
     </template>
-    <a-table :tableData="tableData.tBody" :tableColumn="tableData.tHead">
+    <a-table class="vp-row" :data="tableData.tBody" :columns="tableData.tHead">
     </a-table>
   </APopover>
 </template>
@@ -18,35 +18,28 @@ const tableData = ref({
   tHead: [
     {
       key: "id",
-      text: "学号",
+      title: "学号",
     },
     {
       key: "name",
-      text: "姓名",
+      title: "姓名",
     },
     {
       key: "age",
-      text: "年龄",
+      title: "年龄",
     },
     {
       key: "chinese",
-      text: "语文",
-      editable: false,
+      title: "语文",
     },
     {
       key: "math",
-      text: "数学",
-      editable: false,
+      title: "数学",
     },
     {
       key: "english",
-      text: "英语",
-      editable: false,
+      title: "英语",
     },
-    // {
-    //     key: "operation",
-    //     text: "操作",
-    // },
   ],
   tBody: [
     {

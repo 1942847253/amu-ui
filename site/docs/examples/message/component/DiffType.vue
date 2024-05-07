@@ -1,10 +1,10 @@
 <template>
+   <ASpace>
     <AButton type="success" @click="showSuccess">show success </AButton>
     <AButton type="info" @click="showMessage">show   Info  </AButton>
-    <AButton type="danger" @click="showError">show  error </AButton>
-   
+    <AButton type="error" @click="showError">show  error </AButton>
     <AButton type="warning" @click="showWarning">show warning </AButton>
-    
+   </ASpace>
 </template>
 
 <script lang="ts" setup>

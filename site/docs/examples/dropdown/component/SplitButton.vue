@@ -1,7 +1,10 @@
 <template>
   <div style="display: flex">
-    <ADropdown>
-      <a-button type="primary"> Dropdown List <a-icon style="margin-left: 5px;" name="arrow-down" /></a-button>
+    <ASpace>
+      <ADropdown>
+      <a-button type="primary">
+        Dropdown List <a-icon style="margin-left: 5px" name="arrow-down"
+      /></a-button>
       <template #dropdown>
         <a-dropdown-menu>
           <a-dropdown-item>Action 1</a-dropdown-item>
@@ -24,6 +27,7 @@
         </a-dropdown-menu>
       </template>
     </ADropdown>
+    </ASpace>
   </div>
 </template>
 

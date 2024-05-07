@@ -1,6 +1,6 @@
 <template>
   <ALoading v-model="showLoading" title="please loading...">
-    <a-table :tableData="tableData.tBody" :tableColumn="tableData.tHead">
+    <a-table class="vp-raw" :data="tableData.tBody" :columns="tableData.tHead">
     </a-table>
   </ALoading>
 </template>
@@ -14,39 +14,28 @@ const tableData = ({
     tHead: [
         {
             key: "id",
-            text: "学号",
-
+            title: "学号",
         },
         {
             key: "name",
-            text: "姓名",
+            title: "姓名",
         },
         {
             key: "age",
-            text: "年龄",
-
+            title: "年龄",
         },
         {
             key: "chinese",
-            text: "语文",
-            editable: false,
-
+            title: "语文",
         },
         {
             key: "math",
-            text: "数学",
-            editable: false,
+            title: "数学",
         },
         {
             key: "english",
-            text: "英语",
-            editable: false,
-
-        },
-        // {
-        //     key: "operation",
-        //     text: "操作",
-        // },
+            title: "英语",
+        }
     ],
     tBody: [
         {
