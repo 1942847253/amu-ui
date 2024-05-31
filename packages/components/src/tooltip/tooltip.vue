@@ -27,6 +27,7 @@
 import { ref, computed, defineComponent, CSSProperties } from "vue";
 import "./style/index.less";
 export default defineComponent({
+  name:'ATooltip',
   setup() {
     // 显示弹框
     const tooltipShow = ref(false);

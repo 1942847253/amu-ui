@@ -2,7 +2,7 @@ import { computed, defineComponent, onMounted, PropType, ref, watch } from "vue"
 import { AIcon } from "../icon";
 import './style/index.less'
 
-interface ICustomColors {
+export interface ICustomColors {
     color: string
     percentage: number
 }
