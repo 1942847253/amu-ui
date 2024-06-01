@@ -8,7 +8,7 @@
 
 建议您使用包管理器 (NPM, Yarn, pnpm) 安装 Amu-UI
 
-```
+```cmd
 # 选择一个你喜欢的包管理器
 
 # NPM
