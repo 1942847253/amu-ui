@@ -17,43 +17,43 @@ export interface IDayObj {
 export const WEEK_DAYS = ["日", "一", "二", "三", "四", "五", "六"];
 
 const useCalendar = (year: number, month: number) => {
-  const lastMothRestDays = getLastMonthRestDays(year, month);
+  const lastMonthRestDays = getLastMonthRestDays(year, month);
   const currentMonthDays = getMonthDayCount(year, month);
   const nextMonthRestDays = getNextMonthRestDays(year, month);
 
-  const CalendarItemArr = [] as IDayObj[];
   const [currentYear, currentMonth, currentDate] = getDateInfo();
-  for (let i = 1; i <= currentMonthDays; i++) {
-    const isCurrentDate =
-      currentYear === year && currentMonth === month && currentDate === i;
-    CalendarItemArr.push({
-      day: i,
+  const calendarItems = Array.from({ length: currentMonthDays }, (_, i) => {
+    const day = i + 1;
+    const isCurrentDate = currentYear === year && currentMonth === month && currentDate === day;
+    return {
+      day,
       style: isCurrentDate ? "day current-day current" : "day current-day",
       isRestDay: false,
       year,
       month,
-    });
-  }
-  const CalendarItemObjArr = [
-    ...getDaysObjArr("last", lastMothRestDays, year, month),
-    ...CalendarItemArr,
-    ...getDaysObjArr("next", nextMonthRestDays, year, month),
+    } as IDayObj;
+  });
+
+  const calendarItemObjArr = [
+    ...getRestDaysObjArr("last", lastMonthRestDays, year, month),
+    ...calendarItems,
+    ...getRestDaysObjArr("next", nextMonthRestDays, year, month),
   ];
+
   return [
     WEEK_DAYS,
-    CalendarItemObjArr,
-    chunk(CalendarItemObjArr, 7) as IDayObj[][],
+    calendarItemObjArr,
+    chunk(calendarItemObjArr, 7),
   ];
 };
 
-const getDaysObjArr = (
+const getRestDaysObjArr = (
   flag: "last" | "next",
-  DaysArr: number[],
+  daysArr: number[],
   year: number,
   month: number
 ) => {
-  let DaysObjArr: IDayObj[] = [];
-  DaysArr.forEach((day) => {
+  return daysArr.map((day) => {
     const item = {
       day,
       style: "day rest-day",
@@ -63,22 +63,22 @@ const getDaysObjArr = (
     } as IDayObj;
     if (flag === "last") {
       if (month === 1) {
-        item.month === 12;
+        item.month = 12;
         item.year = year - 1;
-        return;
+      } else {
+        item.month--;
       }
-      item.month--;
     } else {
       if (month === 12) {
-        item.month === 1;
+        item.month = 1;
         item.year = year + 1;
-        return;
+      } else {
+        item.month++;
       }
-      item.month++;
     }
-    DaysObjArr.push(item);
+    return item;
   });
-  return DaysObjArr;
 };
+
 
 export default useCalendar;

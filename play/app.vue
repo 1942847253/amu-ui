@@ -644,7 +644,7 @@
 
 <script lang="ts" setup>
 import { h, onMounted, reactive, ref, watch } from "vue";
-import { AButton, AMessage, AMessageBox } from '@amu-ui/components';
+import { AButton, AMessage, AMessageBox } from '../packages/components';
 
 const dialogVisible = ref(false)
 const numberValue = ref();

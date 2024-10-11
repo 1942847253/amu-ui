@@ -1,1 +1,1 @@
-{"fullyTracked":false,"platform":"win32","arch":"x64","nodeVersion":"v18.16.0","command":"node scripts/only-allow.mjs pnpm","extraArgs":[],"clean":true,"files":{},"output":[],"dependencies":{},"env":{}}
+{"fullyTracked":false,"platform":"win32","arch":"x64","nodeVersion":"v20.18.0","command":"node scripts/only-allow.mjs pnpm","extraArgs":[],"clean":true,"files":{},"output":[],"dependencies":{},"env":{}}
