@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { AmuButton } from 'amu-ui'
+import { AmuButton } from 'am-ui'
 </script>
 
 <style scoped>

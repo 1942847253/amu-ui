@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "amu-ui": "workspace:*",
+    "am-ui": "workspace:*",
     "highlight.js": "^11.11.1",
     "vue": "^3.4.0",
     "vue-router": "^4.5.0"

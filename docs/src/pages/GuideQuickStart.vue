@@ -4,18 +4,18 @@
 
     <section>
       <h2>安装</h2>
-      <CodeBlock lang="bash" code="pnpm add amu-ui vue" />
+      <CodeBlock lang="bash" code="pnpm add am-ui vue" />
       <p class="hint">vue 是 peer dependency，需要由业务项目自行提供。</p>
     </section>
 
     <section>
       <h2>引入主题</h2>
-      <CodeBlock lang="ts" code="import 'amu-ui/theme'" />
+      <CodeBlock lang="ts" code="import 'am-ui/theme'" />
     </section>
 
     <section>
       <h2>按需引入</h2>
-      <CodeBlock lang="ts" code="import AmuButton from 'amu-ui/button'" />
+      <CodeBlock lang="ts" code="import AmuButton from 'am-ui/button'" />
     </section>
 
     <section>
@@ -23,8 +23,8 @@
       <CodeBlock
         lang="ts"
         code="import { createApp } from 'vue'
-import AmuUI from 'amu-ui'
-import 'amu-ui/theme'
+import AmuUI from 'am-ui'
+import 'am-ui/theme'
 
 createApp(App).use(AmuUI).mount('#app')"
       />

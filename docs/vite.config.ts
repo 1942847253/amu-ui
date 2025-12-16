@@ -9,25 +9,25 @@ export default defineConfig({
     alias: [
       // docs 开发时直接指向源码，保证 HMR 与调试体验
       {
-        find: "amu-ui/theme",
+        find: "am-ui/theme",
         replacement: resolve(__dirname, "../packages/theme/index.ts"),
       },
       {
-        find: "amu-ui/button",
+        find: "am-ui/button",
         replacement: resolve(
           __dirname,
           "../packages/components/button/index.ts",
         ),
       },
       {
-        find: "amu-ui/components/button",
+        find: "am-ui/components/button",
         replacement: resolve(
           __dirname,
           "../packages/components/button/index.ts",
         ),
       },
       {
-        find: "amu-ui",
+        find: "am-ui",
         replacement: resolve(__dirname, "../packages/components/index.ts"),
       },
     ],
