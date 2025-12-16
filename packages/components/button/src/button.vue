@@ -18,16 +18,15 @@
     @click="handleClick"
     @animationend="handleAnimationEnd"
   >
-    <template v-if="loading">
+    <span class="amu-button__loading-icon">
       <slot name="loading-icon">
         <span class="amu-button__spinner" aria-hidden="true"></span>
       </slot>
-    </template>
-    <template v-else-if="$slots.icon">
-      <span class="amu-button__icon">
-        <slot name="icon" />
-      </span>
-    </template>
+    </span>
+
+    <span class="amu-button__icon" v-if="$slots.icon">
+      <slot name="icon" />
+    </span>
 
     <slot />
   </button>

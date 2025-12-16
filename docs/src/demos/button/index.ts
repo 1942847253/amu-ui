@@ -18,6 +18,8 @@ import Loading from "./Loading.vue";
 import LoadingCode from "./Loading.vue?raw";
 import Fill from "./Fill.vue";
 import FillCode from "./Fill.vue?raw";
+import Icon from "./Icon.vue";
+import IconCode from "./Icon.vue?raw";
 
 export const demos: DemoItem[] = [
   {
@@ -45,6 +47,14 @@ export const demos: DemoItem[] = [
     component: Shape,
     lang: "vue",
     code: ShapeCode,
+  },
+  {
+    key: "icon",
+    title: "图标按钮",
+    description: "通过 icon 插槽可以在按钮中嵌入图标。",
+    component: Icon,
+    lang: "vue",
+    code: IconCode,
   },
   {
     key: "status",
