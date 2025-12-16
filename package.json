@@ -1,0 +1,67 @@
+{
+  "name": "amu-ui",
+  "version": "0.0.0",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/cjs/components/index.cjs",
+  "module": "./dist/es/components/index.mjs",
+  "types": "./dist/types/components/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/components/index.d.ts",
+      "import": "./dist/es/components/index.mjs",
+      "require": "./dist/cjs/components/index.cjs"
+    },
+    "./theme": {
+      "types": "./dist/types/theme/index.d.ts",
+      "import": "./dist/es/theme/index.mjs",
+      "require": "./dist/cjs/theme/index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./button": {
+      "types": "./dist/types/components/button/index.d.ts",
+      "import": "./dist/es/components/button/index.mjs",
+      "require": "./dist/cjs/components/button/index.cjs"
+    },
+    "./components/button": {
+      "types": "./dist/types/components/button/index.d.ts",
+      "import": "./dist/es/components/button/index.mjs",
+      "require": "./dist/cjs/components/button/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@vitejs/plugin-vue": "^5.2.0",
+    "@vitest/coverage-v8": "^4.0.15",
+    "@vue/test-utils": "^2.4.6",
+    "jsdom": "^27.3.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.0",
+    "vite-plugin-lib-inject-css": "^2.2.2",
+    "vitest": "^4.0.15",
+    "vue": "^3.4.0",
+    "vue-tsc": "^2.1.10"
+  },
+  "scripts": {
+    "dev": "pnpm --filter playground dev",
+    "docs:dev": "pnpm --filter docs dev",
+    "docs:build": "pnpm --filter docs build",
+    "docs:preview": "pnpm --filter docs preview",
+    "build": "pnpm run gen:exports && pnpm run build:lib && pnpm run build:types",
+    "build:lib": "vite build",
+    "build:types": "vue-tsc -p tsconfig.build.json",
+    "gen:exports": "node scripts/gen-exports.js",
+    "clean": "rimraf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage"
+  }
+}

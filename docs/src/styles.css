@@ -1,0 +1,188 @@
+/* docs 站点的样式完全自管，避免第三方全局样式污染组件 demo */
+
+:root {
+  /* Brand Colors - Arco Blue */
+  --amu-brand: #165DFF;
+  --amu-brand-light: #4080FF;
+  --amu-brand-dark: #0E42D2;
+
+  /* Background Colors */
+  --amu-bg-body: #ffffff;
+  --amu-bg-nav: rgba(255, 255, 255, 0.9);
+  --amu-bg-sidebar: #ffffff;
+  --amu-bg-code: #f7f8fa;
+  --amu-bg-demo: #ffffff;
+  --amu-bg-demo-ctrl: #ffffff;
+  
+  /* Text Colors */
+  --amu-text-1: #1D2129;
+  --amu-text-2: #4E5969;
+  --amu-text-3: #86909C;
+  --amu-text-inverse: #ffffff;
+
+  /* Border Colors */
+  --amu-border: #E5E6EB;
+  --amu-border-hover: #C9CDD4;
+
+  /* Spacing & Layout */
+  --amu-nav-height: 60px;
+  --amu-sidebar-width: 260px;
+  --amu-toc-width: 200px;
+  --amu-content-width: 860px;
+  
+  /* Radius */
+  --amu-radius-sm: 2px;
+  --amu-radius: 4px;
+  --amu-radius-lg: 8px;
+
+  /* Shadows */
+  --amu-shadow-1: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --amu-shadow-2: 0 8px 20px rgba(0, 0, 0, 0.12);
+  --amu-shadow-3: 0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
+
+  /* Transitions */
+  --amu-transition: all 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+}
+
+/* Dark Mode (Optional, can be toggled by class later) */
+.dark {
+  --amu-brand: #165DFF;
+  --amu-brand-light: #3C7EFF;
+  --amu-brand-dark: #0E42D2;
+
+  --amu-bg-body: #17171A;
+  --amu-bg-nav: rgba(23, 23, 26, 0.9);
+  --amu-bg-sidebar: #17171A;
+  --amu-bg-code: #232324;
+  --amu-bg-demo: #17171A;
+  --amu-bg-demo-ctrl: #232324;
+
+  --amu-text-1: #F2F3F5;
+  --amu-text-2: #C9CDD4;
+  --amu-text-3: #86909C;
+
+  --amu-border: #2E2E30;
+  --amu-border-hover: #484849;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.5715;
+  font-size: 14px;
+  color: var(--amu-text-1);
+  background-color: var(--amu-bg-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--amu-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--amu-text-3);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--amu-transition);
+}
+
+a:hover {
+  color: var(--amu-brand);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  position: relative;
+  font-weight: 500;
+  outline: none;
+  color: var(--amu-text-1);
+}
+
+h1 {
+  font-size: 36px;
+  line-height: 1.4;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+h2 {
+  margin: 48px 0 20px;
+  font-size: 24px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+h3 {
+  margin: 32px 0 16px;
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+p {
+  margin: 16px 0;
+  color: var(--amu-text-2);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+code {
+  font-family: "JetBrains Mono", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 0.9em;
+  padding: 2px 6px;
+  border-radius: 2px;
+  background-color: var(--amu-bg-code);
+  color: var(--amu-text-1);
+  border: 1px solid var(--amu-border);
+}
+
+pre {
+  margin: 16px 0;
+  padding: 20px;
+  border-radius: var(--amu-radius);
+  background-color: var(--amu-bg-code);
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  border: 1px solid var(--amu-border);
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+}
+
+/* Utility */
+.link {
+  color: var(--amu-brand);
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+}
+.link:hover {
+  border-bottom-color: var(--amu-brand);
+}
+
+/* Highlight.js overrides */
+.hljs {
+  background: transparent !important;
+  padding: 0 !important;
+}

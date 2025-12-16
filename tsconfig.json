@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "types": ["vite/client"],
+    "baseUrl": "."
+  },
+  "include": [
+    "env.d.ts",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "packages/**/*.ts",
+    "packages/**/*.vue",
+    "packages/**/__test__/**/*.ts",
+    "tests/setup.ts",
+    "playground/**/*.ts",
+    "playground/**/*.vue",
+    "docs/**/*.ts",
+    "docs/**/*.vue",
+    "docs/env.d.ts"
+  ]
+}

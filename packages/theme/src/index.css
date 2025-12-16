@@ -1,0 +1,110 @@
+:root {
+  color-scheme: light;
+
+  /* Arco Design Blue */
+  --amu-color-primary: #165DFF;
+  --amu-color-primary-hover: #4080FF;
+  --amu-color-primary-active: #0E42D2;
+  --amu-color-on-primary: #ffffff;
+
+  --amu-color-bg: #ffffff;
+  --amu-color-bg-elevated: #ffffff;
+  --amu-color-bg-fill: #F2F3F5;
+
+  --amu-color-text: #1D2129;
+  --amu-color-text-default: #4E5969;
+  --amu-color-text-disabled: #86909C;
+
+  --amu-color-border: #E5E6EB;
+
+  --amu-color-status-warning: #F59E0B;
+  --amu-color-status-warning-hover: #D97706;
+  --amu-color-status-warning-active: #B45309;
+  --amu-color-on-warning: #ffffff;
+
+  --amu-color-status-danger: #F04438;
+  --amu-color-status-danger-hover: #D70C0C;
+  --amu-color-status-danger-active: #A60A0A;
+  --amu-color-on-danger: #ffffff;
+
+  --amu-color-status-success: #22C55E;
+  --amu-color-status-success-hover: #16A34A;
+  --amu-color-status-success-active: #0F9D58;
+  --amu-color-on-success: #ffffff;
+
+  --amu-radius: 4px;
+  --amu-font-size: 14px;
+  --amu-height-md: 32px;
+}
+
+/* 手动暗黑：把该属性加在 html/body/任意容器上即可（支持局部主题作用域） */
+[data-amu-theme='dark'] {
+  color-scheme: dark;
+
+  --amu-color-primary: #165DFF;
+  --amu-color-primary-hover: #3C7EFF;
+  --amu-color-primary-active: #0E42D2;
+  --amu-color-on-primary: #ffffff;
+
+  --amu-color-bg: #17171A;
+  --amu-color-bg-elevated: #232324;
+  --amu-color-bg-fill: #373739;
+
+  --amu-color-text: #F2F3F5;
+  --amu-color-text-default: #C9CDD4;
+  --amu-color-text-disabled: #86909C;
+
+  --amu-color-border: #2E2E30;
+
+  --amu-color-status-warning: #F59E0B;
+  --amu-color-status-warning-hover: #D97706;
+  --amu-color-status-warning-active: #B45309;
+  --amu-color-on-warning: #ffffff;
+
+  --amu-color-status-danger: #F04438;
+  --amu-color-status-danger-hover: #D70C0C;
+  --amu-color-status-danger-active: #A60A0A;
+  --amu-color-on-danger: #ffffff;
+
+  --amu-color-status-success: #22C55E;
+  --amu-color-status-success-hover: #16A34A;
+  --amu-color-status-success-active: #0F9D58;
+  --amu-color-on-success: #ffffff;
+}
+
+/* 自动暗黑：未显式设置 data-amu-theme 时，跟随系统 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-amu-theme]) {
+    color-scheme: dark;
+
+    --amu-color-primary: #165DFF;
+    --amu-color-primary-hover: #3C7EFF;
+    --amu-color-primary-active: #0E42D2;
+    --amu-color-on-primary: #ffffff;
+
+    --amu-color-bg: #17171A;
+    --amu-color-bg-elevated: #232324;
+    --amu-color-bg-fill: #373739;
+
+    --amu-color-text: #F2F3F5;
+    --amu-color-text-default: #C9CDD4;
+    --amu-color-text-disabled: #86909C;
+
+    --amu-color-border: #2E2E30;
+
+    --amu-color-status-warning: #F59E0B;
+    --amu-color-status-warning-hover: #D97706;
+    --amu-color-status-warning-active: #B45309;
+    --amu-color-on-warning: #ffffff;
+
+    --amu-color-status-danger: #F04438;
+    --amu-color-status-danger-hover: #D70C0C;
+    --amu-color-status-danger-active: #A60A0A;
+    --amu-color-on-danger: #ffffff;
+
+    --amu-color-status-success: #22C55E;
+    --amu-color-status-success-hover: #16A34A;
+    --amu-color-status-success-active: #0F9D58;
+    --amu-color-on-success: #ffffff;
+  }
+}

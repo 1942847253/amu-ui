@@ -1,0 +1,509 @@
+.amu-button {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: inherit;
+  font-weight: 400;
+  text-decoration: none;
+
+  /* Local variables for size control */
+  --amu-button-height: var(--amu-height-md);
+  --amu-button-padding: 0 15px;
+  --amu-button-font-size: var(--amu-font-size);
+
+  height: var(--amu-button-height);
+  padding: var(--amu-button-padding);
+
+  font-size: var(--amu-button-font-size);
+  line-height: 1.5715;
+
+  border-radius: var(--amu-radius);
+  border: 1px solid transparent;
+  outline: none;
+  
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.1s cubic-bezier(0, 0, 1, 1);
+
+  --amu-wave-color: var(--amu-color-primary);
+}
+
+.amu-button--loading {
+  cursor: progress;
+}
+
+/* Wave Effect */
+.amu-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: 0 0 0 0 var(--amu-wave-color);
+  transition: opacity 0.2s;
+}
+
+.amu-button.amu-wave::after {
+  animation: button-wave-spread 1.2s cubic-bezier(0.08, 0.82, 0.17, 1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes button-wave-spread {
+  from {
+    box-shadow: 0 0 0.5px 0 var(--amu-wave-color);
+    opacity: 0.5;
+  }
+  to {
+    box-shadow: 0 0 0.5px 5px var(--amu-wave-color);
+    opacity: 0;
+  }
+}
+
+@keyframes amu-button-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.amu-button__spinner {
+  width: 0;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  animation: amu-button-spinner 0.7s linear infinite;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0;
+  margin-right: -6px;
+  transition: width 0.2s ease, opacity 0.2s ease, margin-right 0.2s ease;
+}
+
+.amu-button--loading .amu-button__spinner {
+  width: 10px;
+  opacity: 0.75;
+  margin-right: 6px;
+}
+
+/* Type: default (Default) */
+.amu-button--default {
+  background-color: var(--amu-color-bg-fill);
+  border-color: transparent;
+  color: var(--amu-color-text-default);
+}
+
+.amu-button--default:not(:disabled):not(.is-disabled):hover {
+  background-color: var(--amu-color-border);
+  color: var(--amu-color-text);
+}
+
+.amu-button--default:not(:disabled):not(.is-disabled):active {
+  background-color: var(--amu-color-border);
+  color: var(--amu-color-text);
+}
+
+/* Type: Primary */
+.amu-button--primary {
+  background-color: var(--amu-color-primary);
+  border-color: transparent;
+  color: #fff;
+}
+
+.amu-button--primary:not(:disabled):not(.is-disabled):hover {
+  background-color: var(--amu-color-primary-hover);
+  border-color: transparent;
+}
+
+.amu-button--primary:not(:disabled):not(.is-disabled):active {
+  background-color: var(--amu-color-primary-active);
+  border-color: transparent;
+}
+
+/* Type: Dashed */
+.amu-button--dashed {
+  background-color: transparent;
+  border-color: var(--amu-color-border);
+  border-style: dashed;
+  color: var(--amu-color-text);
+}
+
+.amu-button--dashed:not(:disabled):not(.is-disabled):hover {
+  border-color: var(--amu-color-primary-hover);
+  color: var(--amu-color-primary-hover);
+  background-color: transparent;
+}
+
+.amu-button--dashed:not(:disabled):not(.is-disabled):active {
+  border-color: var(--amu-color-primary-active);
+  color: var(--amu-color-primary-active);
+}
+
+/* Type: Outline */
+.amu-button--outline {
+  background-color: transparent;
+  border-color: var(--amu-color-primary);
+  color: var(--amu-color-primary);
+}
+
+.amu-button--outline:not(:disabled):not(.is-disabled):hover {
+  border-color: var(--amu-color-primary-hover);
+  color: var(--amu-color-primary-hover);
+  background-color: transparent;
+}
+
+.amu-button--outline:not(:disabled):not(.is-disabled):active {
+  border-color: var(--amu-color-primary-active);
+  color: var(--amu-color-primary-active);
+}
+
+/* Type: Text */
+.amu-button--text {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--amu-color-text-default);
+  padding: 0 8px;
+}
+
+.amu-button--text:not(:disabled):not(.is-disabled):hover {
+  background-color: var(--amu-color-bg-fill);
+  color: var(--amu-color-text);
+}
+
+.amu-button--text:not(:disabled):not(.is-disabled):active {
+  background-color: var(--amu-color-border);
+  color: var(--amu-color-text);
+}
+
+/* Disabled State */
+.amu-button:disabled,
+.amu-button.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Specific disabled overrides if needed */
+.amu-button--primary:disabled {
+  background-color: var(--amu-color-primary);
+  border-color: transparent;
+  color: #fff;
+}
+
+.amu-button--default:disabled {
+  background-color: var(--amu-color-bg-fill);
+  color: var(--amu-color-text-default);
+}
+
+.amu-button--dashed:disabled,
+.amu-button--dashed.is-disabled {
+  background-color: transparent;
+  border-color: var(--amu-color-border);
+  color: var(--amu-color-text-default);
+}
+
+.amu-button--outline:disabled,
+.amu-button--outline.is-disabled {
+  background-color: transparent;
+  border-color: var(--amu-color-border);
+  color: var(--amu-color-text-default);
+}
+
+.amu-button--text:disabled,
+.amu-button--text.is-disabled {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--amu-color-text-default);
+}
+
+/* Status: warning */
+.amu-button--status-warning:not(.amu-button--outline):not(.amu-button--text):not(.amu-button--dashed) {
+  background-color: var(--amu-color-status-warning);
+  border-color: var(--amu-color-status-warning);
+  color: var(--amu-color-on-warning);
+  --amu-wave-color: var(--amu-color-status-warning-active);
+}
+
+.amu-button--status-warning:not(.amu-button--outline):not(.amu-button--text):not(.amu-button--dashed):not(:disabled):not(.is-disabled):hover {
+  background-color: var(--amu-color-status-warning-hover);
+  border-color: var(--amu-color-status-warning-hover);
+}
+
+.amu-button--status-warning:not(.amu-button--outline):not(.amu-button--text):not(.amu-button--dashed):not(:disabled):not(.is-disabled):active {
+  background-color: var(--amu-color-status-warning-active);
+  border-color: var(--amu-color-status-warning-active);
+}
+
+.amu-button--outline.amu-button--status-warning,
+.amu-button--dashed.amu-button--status-warning {
+  background-color: transparent;
+  border-color: var(--amu-color-status-warning);
+  color: var(--amu-color-status-warning);
+  --amu-wave-color: var(--amu-color-status-warning-active);
+}
+
+.amu-button--outline.amu-button--status-warning:not(:disabled):not(.is-disabled):hover,
+.amu-button--dashed.amu-button--status-warning:not(:disabled):not(.is-disabled):hover {
+  border-color: var(--amu-color-status-warning-hover);
+  color: var(--amu-color-status-warning-hover);
+}
+
+.amu-button--outline.amu-button--status-warning:not(:disabled):not(.is-disabled):active,
+.amu-button--dashed.amu-button--status-warning:not(:disabled):not(.is-disabled):active {
+  border-color: var(--amu-color-status-warning-active);
+  color: var(--amu-color-status-warning-active);
+}
+
+.amu-button--text.amu-button--status-warning {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--amu-color-status-warning);
+  --amu-wave-color: var(--amu-color-status-warning-active);
+}
+
+.amu-button--text.amu-button--status-warning:not(:disabled):not(.is-disabled):hover {
+  background-color: var(--amu-color-bg-fill);
+  color: var(--amu-color-status-warning-hover);
+}
+
+.amu-button--text.amu-button--status-warning:not(:disabled):not(.is-disabled):active {
+  background-color: var(--amu-color-border);
+  color: var(--amu-color-status-warning-active);
+}
+
+.amu-button--status-warning:disabled,
+.amu-button--status-warning.is-disabled {
+  background-color: var(--amu-color-status-warning);
+  border-color: var(--amu-color-status-warning);
+  color: var(--amu-color-on-warning);
+}
+
+.amu-button--outline.amu-button--status-warning:disabled,
+.amu-button--outline.amu-button--status-warning.is-disabled,
+.amu-button--dashed.amu-button--status-warning:disabled,
+.amu-button--dashed.amu-button--status-warning.is-disabled {
+  background-color: transparent;
+  border-color: var(--amu-color-border);
+  color: var(--amu-color-text-default);
+}
+
+.amu-button--text.amu-button--status-warning:disabled,
+.amu-button--text.amu-button--status-warning.is-disabled {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--amu-color-text-default);
+}
+
+/* Status: danger */
+.amu-button--status-danger:not(.amu-button--outline):not(.amu-button--text):not(.amu-button--dashed) {
+  background-color: var(--amu-color-status-danger);
+  border-color: var(--amu-color-status-danger);
+  color: var(--amu-color-on-danger);
+  --amu-wave-color: var(--amu-color-status-danger-active);
+}
+
+.amu-button--status-danger:not(.amu-button--outline):not(.amu-button--text):not(.amu-button--dashed):not(:disabled):not(.is-disabled):hover {
+  background-color: var(--amu-color-status-danger-hover);
+  border-color: var(--amu-color-status-danger-hover);
+}
+
+.amu-button--status-danger:not(.amu-button--outline):not(.amu-button--text):not(.amu-button--dashed):not(:disabled):not(.is-disabled):active {
+  background-color: var(--amu-color-status-danger-active);
+  border-color: var(--amu-color-status-danger-active);
+}
+
+.amu-button--outline.amu-button--status-danger,
+.amu-button--dashed.amu-button--status-danger {
+  background-color: transparent;
+  border-color: var(--amu-color-status-danger);
+  color: var(--amu-color-status-danger);
+  --amu-wave-color: var(--amu-color-status-danger-active);
+}
+
+.amu-button--outline.amu-button--status-danger:not(:disabled):not(.is-disabled):hover,
+.amu-button--dashed.amu-button--status-danger:not(:disabled):not(.is-disabled):hover {
+  border-color: var(--amu-color-status-danger-hover);
+  color: var(--amu-color-status-danger-hover);
+}
+
+.amu-button--outline.amu-button--status-danger:not(:disabled):not(.is-disabled):active,
+.amu-button--dashed.amu-button--status-danger:not(:disabled):not(.is-disabled):active {
+  border-color: var(--amu-color-status-danger-active);
+  color: var(--amu-color-status-danger-active);
+}
+
+.amu-button--text.amu-button--status-danger {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--amu-color-status-danger);
+  --amu-wave-color: var(--amu-color-status-danger-active);
+}
+
+.amu-button--text.amu-button--status-danger:not(:disabled):not(.is-disabled):hover {
+  background-color: var(--amu-color-bg-fill);
+  color: var(--amu-color-status-danger-hover);
+}
+
+.amu-button--text.amu-button--status-danger:not(:disabled):not(.is-disabled):active {
+  background-color: var(--amu-color-border);
+  color: var(--amu-color-status-danger-active);
+}
+
+.amu-button--status-danger:disabled,
+.amu-button--status-danger.is-disabled {
+  background-color: var(--amu-color-status-danger);
+  border-color: var(--amu-color-status-danger);
+  color: var(--amu-color-on-danger);
+}
+
+.amu-button--outline.amu-button--status-danger:disabled,
+.amu-button--outline.amu-button--status-danger.is-disabled,
+.amu-button--dashed.amu-button--status-danger:disabled,
+.amu-button--dashed.amu-button--status-danger.is-disabled {
+  background-color: transparent;
+  border-color: var(--amu-color-border);
+  color: var(--amu-color-text-default);
+}
+
+.amu-button--text.amu-button--status-danger:disabled,
+.amu-button--text.amu-button--status-danger.is-disabled {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--amu-color-text-default);
+}
+
+/* Status: success */
+.amu-button--status-success:not(.amu-button--outline):not(.amu-button--text):not(.amu-button--dashed) {
+  background-color: var(--amu-color-status-success);
+  border-color: var(--amu-color-status-success);
+  color: var(--amu-color-on-success);
+  --amu-wave-color: var(--amu-color-status-success-active);
+}
+
+.amu-button--status-success:not(.amu-button--outline):not(.amu-button--text):not(.amu-button--dashed):not(:disabled):not(.is-disabled):hover {
+  background-color: var(--amu-color-status-success-hover);
+  border-color: var(--amu-color-status-success-hover);
+}
+
+.amu-button--status-success:not(.amu-button--outline):not(.amu-button--text):not(.amu-button--dashed):not(:disabled):not(.is-disabled):active {
+  background-color: var(--amu-color-status-success-active);
+  border-color: var(--amu-color-status-success-active);
+}
+
+.amu-button--outline.amu-button--status-success,
+.amu-button--dashed.amu-button--status-success {
+  background-color: transparent;
+  border-color: var(--amu-color-status-success);
+  color: var(--amu-color-status-success);
+  --amu-wave-color: var(--amu-color-status-success-active);
+}
+
+.amu-button--outline.amu-button--status-success:not(:disabled):not(.is-disabled):hover,
+.amu-button--dashed.amu-button--status-success:not(:disabled):not(.is-disabled):hover {
+  border-color: var(--amu-color-status-success-hover);
+  color: var(--amu-color-status-success-hover);
+}
+
+.amu-button--outline.amu-button--status-success:not(:disabled):not(.is-disabled):active,
+.amu-button--dashed.amu-button--status-success:not(:disabled):not(.is-disabled):active {
+  border-color: var(--amu-color-status-success-active);
+  color: var(--amu-color-status-success-active);
+}
+
+.amu-button--text.amu-button--status-success {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--amu-color-status-success);
+  --amu-wave-color: var(--amu-color-status-success-active);
+}
+
+.amu-button--text.amu-button--status-success:not(:disabled):not(.is-disabled):hover {
+  background-color: var(--amu-color-bg-fill);
+  color: var(--amu-color-status-success-hover);
+}
+
+.amu-button--text.amu-button--status-success:not(:disabled):not(.is-disabled):active {
+  background-color: var(--amu-color-border);
+  color: var(--amu-color-status-success-active);
+}
+
+.amu-button--status-success:disabled,
+.amu-button--status-success.is-disabled {
+  background-color: var(--amu-color-status-success);
+  border-color: var(--amu-color-status-success);
+  color: var(--amu-color-on-success);
+}
+
+.amu-button--outline.amu-button--status-success:disabled,
+.amu-button--outline.amu-button--status-success.is-disabled,
+.amu-button--dashed.amu-button--status-success:disabled,
+.amu-button--dashed.amu-button--status-success.is-disabled {
+  background-color: transparent;
+  border-color: var(--amu-color-border);
+  color: var(--amu-color-text-default);
+}
+
+.amu-button--text.amu-button--status-success:disabled,
+.amu-button--text.amu-button--status-success.is-disabled {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--amu-color-text-default);
+}
+
+/* Size */
+.amu-button--size-mini {
+  --amu-button-height: 24px;
+  --amu-button-padding: 0 7px;
+  --amu-button-font-size: 12px;
+}
+
+.amu-button--size-small {
+  --amu-button-height: 28px;
+  --amu-button-padding: 0 11px;
+  --amu-button-font-size: 12px;
+}
+
+.amu-button--size-default {
+  --amu-button-height: 32px;
+  --amu-button-padding: 0 15px;
+  --amu-button-font-size: 14px;
+}
+
+.amu-button--size-large {
+  --amu-button-height: 36px;
+  --amu-button-padding: 0 19px;
+  --amu-button-font-size: 16px;
+}
+
+/* Shape: rect (Default) */
+.amu-button--rect {
+  border-radius: var(--amu-radius);
+}
+
+/* Shape: round (全圆角) */
+.amu-button--round {
+  border-radius: 999px;
+}
+
+/* Shape: circle (圆形) */
+.amu-button--circle {
+  border-radius: 50%;
+  padding: 0;
+  width: var(--amu-button-height);
+  height: var(--amu-button-height);
+}
+
+.amu-button--fill {
+  width: 100%;
+  justify-content: center;
+}
