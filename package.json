@@ -1,6 +1,6 @@
 {
   "name": "amu-ui",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "sideEffects": [
     "**/*.css"
   ],
@@ -41,6 +41,7 @@
     "@vitejs/plugin-vue": "^5.2.0",
     "@vitest/coverage-v8": "^4.0.15",
     "@vue/test-utils": "^2.4.6",
+    "bumpp": "^10.3.2",
     "jsdom": "^27.3.0",
     "rimraf": "^6.0.1",
     "typescript": "^5.7.2",
@@ -62,6 +63,7 @@
     "clean": "rimraf dist",
     "test": "vitest run",
     "test:watch": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "release": "bumpp --execute \"pnpm run build\" --commit --tag --push && pnpm publish"
   }
 }
