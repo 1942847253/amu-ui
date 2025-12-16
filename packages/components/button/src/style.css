@@ -35,8 +35,19 @@
   --amu-wave-color: var(--amu-color-primary);
 }
 
+.amu-button:focus-visible {
+  outline: 2px solid var(--amu-color-primary);
+  outline-offset: 2px;
+}
+
 .amu-button--loading {
   cursor: progress;
+}
+
+.amu-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Wave Effect */

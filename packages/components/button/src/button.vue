@@ -14,11 +14,21 @@
     ]"
     :disabled="disabled || loading"
     :aria-busy="loading ? 'true' : undefined"
-    type="button"
+    :type="htmlType"
     @click="handleClick"
     @animationend="handleAnimationEnd"
   >
-    <span class="amu-button__spinner" aria-hidden="true"></span>
+    <template v-if="loading">
+      <slot name="loading-icon">
+        <span class="amu-button__spinner" aria-hidden="true"></span>
+      </slot>
+    </template>
+    <template v-else-if="$slots.icon">
+      <span class="amu-button__icon">
+        <slot name="icon" />
+      </span>
+    </template>
+
     <slot />
   </button>
 </template>

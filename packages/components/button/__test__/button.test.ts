@@ -78,4 +78,47 @@ describe('AmuButton', () => {
 
     expect(wrapper.classes()).toContain('amu-button--fill')
   })
+
+  it('supports htmlType', () => {
+    const wrapper = mount(Button, {
+      props: {
+        htmlType: 'submit'
+      }
+    })
+
+    expect(wrapper.attributes('type')).toBe('submit')
+  })
+
+  it('renders icon slot', () => {
+    const wrapper = mount(Button, {
+      slots: {
+        icon: '<span class="icon">Icon</span>'
+      }
+    })
+
+    expect(wrapper.find('.amu-button__icon').exists()).toBe(true)
+    expect(wrapper.find('.icon').exists()).toBe(true)
+  })
+
+  it('does not emit click when disabled', async () => {
+    const wrapper = mount(Button, {
+      props: {
+        disabled: true
+      }
+    })
+
+    await wrapper.trigger('click')
+    expect(wrapper.emitted('click')).toBeUndefined()
+  })
+
+  it('does not emit click when loading', async () => {
+    const wrapper = mount(Button, {
+      props: {
+        loading: true
+      }
+    })
+
+    await wrapper.trigger('click')
+    expect(wrapper.emitted('click')).toBeUndefined()
+  })
 })

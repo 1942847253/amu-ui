@@ -38,3 +38,5 @@ pnpm-debug.log*
 .cache/
 .temp/
 .tmp/
+
+npm_recovery_codes.txt

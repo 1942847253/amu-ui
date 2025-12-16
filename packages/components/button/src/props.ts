@@ -10,6 +10,13 @@ export type ButtonStatus = 'warning' | 'danger' | 'success'
 
 export const buttonProps = {
   /**
+   * 按钮的原生 type 属性，支持 button、submit、reset。
+   */
+  htmlType: {
+    type: String as PropType<'button' | 'submit' | 'reset'>,
+    default: 'button'
+  },
+  /**
    * 按钮类型，支持 primary、default、dashed、outline 和 text。
    */
   type: {
