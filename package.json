@@ -1,6 +1,6 @@
 {
   "name": "amu-ui",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "sideEffects": [
     "**/*.css"
   ],
@@ -64,6 +64,6 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
-    "release": "bumpp --execute \"pnpm run build\" --commit --tag --push && pnpm publish"
+    "release": "bumpp --execute \"pnpm run build\" --commit --tag --push && pnpm publish --no-git-checks"
   }
 }
