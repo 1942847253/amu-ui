@@ -5,7 +5,7 @@
 在你的业务项目中安装：
 
 ```bash
-pnpm add am-ui vue
+pnpm add amu-ui vue
 ```
 
 > `vue` 是 peer dependency，需要由业务项目自行提供。
@@ -13,21 +13,21 @@ pnpm add am-ui vue
 ## 引入主题（推荐）
 
 ```ts
-import 'am-ui/theme'
+import 'amu-ui/theme'
 ```
 
 ## 按需引入
 
 ```ts
-import AmuButton from 'am-ui/button'
+import AmuButton from 'amu-ui/button'
 ```
 
 ## 全量注册
 
 ```ts
 import { createApp } from 'vue'
-import AmuUI from 'am-ui'
-import 'am-ui/theme'
+import AmuUI from 'amu-ui'
+import 'amu-ui/theme'
 
 createApp(App).use(AmuUI).mount('#app')
 ```

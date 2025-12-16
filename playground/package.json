@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "am-ui": "workspace:*",
+    "amu-ui": "workspace:*",
     "vue": "^3.4.0"
   },
   "devDependencies": {
