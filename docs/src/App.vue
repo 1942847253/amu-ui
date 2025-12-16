@@ -5,12 +5,30 @@
         <div class="header__left">
           <RouterLink class="brand" to="/">
             <div class="logo">
-              <svg width="28" height="28" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M100 20L180 180H135L120 145H80L65 180H20L100 20ZM100 65L88 115H112L100 65Z" fill="url(#paint0_linear)" />
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 200 200"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M100 20L180 180H135L120 145H80L65 180H20L100 20ZM100 65L88 115H112L100 65Z"
+                  fill="url(#paint0_linear)"
+                />
                 <defs>
-                  <linearGradient id="paint0_linear" x1="20" y1="20" x2="180" y2="180" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#165DFF"/>
-                    <stop offset="1" stop-color="#4080FF"/>
+                  <linearGradient
+                    id="paint0_linear"
+                    x1="20"
+                    y1="20"
+                    x2="180"
+                    y2="180"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#165DFF" />
+                    <stop offset="1" stop-color="#4080FF" />
                   </linearGradient>
                 </defs>
               </svg>
@@ -22,7 +40,19 @@
         <div class="header__center">
           <div class="search-box">
             <span class="search__icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
             </span>
             <input class="search__input" type="text" placeholder="搜索" />
             <span class="search__key">⌘ K</span>
@@ -36,16 +66,59 @@
             <div class="nav-item">生态产品</div>
             <div class="nav-item">简体中文</div>
           </nav>
-          
+
           <div class="divider"></div>
 
           <div class="actions">
             <a href="https://github.com" target="_blank" class="action-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405 1.02 0 2.04.135 3 .405 2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405 1.02 0 2.04.135 3 .405 2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+                />
+              </svg>
             </a>
             <button class="action-btn" @click="toggleTheme">
-              <svg v-if="isDark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-              <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+              <svg
+                v-if="isDark"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+              <svg
+                v-else
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+                ></path>
+              </svg>
             </button>
           </div>
         </div>
@@ -57,7 +130,12 @@
         <div class="sidebar__inner">
           <div class="sidebar__group">
             <div class="sidebar__title">开发指南</div>
-            <RouterLink class="sidebar__link" active-class="active" to="/guide/quick-start">快速上手</RouterLink>
+            <RouterLink
+              class="sidebar__link"
+              active-class="active"
+              to="/guide/quick-start"
+              >快速上手</RouterLink
+            >
           </div>
 
           <div class="sidebar__group">
@@ -91,37 +169,40 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
-import nav from 'virtual:amu-docs-nav'
-import Toc from './components/Toc.vue'
+import { ref, onMounted, computed } from "vue";
+import { useRoute } from "vue-router";
+import nav from "virtual:amu-docs-nav";
+import Toc from "./components/Toc.vue";
 
-const route = useRoute()
-const isHome = computed(() => route.path === '/')
+const route = useRoute();
+const isHome = computed(() => route.path === "/");
 
-const isDark = ref(false)
-const docRoot = ref<HTMLElement | null>(null)
+const isDark = ref(false);
+const docRoot = ref<HTMLElement | null>(null);
 
 const toggleTheme = () => {
-  isDark.value = !isDark.value
-  const theme = isDark.value ? 'dark' : 'light'
-  document.documentElement.setAttribute('data-amu-theme', theme)
+  isDark.value = !isDark.value;
+  const theme = isDark.value ? "dark" : "light";
+  document.documentElement.setAttribute("data-amu-theme", theme);
   if (isDark.value) {
-    document.documentElement.classList.add('dark')
+    document.documentElement.classList.add("dark");
   } else {
-    document.documentElement.classList.remove('dark')
+    document.documentElement.classList.remove("dark");
   }
-}
+};
 
 onMounted(() => {
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    isDark.value = true
-    document.documentElement.classList.add('dark')
-    document.documentElement.setAttribute('data-amu-theme', 'dark')
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    isDark.value = true;
+    document.documentElement.classList.add("dark");
+    document.documentElement.setAttribute("data-amu-theme", "dark");
   } else {
-    document.documentElement.setAttribute('data-amu-theme', 'light')
+    document.documentElement.setAttribute("data-amu-theme", "light");
   }
-})
+});
 </script>
 
 <style scoped>
@@ -335,7 +416,7 @@ onMounted(() => {
 
 .sidebar__link.active {
   color: var(--amu-brand);
-  background-color: #E8F3FF; /* Light blue bg for active state */
+  background-color: #e8f3ff; /* Light blue bg for active state */
   font-weight: 500;
 }
 

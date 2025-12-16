@@ -5,13 +5,13 @@
       <AmuButton type="primary">Primary</AmuButton>
       <AmuButton type="outline">Outline</AmuButton>
     </div>
-    
+
     <div class="demo-row">
       <AmuButton shape="circle">+</AmuButton>
       <AmuButton shape="circle" type="primary">+</AmuButton>
       <AmuButton shape="circle" type="outline">×</AmuButton>
     </div>
-    
+
     <div class="demo-row">
       <AmuButton shape="round">全圆角</AmuButton>
       <AmuButton shape="round" type="primary">Primary</AmuButton>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { AmuButton } from 'amu-ui'
+import { AmuButton } from "amu-ui";
 </script>
 
 <style scoped>

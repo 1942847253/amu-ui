@@ -16,153 +16,157 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 type TocItem = {
-  id: string
-  text: string
-  level: 2 | 3
-}
+  id: string;
+  text: string;
+  level: 2 | 3;
+};
 
 const props = defineProps<{
-  root: HTMLElement | null
-}>()
+  root: HTMLElement | null;
+}>();
 
-const route = useRoute()
+const route = useRoute();
 
-const items = ref<TocItem[]>([])
-const activeId = ref('')
+const items = ref<TocItem[]>([]);
+const activeId = ref("");
 
-let observer: IntersectionObserver | null = null
-let mutationObserver: MutationObserver | null = null
+let observer: IntersectionObserver | null = null;
+let mutationObserver: MutationObserver | null = null;
 
 function slugify(raw: string) {
-  const s = raw.trim().toLowerCase()
+  const s = raw.trim().toLowerCase();
   // 保留中文/英文/数字，其它字符转为 '-'
   return s
-    .replace(/\s+/g, '-')
-    .replace(/[^\u4e00-\u9fa5a-z0-9\-]/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
+    .replace(/\s+/g, "-")
+    .replace(/[^\u4e00-\u9fa5a-z0-9\-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 function ensureHeadingIds(headings: Element[]) {
-  const used = new Set<string>()
+  const used = new Set<string>();
   for (const h of headings) {
-    const el = h as HTMLElement
-    const text = (el.textContent ?? '').trim()
-    if (!text) continue
+    const el = h as HTMLElement;
+    const text = (el.textContent ?? "").trim();
+    if (!text) continue;
 
-    let id = el.id || slugify(text)
-    if (!id) continue
+    let id = el.id || slugify(text);
+    if (!id) continue;
 
-    let unique = id
-    let i = 1
+    let unique = id;
+    let i = 1;
     while (used.has(unique) || document.getElementById(unique)) {
-      unique = `${id}-${i++}`
+      unique = `${id}-${i++}`;
     }
 
-    el.id = unique
-    used.add(unique)
+    el.id = unique;
+    used.add(unique);
   }
 }
 
 function cleanupObserver() {
-  if (observer) observer.disconnect()
-  observer = null
+  if (observer) observer.disconnect();
+  observer = null;
 }
 
 function cleanupMutationObserver() {
-  if (mutationObserver) mutationObserver.disconnect()
-  mutationObserver = null
+  if (mutationObserver) mutationObserver.disconnect();
+  mutationObserver = null;
 }
 
 async function collect() {
-  cleanupObserver()
+  cleanupObserver();
   // Don't clear items immediately to avoid flicker during updates
-  // items.value = [] 
-  
-  await nextTick()
+  // items.value = []
 
-  const root = props.root
-  if (!root) return
+  await nextTick();
 
-  const headingEls = Array.from(root.querySelectorAll('h2, h3'))
-  ensureHeadingIds(headingEls)
+  const root = props.root;
+  if (!root) return;
+
+  const headingEls = Array.from(root.querySelectorAll("h2, h3"));
+  ensureHeadingIds(headingEls);
 
   const nextItems: TocItem[] = headingEls
     .map((h) => {
-      const el = h as HTMLElement
-      const level = el.tagName === 'H3' ? 3 : 2
-      const text = (el.textContent ?? '').trim()
-      if (!el.id || !text) return null
-      return { id: el.id, text, level } as TocItem
+      const el = h as HTMLElement;
+      const level = el.tagName === "H3" ? 3 : 2;
+      const text = (el.textContent ?? "").trim();
+      if (!el.id || !text) return null;
+      return { id: el.id, text, level } as TocItem;
     })
-    .filter((x): x is TocItem => Boolean(x))
+    .filter((x): x is TocItem => Boolean(x));
 
   // Only update if changed to prevent unnecessary re-renders
   if (JSON.stringify(nextItems) !== JSON.stringify(items.value)) {
-    items.value = nextItems
-    activeId.value = '' // Reset active state on content change
+    items.value = nextItems;
+    activeId.value = ""; // Reset active state on content change
   }
-  
-  if (!items.value.length) return
+
+  if (!items.value.length) return;
 
   observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          activeId.value = entry.target.id
+          activeId.value = entry.target.id;
         }
-      })
+      });
     },
-    { rootMargin: '-60px 0px -80% 0px' }
-  )
+    { rootMargin: "-60px 0px -80% 0px" },
+  );
 
-  headingEls.forEach((el) => observer?.observe(el))
+  headingEls.forEach((el) => observer?.observe(el));
 }
 
 function setupMutationObserver() {
-  cleanupMutationObserver()
-  const root = props.root
-  if (!root) return
+  cleanupMutationObserver();
+  const root = props.root;
+  if (!root) return;
 
   mutationObserver = new MutationObserver(() => {
-    collect()
-  })
+    collect();
+  });
 
   mutationObserver.observe(root, {
     childList: true,
-    subtree: true
-  })
+    subtree: true,
+  });
 }
 
 function scrollTo(id: string) {
-  const el = document.getElementById(id)
+  const el = document.getElementById(id);
   if (el) {
     window.scrollTo({
       top: el.offsetTop - 80,
-      behavior: 'smooth'
-    })
-    activeId.value = id
-    history.replaceState(null, '', `#${id}`)
+      behavior: "smooth",
+    });
+    activeId.value = id;
+    history.replaceState(null, "", `#${id}`);
   }
 }
 
-watch(() => [props.root, route.path], () => {
-  collect()
-  setupMutationObserver()
-}, { immediate: true })
+watch(
+  () => [props.root, route.path],
+  () => {
+    collect();
+    setupMutationObserver();
+  },
+  { immediate: true },
+);
 
 onMounted(() => {
-  collect()
-  setupMutationObserver()
-})
+  collect();
+  setupMutationObserver();
+});
 onBeforeUnmount(() => {
-  cleanupObserver()
-  cleanupMutationObserver()
-})
+  cleanupObserver();
+  cleanupMutationObserver();
+});
 </script>
 
 <style scoped>

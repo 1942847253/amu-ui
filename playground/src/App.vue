@@ -16,12 +16,19 @@
 </template>
 
 <script setup lang="ts">
-import LocalButton from 'amu-ui/button'
+import LocalButton from "amu-ui/button";
 </script>
 
 <style scoped>
 .app {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji",
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    "Apple Color Emoji",
     "Segoe UI Emoji";
   padding: 24px;
   color: var(--amu-color-text);

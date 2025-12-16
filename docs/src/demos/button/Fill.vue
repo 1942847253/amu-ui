@@ -9,7 +9,7 @@
         <span class="demo-fill-cell">
           <AmuButton fill type="default">Default</AmuButton>
         </span>
-           <span class="demo-fill-cell">
+        <span class="demo-fill-cell">
           <AmuButton fill type="text">Text</AmuButton>
         </span>
       </div>
@@ -29,12 +29,11 @@
         </span>
       </div>
     </section>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import { AmuButton } from 'amu-ui'
+import { AmuButton } from "amu-ui";
 </script>
 
 <style scoped>
@@ -52,7 +51,6 @@ import { AmuButton } from 'amu-ui'
 }
 
 .demo-fill-cell {
-
   max-width: 360px;
 }
 

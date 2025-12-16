@@ -4,21 +4,46 @@
       <div class="hero-content">
         <h1 class="title">AMU UI</h1>
         <p class="subtitle">A Comprehensive Vue 3 Component Library</p>
-        <p class="desc">Designed for efficiency and flexibility. Supports Tree-shaking, ESM+CJS, TypeScript, and Dark Mode.</p>
-        
+        <p class="desc">
+          Designed for efficiency and flexibility. Supports Tree-shaking,
+          ESM+CJS, TypeScript, and Dark Mode.
+        </p>
+
         <div class="actions">
-          <RouterLink class="btn btn-primary" to="/guide/quick-start">Get Started</RouterLink>
-          <a class="btn btn-outline" href="https://github.com" target="_blank">GitHub</a>
+          <RouterLink class="btn btn-primary" to="/guide/quick-start"
+            >Get Started</RouterLink
+          >
+          <a class="btn btn-outline" href="https://github.com" target="_blank"
+            >GitHub</a
+          >
         </div>
       </div>
       <div class="hero-image">
         <div class="logo-bg">
-          <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M100 20L180 180H135L120 145H80L65 180H20L100 20ZM100 65L88 115H112L100 65Z" fill="url(#paint0_linear_home)" />
+          <svg
+            width="200"
+            height="200"
+            viewBox="0 0 200 200"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M100 20L180 180H135L120 145H80L65 180H20L100 20ZM100 65L88 115H112L100 65Z"
+              fill="url(#paint0_linear_home)"
+            />
             <defs>
-              <linearGradient id="paint0_linear_home" x1="20" y1="20" x2="180" y2="180" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#165DFF"/>
-                <stop offset="1" stop-color="#4080FF"/>
+              <linearGradient
+                id="paint0_linear_home"
+                x1="20"
+                y1="20"
+                x2="180"
+                y2="180"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#165DFF" />
+                <stop offset="1" stop-color="#4080FF" />
               </linearGradient>
             </defs>
           </svg>
@@ -30,19 +55,25 @@
       <div class="card">
         <div class="card-icon">⚡️</div>
         <h3>High Performance</h3>
-        <p>Optimized for speed with tree-shaking support and minimal bundle size.</p>
+        <p>
+          Optimized for speed with tree-shaking support and minimal bundle size.
+        </p>
       </div>
 
       <div class="card">
         <div class="card-icon">🎨</div>
         <h3>Themeable</h3>
-        <p>Built-in dark mode support and extensive CSS variable customization.</p>
+        <p>
+          Built-in dark mode support and extensive CSS variable customization.
+        </p>
       </div>
 
       <div class="card">
         <div class="card-icon">📘</div>
         <h3>TypeScript</h3>
-        <p>Written in TypeScript with complete type definitions for better DX.</p>
+        <p>
+          Written in TypeScript with complete type definitions for better DX.
+        </p>
       </div>
     </div>
   </div>
@@ -144,9 +175,15 @@
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .features {
@@ -194,7 +231,7 @@
     text-align: center;
     padding: 40px 0 60px;
   }
-  
+
   .hero-content {
     margin-top: 40px;
   }

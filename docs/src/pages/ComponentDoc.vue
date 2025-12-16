@@ -28,78 +28,80 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
-import DemoTabs from '../components/DemoTabs.vue'
-import PropsTable from '../components/PropsTable.vue'
+import DemoTabs from "../components/DemoTabs.vue";
+import PropsTable from "../components/PropsTable.vue";
 
-import api from 'virtual:amu-docs-api'
-import nav from 'virtual:amu-docs-nav'
+import api from "virtual:amu-docs-api";
+import nav from "virtual:amu-docs-nav";
 
 type DocEntry = {
-  name: string
-  title: string
-  description?: string
-  demos: any[]
-}
+  name: string;
+  title: string;
+  description?: string;
+  demos: any[];
+};
 
-const demoModules = import.meta.glob('../demos/*/index.ts')
+const demoModules = import.meta.glob("../demos/*/index.ts");
 
-const route = useRoute()
-const name = computed(() => String(route.params.name || ''))
+const route = useRoute();
+const name = computed(() => String(route.params.name || ""));
 
-const demos = ref<any[]>([])
-const description = ref('')
+const demos = ref<any[]>([]);
+const description = ref("");
 
 const title = computed(() => {
-  const found = nav.components.find((c) => c.name === name.value)
-  return found?.title ?? name.value
-})
+  const found = nav.components.find((c) => c.name === name.value);
+  return found?.title ?? name.value;
+});
 
 const entry = computed<DocEntry | null>(() => {
-  if (!name.value) return null
+  if (!name.value) return null;
   return {
     name: name.value,
     title: title.value,
     description: description.value || undefined,
-    demos: demos.value
-  }
-})
+    demos: demos.value,
+  };
+});
 
 const displayTitle = computed(() => {
-  const t = entry.value?.title || ''
+  const t = entry.value?.title || "";
   const map: Record<string, string> = {
-    'Button': '按钮 Button'
-  }
-  return map[t] || t
-})
+    Button: "按钮 Button",
+  };
+  return map[t] || t;
+});
 
-const propsRows = computed(() => api.components[name.value]?.props ?? [])
+const propsRows = computed(() => api.components[name.value]?.props ?? []);
 
 function findDemoLoaderKey(componentName: string) {
-  const suffix = `/demos/${componentName}/index.ts`
-  const keys = Object.keys(demoModules)
-  return keys.find((k) => k.endsWith(suffix))
+  const suffix = `/demos/${componentName}/index.ts`;
+  const keys = Object.keys(demoModules);
+  return keys.find((k) => k.endsWith(suffix));
 }
 
 watch(
   name,
   async (n) => {
-    demos.value = []
-    description.value = ''
-    if (!n) return
+    demos.value = [];
+    description.value = "";
+    if (!n) return;
 
-    const key = findDemoLoaderKey(n)
-    const loader = key ? (demoModules as Record<string, () => Promise<any>>)[key] : undefined
-    if (!loader) return
+    const key = findDemoLoaderKey(n);
+    const loader = key
+      ? (demoModules as Record<string, () => Promise<any>>)[key]
+      : undefined;
+    if (!loader) return;
 
-    const mod = await loader()
-    demos.value = mod.demos ?? mod.default ?? []
-    description.value = mod.meta?.description ?? ''
+    const mod = await loader();
+    demos.value = mod.demos ?? mod.default ?? [];
+    description.value = mod.meta?.description ?? "";
   },
-  { immediate: true }
-)
+  { immediate: true },
+);
 </script>
 
 <style scoped>
