@@ -1,0 +1,28 @@
+.amu-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  vertical-align: middle;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.amu-icon svg {
+  width: 1em;
+  height: 1em;
+  overflow: hidden;
+}
+
+.amu-icon--spin {
+  animation: amu-icon-spin 1s linear infinite;
+}
+
+@keyframes amu-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

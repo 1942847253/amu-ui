@@ -2,10 +2,6 @@ import type { DemoItem } from "../../components/DemoTabs.vue";
 
 import Basic from "./Basic.vue";
 import BasicCode from "./Basic.vue?raw";
-import Primary from "./Primary.vue";
-import PrimaryCode from "./Primary.vue?raw";
-import Disabled from "./Disabled.vue";
-import DisabledCode from "./Disabled.vue?raw";
 import Shape from "./Shape.vue";
 import ShapeCode from "./Shape.vue?raw";
 import Size from "./Size.vue";

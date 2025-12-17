@@ -10,7 +10,12 @@
     "noEmit": true,
     "jsx": "preserve",
     "types": ["vite/client"],
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@amu-ui/icons": ["packages/icons/src/index.ts"],
+      "@amu-ui/icons/*": ["packages/icons/src/*"],
+      "@amu-ui/utils": ["packages/utils/index.ts"]
+    }
   },
   "include": [
     "env.d.ts",

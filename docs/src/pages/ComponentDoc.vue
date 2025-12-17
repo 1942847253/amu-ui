@@ -71,6 +71,7 @@ const displayTitle = computed(() => {
   const t = entry.value?.title || "";
   const map: Record<string, string> = {
     Button: "按钮 Button",
+    Icon: "图标 Icon",
   };
   return map[t] || t;
 });

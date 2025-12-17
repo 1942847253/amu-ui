@@ -30,6 +30,14 @@ export default defineConfig({
         find: "amu-ui",
         replacement: resolve(__dirname, "../packages/components/index.ts"),
       },
+      {
+        find: "@amu-ui/utils",
+        replacement: resolve(__dirname, "../packages/utils/index.ts"),
+      },
+      {
+        find: "@amu-ui/icons",
+        replacement: resolve(__dirname, "../packages/icons/src/index.ts"),
+      },
     ],
   },
   server: {

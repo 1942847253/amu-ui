@@ -1,0 +1,61 @@
+{
+  "name": "@amu-ui/icons",
+  "version": "0.1.0",
+  "description": "Icon component library for amu-ui",
+  "keywords": [
+    "amu-ui",
+    "icons",
+    "vue3",
+    "components"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/es/index.mjs",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/es/index.mjs",
+      "require": "./dist/cjs/index.cjs"
+    },
+    "./icons/*": {
+      "types": "./dist/types/icons/*.d.ts",
+      "import": "./dist/es/icons/*.mjs",
+      "require": "./dist/cjs/icons/*.cjs"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "pnpm run build:lib",
+    "build:lib": "vite build",
+    "type:check": "vue-tsc --declaration --emitDeclarationOnly --outDir dist/types",
+    "generate": "node scripts/generate.js",
+    "test": "vitest",
+    "test:watch": "vitest --watch"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@vue/test-utils": "^2.4.6",
+    "fast-glob": "^3.3.2",
+    "vite": "^6.0.3",
+    "vite-plugin-lib-inject-css": "^2.1.1",
+    "vitest": "^2.1.8",
+    "vue": "^3.5.13",
+    "vue-tsc": "^2.2.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

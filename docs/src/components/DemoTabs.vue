@@ -4,7 +4,7 @@
       <component :is="activeDemo.component" />
     </div>
 
-    <div class="demo-meta">
+    <div class="demo-meta" v-if="activeDemo.code !== ''">
       <div class="demo-actions">
         <button
           class="action-btn"

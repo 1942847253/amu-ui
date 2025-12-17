@@ -81,9 +81,18 @@ function primitiveFromCtor(expr: ts.Expression): string | undefined {
 
 function collectApiMeta(rootDir: string): ApiMeta {
   const componentsRoot = path.resolve(rootDir, "packages/components");
+  const iconsRoot = path.resolve(rootDir, "packages/icons");
+  
   const propFiles = fs.existsSync(componentsRoot)
     ? walk(componentsRoot, (p) => p.endsWith(path.join("src", "props.ts")))
     : [];
+
+  if (fs.existsSync(iconsRoot)) {
+    const iconProps = path.join(iconsRoot, "src", "props.ts");
+    if (fs.existsSync(iconProps)) {
+      propFiles.push(iconProps);
+    }
+  }
 
   const compilerOptions: ts.CompilerOptions = {
     target: ts.ScriptTarget.ES2020,
@@ -218,22 +227,36 @@ function pascalCase(name: string) {
 }
 
 function collectNavMeta(rootDir: string): NavMeta {
-  const componentsRoot = path.resolve(rootDir, "packages/components");
-  if (!fs.existsSync(componentsRoot)) return { components: [] };
-
   const components: NavItem[] = [];
-  for (const ent of fs.readdirSync(componentsRoot, { withFileTypes: true })) {
-    if (!ent.isDirectory()) continue;
-    if (ent.name.startsWith(".")) continue;
+  
+  // Scan components
+  const componentsRoot = path.resolve(rootDir, "packages/components");
+  if (fs.existsSync(componentsRoot)) {
+    for (const ent of fs.readdirSync(componentsRoot, { withFileTypes: true })) {
+      if (!ent.isDirectory()) continue;
+      if (ent.name.startsWith(".")) continue;
+      // Skip icon component as it's handled by packages/icons
+      if (ent.name === "icon") continue;
 
-    const dir = path.join(componentsRoot, ent.name);
-    const entry = path.join(dir, "index.ts");
-    if (!fs.existsSync(entry)) continue;
+      const dir = path.join(componentsRoot, ent.name);
+      const entry = path.join(dir, "index.ts");
+      if (!fs.existsSync(entry)) continue;
 
+      components.push({
+        name: ent.name,
+        title: pascalCase(ent.name),
+        route: `/components/${ent.name}`,
+      });
+    }
+  }
+
+  // Add icons if exists
+  const iconsRoot = path.resolve(rootDir, "packages/icons");
+  if (fs.existsSync(iconsRoot)) {
     components.push({
-      name: ent.name,
-      title: pascalCase(ent.name),
-      route: `/components/${ent.name}`,
+      name: "icon",
+      title: "Icon",
+      route: "/components/icon",
     });
   }
 
@@ -260,14 +283,22 @@ export function amuDocsApiPlugin(): Plugin {
     },
     configureServer(server) {
       const componentsRoot = path.resolve(rootDir, "packages/components");
-      if (!fs.existsSync(componentsRoot)) return;
+      const iconsRoot = path.resolve(rootDir, "packages/icons");
+      
+      if (fs.existsSync(componentsRoot)) {
+        const watchFiles = walk(componentsRoot, (p) =>
+          p.endsWith(path.join("src", "props.ts")),
+        );
+        watchFiles.forEach((f) => server.watcher.add(f));
+        server.watcher.add(componentsRoot);
+      }
 
-      const watchFiles = walk(componentsRoot, (p) =>
-        p.endsWith(path.join("src", "props.ts")),
-      );
-      watchFiles.forEach((f) => server.watcher.add(f));
-
-      server.watcher.add(componentsRoot);
+      if (fs.existsSync(iconsRoot)) {
+        const iconProps = path.join(iconsRoot, "src", "props.ts");
+        if (fs.existsSync(iconProps)) {
+          server.watcher.add(iconProps);
+        }
+      }
 
       server.watcher.on("change", (file) => {
         if (!file.endsWith(path.join("src", "props.ts"))) return;
