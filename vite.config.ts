@@ -17,14 +17,17 @@ export default defineConfig({
   resolve: {
     alias: {
       '@amu-ui/utils': resolve(__dirname, 'packages/utils/index.ts'),
-      '@amu-ui/icons': resolve(__dirname, 'packages/icons/src/index.ts')
+      '@amu-ui/icons': resolve(__dirname, 'packages/icons/src/index.ts'),
+      '@amu-ui/locale': resolve(__dirname, 'packages/locale/index.ts'),
+      '@amu-ui/hooks': resolve(__dirname, 'packages/hooks/index.ts')
     }
   },
   build: {
     lib: {
       entry: [
         resolve(__dirname, 'packages/components/index.ts'),
-        resolve(__dirname, 'packages/theme/index.ts')
+        resolve(__dirname, 'packages/theme/index.ts'),
+        resolve(__dirname, 'packages/locale/index.ts')
       ],
       formats: ['es', 'cjs']
     },

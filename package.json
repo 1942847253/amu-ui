@@ -18,6 +18,11 @@
       "import": "./dist/es/theme/index.mjs",
       "require": "./dist/cjs/theme/index.cjs"
     },
+    "./locale": {
+      "types": "./dist/types/locale/index.d.ts",
+      "import": "./dist/es/locale/index.mjs",
+      "require": "./dist/cjs/locale/index.cjs"
+    },
     "./package.json": "./package.json",
     "./button": {
       "types": "./dist/types/components/button/index.d.ts",
@@ -28,6 +33,16 @@
       "types": "./dist/types/components/button/index.d.ts",
       "import": "./dist/es/components/button/index.mjs",
       "require": "./dist/cjs/components/button/index.cjs"
+    },
+    "./config-provider": {
+      "types": "./dist/types/components/config-provider/index.d.ts",
+      "import": "./dist/es/components/config-provider/index.mjs",
+      "require": "./dist/cjs/components/config-provider/index.cjs"
+    },
+    "./components/config-provider": {
+      "types": "./dist/types/components/config-provider/index.d.ts",
+      "import": "./dist/es/components/config-provider/index.mjs",
+      "require": "./dist/cjs/components/config-provider/index.cjs"
     },
     "./icon": {
       "types": "./dist/types/components/icon/index.d.ts",

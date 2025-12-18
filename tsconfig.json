@@ -14,7 +14,9 @@
     "paths": {
       "@amu-ui/icons": ["packages/icons/src/index.ts"],
       "@amu-ui/icons/*": ["packages/icons/src/*"],
-      "@amu-ui/utils": ["packages/utils/index.ts"]
+      "@amu-ui/utils": ["packages/utils/index.ts"],
+      "@amu-ui/locale": ["packages/locale/index.ts"],
+      "@amu-ui/hooks": ["packages/hooks/index.ts"]
     }
   },
   "include": [

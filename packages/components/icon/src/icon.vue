@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineOptions } from 'vue'
+import { computed } from 'vue'
 import { iconProps } from './props'
 import './style.css'
 

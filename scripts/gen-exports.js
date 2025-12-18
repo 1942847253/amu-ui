@@ -20,6 +20,11 @@ const baseExports = {
     import: "./dist/es/theme/index.mjs",
     require: "./dist/cjs/theme/index.cjs",
   },
+  "./locale": {
+    types: "./dist/types/locale/index.d.ts",
+    import: "./dist/es/locale/index.mjs",
+    require: "./dist/cjs/locale/index.cjs",
+  },
   "./package.json": "./package.json",
 };
 

@@ -1,0 +1,14 @@
+{
+  "name": "@amu-ui/hooks",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "module": "index.ts",
+  "types": "index.ts",
+  "license": "MIT",
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "dependencies": {
+    "@amu-ui/locale": "workspace:*"
+  }
+}
