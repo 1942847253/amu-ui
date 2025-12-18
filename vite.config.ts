@@ -35,7 +35,7 @@ export default defineConfig({
     emptyOutDir: true,
     cssCodeSplit: true,
     rollupOptions: {
-      external: ['vue'],
+      external: ['vue', '@amu-ui/hooks', '@amu-ui/locale'],
       output: [
         {
           format: 'es',

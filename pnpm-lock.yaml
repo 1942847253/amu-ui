@@ -7,6 +7,13 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@amu-ui/hooks':
+        specifier: workspace:*
+        version: link:packages/hooks
+      '@amu-ui/locale':
+        specifier: workspace:*
+        version: link:packages/locale
     devDependencies:
       '@types/node':
         specifier: ^22.10.0
@@ -79,6 +86,15 @@ importers:
         specifier: ^6.0.0
         version: 6.4.1(@types/node@22.19.2)(jiti@2.6.1)(yaml@2.8.2)
 
+  packages/hooks:
+    dependencies:
+      '@amu-ui/locale':
+        specifier: workspace:*
+        version: link:../locale
+      vue:
+        specifier: ^3.4.0
+        version: 3.5.25(typescript@5.9.3)
+
   packages/icons:
     devDependencies:
       '@types/node':
@@ -105,6 +121,12 @@ importers:
       vue-tsc:
         specifier: ^2.2.0
         version: 2.2.12(typescript@5.9.3)
+
+  packages/locale:
+    dependencies:
+      vue:
+        specifier: ^3.4.0
+        version: 3.5.25(typescript@5.9.3)
 
   playground:
     dependencies:
