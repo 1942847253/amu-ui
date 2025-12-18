@@ -91,6 +91,7 @@
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
     "release": "bumpp --execute \"pnpm run build\" --commit --tag --push && pnpm -r publish --no-git-checks",
-    "release:icons": "pnpm --filter @amu-ui/icons exec bumpp --execute \"pnpm run build\" --commit --tag --push && pnpm --filter @amu-ui/icons publish --no-git-checks"
+    "release:icons": "pnpm --filter @amu-ui/icons exec bumpp --execute \"pnpm run build\" --commit --tag --push && pnpm --filter @amu-ui/icons publish --no-git-checks",
+    "release:locale": "pnpm --filter @amu-ui/locale exec bumpp --execute \"pnpm run build\" --commit --tag --push && pnpm --filter @amu-ui/locale publish --no-git-checks"
   }
 }
