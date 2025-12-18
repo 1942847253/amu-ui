@@ -1,6 +1,6 @@
 {
   "name": "amu-ui",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "sideEffects": [
     "**/*.css"
   ],
@@ -58,6 +58,10 @@
   "files": [
     "dist"
   ],
+  "dependencies": {
+    "@amu-ui/hooks": "workspace:*",
+    "@amu-ui/locale": "workspace:*"
+  },
   "peerDependencies": {
     "vue": "^3.4.0"
   },
@@ -91,8 +95,8 @@
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
     "release": "bumpp --execute \"pnpm run build\" --commit --tag --push && pnpm -r publish --no-git-checks",
-    "release:icons": "pnpm --filter @amu-ui/icons exec bumpp --execute \"pnpm run build\" --commit --tag --push && pnpm --filter @amu-ui/icons publish --no-git-checks",
-    "release:locale": "pnpm --filter @amu-ui/locale exec bumpp --execute \"pnpm run build\" --commit --tag --push && pnpm --filter @amu-ui/locale publish --no-git-checks",
-    "release:hooks": "pnpm --filter @amu-ui/hooks exec bumpp --execute \"pnpm run build\" --commit --tag --push && pnpm --filter @amu-ui/hooks publish --no-git-checks"
+    "release:icons": "pnpm --filter @amu-ui/icons exec bumpp --execute \"pnpm run build\" --commit --tag @amu-ui/icons@%s --push && pnpm --filter @amu-ui/icons publish --no-git-checks",
+    "release:locale": "pnpm --filter @amu-ui/locale exec bumpp --execute \"pnpm run build\" --commit --tag @amu-ui/locale@%s --push && pnpm --filter @amu-ui/locale publish --no-git-checks",
+    "release:hooks": "pnpm --filter @amu-ui/hooks exec bumpp --execute \"pnpm run build\" --commit --tag @amu-ui/hooks@%s --push && pnpm --filter @amu-ui/hooks publish --no-git-checks"
   }
 }
