@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist/types",
+    "baseUrl": ".",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "paths": {
+      "@amu-ui/locale": ["../locale/index.ts"]
+    }
+  },
+  "include": ["index.ts", "src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
