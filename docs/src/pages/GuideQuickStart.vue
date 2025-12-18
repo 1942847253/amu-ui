@@ -1,25 +1,25 @@
 <template>
   <article>
-    <h1>快速开始</h1>
+    <h1>{{ t.quickStart.title }}</h1>
 
     <section>
-      <h2>安装</h2>
+      <h2>{{ t.quickStart.install }}</h2>
       <CodeBlock lang="bash" code="pnpm add amu-ui vue" />
-      <p class="hint">vue 是 peer dependency，需要由业务项目自行提供。</p>
+      <p class="hint">{{ t.quickStart.installHint }}</p>
     </section>
 
     <section>
-      <h2>引入主题</h2>
+      <h2>{{ t.quickStart.importTheme }}</h2>
       <CodeBlock lang="ts" code="import 'amu-ui/theme'" />
     </section>
 
     <section>
-      <h2>按需引入</h2>
+      <h2>{{ t.quickStart.onDemand }}</h2>
       <CodeBlock lang="ts" code="import AmuButton from 'amu-ui/button'" />
     </section>
 
     <section>
-      <h2>全量注册</h2>
+      <h2>{{ t.quickStart.fullImport }}</h2>
       <CodeBlock
         lang="ts"
         code="import { createApp } from 'vue'
@@ -31,15 +31,15 @@ createApp(App).use(AmuUI).mount('#app')"
     </section>
 
     <section>
-      <h2>暗黑模式</h2>
+      <h2>{{ t.quickStart.darkMode }}</h2>
       <CodeBlock lang="html" code='<html data-amu-theme="dark">' />
       <p class="hint">
-        未设置 data-amu-theme 时，会跟随系统 prefers-color-scheme。
+        {{ t.quickStart.darkModeHint }}
       </p>
     </section>
 
     <section>
-      <h2>自定义主题</h2>
+      <h2>{{ t.quickStart.customTheme }}</h2>
       <CodeBlock
         lang="css"
         code=":root {
@@ -52,7 +52,13 @@ createApp(App).use(AmuUI).mount('#app')"
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import CodeBlock from "../components/CodeBlock.vue";
+import { useLanguage } from "../composables/useLanguage";
+import { messages } from "../locales";
+
+const { lang } = useLanguage();
+const t = computed(() => messages[lang.value]);
 </script>
 
 <style scoped>

@@ -17,42 +17,81 @@ import List from './List.vue'
 
 export const demos = [
   {
-    title: '基础用法',
-    description: 'Icon 组件的基础用法。',
+    title: {
+      "zh-CN": "基础用法",
+      "en-US": "Basic Usage",
+    },
+    description: {
+      "zh-CN": "Icon 组件的基础用法。",
+      "en-US": "Basic usage of Icon component.",
+    },
     component: Basic,
-    code: BasicCode
+    code: BasicCode,
   },
   {
-    title: '尺寸',
-    description: '可以通过 size 属性调整图标尺寸。',
+    title: {
+      "zh-CN": "尺寸",
+      "en-US": "Size",
+    },
+    description: {
+      "zh-CN": "可以通过 size 属性调整图标尺寸。",
+      "en-US": "Adjust icon size via size property.",
+    },
     component: Size,
-    code: SizeCode
+    code: SizeCode,
   },
   {
-    title: '颜色',
-    description: '可以通过 color 属性调整图标颜色。',
+    title: {
+      "zh-CN": "颜色",
+      "en-US": "Color",
+    },
+    description: {
+      "zh-CN": "可以通过 color 属性调整图标颜色。",
+      "en-US": "Adjust icon color via color property.",
+    },
     component: Color,
-    code: ColorCode
+    code: ColorCode,
   },
   {
-    title: '线条粗细',
-    description: '调整图标的线条粗细。',
+    title: {
+      "zh-CN": "线条粗细",
+      "en-US": "Stroke Width",
+    },
+    description: {
+      "zh-CN": "调整图标的线条粗细。",
+      "en-US": "Adjust the stroke width of the icon.",
+    },
     component: Stroke,
-    code: StrokeCode
+    code: StrokeCode,
   },
   {
-    title: '旋转',
-    description: '可以通过 spin 属性让图标旋转。',
+    title: {
+      "zh-CN": "旋转",
+      "en-US": "Spin",
+    },
+    description: {
+      "zh-CN": "可以通过 spin 属性让图标旋转。",
+      "en-US": "Rotate the icon via spin property.",
+    },
     component: Spin,
-    code: SpinCode
+    code: SpinCode,
   },
   {
-    title: '图标列表',
-    description: '所有可用图标的列表。',
+    title: {
+      "zh-CN": "图标列表",
+      "en-US": "Icon List",
+    },
+    description: {
+      "zh-CN": "所有可用图标的列表。",
+      "en-US": "List of all available icons.",
+    },
     component: List,
-    code:''
-  }
-]
+    code: "",
+  },
+];
 export const meta = {
-  description: '语义化的矢量图形。'
-}
+  description: {
+    "zh-CN": "语义化的矢量图形。",
+    "en-US": "Semantic vector graphics.",
+  },
+};

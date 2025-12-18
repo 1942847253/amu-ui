@@ -61,10 +61,12 @@
 
         <div class="header__right">
           <nav class="nav">
-            <div class="nav-item">设计</div>
-            <div class="nav-item">开发</div>
-            <div class="nav-item">生态产品</div>
-            <div class="nav-item">简体中文</div>
+            <div class="nav-item">{{ t.nav.design }}</div>
+            <div class="nav-item">{{ t.nav.develop }}</div>
+            <div class="nav-item">{{ t.nav.ecosystem }}</div>
+            <div class="nav-item" @click="toggleLang" style="cursor: pointer">
+              {{ lang === "zh-CN" ? "简体中文" : "English" }}
+            </div>
           </nav>
 
           <div class="divider"></div>
@@ -129,17 +131,23 @@
       <aside class="sidebar" v-if="!isHome">
         <div class="sidebar__inner">
           <div class="sidebar__group">
-            <div class="sidebar__title">开发指南</div>
+            <div class="sidebar__title">{{ t.nav.guide }}</div>
             <RouterLink
               class="sidebar__link"
               active-class="active"
               to="/guide/quick-start"
-              >快速上手</RouterLink
+              >{{ t.nav.quickStart }}</RouterLink
+            >
+            <RouterLink
+              class="sidebar__link"
+              active-class="active"
+              to="/guide/i18n"
+              >{{ t.nav.i18n }}</RouterLink
             >
           </div>
 
           <div class="sidebar__group">
-            <div class="sidebar__title">通用</div>
+            <div class="sidebar__title">{{ t.nav.components }}</div>
             <RouterLink
               v-for="c in nav.components"
               :key="c.name"
@@ -147,7 +155,7 @@
               active-class="active"
               :to="c.route"
             >
-              {{ c.title }}
+              {{ (t.components as Record<string, string>)[c.name] || c.title }}
             </RouterLink>
           </div>
         </div>
@@ -173,9 +181,18 @@ import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import nav from "virtual:amu-docs-nav";
 import Toc from "./components/Toc.vue";
+import { useLanguage } from "./composables/useLanguage";
+import { messages } from "./locales";
 
 const route = useRoute();
 const isHome = computed(() => route.path === "/");
+
+const { lang, setLanguage, initLanguage } = useLanguage();
+const t = computed(() => messages[lang.value]);
+
+const toggleLang = () => {
+  setLanguage(lang.value === "zh-CN" ? "en-US" : "zh-CN");
+};
 
 const isDark = ref(false);
 const docRoot = ref<HTMLElement | null>(null);
@@ -192,6 +209,7 @@ const toggleTheme = () => {
 };
 
 onMounted(() => {
+  initLanguage();
   if (
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches

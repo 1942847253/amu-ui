@@ -33,6 +33,14 @@ export default defineConfig({
         find: "@amu-ui/icons",
         replacement: resolve(__dirname, "../packages/icons/src/index.ts"),
       },
+      {
+        find: "@amu-ui/hooks",
+        replacement: resolve(__dirname, "../packages/hooks/index.ts"),
+      },
+      {
+        find: "@amu-ui/locale",
+        replacement: resolve(__dirname, "../packages/locale/index.ts"),
+      },
       // HMR 直接指向源码，开发体验更好
       {
         find: "amu-ui",

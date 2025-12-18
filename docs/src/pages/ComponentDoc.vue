@@ -1,7 +1,7 @@
 <template>
   <article v-if="entry" class="doc-content">
     <header class="doc-header">
-      <div class="breadcrumbs">组件 / 通用</div>
+      <div class="breadcrumbs">{{ t.componentDoc.breadcrumbs }}</div>
       <h1>{{ displayTitle }}</h1>
       <p v-if="entry.description" class="doc-desc">{{ entry.description }}</p>
     </header>
@@ -14,16 +14,18 @@
       </section>
 
       <section class="doc-section" v-if="propsRows.length > 0">
-        <h2>API Reference</h2>
+        <h2>{{ t.componentDoc.apiReference }}</h2>
         <PropsTable :rows="propsRows" />
       </section>
     </div>
   </article>
 
   <article v-else class="doc-empty">
-    <h1>Component Not Found</h1>
-    <p>The documentation for this component could not be found.</p>
-    <RouterLink to="/components" class="link">Back to Components</RouterLink>
+    <h1>{{ t.componentDoc.notFound }}</h1>
+    <p>{{ t.componentDoc.notFoundDesc }}</p>
+    <RouterLink to="/components" class="link">{{
+      t.componentDoc.back
+    }}</RouterLink>
   </article>
 </template>
 
@@ -36,6 +38,11 @@ import PropsTable from "../components/PropsTable.vue";
 
 import api from "virtual:amu-docs-api";
 import nav from "virtual:amu-docs-nav";
+import { useLanguage } from "../composables/useLanguage";
+import { messages } from "../locales";
+
+const { lang } = useLanguage();
+const t = computed(() => messages[lang.value]);
 
 type DocEntry = {
   name: string;
@@ -50,28 +57,43 @@ const route = useRoute();
 const name = computed(() => String(route.params.name || ""));
 
 const demos = ref<any[]>([]);
-const description = ref("");
+const description = ref<string | Record<string, string>>("");
 
 const title = computed(() => {
   const found = nav.components.find((c) => c.name === name.value);
   return found?.title ?? name.value;
 });
 
+function resolveLocale(
+  val: string | Record<string, string> | undefined,
+): string {
+  if (!val) return "";
+  if (typeof val === "string") return val;
+  return val[lang.value] || val["zh-CN"] || "";
+}
+
 const entry = computed<DocEntry | null>(() => {
   if (!name.value) return null;
+
+  const resolvedDemos = demos.value.map((d) => ({
+    ...d,
+    title: resolveLocale(d.title),
+    description: resolveLocale(d.description),
+  }));
+
   return {
     name: name.value,
     title: title.value,
-    description: description.value || undefined,
-    demos: demos.value,
+    description: resolveLocale(description.value) || undefined,
+    demos: resolvedDemos,
   };
 });
 
 const displayTitle = computed(() => {
   const t = entry.value?.title || "";
   const map: Record<string, string> = {
-    Button: "按钮 Button",
-    Icon: "图标 Icon",
+    Button: messages[lang.value].components.button,
+    Icon: messages[lang.value].components.icon,
   };
   return map[t] || t;
 });

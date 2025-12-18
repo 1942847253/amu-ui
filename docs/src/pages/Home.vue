@@ -3,15 +3,14 @@
     <div class="hero">
       <div class="hero-content">
         <h1 class="title">AMU UI</h1>
-        <p class="subtitle">A Comprehensive Vue 3 Component Library</p>
+        <p class="subtitle">{{ t.home.subtitle }}</p>
         <p class="desc">
-          Designed for efficiency and flexibility. Supports Tree-shaking,
-          ESM+CJS, TypeScript, and Dark Mode.
+          {{ t.home.desc }}
         </p>
 
         <div class="actions">
           <RouterLink class="btn btn-primary" to="/guide/quick-start"
-            >Get Started</RouterLink
+            >{{ t.home.getStarted }}</RouterLink
           >
           <a class="btn btn-outline" href="https://github.com" target="_blank"
             >GitHub</a
@@ -54,30 +53,39 @@
     <div class="features">
       <div class="card">
         <div class="card-icon">⚡️</div>
-        <h3>High Performance</h3>
+        <h3>{{ t.home.features.performance }}</h3>
         <p>
-          Optimized for speed with tree-shaking support and minimal bundle size.
+          {{ t.home.features.performanceDesc }}
         </p>
       </div>
 
       <div class="card">
         <div class="card-icon">🎨</div>
-        <h3>Themeable</h3>
+        <h3>{{ t.home.features.themeable }}</h3>
         <p>
-          Built-in dark mode support and extensive CSS variable customization.
+          {{ t.home.features.themeableDesc }}
         </p>
       </div>
 
       <div class="card">
         <div class="card-icon">📘</div>
-        <h3>TypeScript</h3>
+        <h3>{{ t.home.features.typescript }}</h3>
         <p>
-          Written in TypeScript with complete type definitions for better DX.
+          {{ t.home.features.typescriptDesc }}
         </p>
       </div>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { computed } from "vue";
+import { useLanguage } from "../composables/useLanguage";
+import { messages } from "../locales";
+
+const { lang } = useLanguage();
+const t = computed(() => messages[lang.value]);
+</script>
 
 <style scoped>
 .home-container {

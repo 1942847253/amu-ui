@@ -6,6 +6,7 @@
 import { onMounted, ref, watch } from 'vue'
 import hljs from 'highlight.js/lib/core'
 import xml from 'highlight.js/lib/languages/xml'
+import javascript from 'highlight.js/lib/languages/javascript'
 import typescript from 'highlight.js/lib/languages/typescript'
 import css from 'highlight.js/lib/languages/css'
 import bash from 'highlight.js/lib/languages/bash'
@@ -13,6 +14,8 @@ import json from 'highlight.js/lib/languages/json'
 
 hljs.registerLanguage('vue', xml)
 hljs.registerLanguage('html', xml)
+hljs.registerLanguage('javascript', javascript)
+hljs.registerLanguage('js', javascript)
 hljs.registerLanguage('ts', typescript)
 hljs.registerLanguage('typescript', typescript)
 hljs.registerLanguage('css', css)

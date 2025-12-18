@@ -100,8 +100,8 @@ import CodeBlock from "./CodeBlock.vue";
 
 export type DemoItem = {
   key: string;
-  title: string;
-  description?: string;
+  title: string | Record<string, string>;
+  description?: string | Record<string, string>;
   component: any;
   code: string;
   lang?: "vue" | "html" | "ts" | "typescript";
