@@ -62,11 +62,10 @@
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
         </button>
-        <a
+        <button
           class="action-btn"
-          href="https://codesandbox.io/"
-          target="_blank"
-          title="Open in CodeSandbox"
+          @click="handleOpenStackBlitz"
+          title="Open in StackBlitz"
         >
           <svg
             width="16"
@@ -78,13 +77,29 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <path
-              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
-            ></path>
-            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
           </svg>
-        </a>
+        </button>
+
+        <button
+          class="action-btn"
+          @click="handleOpenVuePlayground"
+          title="Open in Vue Playground"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M2 3l10 18L22 3"></path>
+            <path d="M6 3l6 10 6-10"></path>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -97,6 +112,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import CodeBlock from "./CodeBlock.vue";
+import { openInStackBlitz } from "../utils/open-in-stackblitz";
+import { openInVuePlayground } from "../utils/open-in-vue-playground";
 
 export type DemoItem = {
   key: string;
@@ -130,6 +147,21 @@ const onCopy = async () => {
   } catch {
     // Fallback
   }
+};
+
+const handleOpenStackBlitz = () => {
+  if (!activeDemo.value) return;
+  const toPascalCase = (str: string) =>
+    str.replace(/(^\w|-\w)/g, (match) =>
+      match.replace("-", "").toUpperCase(),
+    );
+  const filename = toPascalCase(activeDemo.value.key);
+  openInStackBlitz(activeDemo.value.code, filename);
+};
+
+const handleOpenVuePlayground = () => {
+  if (!activeDemo.value) return;
+  openInVuePlayground(activeDemo.value.code, activeDemo.value.key);
 };
 </script>
 

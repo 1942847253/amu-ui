@@ -1,23 +1,27 @@
 <template>
   <div class="demo-button-size">
-    <amu-button size="mini">Mini</amu-button>
-    <amu-button size="small">Small</amu-button>
-    <amu-button size="default">Default</amu-button>
-    <amu-button size="large">Large</amu-button>
+    <AmuButton size="mini">Mini</AmuButton>
+    <AmuButton size="small">Small</AmuButton>
+    <AmuButton size="default">Default</AmuButton>
+    <AmuButton size="large">Large</AmuButton>
   </div>
   <div class="demo-button-size">
-    <amu-button type="primary" size="mini">Mini</amu-button>
-    <amu-button type="primary" size="small">Small</amu-button>
-    <amu-button type="primary" size="default">Default</amu-button>
-    <amu-button type="primary" size="large">Large</amu-button>
+    <AmuButton type="primary" size="mini">Mini</AmuButton>
+    <AmuButton type="primary" size="small">Small</AmuButton>
+    <AmuButton type="primary" size="default">Default</AmuButton>
+    <AmuButton type="primary" size="large">Large</AmuButton>
   </div>
   <div class="demo-button-size">
-    <amu-button shape="round" size="mini">Mini</amu-button>
-    <amu-button shape="round" size="small">Small</amu-button>
-    <amu-button shape="round" size="default">Default</amu-button>
-    <amu-button shape="round" size="large">Large</amu-button>
+    <AmuButton shape="round" size="mini">Mini</AmuButton>
+    <AmuButton shape="round" size="small">Small</AmuButton>
+    <AmuButton shape="round" size="default">Default</AmuButton>
+    <AmuButton shape="round" size="large">Large</AmuButton>
   </div>
 </template>
+
+<script setup lang="ts">
+import { AmuButton } from "amu-ui";
+</script>
 
 <style scoped>
 .demo-button-size {
