@@ -31,6 +31,22 @@ const API_RESOLVED_ID = "\0" + API_VIRTUAL_ID;
 const NAV_VIRTUAL_ID = "virtual:amu-docs-nav";
 const NAV_RESOLVED_ID = "\0" + NAV_VIRTUAL_ID;
 
+type NavConfig = {
+  hiddenComponents?: string[];
+};
+
+function readNavConfig(rootDir: string): NavConfig {
+  const configPath = path.resolve(rootDir, "docs/nav.config.json");
+  if (!fs.existsSync(configPath)) return {};
+  try {
+    const raw = fs.readFileSync(configPath, "utf8");
+    const parsed = JSON.parse(raw) as NavConfig;
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
 function findRepoRoot(startDir: string) {
   let dir = startDir;
   for (let i = 0; i < 8; i++) {
@@ -228,6 +244,8 @@ function pascalCase(name: string) {
 
 function collectNavMeta(rootDir: string): NavMeta {
   const components: NavItem[] = [];
+  const navConfig = readNavConfig(rootDir);
+  const hiddenComponents = new Set<string>(navConfig.hiddenComponents ?? []);
   
   // Scan components
   const componentsRoot = path.resolve(rootDir, "packages/components");
@@ -235,6 +253,7 @@ function collectNavMeta(rootDir: string): NavMeta {
     for (const ent of fs.readdirSync(componentsRoot, { withFileTypes: true })) {
       if (!ent.isDirectory()) continue;
       if (ent.name.startsWith(".")) continue;
+      if (hiddenComponents.has(ent.name)) continue;
       // Skip icon component as it's handled by packages/icons
       if (ent.name === "icon") continue;
 
@@ -284,6 +303,7 @@ export function amuDocsApiPlugin(): Plugin {
     configureServer(server) {
       const componentsRoot = path.resolve(rootDir, "packages/components");
       const iconsRoot = path.resolve(rootDir, "packages/icons");
+      const navConfigPath = path.resolve(rootDir, "docs/nav.config.json");
       
       if (fs.existsSync(componentsRoot)) {
         const watchFiles = walk(componentsRoot, (p) =>
@@ -291,6 +311,10 @@ export function amuDocsApiPlugin(): Plugin {
         );
         watchFiles.forEach((f) => server.watcher.add(f));
         server.watcher.add(componentsRoot);
+      }
+
+      if (fs.existsSync(navConfigPath)) {
+        server.watcher.add(navConfigPath);
       }
 
       if (fs.existsSync(iconsRoot)) {
@@ -301,9 +325,16 @@ export function amuDocsApiPlugin(): Plugin {
       }
 
       server.watcher.on("change", (file) => {
+        if (file === navConfigPath) {
+          const navMod = server.moduleGraph.getModuleById(NAV_RESOLVED_ID);
+          if (navMod) server.moduleGraph.invalidateModule(navMod);
+          server.ws.send({ type: "full-reload" });
+          return;
+        }
+
         if (!file.endsWith(path.join("src", "props.ts"))) return;
-        const mod = server.moduleGraph.getModuleById(API_RESOLVED_ID);
-        if (mod) server.moduleGraph.invalidateModule(mod);
+        const apiMod = server.moduleGraph.getModuleById(API_RESOLVED_ID);
+        if (apiMod) server.moduleGraph.invalidateModule(apiMod);
         server.ws.send({ type: "full-reload" });
       });
 
