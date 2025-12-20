@@ -1,0 +1,120 @@
+.amu-tag {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  white-space: nowrap;
+  border-radius: var(--amu-radius);
+  border: 1px solid transparent;
+  font-size: 12px;
+  line-height: 1;
+  transition: all 0.2s;
+  vertical-align: middle;
+  
+  /* Default variables */
+  --amu-tag-bg-color: var(--amu-color-bg-fill);
+  --amu-tag-text-color: var(--amu-color-text);
+  --amu-tag-border-color: transparent;
+  --amu-tag-height: 24px;
+  --amu-tag-padding: 0 8px;
+  
+  background-color: var(--amu-tag-bg-color);
+  color: var(--amu-tag-text-color);
+  border-color: var(--amu-tag-border-color);
+  height: var(--amu-tag-height);
+  padding: var(--amu-tag-padding);
+  gap: 4px;
+}
+
+.amu-tag--shape-round {
+  border-radius: 999px;
+}
+
+.amu-tag--shape-mark {
+  border-radius: 0 var(--amu-radius) var(--amu-radius) 0;
+}
+
+.amu-tag--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Sizes */
+.amu-tag--size-small {
+  --amu-tag-height: 20px;
+  --amu-tag-padding: 0 6px;
+  font-size: 12px;
+}
+
+.amu-tag--size-large {
+  --amu-tag-height: 32px;
+  --amu-tag-padding: 0 12px;
+  font-size: 14px;
+}
+
+/* Types */
+.amu-tag--primary {
+  --amu-tag-bg-color: var(--amu-color-primary);
+  --amu-tag-text-color: var(--amu-color-on-primary);
+}
+
+.amu-tag--success {
+  --amu-tag-bg-color: var(--amu-color-status-success);
+  --amu-tag-text-color: var(--amu-color-on-success);
+}
+
+.amu-tag--warning {
+  --amu-tag-bg-color: var(--amu-color-status-warning);
+  --amu-tag-text-color: var(--amu-color-on-warning);
+}
+
+.amu-tag--danger {
+  --amu-tag-bg-color: var(--amu-color-status-danger);
+  --amu-tag-text-color: var(--amu-color-on-danger);
+}
+
+/* Bordered */
+.amu-tag--bordered {
+  background-color: transparent;
+  border-color: currentColor;
+}
+
+.amu-tag--bordered.amu-tag--default {
+  border-color: var(--amu-color-border);
+}
+
+.amu-tag--bordered.amu-tag--primary {
+  color: var(--amu-color-primary);
+}
+
+.amu-tag--bordered.amu-tag--success {
+  color: var(--amu-color-status-success);
+}
+
+.amu-tag--bordered.amu-tag--warning {
+  color: var(--amu-color-status-warning);
+}
+
+.amu-tag--bordered.amu-tag--danger {
+  color: var(--amu-color-status-danger);
+}
+
+/* Close Icon */
+.amu-tag__close {
+  margin-left: 6px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  transition: background-color 0.2s;
+}
+
+.amu-tag__close:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-amu-theme='dark'] .amu-tag__close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}

@@ -3,16 +3,29 @@ import path from "node:path";
 import ts from "typescript";
 import type { Plugin } from "vite";
 
+type LocalizedDesc = string | Record<string, string>;
+
 type PropRow = {
   name: string;
   type: string;
   required: boolean;
   default?: string;
-  description?: string;
+  description?: LocalizedDesc;
+};
+
+type EventRow = {
+  name: string;
+  description?: LocalizedDesc;
+  parameters?: string;
+};
+
+type SlotRow = {
+  name: string;
+  description?: LocalizedDesc;
 };
 
 type ApiMeta = {
-  components: Record<string, { props: PropRow[] }>;
+  components: Record<string, { props: PropRow[]; events: EventRow[]; slots: SlotRow[] }>;
 };
 
 type NavItem = {
@@ -95,6 +108,30 @@ function primitiveFromCtor(expr: ts.Expression): string | undefined {
   return undefined;
 }
 
+function parseDescription(node: any): LocalizedDesc | undefined {
+  const jsDoc = node.jsDoc?.[0];
+  if (!jsDoc) return undefined;
+
+  const mainComment = (jsDoc.comment ?? "").trim();
+  const tags = jsDoc.tags ?? [];
+  
+  let en = "";
+  for (const tag of tags) {
+    if (tag.tagName.escapedText === "en" || tag.tagName.escapedText === "en-US") {
+      en = (tag.comment ?? "").trim();
+    }
+  }
+
+  if (en) {
+    return {
+      "zh-CN": mainComment,
+      "en-US": en
+    };
+  }
+  
+  return mainComment;
+}
+
 function collectApiMeta(rootDir: string): ApiMeta {
   const componentsRoot = path.resolve(rootDir, "packages/components");
   const iconsRoot = path.resolve(rootDir, "packages/icons");
@@ -137,6 +174,8 @@ function collectApiMeta(rootDir: string): ApiMeta {
         : path.basename(path.dirname(path.dirname(filePath)));
 
     let rows: PropRow[] = [];
+    let eventRows: EventRow[] = [];
+    let slotRows: SlotRow[] = [];
 
     sf.forEachChild((node) => {
       if (!ts.isVariableStatement(node)) return;
@@ -145,90 +184,164 @@ function collectApiMeta(rootDir: string): ApiMeta {
 
       for (const decl of node.declarationList.declarations) {
         if (!ts.isIdentifier(decl.name)) continue;
-        if (!decl.name.text.endsWith("Props")) continue;
+        
+        // Parse PropsparseDescription(p
+        if (decl.name.text.endsWith("Props")) {
+          let init = decl.initializer;
+          if (!init) continue;
 
-        let init = decl.initializer;
-        if (!init) continue;
+          if (ts.isAsExpression(init) || ts.isSatisfiesExpression(init)) {
+            init = init.expression;
+          }
 
-        if (ts.isAsExpression(init) || ts.isSatisfiesExpression(init)) {
-          init = init.expression;
-        }
+          if (!ts.isObjectLiteralExpression(init)) continue;
 
-        if (!ts.isObjectLiteralExpression(init)) continue;
-
-        rows = init.properties
-          .filter((p): p is ts.PropertyAssignment => ts.isPropertyAssignment(p))
-          .map((p) => {
-            const propName = ts.isIdentifier(p.name)
-              ? p.name.text
-              : ts.isStringLiteral(p.name)
+          rows = init.properties
+            .filter((p): p is ts.PropertyAssignment => ts.isPropertyAssignment(p))
+            .map((p) => {
+              const propName = ts.isIdentifier(p.name)
                 ? p.name.text
-                : "";
+                : ts.isStringLiteral(p.name)
+                  ? p.name.text
+                  : "";
 
-            const desc = p.initializer;
-            let required = false;
-            let typeText = "any";
-            let defaultText: string | undefined;
-            const description = ((p as any).jsDoc?.[0]?.comment ?? "").trim();
+              const desc = p.initializer;
+              let required = false;
+              let typeText = "any";
+              let defaultText: string | undefined;
+              const description = parseDescription(p);
 
-            if (ts.isObjectLiteralExpression(desc)) {
-              for (const dp of desc.properties) {
-                if (!ts.isPropertyAssignment(dp)) continue;
-                const key = ts.isIdentifier(dp.name)
-                  ? dp.name.text
-                  : ts.isStringLiteral(dp.name)
+              if (ts.isObjectLiteralExpression(desc)) {
+                for (const dp of desc.properties) {
+                  if (!ts.isPropertyAssignment(dp)) continue;
+                  const key = ts.isIdentifier(dp.name)
                     ? dp.name.text
-                    : "";
+                    : ts.isStringLiteral(dp.name)
+                      ? dp.name.text
+                      : "";
 
-                if (key === "required") {
-                  required = dp.initializer.kind === ts.SyntaxKind.TrueKeyword;
-                }
+                  if (key === "required") {
+                    required = dp.initializer.kind === ts.SyntaxKind.TrueKeyword;
+                  }
 
-                if (key === "default") {
-                  defaultText = toDefaultString(dp.initializer);
-                }
+                  if (key === "default") {
+                    defaultText = toDefaultString(dp.initializer);
+                  }
 
-                if (key === "type") {
-                  const initExpr = dp.initializer;
-                  if (
-                    ts.isAsExpression(initExpr) ||
-                    ts.isSatisfiesExpression(initExpr)
-                  ) {
-                    const typeNode = initExpr.type;
+                  if (key === "type") {
+                    const initExpr = dp.initializer;
                     if (
-                      ts.isTypeReferenceNode(typeNode) &&
-                      typeNode.typeArguments?.length
+                      ts.isAsExpression(initExpr) ||
+                      ts.isSatisfiesExpression(initExpr)
                     ) {
-                      const arg = typeNode.typeArguments[0];
-                      const t = checker.getTypeFromTypeNode(arg);
-                      typeText = checker.typeToString(
-                        t,
-                        undefined,
-                        ts.TypeFormatFlags.NoTruncation,
-                      );
+                      const typeNode = initExpr.type;
+                      if (
+                        ts.isTypeReferenceNode(typeNode) &&
+                        typeNode.typeArguments?.length
+                      ) {
+                        const arg = typeNode.typeArguments[0];
+                        const t = checker.getTypeFromTypeNode(arg);
+                        typeText = checker.typeToString(
+                          t,
+                          undefined,
+                          ts.TypeFormatFlags.NoTruncation,
+                        );
+                      } else {
+                        typeText =
+                          primitiveFromCtor(initExpr.expression) ?? "any";
+                      }
                     } else {
-                      typeText =
-                        primitiveFromCtor(initExpr.expression) ?? "any";
+                      typeText = primitiveFromCtor(initExpr) ?? "any";
                     }
-                  } else {
-                    typeText = primitiveFromCtor(initExpr) ?? "any";
                   }
                 }
               }
-            }
 
-            return {
-              name: propName,
-              type: typeText,
-              required,
-              ...(defaultText ? { default: defaultText } : {}),
-              ...(description ? { description } : {}),
-            };
-          });
+              return {
+                name: propName,
+                type: typeText,
+                required,
+                ...(defaultText ? { default: defaultText } : {}),
+                ...(description ? { description } : {}),
+              };
+            });
+        }
+
+        // Parse Emits
+        if (decl.name.text.endsWith("Emits")) {
+          let init = decl.initializer;
+          if (!init) continue;
+
+          if (ts.isAsExpression(init) || ts.isSatisfiesExpression(init)) {
+            init = init.expression;
+          }
+
+          if (!ts.isObjectLiteralExpression(init)) continue;
+
+          eventRows = init.properties
+            .filter((p): p is ts.PropertyAssignment => ts.isPropertyAssignment(p))
+            .map((p) => {
+              const eventName = ts.isIdentifier(p.name)
+                ? p.name.text
+                : ts.isStringLiteral(p.name)
+                  ? p.name.text
+                  : "";
+
+              const description = parseDescription(p);
+              
+              let parameters = "";
+              const init = p.initializer;
+              if (ts.isArrowFunction(init) || ts.isFunctionExpression(init)) {
+                parameters = init.parameters.map(param => {
+                  const paramName = ts.isIdentifier(param.name) ? param.name.text : "";
+                  let paramType = "any";
+                  if (param.type) {
+                    paramType = param.type.getText(sf);
+                  }
+                  return `${paramName}: ${paramType}`;
+                }).join(", ");
+              }
+
+              return {
+                name: eventName,
+                parameters,
+                ...(description ? { description } : {}),
+              };
+            });
+        }
+
+        // Parse Slots
+        if (decl.name.text.endsWith("Slots")) {
+          let init = decl.initializer;
+          if (!init) continue;
+
+          if (ts.isAsExpression(init) || ts.isSatisfiesExpression(init)) {
+            init = init.expression;
+          }
+
+          if (!ts.isObjectLiteralExpression(init)) continue;
+
+          slotRows = init.properties
+            .filter((p): p is ts.PropertyAssignment => ts.isPropertyAssignment(p))
+            .map((p) => {
+              const slotName = ts.isIdentifier(p.name)
+                ? p.name.text
+                : ts.isStringLiteral(p.name)
+                  ? p.name.text
+                  : "";
+
+              const description = parseDescription(p);
+
+              return {
+                name: slotName,
+                ...(description ? { description } : {}),
+              };
+            });
+        }
       }
     });
 
-    meta.components[compName] = { props: rows };
+    meta.components[compName] = { props: rows, events: eventRows, slots: slotRows };
   }
 
   return meta;

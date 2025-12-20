@@ -36,6 +36,8 @@ export const messages = {
     componentDoc: {
       breadcrumbs: '组件 / 通用',
       apiReference: 'API 参考',
+      eventReference: 'Event 参考',
+      slotsReference: 'Slots 参考',
       notFound: '未找到组件',
       notFoundDesc: '无法找到该组件的文档。',
       back: '返回组件列表',
@@ -43,6 +45,7 @@ export const messages = {
     components: {
       button: 'Button 按钮',
       icon: 'Icon 图标',
+      tag: 'Tag 标签',
     }
   },
   'en-US': {
@@ -82,6 +85,8 @@ export const messages = {
     componentDoc: {
       breadcrumbs: 'Components / General',
       apiReference: 'API Reference',
+      eventReference: 'Event Reference',
+      slotsReference: 'Slots Reference',
       notFound: 'Component Not Found',
       notFoundDesc: 'The documentation for this component could not be found.',
       back: 'Back to Components',
@@ -89,6 +94,7 @@ export const messages = {
     components: {
       button: 'Button',
       icon: 'Icon',
+      tag: 'Tag',
     }
   }
 } as const

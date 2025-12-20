@@ -3,14 +3,14 @@
     <table class="props-table">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Default</th>
-          <th>Description</th>
+          <th>{{ t.name }}</th>
+          <th>{{ t.type }}</th>
+          <th>{{ t.default }}</th>
+          <th>{{ t.description }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row in rows" :key="row.name">
+        <tr v-for="row in displayRows" :key="row.name">
           <td class="name">
             <code>{{ row.name }}</code>
             <span v-if="row.required" class="required-badge">required</span>
@@ -33,17 +33,51 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useLanguage } from '../composables/useLanguage'
+
 export type PropRow = {
   name: string
   type: string
   required: boolean
   default?: string
-  description?: string
+  description?: string | Record<string, string>
 }
 
-defineProps<{
+const props = defineProps<{
   rows: PropRow[]
 }>()
+
+const { lang } = useLanguage()
+
+const displayRows = computed(() => {
+  return props.rows.map(row => {
+    let desc = row.description
+    if (typeof desc === 'object' && desc !== null) {
+      desc = desc[lang.value] || desc['zh-CN'] || ''
+    }
+    return {
+      ...row,
+      description: desc as string
+    }
+  })
+})
+
+const t = computed(() => {
+  return lang.value === 'zh-CN'
+    ? {
+      name: '属性名',
+      type: '类型',
+      default: '默认值',
+      description: '说明',
+    }
+    : {
+      name: 'Name',
+      type: 'Type',
+      default: 'Default',
+      description: 'Description',
+    }
+})
 </script>
 
 <style scoped>
@@ -104,9 +138,13 @@ tr:last-child td {
 }
 
 .type-code {
+  display: inline-block;
   color: #d97706; /* Amber */
-  background: transparent;
-  padding: 0;
+  background-color: var(--amu-bg-code);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--vp-font-family-mono);
+  white-space: nowrap;
 }
 
 .dark .type-code {

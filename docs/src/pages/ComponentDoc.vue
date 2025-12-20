@@ -17,6 +17,16 @@
         <h2>{{ t.componentDoc.apiReference }}</h2>
         <PropsTable :rows="propsRows" />
       </section>
+
+      <section class="doc-section" v-if="eventRows.length > 0">
+        <h2>{{ t.componentDoc.eventReference }}</h2>
+        <EventsTable :rows="eventRows" />
+      </section>
+
+      <section class="doc-section" v-if="slotsRows.length > 0">
+        <h2>{{ t.componentDoc.slotsReference }}</h2>
+        <SlotsTable :rows="slotsRows" />
+      </section>
     </div>
   </article>
 
@@ -35,6 +45,8 @@ import { useRoute } from "vue-router";
 
 import DemoTabs from "../components/DemoTabs.vue";
 import PropsTable from "../components/PropsTable.vue";
+import EventsTable from "../components/EventsTable.vue";
+import SlotsTable from "../components/SlotsTable.vue";
 
 import api from "virtual:amu-docs-api";
 import nav from "virtual:amu-docs-nav";
@@ -99,6 +111,8 @@ const displayTitle = computed(() => {
 });
 
 const propsRows = computed(() => api.components[name.value]?.props ?? []);
+const eventRows = computed(() => api.components[name.value]?.events ?? []);
+const slotsRows = computed(() => api.components[name.value]?.slots ?? []);
 
 function findDemoLoaderKey(componentName: string) {
   const suffix = `/demos/${componentName}/index.ts`;
