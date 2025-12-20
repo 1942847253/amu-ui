@@ -44,16 +44,6 @@
       "import": "./dist/es/components/config-provider/index.mjs",
       "require": "./dist/cjs/components/config-provider/index.cjs"
     },
-    "./tag": {
-      "types": "./dist/types/components/tag/index.d.ts",
-      "import": "./dist/es/components/tag/index.mjs",
-      "require": "./dist/cjs/components/tag/index.cjs"
-    },
-    "./components/tag": {
-      "types": "./dist/types/components/tag/index.d.ts",
-      "import": "./dist/es/components/tag/index.mjs",
-      "require": "./dist/cjs/components/tag/index.cjs"
-    },
     "./icon": {
       "types": "./dist/types/components/icon/index.d.ts",
       "import": "./dist/es/components/icon/index.mjs",
@@ -63,6 +53,26 @@
       "types": "./dist/types/components/icon/index.d.ts",
       "import": "./dist/es/components/icon/index.mjs",
       "require": "./dist/cjs/components/icon/index.cjs"
+    },
+    "./space": {
+      "types": "./dist/types/components/space/index.d.ts",
+      "import": "./dist/es/components/space/index.mjs",
+      "require": "./dist/cjs/components/space/index.cjs"
+    },
+    "./components/space": {
+      "types": "./dist/types/components/space/index.d.ts",
+      "import": "./dist/es/components/space/index.mjs",
+      "require": "./dist/cjs/components/space/index.cjs"
+    },
+    "./tag": {
+      "types": "./dist/types/components/tag/index.d.ts",
+      "import": "./dist/es/components/tag/index.mjs",
+      "require": "./dist/cjs/components/tag/index.cjs"
+    },
+    "./components/tag": {
+      "types": "./dist/types/components/tag/index.d.ts",
+      "import": "./dist/es/components/tag/index.mjs",
+      "require": "./dist/cjs/components/tag/index.cjs"
     }
   },
   "files": [

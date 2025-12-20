@@ -1,0 +1,9 @@
+.amu-space {
+  display: inline-flex;
+  flex-direction: row;
+}
+
+.amu-space--vertical {
+  display: flex;
+  flex-direction: column;
+}

@@ -12,6 +12,8 @@
     "types": ["vite/client"],
     "baseUrl": ".",
     "paths": {
+      "amu-ui": ["packages/components/index.ts"],
+      "amu-ui/theme": ["packages/theme/index.ts"],
       "@amu-ui/icons": ["packages/icons/src/index.ts"],
       "@amu-ui/icons/*": ["packages/icons/src/*"],
       "@amu-ui/utils": ["packages/utils/index.ts"],
