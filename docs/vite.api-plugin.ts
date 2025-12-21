@@ -25,7 +25,7 @@ type SlotRow = {
 };
 
 type ApiMeta = {
-  components: Record<string, { props: PropRow[]; events: EventRow[]; slots: SlotRow[] }>;
+  components: Record<string, Record<string, { props: PropRow[]; events: EventRow[]; slots: SlotRow[] }>>;
 };
 
 type NavItem = {
@@ -46,6 +46,7 @@ const NAV_RESOLVED_ID = "\0" + NAV_VIRTUAL_ID;
 
 type NavConfig = {
   hiddenComponents?: string[];
+  labels?: Record<string, string>;
 };
 
 function readNavConfig(rootDir: string): NavConfig {
@@ -104,6 +105,12 @@ function primitiveFromCtor(expr: ts.Expression): string | undefined {
     if (expr.text === "Boolean") return "boolean";
     if (expr.text === "Array") return "any[]";
     if (expr.text === "Object") return "Record<string, any>";
+  }
+  if (ts.isArrayLiteralExpression(expr)) {
+    return expr.elements
+      .map((e) => primitiveFromCtor(e))
+      .filter((t) => t)
+      .join(" | ");
   }
   return undefined;
 }
@@ -173,9 +180,14 @@ function collectApiMeta(rootDir: string): ApiMeta {
         ? rel[idx + 1]
         : path.basename(path.dirname(path.dirname(filePath)));
 
-    let rows: PropRow[] = [];
-    let eventRows: EventRow[] = [];
-    let slotRows: SlotRow[] = [];
+    const subComponents: Record<string, { props: PropRow[]; events: EventRow[]; slots: SlotRow[] }> = {};
+    
+    const getSub = (name: string) => {
+      if (!subComponents[name]) {
+        subComponents[name] = { props: [], events: [], slots: [] };
+      }
+      return subComponents[name];
+    };
 
     sf.forEachChild((node) => {
       if (!ts.isVariableStatement(node)) return;
@@ -185,8 +197,12 @@ function collectApiMeta(rootDir: string): ApiMeta {
       for (const decl of node.declarationList.declarations) {
         if (!ts.isIdentifier(decl.name)) continue;
         
-        // Parse PropsparseDescription(p
+        // Parse Props
         if (decl.name.text.endsWith("Props")) {
+          const rawName = decl.name.text.replace(/Props$/, "");
+          const subName = pascalCase(rawName);
+          const target = getSub(subName);
+
           let init = decl.initializer;
           if (!init) continue;
 
@@ -196,7 +212,7 @@ function collectApiMeta(rootDir: string): ApiMeta {
 
           if (!ts.isObjectLiteralExpression(init)) continue;
 
-          rows = init.properties
+          const newRows = init.properties
             .filter((p): p is ts.PropertyAssignment => ts.isPropertyAssignment(p))
             .map((p) => {
               const propName = ts.isIdentifier(p.name)
@@ -265,10 +281,15 @@ function collectApiMeta(rootDir: string): ApiMeta {
                 ...(description ? { description } : {}),
               };
             });
+          target.props.push(...newRows);
         }
 
         // Parse Emits
         if (decl.name.text.endsWith("Emits")) {
+          const rawName = decl.name.text.replace(/Emits$/, "");
+          const subName = pascalCase(rawName);
+          const target = getSub(subName);
+
           let init = decl.initializer;
           if (!init) continue;
 
@@ -278,7 +299,7 @@ function collectApiMeta(rootDir: string): ApiMeta {
 
           if (!ts.isObjectLiteralExpression(init)) continue;
 
-          eventRows = init.properties
+          const newRows = init.properties
             .filter((p): p is ts.PropertyAssignment => ts.isPropertyAssignment(p))
             .map((p) => {
               const eventName = ts.isIdentifier(p.name)
@@ -308,10 +329,15 @@ function collectApiMeta(rootDir: string): ApiMeta {
                 ...(description ? { description } : {}),
               };
             });
+          target.events.push(...newRows);
         }
 
         // Parse Slots
         if (decl.name.text.endsWith("Slots")) {
+          const rawName = decl.name.text.replace(/Slots$/, "");
+          const subName = pascalCase(rawName);
+          const target = getSub(subName);
+
           let init = decl.initializer;
           if (!init) continue;
 
@@ -321,7 +347,7 @@ function collectApiMeta(rootDir: string): ApiMeta {
 
           if (!ts.isObjectLiteralExpression(init)) continue;
 
-          slotRows = init.properties
+          const newRows = init.properties
             .filter((p): p is ts.PropertyAssignment => ts.isPropertyAssignment(p))
             .map((p) => {
               const slotName = ts.isIdentifier(p.name)
@@ -337,11 +363,12 @@ function collectApiMeta(rootDir: string): ApiMeta {
                 ...(description ? { description } : {}),
               };
             });
+          target.slots.push(...newRows);
         }
       }
     });
 
-    meta.components[compName] = { props: rows, events: eventRows, slots: slotRows };
+    meta.components[compName] = subComponents;
   }
 
   return meta;
@@ -359,6 +386,7 @@ function collectNavMeta(rootDir: string): NavMeta {
   const components: NavItem[] = [];
   const navConfig = readNavConfig(rootDir);
   const hiddenComponents = new Set<string>(navConfig.hiddenComponents ?? []);
+  const labels = navConfig.labels ?? {};
   
   // Scan components
   const componentsRoot = path.resolve(rootDir, "packages/components");
@@ -374,9 +402,10 @@ function collectNavMeta(rootDir: string): NavMeta {
       const entry = path.join(dir, "index.ts");
       if (!fs.existsSync(entry)) continue;
 
+      const label = labels[ent.name];
       components.push({
         name: ent.name,
-        title: pascalCase(ent.name),
+        title: label ? `${pascalCase(ent.name)} ${label}` : pascalCase(ent.name),
         route: `/components/${ent.name}`,
       });
     }
@@ -385,9 +414,10 @@ function collectNavMeta(rootDir: string): NavMeta {
   // Add icons if exists
   const iconsRoot = path.resolve(rootDir, "packages/icons");
   if (fs.existsSync(iconsRoot)) {
+    const label = labels["icon"];
     components.push({
       name: "icon",
-      title: "Icon",
+      title: label ? `Icon ${label}` : "Icon",
       route: "/components/icon",
     });
   }

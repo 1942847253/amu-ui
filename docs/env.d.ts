@@ -22,15 +22,29 @@ declare module "virtual:amu-docs-nav" {
 }
 
 declare module "virtual:amu-docs-api" {
+  export type LocalizedDesc = string | Record<string, string>;
+
   export type PropRow = {
     name: string;
     type: string;
     required: boolean;
     default?: string;
+    description?: LocalizedDesc;
+  };
+
+  export type EventRow = {
+    name: string;
+    description?: LocalizedDesc;
+    parameters?: string;
+  };
+
+  export type SlotRow = {
+    name: string;
+    description?: LocalizedDesc;
   };
 
   export type ApiMeta = {
-    components: Record<string, { props: PropRow[] }>;
+    components: Record<string, Record<string, { props: PropRow[]; events: EventRow[]; slots: SlotRow[] }>>;
   };
 
   const api: ApiMeta;

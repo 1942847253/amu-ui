@@ -1,0 +1,92 @@
+/* Layout 布局组件样式 */
+
+.amu-layout {
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--amu-fill-color-blank);
+}
+
+.amu-layout--horizontal {
+  flex-direction: row;
+}
+
+.amu-layout--vertical {
+  flex-direction: column;
+}
+
+/* Header 头部 */
+.amu-layout-header {
+  flex: 0 0 auto;
+  height: 64px;
+  line-height: 64px;
+  background: var(--amu-fill-color);
+  border-bottom: 1px solid var(--amu-border-color);
+}
+
+/* Sider 侧边栏 */
+.amu-layout-sider {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 200px;
+  max-width: 200px;
+  min-width: 200px;
+  width: 200px;
+  background: var(--amu-fill-color);
+  border-right: 1px solid var(--amu-border-color);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.amu-layout-sider--right {
+  order: 1;
+  border-right: none;
+  border-left: 1px solid var(--amu-border-color);
+}
+
+.amu-layout-sider--collapsed {
+  flex: 0 0 80px;
+  max-width: 80px;
+  min-width: 80px;
+  width: 80px;
+}
+
+.amu-layout-sider__content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.amu-layout-sider--zero-width {
+  overflow: hidden;
+  border: 0;
+}
+
+.amu-layout-sider--zero-width .amu-layout-sider__content {
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* Content 内容区 */
+.amu-layout-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  background: var(--amu-fill-color-blank);
+}
+
+/* Footer 底部 */
+.amu-layout-footer {
+  flex: 0 0 auto;
+  height: 64px;
+  line-height: 64px;
+  background: var(--amu-fill-color);
+  border-top: 1px solid var(--amu-border-color);
+}
+
+/* 嵌套布局支持 */
+.amu-layout .amu-layout {
+  /* border: 1px solid var(--amu-border-color); */
+}

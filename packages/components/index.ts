@@ -5,6 +5,7 @@ import { AmuIcon } from './icon'
 import { AmuConfigProvider } from './config-provider'
 import { AmuTag } from './tag'
 import { AmuSpace } from './space'
+import { AmuLayout, AmuHeader, AmuSider, AmuContent, AmuFooter } from './layout'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -21,6 +22,9 @@ export * from './tag'
 export { AmuSpace } from './space'
 export * from './space'
 
+export { AmuLayout, AmuHeader, AmuSider, AmuContent, AmuFooter } from './layout'
+export * from './layout'
+
 const AmuUI: Plugin = {
   install(app: App) {
     app.use(AmuButton)
@@ -28,6 +32,11 @@ const AmuUI: Plugin = {
     app.use(AmuConfigProvider)
     app.use(AmuTag)
     app.use(AmuSpace)
+    app.use(AmuLayout)
+    app.use(AmuHeader)
+    app.use(AmuSider)
+    app.use(AmuContent)
+    app.use(AmuFooter)
   }
 }
 

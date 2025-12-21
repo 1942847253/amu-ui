@@ -1,5 +1,12 @@
 {
   "hiddenComponents": [
     "config-provider"
-  ]
+  ],
+  "labels": {
+    "button": "按钮",
+    "icon": "图标",
+    "layout": "布局",
+    "space": "间距",
+    "tag": "标签"
+  }
 }

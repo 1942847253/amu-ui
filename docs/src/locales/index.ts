@@ -45,6 +45,8 @@ export const messages = {
     components: {
       button: 'Button 按钮',
       icon: 'Icon 图标',
+      layout: 'Layout 布局',
+      space: 'Space 间距',
       tag: 'Tag 标签',
     }
   },
@@ -94,6 +96,8 @@ export const messages = {
     components: {
       button: 'Button',
       icon: 'Icon',
+      layout: 'Layout',
+      space: 'Space',
       tag: 'Tag',
     }
   }
