@@ -13,19 +13,27 @@
         <DemoTabs :demos="[d]" />
       </section>
 
-      <section class="doc-section" v-if="propsRows.length > 0">
+      <section class="doc-section" v-if="Object.keys(apiData).length > 0">
         <h2>{{ t.componentDoc.apiReference }}</h2>
-        <PropsTable :rows="propsRows" />
-      </section>
+        
+        <div v-for="(subApi, subName) in apiData" :key="subName" class="api-group">
+          <h3 v-if="Object.keys(apiData).length > 1">{{ subName }}</h3>
 
-      <section class="doc-section" v-if="eventRows.length > 0">
-        <h2>{{ t.componentDoc.eventReference }}</h2>
-        <EventsTable :rows="eventRows" />
-      </section>
+          <div v-if="subApi.props.length > 0">
+            <h4 v-if="Object.keys(apiData).length > 1">Props</h4>
+            <PropsTable :rows="subApi.props" />
+          </div>
 
-      <section class="doc-section" v-if="slotsRows.length > 0">
-        <h2>{{ t.componentDoc.slotsReference }}</h2>
-        <SlotsTable :rows="slotsRows" />
+          <div v-if="subApi.events.length > 0">
+            <h4 v-if="Object.keys(apiData).length > 1">Events</h4>
+            <EventsTable :rows="subApi.events" />
+          </div>
+
+          <div v-if="subApi.slots.length > 0">
+            <h4 v-if="Object.keys(apiData).length > 1">Slots</h4>
+            <SlotsTable :rows="subApi.slots" />
+          </div>
+        </div>
       </section>
     </div>
   </article>
@@ -102,17 +110,12 @@ const entry = computed<DocEntry | null>(() => {
 });
 
 const displayTitle = computed(() => {
-  const t = entry.value?.title || "";
-  const map: Record<string, string> = {
-    Button: messages[lang.value].components.button,
-    Icon: messages[lang.value].components.icon,
-  };
-  return map[t] || t;
+  const componentName = name.value;
+  const comps = t.value.components as Record<string, string>;
+  return comps[componentName] || entry.value?.title || componentName;
 });
 
-const propsRows = computed(() => api.components[name.value]?.props ?? []);
-const eventRows = computed(() => api.components[name.value]?.events ?? []);
-const slotsRows = computed(() => api.components[name.value]?.slots ?? []);
+const apiData = computed(() => api.components[name.value] ?? {});
 
 function findDemoLoaderKey(componentName: string) {
   const suffix = `/demos/${componentName}/index.ts`;
