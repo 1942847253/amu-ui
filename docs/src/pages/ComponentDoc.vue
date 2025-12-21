@@ -1,7 +1,7 @@
 <template>
   <article v-if="entry" class="doc-content">
     <header class="doc-header">
-      <div class="breadcrumbs">{{ t.componentDoc.breadcrumbs }}</div>
+      <div class="breadcrumbs">{{ breadcrumbs }}</div>
       <h1>{{ displayTitle }}</h1>
       <p v-if="entry.description" class="doc-desc">{{ entry.description }}</p>
     </header>
@@ -113,6 +113,11 @@ const displayTitle = computed(() => {
   const componentName = name.value;
   const comps = t.value.components as Record<string, string>;
   return comps[componentName] || entry.value?.title || componentName;
+});
+
+const breadcrumbs = computed(() => {
+  const category = t.value.nav.components;
+  return `${category} / ${displayTitle.value}`;
 });
 
 const apiData = computed(() => api.components[name.value] ?? {});
