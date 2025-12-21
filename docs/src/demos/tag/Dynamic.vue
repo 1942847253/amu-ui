@@ -20,9 +20,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { AmuTag, AmuButton } from 'amu-ui'
+import type { TagType } from 'amu-ui'
+
+interface TagItem {
+  type: TagType
+  value: string
+}
 
 const tags = ref(['Tag 1', 'Tag 2', 'Tag 3'])
-const tagsBordered = ref([{type:'default',value:'Tag 1'}, {type:'primary',value:'Tag 2'}, {type:'success',value:'Tag 3'},{type:'warning',value:'Tag 4'},{type:'danger',value:'Tag 5'}])
+const tagsBordered = ref<TagItem[]>([{type:'default',value:'Tag 1'}, {type:'primary',value:'Tag 2'}, {type:'success',value:'Tag 3'},{type:'warning',value:'Tag 4'},{type:'danger',value:'Tag 5'}])
 
 const handleClose = (index: number) => {
     tags.value.splice(index, 1)
