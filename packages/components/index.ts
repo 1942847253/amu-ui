@@ -7,6 +7,7 @@ import { AmuTag } from './tag'
 import { AmuSpace } from './space'
 import { AmuLayout, AmuHeader, AmuSider, AmuContent, AmuFooter } from './layout'
 import { AmuScrollbar } from './scrollbar'
+import { AmuRadio, AmuRadioGroup, AmuRadioButton } from './radio'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -29,6 +30,9 @@ export * from './layout'
 export { AmuScrollbar } from './scrollbar'
 export * from './scrollbar'
 
+export { AmuRadio, AmuRadioGroup, AmuRadioButton } from './radio'
+export * from './radio'
+
 const AmuUI: Plugin = {
   install(app: App) {
     app.use(AmuButton)
@@ -42,6 +46,9 @@ const AmuUI: Plugin = {
     app.use(AmuContent)
     app.use(AmuFooter)
     app.use(AmuScrollbar)
+    app.use(AmuRadio)
+    app.use(AmuRadioGroup)
+    app.use(AmuRadioButton)
   }
 }
 

@@ -225,7 +225,6 @@ const handleOpenVuePlayground = () => {
 
 .action-btn.copied {
   color: #00b42a;
-  /* Arco Success Green */
 }
 
 .demo-source {

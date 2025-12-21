@@ -1,7 +1,6 @@
 /* docs 站点的样式完全自管，避免第三方全局样式污染组件 demo */
 
 :root {
-  /* Brand Colors - Arco Blue */
   --amu-brand: #165DFF;
   --amu-brand-light: #4080FF;
   --amu-brand-dark: #0E42D2;

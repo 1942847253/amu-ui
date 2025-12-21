@@ -125,13 +125,19 @@ function parseDescription(node: any): LocalizedDesc | undefined {
   const jsDoc = node.jsDoc?.[0];
   if (!jsDoc) return undefined;
 
-  const mainComment = (jsDoc.comment ?? "").trim();
+  let mainComment = (jsDoc.comment ?? "").trim();
   const tags = jsDoc.tags ?? [];
   
   let en = "";
   for (const tag of tags) {
-    if (tag.tagName.escapedText === "en" || tag.tagName.escapedText === "en-US") {
+    const tagName = tag.tagName.escapedText;
+    if (tagName === "en" || tagName === "en-US") {
       en = (tag.comment ?? "").trim();
+    } else if (tagName === "description") {
+      const desc = (tag.comment ?? "").trim();
+      if (desc && !mainComment) {
+        mainComment = desc;
+      }
     }
   }
 

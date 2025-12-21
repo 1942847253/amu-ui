@@ -64,6 +64,16 @@
       "import": "./dist/es/components/layout/index.mjs",
       "require": "./dist/cjs/components/layout/index.cjs"
     },
+    "./radio": {
+      "types": "./dist/types/components/radio/index.d.ts",
+      "import": "./dist/es/components/radio/index.mjs",
+      "require": "./dist/cjs/components/radio/index.cjs"
+    },
+    "./components/radio": {
+      "types": "./dist/types/components/radio/index.d.ts",
+      "import": "./dist/es/components/radio/index.mjs",
+      "require": "./dist/cjs/components/radio/index.cjs"
+    },
     "./scrollbar": {
       "types": "./dist/types/components/scrollbar/index.d.ts",
       "import": "./dist/es/components/scrollbar/index.mjs",
