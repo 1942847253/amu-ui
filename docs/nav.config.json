@@ -9,5 +9,35 @@
     "space": "间距",
     "tag": "标签",
     "scrollbar": "滚动条"
-  }
+  },
+  "groups": [
+    {
+      "key": "general",
+      "items": ["button", "icon"]
+    },
+    {
+      "key": "layout",
+      "items": ["layout", "space", "scrollbar"]
+    },
+    {
+      "key": "dataDisplay",
+      "items": ["tag"]
+    },
+    {
+      "key": "dataEntry",
+      "items": []
+    },
+    {
+      "key": "feedback",
+      "items": []
+    },
+    {
+      "key": "navigation",
+      "items": []
+    },
+    {
+      "key": "other",
+      "items": []
+    }
+  ]
 }

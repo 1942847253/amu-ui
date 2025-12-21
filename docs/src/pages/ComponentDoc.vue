@@ -80,8 +80,11 @@ const demos = ref<any[]>([]);
 const description = ref<string | Record<string, string>>("");
 
 const title = computed(() => {
-  const found = nav.components.find((c) => c.name === name.value);
-  return found?.title ?? name.value;
+  for (const group of nav.groups) {
+    const found = group.items.find((c) => c.name === name.value);
+    if (found) return found.title;
+  }
+  return name.value;
 });
 
 function resolveLocale(

@@ -13,8 +13,13 @@ declare module "virtual:amu-docs-nav" {
     route: string;
   };
 
+  export type NavGroup = {
+    title: string;
+    items: NavItem[];
+  };
+
   export type NavMeta = {
-    components: NavItem[];
+    groups: NavGroup[];
   };
 
   const nav: NavMeta;

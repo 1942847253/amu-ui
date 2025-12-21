@@ -34,8 +34,13 @@ type NavItem = {
   route: string;
 };
 
+type NavGroup = {
+  title: string;
+  items: NavItem[];
+};
+
 type NavMeta = {
-  components: NavItem[];
+  groups: NavGroup[];
 };
 
 const API_VIRTUAL_ID = "virtual:amu-docs-api";
@@ -47,6 +52,7 @@ const NAV_RESOLVED_ID = "\0" + NAV_VIRTUAL_ID;
 type NavConfig = {
   hiddenComponents?: string[];
   labels?: Record<string, string>;
+  groups?: { key: string; items: string[] }[];
 };
 
 function readNavConfig(rootDir: string): NavConfig {
@@ -383,7 +389,7 @@ function pascalCase(name: string) {
 }
 
 function collectNavMeta(rootDir: string): NavMeta {
-  const components: NavItem[] = [];
+  const componentsMap = new Map<string, NavItem>();
   const navConfig = readNavConfig(rootDir);
   const hiddenComponents = new Set<string>(navConfig.hiddenComponents ?? []);
   const labels = navConfig.labels ?? {};
@@ -403,7 +409,7 @@ function collectNavMeta(rootDir: string): NavMeta {
       if (!fs.existsSync(entry)) continue;
 
       const label = labels[ent.name];
-      components.push({
+      componentsMap.set(ent.name, {
         name: ent.name,
         title: label ? `${pascalCase(ent.name)} ${label}` : pascalCase(ent.name),
         route: `/components/${ent.name}`,
@@ -415,15 +421,45 @@ function collectNavMeta(rootDir: string): NavMeta {
   const iconsRoot = path.resolve(rootDir, "packages/icons");
   if (fs.existsSync(iconsRoot)) {
     const label = labels["icon"];
-    components.push({
+    componentsMap.set("icon", {
       name: "icon",
       title: label ? `Icon ${label}` : "Icon",
       route: "/components/icon",
     });
   }
 
-  components.sort((a, b) => a.title.localeCompare(b.title));
-  return { components };
+  const groups: NavGroup[] = [];
+  
+  if (navConfig.groups) {
+    for (const groupConfig of navConfig.groups) {
+      const items: NavItem[] = [];
+      for (const compName of groupConfig.items) {
+        const item = componentsMap.get(compName);
+        if (item) {
+          items.push(item);
+          componentsMap.delete(compName);
+        }
+      }
+      if (items.length > 0) {
+        groups.push({
+          title: groupConfig.key,
+          items,
+        });
+      }
+    }
+  }
+
+  // Handle remaining components
+  if (componentsMap.size > 0) {
+    const remainingItems = Array.from(componentsMap.values());
+    remainingItems.sort((a, b) => a.title.localeCompare(b.title));
+    groups.push({
+      title: "components",
+      items: remainingItems,
+    });
+  }
+
+  return { groups };
 }
 
 export function amuDocsApiPlugin(): Plugin {

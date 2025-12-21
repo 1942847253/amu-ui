@@ -5,7 +5,14 @@ export const messages = {
       develop: '开发',
       ecosystem: '生态产品',
       guide: '开发指南',
-      components: '通用',
+      components: '组件',
+      general: '通用',
+      layout: '布局',
+      dataDisplay: '数据展示',
+      dataEntry: '数据输入',
+      feedback: '反馈',
+      navigation: '导航',
+      other: '其他',
       quickStart: '快速上手',
       i18n: '国际化',
     },
@@ -48,6 +55,7 @@ export const messages = {
       layout: 'Layout 布局',
       space: 'Space 间距',
       tag: 'Tag 标签',
+      scrollbar: 'Scrollbar 滚动条',
     }
   },
   'en-US': {
@@ -57,6 +65,13 @@ export const messages = {
       ecosystem: 'Ecosystem',
       guide: 'Guide',
       components: 'Components',
+      general: 'General',
+      layout: 'Layout',
+      dataDisplay: 'Data Display',
+      dataEntry: 'Data Entry',
+      feedback: 'Feedback',
+      navigation: 'Navigation',
+      other: 'Other',
       quickStart: 'Quick Start',
       i18n: 'Internationalization',
     },
@@ -99,6 +114,7 @@ export const messages = {
       layout: 'Layout',
       space: 'Space',
       tag: 'Tag',
+      scrollbar: 'Scrollbar',
     }
   }
 } as const

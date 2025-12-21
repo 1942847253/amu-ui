@@ -15,7 +15,7 @@ export const router = createRouter({
     { path: '/guide/i18n', component: GuideI18n },
     {
       path: '/components',
-      redirect: nav.components[0]?.route ?? '/'
+      redirect: nav.groups[0]?.items[0]?.route ?? '/'
     },
     {
       path: '/components/:name',

@@ -146,10 +146,10 @@
             >
           </div>
 
-          <div class="sidebar__group">
-            <div class="sidebar__title">{{ t.nav.components }}</div>
+          <div class="sidebar__group" v-for="group in nav.groups" :key="group.title">
+            <div class="sidebar__title">{{ (t.nav as Record<string, string>)[group.title] || group.title }}</div>
             <RouterLink
-              v-for="c in nav.components"
+              v-for="c in group.items"
               :key="c.name"
               class="sidebar__link"
               active-class="active"
