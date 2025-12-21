@@ -3,13 +3,13 @@
     <header class="doc-header">
       <div class="breadcrumbs">{{ breadcrumbs }}</div>
       <h1>{{ displayTitle }}</h1>
-      <p v-if="entry.description" class="doc-desc">{{ entry.description }}</p>
+      <p v-if="entry.description" class="doc-desc" v-html="formatDescription(entry.description)"></p>
     </header>
 
     <div class="doc-body">
       <section v-for="d in entry.demos" :key="d.key" class="doc-section">
         <h2>{{ d.title }}</h2>
-        <p v-if="d.description">{{ d.description }}</p>
+        <p v-if="d.description" v-html="formatDescription(d.description)"></p>
         <DemoTabs :demos="[d]" />
       </section>
 
@@ -90,6 +90,11 @@ function resolveLocale(
   if (!val) return "";
   if (typeof val === "string") return val;
   return val[lang.value] || val["zh-CN"] || "";
+}
+
+function formatDescription(text: string) {
+  if (!text) return "";
+  return text.replace(/`([^`]+)`/g, "<code>$1</code>");
 }
 
 const entry = computed<DocEntry | null>(() => {

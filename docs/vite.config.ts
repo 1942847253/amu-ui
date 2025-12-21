@@ -13,88 +13,12 @@ export default defineConfig({
         replacement: resolve(__dirname, "../packages/theme/index.ts"),
       },
       {
-        find: "amu-ui/button",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/button/index.ts",
-        ),
+        find: /^amu-ui\/(.*)$/,
+        replacement: resolve(__dirname, "../packages/components/$1/index.ts"),
       },
       {
-        find: "amu-ui/components/button",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/button/index.ts",
-        ),
-      },
-      {
-        find: "amu-ui/layout",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/layout/index.ts",
-        ),
-      },
-      {
-        find: "amu-ui/components/layout",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/layout/index.ts",
-        ),
-      },
-      {
-        find: "amu-ui/tag",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/tag/index.ts",
-        ),
-      },
-      {
-        find: "amu-ui/components/tag",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/tag/index.ts",
-        ),
-      },
-      {
-        find: "amu-ui/space",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/space/index.ts",
-        ),
-      },
-      {
-        find: "amu-ui/components/space",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/space/index.ts",
-        ),
-      },
-      {
-        find: "amu-ui/icon",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/icon/index.ts",
-        ),
-      },
-      {
-        find: "amu-ui/components/icon",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/icon/index.ts",
-        ),
-      },
-      {
-        find: "amu-ui/config-provider",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/config-provider/index.ts",
-        ),
-      },
-      {
-        find: "amu-ui/components/config-provider",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/config-provider/index.ts",
-        ),
+        find: /^amu-ui\/components\/(.*)$/,
+        replacement: resolve(__dirname, "../packages/components/$1/index.ts"),
       },
       {
         find: "amu-ui",

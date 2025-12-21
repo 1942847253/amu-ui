@@ -34,8 +34,8 @@ export const demos = [
       "en-US": "Size",
     },
     description: {
-      "zh-CN": "可以通过 size 属性调整图标尺寸。",
-      "en-US": "Adjust icon size via size property.",
+      "zh-CN": "可以通过 `size` 属性调整图标尺寸。",
+      "en-US": "Adjust icon size via `size` property.",
     },
     component: Size,
     code: SizeCode,
@@ -46,8 +46,8 @@ export const demos = [
       "en-US": "Color",
     },
     description: {
-      "zh-CN": "可以通过 color 属性调整图标颜色。",
-      "en-US": "Adjust icon color via color property.",
+      "zh-CN": "可以通过 `color` 属性调整图标颜色。",
+      "en-US": "Adjust icon color via `color` property.",
     },
     component: Color,
     code: ColorCode,
@@ -70,8 +70,8 @@ export const demos = [
       "en-US": "Spin",
     },
     description: {
-      "zh-CN": "可以通过 spin 属性让图标旋转。",
-      "en-US": "Rotate the icon via spin property.",
+      "zh-CN": "可以通过 `spin` 属性让图标旋转。",
+      "en-US": "Rotate the icon via `spin` property.",
     },
     component: Spin,
     code: SpinCode,

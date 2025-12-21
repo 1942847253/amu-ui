@@ -47,8 +47,8 @@ export const demos: DemoItem[] = [
       'en-US': 'Collapsible Sider'
     },
     description: {
-      'zh-CN': '侧边栏支持折叠功能，通过 collapsed 属性控制折叠状态。',
-      'en-US': 'Sider supports collapse feature, controlled by collapsed prop.'
+      'zh-CN': '侧边栏支持折叠功能，通过 `collapsed` 属性控制折叠状态。',
+      'en-US': 'Sider supports collapse feature, controlled by `collapsed` prop.'
     },
     component: Collapsible,
     code: CollapsibleDemo
@@ -60,8 +60,8 @@ export const demos: DemoItem[] = [
       'en-US': 'Right Sider'
     },
     description: {
-      'zh-CN': '通过 position="right" 将侧边栏放置在右侧。',
-      'en-US': 'Place sider on the right side with position="right".'
+      'zh-CN': '通过 `position="right"` 将侧边栏放置在右侧。',
+      'en-US': 'Place sider on the right side with `position="right"`.'
     },
     component: RightSider,
     code: RightSiderDemo
@@ -86,8 +86,8 @@ export const demos: DemoItem[] = [
       'en-US': 'Zero Collapsed Width'
     },
     description: {
-      'zh-CN': '通过设置 collapsed-width 为 0，可以让侧边栏完全隐藏。',
-      'en-US': 'Set collapsed-width to 0 to completely hide the sider.'
+      'zh-CN': '通过设置 `collapsed-width` 为 0，可以让侧边栏完全隐藏。',
+      'en-US': 'Set `collapsed-width` to 0 to completely hide the sider.'
     },
     component: ZeroCollapsedWidth,
     code: ZeroCollapsedWidthDemo

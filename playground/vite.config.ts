@@ -12,18 +12,12 @@ export default defineConfig({
         replacement: resolve(__dirname, "../packages/theme/index.ts"),
       },
       {
-        find: "amu-ui/button",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/button/index.ts",
-        ),
+        find: /^amu-ui\/(.*)$/,
+        replacement: resolve(__dirname, "../packages/components/$1/index.ts"),
       },
       {
-        find: "amu-ui/components/button",
-        replacement: resolve(
-          __dirname,
-          "../packages/components/button/index.ts",
-        ),
+        find: /^amu-ui\/components\/(.*)$/,
+        replacement: resolve(__dirname, "../packages/components/$1/index.ts"),
       },
       {
         find: "@amu-ui/utils",

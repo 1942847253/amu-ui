@@ -6,6 +6,7 @@ import { AmuConfigProvider } from './config-provider'
 import { AmuTag } from './tag'
 import { AmuSpace } from './space'
 import { AmuLayout, AmuHeader, AmuSider, AmuContent, AmuFooter } from './layout'
+import { AmuScrollbar } from './scrollbar'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -25,6 +26,9 @@ export * from './space'
 export { AmuLayout, AmuHeader, AmuSider, AmuContent, AmuFooter } from './layout'
 export * from './layout'
 
+export { AmuScrollbar } from './scrollbar'
+export * from './scrollbar'
+
 const AmuUI: Plugin = {
   install(app: App) {
     app.use(AmuButton)
@@ -37,6 +41,7 @@ const AmuUI: Plugin = {
     app.use(AmuSider)
     app.use(AmuContent)
     app.use(AmuFooter)
+    app.use(AmuScrollbar)
   }
 }
 

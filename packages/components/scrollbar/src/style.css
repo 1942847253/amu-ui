@@ -1,0 +1,71 @@
+.amu-scrollbar {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
+.amu-scrollbar__wrap {
+  overflow: auto;
+  height: 100%;
+}
+
+.amu-scrollbar__wrap--hidden-default {
+  scrollbar-width: none;
+}
+
+.amu-scrollbar__wrap--hidden-default::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.amu-scrollbar__view {
+  /* default view style */
+}
+
+.amu-scrollbar__bar {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  z-index: 1;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 120ms ease-out;
+}
+
+.amu-scrollbar__bar.is-vertical {
+  width: 6px;
+  top: 2px;
+}
+
+.amu-scrollbar__bar.is-horizontal {
+  height: 6px;
+  left: 2px;
+}
+
+.amu-scrollbar__thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border-radius: inherit;
+  background-color: var(--amu-color-text-disabled);
+  transition: background-color 0.3s, opacity 0.3s;
+  opacity: 0.3;
+}
+
+.amu-scrollbar__thumb:hover {
+  opacity: 0.5;
+}
+
+.amu-scrollbar:hover > .amu-scrollbar__bar,
+.amu-scrollbar:active > .amu-scrollbar__bar,
+.amu-scrollbar:focus > .amu-scrollbar__bar,
+.amu-scrollbar__bar.is-visible {
+  opacity: 1;
+}
+
+.amu-scrollbar__bar.is-always {
+  opacity: 1;
+}

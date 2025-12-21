@@ -39,8 +39,8 @@ export const demos: DemoItem[] = [
       "en-US": "Bordered",
     },
     description: {
-      "zh-CN": "设置 bordered 属性可以显示边框。",
-      "en-US": "Set the bordered property to show the border.",
+      "zh-CN": "设置 `bordered` 属性可以显示边框。",
+      "en-US": "Set the `bordered` property to show the border.",
     },
     component: Bordered,
     code: BorderedCode,
@@ -78,8 +78,8 @@ export const demos: DemoItem[] = [
       "en-US": "Closable",
     },
     description: {
-      "zh-CN": "设置 closable 属性可以定义一个标签是否可移除。",
-      "en-US": "Set the closable property to define whether a tag can be removed.",
+      "zh-CN": "设置 `closable` 属性可以定义一个标签是否可移除。",
+      "en-US": "Set the `closable` property to define whether a tag can be removed.",
     },
     component: Closable,
     code: ClosableCode,
@@ -91,8 +91,8 @@ export const demos: DemoItem[] = [
       "en-US": "Custom Color",
     },
     description: {
-      "zh-CN": "可以通过 color 属性设置标签的背景色。",
-      "en-US": "You can set the background color of the tag through the color property.",
+      "zh-CN": "可以通过 `color` 属性设置标签的背景色。",
+      "en-US": "You can set the background color of the tag through the `color` property.",
     },
     component: Color,
     code: ColorCode,

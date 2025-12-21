@@ -39,8 +39,8 @@ export const demos = [
       'en-US': 'Space Size',
     },
     description: {
-      'zh-CN': '通过 size 设置间距大小。',
-      'en-US': 'Set the spacing size via size.',
+      'zh-CN': '通过 `size` 设置间距大小。',
+      'en-US': 'Set the spacing size via `size`.',
     },
     code: SizeCode,
     component: Size,

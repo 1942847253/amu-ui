@@ -72,8 +72,8 @@ export const demos: DemoItem[] = [
       "en-US": "Icon Button",
     },
     description: {
-      "zh-CN": "通过 icon 插槽可以在按钮中嵌入图标。",
-      "en-US": "Icons can be embedded in buttons using the icon slot.",
+      "zh-CN": "通过 `icon` 插槽可以在按钮中嵌入图标。",
+      "en-US": "Icons can be embedded in buttons using the `icon` slot.",
     },
     component: Icon,
     lang: "vue",
@@ -118,9 +118,9 @@ export const demos: DemoItem[] = [
     },
     description: {
       "zh-CN":
-        "通过 loading 属性显示加载中状态，自动禁用按钮防止重复提交。",
+        "通过 `loading` 属性显示加载中状态，自动禁用按钮防止重复提交。",
       "en-US":
-        "Display loading state via loading property, automatically disable button to prevent repeated submission.",
+        "Display loading state via `loading` property, automatically disable button to prevent repeated submission.",
     },
     component: Loading,
     lang: "vue",

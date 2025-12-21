@@ -7,6 +7,7 @@
     "icon": "图标",
     "layout": "布局",
     "space": "间距",
-    "tag": "标签"
+    "tag": "标签",
+    "scrollbar": "滚动条"
   }
 }

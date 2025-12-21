@@ -64,6 +64,16 @@
       "import": "./dist/es/components/layout/index.mjs",
       "require": "./dist/cjs/components/layout/index.cjs"
     },
+    "./scrollbar": {
+      "types": "./dist/types/components/scrollbar/index.d.ts",
+      "import": "./dist/es/components/scrollbar/index.mjs",
+      "require": "./dist/cjs/components/scrollbar/index.cjs"
+    },
+    "./components/scrollbar": {
+      "types": "./dist/types/components/scrollbar/index.d.ts",
+      "import": "./dist/es/components/scrollbar/index.mjs",
+      "require": "./dist/cjs/components/scrollbar/index.cjs"
+    },
     "./space": {
       "types": "./dist/types/components/space/index.d.ts",
       "import": "./dist/es/components/space/index.mjs",
