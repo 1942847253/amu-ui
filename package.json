@@ -54,6 +54,16 @@
       "import": "./dist/es/components/icon/index.mjs",
       "require": "./dist/cjs/components/icon/index.cjs"
     },
+    "./input": {
+      "types": "./dist/types/components/input/index.d.ts",
+      "import": "./dist/es/components/input/index.mjs",
+      "require": "./dist/cjs/components/input/index.cjs"
+    },
+    "./components/input": {
+      "types": "./dist/types/components/input/index.d.ts",
+      "import": "./dist/es/components/input/index.mjs",
+      "require": "./dist/cjs/components/input/index.cjs"
+    },
     "./layout": {
       "types": "./dist/types/components/layout/index.d.ts",
       "import": "./dist/es/components/layout/index.mjs",
