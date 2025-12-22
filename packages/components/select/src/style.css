@@ -90,7 +90,6 @@
   border: 1px solid var(--amu-color-border);
   border-radius: var(--amu-radius);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 4px;
   z-index: 1000;
   min-width: 200px;
   box-sizing: border-box;
@@ -172,3 +171,25 @@
   opacity: 0;
   transform: scaleY(0.8);
 }
+
+/* Override AmuInput styles when used inside Select */
+.amu-select__input.amu-input-wrapper {
+  padding: 0;
+  height: auto;
+  line-height: inherit;
+  background: transparent;
+}
+
+.amu-select__input .amu-input__inner-wrapper {
+  padding: 0 !important;
+  height: auto !important;
+  min-height: auto !important;
+  border: none;
+  background: transparent;
+}
+
+.amu-select__input .amu-input__inner {
+  height: 100%;
+  line-height: inherit;
+}
+

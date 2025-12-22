@@ -26,15 +26,15 @@
         </template>
 
         <!-- Input / Placeholder -->
-        <input
+        <amu-input
           ref="inputRef"
-          type="text"
           class="amu-select__input"
           :class="{ 'is-transparent': multiple && Array.isArray(modelValue) && modelValue.length > 0 }"
           :readonly="!filterable"
           :disabled="disabled"
           :placeholder="showPlaceholder ? placeholder : ''"
-          :value="displayValue"
+          :model-value="displayValue"
+          :borderless="true"
           @input="handleInput"
           @focus="handleFocus"
           @blur="handleBlur"
@@ -102,6 +102,7 @@ import { ref, computed, provide, watch, nextTick, onMounted, onBeforeUnmount, re
 import { selectProps, selectEmits, selectContextKey, type SelectValue, type OptionProps, type SelectOptionProxy } from './props'
 import { AmuIcon } from 'amu-ui/icon'
 import { AmuTag } from 'amu-ui/tag'
+import { AmuInput } from 'amu-ui/input'
 import { IconChevronDown, IconX, IconSearch } from '@amu-ui/icons'
 import AmuOption from './option.vue'
 
@@ -115,7 +116,7 @@ const slots = useSlots()
 
 const selectRef = ref<HTMLElement>()
 const popperRef = ref<HTMLElement>()
-const inputRef = ref<HTMLInputElement>()
+const inputRef = ref<InstanceType<typeof AmuInput>>()
 const visible = ref(false)
 const query = ref('')
 const hover = ref(false)
@@ -272,9 +273,9 @@ const removeTag = (val: SelectValue) => {
   emit('remove-tag', val)
 }
 
-const handleInput = (e: Event) => {
+const handleInput = (val: string) => {
   if (!props.filterable) return
-  query.value = (e.target as HTMLInputElement).value
+  query.value = val
   // TODO: Implement filtering logic
 }
 

@@ -12,6 +12,8 @@ import Disabled from './Disabled.vue?raw'
 import DisabledComp from './Disabled.vue'
 import CustomOption from './CustomOption.vue?raw'
 import CustomOptionComp from './CustomOption.vue'
+import Placement from './Placement.vue?raw'
+import PlacementComp from './Placement.vue'
 
 export const demos = [
   {
@@ -104,6 +106,19 @@ export const demos = [
     },
     code: CustomOption,
     component: CustomOptionComp,
+  },
+  {
+    key: 'placement',
+    title: {
+      'zh-CN': '弹出位置',
+      'en-US': 'Placement',
+    },
+    description: {
+      'zh-CN': '可以通过 `placement` 属性设置下拉框的弹出位置。',
+      'en-US': 'You can set the placement of the dropdown menu via `placement` prop.',
+    },
+    code: Placement,
+    component: PlacementComp,
   },
 ]
 
