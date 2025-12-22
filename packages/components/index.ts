@@ -8,6 +8,7 @@ import { AmuSpace } from './space'
 import { AmuLayout, AmuHeader, AmuSider, AmuContent, AmuFooter } from './layout'
 import { AmuScrollbar } from './scrollbar'
 import { AmuRadio, AmuRadioGroup, AmuRadioButton } from './radio'
+import { AmuSelect, AmuOption } from './select'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -33,6 +34,9 @@ export * from './scrollbar'
 export { AmuRadio, AmuRadioGroup, AmuRadioButton } from './radio'
 export * from './radio'
 
+export { AmuSelect, AmuOption } from './select'
+export * from './select'
+
 const AmuUI: Plugin = {
   install(app: App) {
     app.use(AmuButton)
@@ -49,7 +53,9 @@ const AmuUI: Plugin = {
     app.use(AmuRadio)
     app.use(AmuRadioGroup)
     app.use(AmuRadioButton)
-  }
+    app.use(AmuSelect)
+    app.use(AmuOption)
+  },
 }
 
 export default AmuUI

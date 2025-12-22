@@ -9,7 +9,8 @@
     "space": "间距",
     "tag": "标签",
     "scrollbar": "滚动条",
-    "radio": "单选框"
+    "radio": "单选框",
+    "select": "选择器"
   },
   "groups": [
     {
@@ -26,7 +27,7 @@
     },
     {
       "key": "dataEntry",
-      "items": ["radio"]
+      "items": ["radio", "select"]
     },
     {
       "key": "feedback",
