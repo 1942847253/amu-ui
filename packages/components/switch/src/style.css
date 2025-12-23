@@ -1,0 +1,215 @@
+:root {
+  --amu-switch-on-color: var(--amu-color-primary);
+  --amu-switch-off-color: var(--amu-color-neutral-fill-3, #c9cdd4);
+  --amu-switch-disabled-color: var(--amu-color-neutral-fill-2, #f2f3f5);
+  --amu-switch-text-color: #fff;
+}
+
+.amu-switch {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  font-size: 14px;
+  line-height: 20px;
+  height: 24px;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+}
+
+.amu-switch__input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  margin: 0;
+}
+
+.amu-switch__core {
+  margin: 0;
+  display: inline-block;
+  position: relative;
+  min-width: 44px;
+  height: 24px;
+  border: 1px solid var(--amu-switch-off-color);
+  outline: none;
+  border-radius: 12px;
+  box-sizing: border-box;
+  background: var(--amu-switch-off-color);
+  cursor: pointer;
+  transition: border-color .3s, background-color .3s;
+}
+
+.amu-switch__action {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  border-radius: 10px;
+  transition: all .3s;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--amu-switch-off-color);
+  font-size: 14px; /* Default icon size */
+}
+
+.amu-switch__loading-icon {
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  background: conic-gradient(from 0deg, transparent 0%, currentColor 100%);
+  animation: rotating 1s linear infinite;
+}
+
+.amu-switch__loading-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0.15em;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+.amu-switch__loading-icon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.15em;
+  height: 0.15em;
+  background-color: currentColor;
+  border-radius: 50%;
+}
+
+.amu-switch__inner {
+  height: 100%;
+  color: #fff;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding: 0 8px 0 24px;
+  transition: padding .3s;
+  box-sizing: border-box;
+}
+
+/* Checked state */
+.amu-switch.is-checked .amu-switch__core {
+  border-color: var(--amu-switch-on-color);
+  background-color: var(--amu-switch-on-color);
+}
+
+.amu-switch.is-checked .amu-switch__action {
+  left: 100%;
+  margin-left: -21px;
+  color: var(--amu-switch-on-color);
+}
+
+.amu-switch.is-checked .amu-switch__inner {
+  padding: 0 24px 0 8px;
+}
+
+/* Disabled state */
+.amu-switch.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.amu-switch.is-disabled .amu-switch__core {
+  cursor: not-allowed;
+}
+
+.amu-switch.is-disabled .amu-switch__input {
+  cursor: not-allowed;
+}
+
+/* Loading state */
+.amu-switch.is-loading {
+  cursor: wait;
+}
+
+@keyframes rotating {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Active state animation */
+.amu-switch:not(.is-disabled):not(.is-loading):active .amu-switch__action {
+  width: 24px;
+}
+
+.amu-switch.is-checked:not(.is-disabled):not(.is-loading):active .amu-switch__action {
+  margin-left: -25px;
+}
+
+/* Sizes */
+.amu-switch--small {
+  height: 16px;
+}
+.amu-switch--small .amu-switch__core {
+  min-width: 28px;
+  height: 16px;
+  border-radius: 8px;
+}
+.amu-switch--small .amu-switch__action {
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  font-size: 10px;
+}
+.amu-switch--small.is-checked .amu-switch__action {
+  margin-left: -13px;
+}
+.amu-switch--small .amu-switch__inner {
+  padding: 0 4px 0 16px;
+  font-size: 10px;
+}
+.amu-switch--small.is-checked .amu-switch__inner {
+  padding: 0 16px 0 4px;
+}
+
+.amu-switch--small:not(.is-disabled):not(.is-loading):active .amu-switch__action {
+  width: 16px;
+}
+
+.amu-switch--small.is-checked:not(.is-disabled):not(.is-loading):active .amu-switch__action {
+  margin-left: -17px;
+}
+
+.amu-switch--large {
+  height: 32px;
+}
+.amu-switch--large .amu-switch__core {
+  min-width: 56px;
+  height: 32px;
+  border-radius: 16px;
+}
+.amu-switch--large .amu-switch__action {
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  font-size: 20px;
+}
+.amu-switch--large.is-checked .amu-switch__action {
+  margin-left: -29px;
+}
+.amu-switch--large .amu-switch__inner {
+  padding: 0 10px 0 32px;
+  font-size: 14px;
+}
+.amu-switch--large.is-checked .amu-switch__inner {
+  padding: 0 32px 0 10px;
+}
+
+.amu-switch--large:not(.is-disabled):not(.is-loading):active .amu-switch__action {
+  width: 34px;
+}
+
+.amu-switch--large.is-checked:not(.is-disabled):not(.is-loading):active .amu-switch__action {
+  margin-left: -35px;
+}

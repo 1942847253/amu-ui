@@ -11,12 +11,18 @@
     <section class="card">
       <h2>全量注册（app.use）</h2>
       <AmuButton type="primary">Registered Button</AmuButton>
+      <div style="margin-top: 20px;">
+        <AmuSwitch v-model="switchVal" checked-text="开" unchecked-text="关" />
+      </div>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import LocalButton from "amu-ui/button";
+import { ref } from 'vue'
+
+const switchVal = ref(false)
 </script>
 
 <style scoped>

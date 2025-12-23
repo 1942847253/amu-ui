@@ -12,7 +12,8 @@
     "radio": "单选框",
     "checkbox": "多选框",
     "select": "选择器",
-    "input": "输入框"
+    "input": "输入框",
+    "switch": "开关"
   },
   "groups": [
     {
@@ -29,7 +30,7 @@
     },
     {
       "key": "dataEntry",
-      "items": ["radio", "checkbox", "select", "input"]
+      "items": ["radio", "checkbox", "select", "input", "switch"]
     },
     {
       "key": "feedback",

@@ -124,6 +124,16 @@
       "import": "./dist/es/components/space/index.mjs",
       "require": "./dist/cjs/components/space/index.cjs"
     },
+    "./switch": {
+      "types": "./dist/types/components/switch/index.d.ts",
+      "import": "./dist/es/components/switch/index.mjs",
+      "require": "./dist/cjs/components/switch/index.cjs"
+    },
+    "./components/switch": {
+      "types": "./dist/types/components/switch/index.d.ts",
+      "import": "./dist/es/components/switch/index.mjs",
+      "require": "./dist/cjs/components/switch/index.cjs"
+    },
     "./tag": {
       "types": "./dist/types/components/tag/index.d.ts",
       "import": "./dist/es/components/tag/index.mjs",

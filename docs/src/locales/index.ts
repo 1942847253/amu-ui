@@ -60,6 +60,7 @@ export const messages = {
       checkbox: 'Checkbox 多选框',
       select: 'Select 选择器',
       input: 'Input 输入框',
+      switch: 'Switch 开关',
     }
   },
   'en-US': {
@@ -123,6 +124,7 @@ export const messages = {
       checkbox: 'Checkbox',
       select: 'Select',
       input: 'Input',
+      switch: 'Switch',
     }
   }
 } as const
