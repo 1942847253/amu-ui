@@ -1,0 +1,194 @@
+/* Checkbox 样式 */
+.amu-checkbox {
+  --amu-checkbox-size: 16px;
+  --amu-checkbox-border-radius: 4px;
+  --amu-checkbox-border-color: var(--amu-color-border);
+  --amu-checkbox-bg-color: var(--amu-color-bg);
+  --amu-checkbox-hover-border-color: var(--amu-color-primary);
+  --amu-checkbox-checked-bg-color: var(--amu-color-primary);
+  --amu-checkbox-checked-border-color: var(--amu-color-primary);
+  --amu-checkbox-disabled-bg-color: var(--amu-color-bg-fill);
+  --amu-checkbox-disabled-border-color: var(--amu-color-border);
+  --amu-checkbox-error-border-color: var(--amu-color-status-danger);
+  --amu-checkbox-font-size: var(--amu-font-size);
+  --amu-checkbox-label-gap: 8px;
+
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  font-size: var(--amu-checkbox-font-size);
+  color: var(--amu-color-text);
+  font-weight: 500;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* 输入容器 */
+.amu-checkbox__input {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* 隐藏原生 checkbox */
+.amu-checkbox__original {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  z-index: -1;
+}
+
+/* 自定义复选框 */
+.amu-checkbox__inner {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--amu-checkbox-size);
+  height: var(--amu-checkbox-size);
+  border: 1px solid var(--amu-checkbox-border-color);
+  border-radius: var(--amu-checkbox-border-radius);
+  background-color: var(--amu-checkbox-bg-color);
+  transition: border-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46),
+    background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46);
+  position: relative;
+}
+
+/* 复选框图标 */
+.amu-checkbox__icon {
+  width: 75%;
+  height: 75%;
+  color: #fff;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.15s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* 标签文本 */
+.amu-checkbox__label {
+  margin-left: var(--amu-checkbox-label-gap);
+  padding-right: 0;
+  line-height: 1;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* Hover 状态 */
+.amu-checkbox:hover .amu-checkbox__inner {
+  border-color: var(--amu-checkbox-hover-border-color);
+}
+
+/* 选中状态 */
+.amu-checkbox.is-checked .amu-checkbox__inner {
+  background-color: var(--amu-checkbox-checked-bg-color);
+  border-color: var(--amu-checkbox-checked-border-color);
+}
+
+.amu-checkbox.is-checked .amu-checkbox__icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 半选状态 */
+.amu-checkbox.is-indeterminate .amu-checkbox__inner {
+  background-color: var(--amu-checkbox-checked-bg-color);
+  border-color: var(--amu-checkbox-checked-border-color);
+}
+
+.amu-checkbox.is-indeterminate .amu-checkbox__icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 禁用状态 */
+.amu-checkbox.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.amu-checkbox.is-disabled .amu-checkbox__inner {
+  background-color: var(--amu-checkbox-disabled-bg-color);
+  border-color: var(--amu-checkbox-disabled-border-color);
+  cursor: not-allowed;
+}
+
+.amu-checkbox.is-disabled.is-checked .amu-checkbox__inner,
+.amu-checkbox.is-disabled.is-indeterminate .amu-checkbox__inner {
+  background-color: var(--amu-checkbox-disabled-border-color);
+  border-color: var(--amu-checkbox-disabled-border-color);
+}
+
+.amu-checkbox.is-disabled .amu-checkbox__label {
+  cursor: not-allowed;
+}
+
+/* 错误状态 */
+.amu-checkbox.is-error .amu-checkbox__inner {
+  border-color: var(--amu-checkbox-error-border-color);
+}
+
+.amu-checkbox.is-error:hover .amu-checkbox__inner {
+  border-color: var(--amu-checkbox-error-border-color);
+}
+
+/* Focus 状态（键盘可访问性） */
+.amu-checkbox__original:focus-visible + .amu-checkbox__inner {
+  box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.2);
+  outline: none;
+}
+
+/* 尺寸变体 - Small */
+.amu-checkbox--small {
+  --amu-checkbox-size: 14px;
+  --amu-checkbox-font-size: 12px;
+  --amu-checkbox-label-gap: 6px;
+}
+
+/* 尺寸变体 - Medium（默认） */
+.amu-checkbox--medium {
+  --amu-checkbox-size: 16px;
+  --amu-checkbox-font-size: var(--amu-font-size);
+  --amu-checkbox-label-gap: 8px;
+}
+
+/* 尺寸变体 - Large */
+.amu-checkbox--large {
+  --amu-checkbox-size: 18px;
+  --amu-checkbox-font-size: 16px;
+  --amu-checkbox-label-gap: 10px;
+}
+
+/* CheckboxGroup 样式 */
+.amu-checkbox-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* CheckboxGroup 尺寸变体 */
+.amu-checkbox-group--small {
+  gap: 12px;
+}
+
+.amu-checkbox-group--medium {
+  gap: 16px;
+}
+
+.amu-checkbox-group--large {
+  gap: 20px;
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+  .amu-checkbox-group {
+    gap: 12px;
+  }
+}

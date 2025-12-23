@@ -10,6 +10,7 @@ import { AmuScrollbar } from './scrollbar'
 import { AmuRadio, AmuRadioGroup, AmuRadioButton } from './radio'
 import { AmuSelect, AmuOption } from './select'
 import { AmuInput } from './input'
+import { AmuCheckbox, AmuCheckboxGroup } from './checkbox'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -41,6 +42,9 @@ export * from './select'
 export { AmuInput } from './input'
 export * from './input'
 
+export { AmuCheckbox, AmuCheckboxGroup } from './checkbox'
+export * from './checkbox'
+
 const AmuUI: Plugin = {
   install(app: App) {
     app.use(AmuButton)
@@ -60,6 +64,8 @@ const AmuUI: Plugin = {
     app.use(AmuRadioButton)
     app.use(AmuSelect)
     app.use(AmuOption)
+    app.use(AmuCheckbox)
+    app.use(AmuCheckboxGroup)
   },
 }
 

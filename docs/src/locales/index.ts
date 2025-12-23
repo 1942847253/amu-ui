@@ -56,6 +56,10 @@ export const messages = {
       space: 'Space 间距',
       tag: 'Tag 标签',
       scrollbar: 'Scrollbar 滚动条',
+      radio: 'Radio 单选框',
+      checkbox: 'Checkbox 多选框',
+      select: 'Select 选择器',
+      input: 'Input 输入框',
     }
   },
   'en-US': {
@@ -115,6 +119,10 @@ export const messages = {
       space: 'Space',
       tag: 'Tag',
       scrollbar: 'Scrollbar',
+      radio: 'Radio',
+      checkbox: 'Checkbox',
+      select: 'Select',
+      input: 'Input',
     }
   }
 } as const

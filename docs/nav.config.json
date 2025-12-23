@@ -10,6 +10,7 @@
     "tag": "标签",
     "scrollbar": "滚动条",
     "radio": "单选框",
+    "checkbox": "多选框",
     "select": "选择器",
     "input": "输入框"
   },
@@ -28,7 +29,7 @@
     },
     {
       "key": "dataEntry",
-      "items": ["radio", "select", "input"]
+      "items": ["radio", "checkbox", "select", "input"]
     },
     {
       "key": "feedback",

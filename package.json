@@ -34,6 +34,16 @@
       "import": "./dist/es/components/button/index.mjs",
       "require": "./dist/cjs/components/button/index.cjs"
     },
+    "./checkbox": {
+      "types": "./dist/types/components/checkbox/index.d.ts",
+      "import": "./dist/es/components/checkbox/index.mjs",
+      "require": "./dist/cjs/components/checkbox/index.cjs"
+    },
+    "./components/checkbox": {
+      "types": "./dist/types/components/checkbox/index.d.ts",
+      "import": "./dist/es/components/checkbox/index.mjs",
+      "require": "./dist/cjs/components/checkbox/index.cjs"
+    },
     "./config-provider": {
       "types": "./dist/types/components/config-provider/index.d.ts",
       "import": "./dist/es/components/config-provider/index.mjs",

@@ -417,7 +417,7 @@ function collectNavMeta(rootDir: string): NavMeta {
       const label = labels[ent.name];
       componentsMap.set(ent.name, {
         name: ent.name,
-        title: label ? `${pascalCase(ent.name)} ${label}` : pascalCase(ent.name),
+        title: pascalCase(ent.name),
         route: `/components/${ent.name}`,
       });
     }
@@ -429,7 +429,7 @@ function collectNavMeta(rootDir: string): NavMeta {
     const label = labels["icon"];
     componentsMap.set("icon", {
       name: "icon",
-      title: label ? `Icon ${label}` : "Icon",
+      title: "Icon",
       route: "/components/icon",
     });
   }
