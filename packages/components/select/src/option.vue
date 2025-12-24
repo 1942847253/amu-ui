@@ -38,10 +38,18 @@ const visible = computed(() => {
 
 const isSelected = computed(() => {
   if (!select) return false
+
+  const isLooselyEqual = (a: unknown, b: unknown) => {
+    if (a === b) return true
+    if (typeof a === 'number' && typeof b === 'string' && b.trim()) return a === Number(b)
+    if (typeof a === 'string' && typeof b === 'number' && a.trim()) return Number(a) === b
+    return false
+  }
+
   if (select.props.multiple) {
-    return Array.isArray(select.props.modelValue) && select.props.modelValue.includes(props.value)
+    return Array.isArray(select.props.modelValue) && select.props.modelValue.some((v) => isLooselyEqual(v, props.value))
   } else {
-    return select.props.modelValue === props.value
+    return isLooselyEqual(select.props.modelValue, props.value)
   }
 })
 

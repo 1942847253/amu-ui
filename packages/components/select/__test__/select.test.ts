@@ -10,7 +10,7 @@ describe('AmuSelect', () => {
         placeholder: 'test placeholder',
       },
     })
-    expect(wrapper.find('.amu-select__input').attributes('placeholder')).toBe('test placeholder')
+    expect(wrapper.find('.amu-select__input input').attributes('placeholder')).toBe('test placeholder')
   })
 
   test('options render', async () => {

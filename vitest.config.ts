@@ -5,12 +5,32 @@ import { resolve } from 'path'
 export default defineConfig({
   plugins: [vue()],
   resolve: {
-    alias: {
-      '@amu-ui/utils': resolve(__dirname, 'packages/utils/index.ts'),
-      '@amu-ui/icons': resolve(__dirname, 'packages/icons/src/index.ts'),
-      '@amu-ui/locale': resolve(__dirname, 'packages/locale/index.ts'),
-      '@amu-ui/hooks': resolve(__dirname, 'packages/hooks/index.ts')
-    }
+    alias: [
+      {
+        find: /^amu-ui$/,
+        replacement: resolve(__dirname, 'packages/components/index.ts')
+      },
+      {
+        find: /^amu-ui\/(.*)$/,
+        replacement: resolve(__dirname, 'packages/components/$1/index.ts')
+      },
+      {
+        find: '@amu-ui/utils',
+        replacement: resolve(__dirname, 'packages/utils/index.ts')
+      },
+      {
+        find: '@amu-ui/icons',
+        replacement: resolve(__dirname, 'packages/icons/src/index.ts')
+      },
+      {
+        find: '@amu-ui/locale',
+        replacement: resolve(__dirname, 'packages/locale/index.ts')
+      },
+      {
+        find: '@amu-ui/hooks',
+        replacement: resolve(__dirname, 'packages/hooks/index.ts')
+      }
+    ]
   },
   test: {
     environment: 'jsdom',

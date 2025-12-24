@@ -54,6 +54,16 @@
       "import": "./dist/es/components/config-provider/index.mjs",
       "require": "./dist/cjs/components/config-provider/index.cjs"
     },
+    "./date-picker": {
+      "types": "./dist/types/components/date-picker/index.d.ts",
+      "import": "./dist/es/components/date-picker/index.mjs",
+      "require": "./dist/cjs/components/date-picker/index.cjs"
+    },
+    "./components/date-picker": {
+      "types": "./dist/types/components/date-picker/index.d.ts",
+      "import": "./dist/es/components/date-picker/index.mjs",
+      "require": "./dist/cjs/components/date-picker/index.cjs"
+    },
     "./icon": {
       "types": "./dist/types/components/icon/index.d.ts",
       "import": "./dist/es/components/icon/index.mjs",
@@ -150,7 +160,8 @@
   ],
   "dependencies": {
     "@amu-ui/hooks": "workspace:*",
-    "@amu-ui/locale": "workspace:*"
+    "@amu-ui/locale": "workspace:*",
+    "dayjs": "^1.11.19"
   },
   "peerDependencies": {
     "vue": "^3.4.0"

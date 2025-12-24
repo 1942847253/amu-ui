@@ -98,12 +98,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, provide, watch, nextTick, onMounted, onBeforeUnmount, reactive, useSlots } from 'vue'
+import { ref, computed, provide, watch, reactive, useSlots, nextTick } from 'vue'
 import { selectProps, selectEmits, selectContextKey, type SelectValue, type OptionProps, type SelectOptionProxy } from './props'
 import { AmuIcon } from 'amu-ui/icon'
 import { AmuTag } from 'amu-ui/tag'
 import { AmuInput } from 'amu-ui/input'
 import { IconChevronDown, IconX, IconSearch } from '@amu-ui/icons'
+import { useHover, useTriggerPopup } from '@amu-ui/hooks'
 import AmuOption from './option.vue'
 
 defineOptions({
@@ -119,7 +120,7 @@ const popperRef = ref<HTMLElement>()
 const inputRef = ref<InstanceType<typeof AmuInput>>()
 const visible = ref(false)
 const query = ref('')
-const hover = ref(false)
+const { hovered } = useHover(selectRef)
 
 // Store option info
 const optionsMap = reactive(new Map<SelectValue, SelectOptionProxy>())
@@ -127,40 +128,26 @@ const optionsMap = reactive(new Map<SelectValue, SelectOptionProxy>())
 // Positioning
 const popperStyle = ref({})
 
-const updatePopperPosition = () => {
-  if (!selectRef.value || !visible.value) return
-  const { top, left, height, width, bottom } = selectRef.value.getBoundingClientRect()
-  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-  const scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft
-  const viewportHeight = window.innerHeight
-
-  // Smart positioning
-  let placement = props.placement
-  const spaceBelow = viewportHeight - bottom
-  const spaceAbove = top
-  
-  // If not enough space below (e.g. < 200px) and more space above, flip to top
-  if (spaceBelow < 200 && spaceAbove > spaceBelow) {
-    placement = 'top-start'
-  }
-
-  let style: any = {
-    width: `${width}px`,
+useTriggerPopup(
+  selectRef,
+  popperRef,
+  visible,
+  popperStyle,
+  {
+    strategy: 'absolute',
+    outsideEvent: 'click',
+    placement: (props.placement?.startsWith('top') ? 'top-start' : 'bottom-start') as any,
+    offset: 4,
     zIndex: 2000,
-    left: `${left + scrollLeft}px`,
-  }
-
-  if (placement.startsWith('top')) {
-    style.top = `${top + scrollTop - 4}px`
-    style.transformOrigin = 'center bottom'
-    style.transform = 'translateY(-100%)'
-  } else {
-    style.top = `${top + scrollTop + height + 4}px`
-    style.transformOrigin = 'center top'
-  }
-
-  popperStyle.value = style
-}
+    matchWidth: true,
+    autoFlip: true,
+    useTransformTop: true,
+    observeResize: true,
+    onClose: () => {
+      visible.value = false
+    },
+  },
+)
 
 const toggleMenu = () => {
   if (props.disabled) return
@@ -171,44 +158,55 @@ const closeMenu = () => {
   visible.value = false
 }
 
-const handleOutsideClick = (e: MouseEvent) => {
-  if (
-    visible.value &&
-    selectRef.value &&
-    !selectRef.value.contains(e.target as Node) &&
-    popperRef.value &&
-    !popperRef.value.contains(e.target as Node)
-  ) {
-    closeMenu()
-  }
+function scrollToSelectedOption() {
+  const popper = popperRef.value
+  if (!popper) return
+  const contentEl = popper.querySelector('.amu-select__content') as HTMLElement | null
+  if (!contentEl) return
+
+  const selectedEl = contentEl.querySelector('.amu-option.is-selected') as HTMLElement | null
+  if (!selectedEl) return
+
+  // 只滚动下拉内部的可滚动容器，避免影响页面滚动条
+  // .amu-select__content 设置了 position: relative，确保 offsetParent 链能在容器内闭合
+  const selectedTop = selectedEl.offsetTop
+  const target = selectedTop - (contentEl.clientHeight / 2 - selectedEl.offsetHeight / 2)
+  const max = Math.max(0, contentEl.scrollHeight - contentEl.clientHeight)
+  contentEl.scrollTop = Math.min(Math.max(0, target), max)
 }
 
-watch(visible, (val) => {
+watch(visible, async (val) => {
   emit('visible-change', val)
   if (val) {
-    updatePopperPosition()
-    window.addEventListener('click', handleOutsideClick)
-    window.addEventListener('resize', updatePopperPosition)
-    window.addEventListener('scroll', updatePopperPosition, true)
-  } else {
-    window.removeEventListener('click', handleOutsideClick)
-    window.removeEventListener('resize', updatePopperPosition)
-    window.removeEventListener('scroll', updatePopperPosition, true)
-    inputRef.value?.blur()
+    await nextTick()
+    // 等下一帧让过渡初始布局稳定
+    requestAnimationFrame(() => {
+      scrollToSelectedOption()
+    })
+    return
   }
+
+  inputRef.value?.blur()
 })
 
 // Selection Logic
 const selectedLabel = ref<string | number>('')
 
+function getOptionLabel(value: SelectValue) {
+  const fromMap = optionsMap.get(value)
+  if (fromMap?.label !== undefined) return fromMap.label
+  const fromProp = (props.options || []).find((opt) => opt.value === value)
+  return fromProp?.label
+}
+
 const selectedOptions = computed(() => {
   if (!props.multiple) return []
   if (!Array.isArray(props.modelValue)) return []
-  return props.modelValue.map(val => {
-    const opt = optionsMap.get(val)
+  return props.modelValue.map((val) => {
+    const label = getOptionLabel(val)
     return {
       value: val,
-      label: opt?.label ?? val
+      label: label ?? val,
     }
   })
 })
@@ -227,7 +225,7 @@ const showPlaceholder = computed(() => {
 })
 
 const showClear = computed(() => {
-  return props.clearable && !props.disabled && hover.value && (
+  return props.clearable && !props.disabled && hovered.value && (
     (props.multiple && Array.isArray(props.modelValue) && props.modelValue.length > 0) ||
     (!props.multiple && (props.modelValue !== undefined && props.modelValue !== null && props.modelValue !== ''))
   )
@@ -252,15 +250,8 @@ watch(() => props.modelValue, (val) => {
     if (val === undefined || val === null || val === '') {
       selectedLabel.value = ''
     } else {
-      const opt = optionsMap.get(val as SelectValue)
-      if (opt) {
-        selectedLabel.value = opt.label ?? (opt.value as string | number)
-      } else {
-        // If option not registered yet (e.g. async), we might keep val or wait.
-        // For now set to val if not found, or keep empty if we want to be strict.
-        // Usually we show value if label not found.
-        selectedLabel.value = val as string | number
-      }
+      const label = getOptionLabel(val as SelectValue)
+      selectedLabel.value = (label ?? val) as string | number
     }
   }
 }, { immediate: true })
@@ -338,27 +329,6 @@ provide(selectContextKey, {
   registerOption,
   query
 } as any)
-
-const resizeObserver = ref<ResizeObserver | null>(null)
-
-// Mouse enter/leave for clearable
-onMounted(() => {
-  if (selectRef.value) {
-    selectRef.value.addEventListener('mouseenter', () => { hover.value = true })
-    selectRef.value.addEventListener('mouseleave', () => { hover.value = false })
-
-    if (typeof ResizeObserver !== 'undefined') {
-      resizeObserver.value = new ResizeObserver(() => {
-        if (visible.value) updatePopperPosition()
-      })
-      resizeObserver.value.observe(selectRef.value)
-    }
-  }
-})
-
-onBeforeUnmount(() => {
-  resizeObserver.value?.disconnect()
-})
 
 const emptyText = computed(() => {
   if (props.options && props.options.length === 0 && !slots.default) return 'No Data'

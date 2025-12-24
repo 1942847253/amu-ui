@@ -52,6 +52,7 @@ export const messages = {
     components: {
       button: 'Button 按钮',
       icon: 'Icon 图标',
+      'date-picker': 'DatePicker 日期选择器',
       layout: 'Layout 布局',
       space: 'Space 间距',
       tag: 'Tag 标签',
@@ -116,6 +117,7 @@ export const messages = {
     components: {
       button: 'Button',
       icon: 'Icon',
+      'date-picker': 'DatePicker',
       layout: 'Layout',
       space: 'Space',
       tag: 'Tag',

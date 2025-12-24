@@ -170,6 +170,21 @@ pre code {
   border: none;
 }
 
+/* Demo 预览区默认不让“顶层”表单控件拉满整行（antd 风格）；避免影响组件内部嵌套的 input */
+.demo-preview > .amu-input-wrapper,
+.demo__preview > .amu-input-wrapper,
+.demo-preview > .amu-date-picker,
+.demo__preview > .amu-date-picker {
+  width: 200px;
+  max-width: 100%;
+}
+
+/* 日期范围选择器默认更宽一些（类似 antd RangePicker） */
+.demo-preview > .amu-date-picker.amu-date-picker--range,
+.demo__preview > .amu-date-picker.amu-date-picker--range {
+  width: 300px;
+}
+
 /* Utility */
 .link {
   color: var(--amu-brand);
