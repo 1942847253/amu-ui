@@ -24,7 +24,7 @@
           :disabled="disabled"
           :readonly="readonly"
           :borderless="true"
-          @focus="onFocus"
+          @focus="onRangeStartFocus"
           @blur="onBlur"
           @input="onRangeStartInput"
           @enter="onEnter"
@@ -42,7 +42,7 @@
           :disabled="disabled"
           :readonly="readonly"
           :borderless="true"
-          @focus="onFocus"
+          @focus="onRangeEndFocus"
           @blur="onBlur"
           @input="onRangeEndInput"
           @enter="onEnter"
@@ -133,7 +133,7 @@
           aria-modal="false"
           @mousedown.stop
         >
-          <div class="amu-date-picker__panel-inner">
+          <div :class="['amu-date-picker__panel-inner', { 'amu-date-picker__panel-inner--with-time': showTimeComputed }]">
           <div v-if="shortcutsComputed.length" class="amu-date-picker__shortcuts">
             <AmuButton
               v-for="s in shortcutsComputed"
@@ -215,10 +215,11 @@
                   <div v-for="w in weekLabels" :key="w" class="amu-date-picker__week-item">{{ w }}</div>
                 </div>
 
-                <div class="amu-date-picker__grid" role="grid" aria-label="calendar">
+                <div class="amu-date-picker__grid" role="grid" aria-label="calendar" @mouseleave="onHoverLeave">
                   <div
                     v-for="cell in leftCells"
                     :key="cell.key"
+                    @mouseover="onHoverCell(cell.date, cell.outside, cell.disabled)"
                     :class="[
                       'amu-date-picker__cell',
                       {
@@ -240,7 +241,6 @@
                       size="mini"
                       :disabled="cell.disabled"
                       @click="onSelectCell(cell.date, 'left')"
-                      @mouseenter="onHoverCell(cell.date)"
                       :data-date="cell.key"
                     >
                       {{ cell.text }}
@@ -314,10 +314,11 @@
                   <div v-for="w in weekLabels" :key="w" class="amu-date-picker__week-item">{{ w }}</div>
                 </div>
 
-                <div class="amu-date-picker__grid" role="grid" aria-label="calendar">
+                <div class="amu-date-picker__grid" role="grid" aria-label="calendar" @mouseleave="onHoverLeave">
                   <div
                     v-for="cell in rightCells"
                     :key="cell.key"
+                    @mouseover="onHoverCell(cell.date, cell.outside, cell.disabled)"
                     :class="[
                       'amu-date-picker__cell',
                       {
@@ -339,7 +340,6 @@
                       size="mini"
                       :disabled="cell.disabled"
                       @click="onSelectCell(cell.date, 'right')"
-                      @mouseenter="onHoverCell(cell.date)"
                       :data-date="cell.key"
                     >
                       {{ cell.text }}
@@ -445,10 +445,11 @@
                 <div v-for="w in weekLabels" :key="w" class="amu-date-picker__week-item">{{ w }}</div>
               </div>
 
-              <div class="amu-date-picker__grid" role="grid" aria-label="calendar">
+              <div class="amu-date-picker__grid" role="grid" aria-label="calendar" @mouseleave="onHoverLeave">
                 <div
                   v-for="cell in cells"
                   :key="cell.key"
+                  @mouseover="onHoverCell(cell.date, cell.outside, cell.disabled)"
                   :class="[
                     'amu-date-picker__cell',
                     {
@@ -470,7 +471,6 @@
                     size="mini"
                     :disabled="cell.disabled"
                     @click="onSelectCell(cell.date)"
-                    @mouseenter="onHoverCell(cell.date)"
                     :data-date="cell.key"
                   >
                     {{ cell.text }}
@@ -481,74 +481,80 @@
           </div>
         </div>
 
-        <div class="amu-date-picker__footer" v-if="showFooter">
-            <div class="amu-date-picker__footer-left">
-              <AmuButton size="mini" class="amu-date-picker__btn" @click="onToday" :disabled="disabled">
-                {{ t('el.datepicker.today') }}
-              </AmuButton>
-              <AmuButton
-                v-if="clearable"
-                size="mini"
-                class="amu-date-picker__btn"
-                @click="onClear"
-                :disabled="disabled"
-              >
-                {{ t('el.datepicker.clear') }}
-              </AmuButton>
-            </div>
-
-            <div class="amu-date-picker__time" v-if="showTimeComputed">
-              <template v-if="isRange">
-                <span>{{ t('el.datepicker.startTime') }}</span>
-                <select class="amu-date-picker__time-select" v-model.number="timeDraftStart.h">
-                  <option v-for="h in hourOptions" :key="h" :value="h">{{ pad2(h) }}</option>
-                </select>
-                <select class="amu-date-picker__time-select" v-model.number="timeDraftStart.m">
-                  <option v-for="m in minuteOptions" :key="m" :value="m">{{ pad2(m) }}</option>
-                </select>
-                <select class="amu-date-picker__time-select" v-model.number="timeDraftStart.s">
-                  <option v-for="s in secondOptions" :key="s" :value="s">{{ pad2(s) }}</option>
-                </select>
-
-                <span>{{ t('el.datepicker.endTime') }}</span>
-                <select class="amu-date-picker__time-select" v-model.number="timeDraftEnd.h">
-                  <option v-for="h in hourOptions" :key="h" :value="h">{{ pad2(h) }}</option>
-                </select>
-                <select class="amu-date-picker__time-select" v-model.number="timeDraftEnd.m">
-                  <option v-for="m in minuteOptions" :key="m" :value="m">{{ pad2(m) }}</option>
-                </select>
-                <select class="amu-date-picker__time-select" v-model.number="timeDraftEnd.s">
-                  <option v-for="s in secondOptions" :key="s" :value="s">{{ pad2(s) }}</option>
-                </select>
-              </template>
-
-              <template v-else>
-                <select class="amu-date-picker__time-select" v-model.number="timeDraftStart.h">
-                  <option v-for="h in hourOptions" :key="h" :value="h">{{ pad2(h) }}</option>
-                </select>
-                <select class="amu-date-picker__time-select" v-model.number="timeDraftStart.m">
-                  <option v-for="m in minuteOptions" :key="m" :value="m">{{ pad2(m) }}</option>
-                </select>
-                <select class="amu-date-picker__time-select" v-model.number="timeDraftStart.s">
-                  <option v-for="s in secondOptions" :key="s" :value="s">{{ pad2(s) }}</option>
-                </select>
-              </template>
-            </div>
-
-            <div>
-              <slot name="footer" />
-              <AmuButton
-                v-if="needsConfirm"
-                class="amu-date-picker__btn"
-                type="primary"
-                size="mini"
-                @click="onConfirm"
-                :disabled="disabled || !canConfirm"
-              >
-                {{ t('el.datepicker.confirm') }}
-              </AmuButton>
-            </div>
+        <div class="amu-date-picker__time-bar" v-if="showTimeComputed">
+          <div class="amu-date-picker__time-left">
+            <AmuButton size="mini" class="amu-date-picker__btn" @click="onToday" :disabled="disabled">
+              {{ t('el.datepicker.today') }}
+            </AmuButton>
           </div>
+
+          <div class="amu-date-picker__time-main">
+            <template v-if="isRange">
+              <div class="amu-date-picker__time-row">
+                <span class="amu-date-picker__time-label">{{ t('el.datepicker.startTime') }}</span>
+                <AmuSelect class="amu-date-picker__time-select" v-model="timeDraftStart.h" :options="hourSelectOptions" />
+                <span class="amu-date-picker__time-sep">:</span>
+                <AmuSelect class="amu-date-picker__time-select" v-model="timeDraftStart.m" :options="minuteSelectOptions" />
+                <span class="amu-date-picker__time-sep">:</span>
+                <AmuSelect class="amu-date-picker__time-select" v-model="timeDraftStart.s" :options="secondSelectOptions" />
+              </div>
+
+              <div class="amu-date-picker__time-row">
+                <span class="amu-date-picker__time-label">{{ t('el.datepicker.endTime') }}</span>
+                <AmuSelect class="amu-date-picker__time-select" v-model="timeDraftEnd.h" :options="hourSelectOptions" />
+                <span class="amu-date-picker__time-sep">:</span>
+                <AmuSelect class="amu-date-picker__time-select" v-model="timeDraftEnd.m" :options="minuteSelectOptions" />
+                <span class="amu-date-picker__time-sep">:</span>
+                <AmuSelect class="amu-date-picker__time-select" v-model="timeDraftEnd.s" :options="secondSelectOptions" />
+              </div>
+            </template>
+
+            <template v-else>
+              <div class="amu-date-picker__time-row">
+                <AmuSelect class="amu-date-picker__time-select" v-model="timeDraftStart.h" :options="hourSelectOptions" />
+                <span class="amu-date-picker__time-sep">:</span>
+                <AmuSelect class="amu-date-picker__time-select" v-model="timeDraftStart.m" :options="minuteSelectOptions" />
+                <span class="amu-date-picker__time-sep">:</span>
+                <AmuSelect class="amu-date-picker__time-select" v-model="timeDraftStart.s" :options="secondSelectOptions" />
+              </div>
+            </template>
+          </div>
+
+          <div class="amu-date-picker__time-right">
+            <AmuButton
+              v-if="needsConfirm"
+              class="amu-date-picker__btn"
+              type="primary"
+              size="mini"
+              @click="onConfirm"
+              :disabled="disabled || !canConfirm"
+            >
+              {{ t('el.datepicker.confirm') }}
+            </AmuButton>
+          </div>
+        </div>
+
+        <div class="amu-date-picker__footer" v-if="showFooter">
+          <div class="amu-date-picker__footer-left">
+            <AmuButton
+              v-if="!showTimeComputed"
+              size="mini"
+              class="amu-date-picker__btn"
+              @click="onToday"
+              :disabled="disabled"
+            >
+              {{ t('el.datepicker.today') }}
+            </AmuButton>
+            <AmuButton v-if="clearable" size="mini" class="amu-date-picker__btn" @click="onClear" :disabled="disabled">
+              {{ t('el.datepicker.clear') }}
+            </AmuButton>
+          </div>
+
+          <div>
+            <slot name="footer" />
+          </div>
+        </div>
+
         </div>
       </transition>
     </Teleport>
@@ -607,8 +613,9 @@ const showTimeComputed = computed(() => props.showTime || hasTimeByType.value)
 const needsConfirm = computed(() => showTimeComputed.value)
 
 const showFooter = computed(() => {
-  // 默认只展示日历网格；当需要时间确认、清空按钮或自定义 footer 时再展示底部
-  return !!showTimeComputed.value || !!slots.footer
+  // 默认只展示日历网格；当有清空按钮或自定义 footer 时再展示底部
+  if (showTimeComputed.value) return !!clearable.value || !!slots.footer
+  return !!slots.footer
 })
 
 function getDefaultFormat() {
@@ -668,8 +675,35 @@ const model = computed(() => normalizeModelValue(props.modelValue))
 
 const viewMonth = ref<Dayjs>(dayjs().startOf('month'))
 
+// daterange 始终显示相邻两个月（左 + 右=左+1），与主流组件库保持一致
+const rangeLeftMonth = ref<Dayjs>(dayjs().startOf('month'))
+
 const rangeDraft = reactive<{ start: Dayjs | null; end: Dayjs | null }>({ start: null, end: null })
 const hoverDate = ref<Dayjs | null>(null)
+const rangeActivePart = ref<'start' | 'end'>('end')
+
+function syncRangeViewMonthForActivePart() {
+  if (!isRange.value) return
+
+  const mv = model.value
+  const committedStart = Array.isArray(mv) ? toDayjs(mv[0]).startOf('day') : null
+  const committedEnd = Array.isArray(mv) ? toDayjs(mv[1]).startOf('day') : null
+
+  const start = (rangeDraft.start?.startOf('day') || committedStart) ?? null
+  const end = (rangeDraft.end?.startOf('day') || committedEnd) ?? null
+  if (!start) return
+
+  const startMonth = start.startOf('month')
+  const endMonth = (end || start).startOf('month')
+
+  if (rangeActivePart.value === 'start') {
+    rangeLeftMonth.value = startMonth
+    return
+  }
+
+  // 默认编辑 end：对齐到结束月份，展示 endMonth-1 / endMonth
+  rangeLeftMonth.value = endMonth.subtract(1, 'month').startOf('month')
+}
 
 const timeDraftStart = reactive({ h: 0, m: 0, s: 0 })
 const timeDraftEnd = reactive({ h: 0, m: 0, s: 0 })
@@ -697,7 +731,7 @@ function syncDraftFromModel() {
     const b = toDayjs(val[1])
     rangeDraft.start = a
     rangeDraft.end = b
-    viewMonth.value = a.startOf('month')
+    rangeLeftMonth.value = a.startOf('month')
 
     timeDraftStart.h = a.hour()
     timeDraftStart.m = a.minute()
@@ -822,7 +856,7 @@ function getWeekLabels() {
 
 const weekLabels = computed(() => getWeekLabels())
 
-const leftMonth = computed(() => viewMonth.value.startOf('month'))
+const leftMonth = computed(() => (isRange.value ? rangeLeftMonth.value : viewMonth.value).startOf('month'))
 const rightMonth = computed(() => leftMonth.value.add(1, 'month'))
 
 const headerSelectSize = computed(() => {
@@ -876,10 +910,18 @@ function normalizeNumber(val: unknown) {
 }
 
 function setLeftViewMonth(next: Dayjs) {
+  if (isRange.value) {
+    rangeLeftMonth.value = next.startOf('month')
+    return
+  }
   viewMonth.value = next.startOf('month')
 }
 
 function setRightViewMonth(nextRight: Dayjs) {
+  if (isRange.value) {
+    rangeLeftMonth.value = nextRight.subtract(1, 'month').startOf('month')
+    return
+  }
   viewMonth.value = nextRight.subtract(1, 'month').startOf('month')
 }
 
@@ -940,6 +982,10 @@ const secondOptions = computed(() => {
   return res
 })
 
+const hourSelectOptions = computed(() => hourOptions.value.map((h) => ({ value: h, label: pad2(h) })))
+const minuteSelectOptions = computed(() => minuteOptions.value.map((m) => ({ value: m, label: pad2(m) })))
+const secondSelectOptions = computed(() => secondOptions.value.map((s) => ({ value: s, label: pad2(s) })))
+
 type Cell = {
   key: string
   date: Dayjs
@@ -957,13 +1003,19 @@ function getSelectedRangeForRender() {
   if (!isRange.value) return { start: null as Dayjs | null, end: null as Dayjs | null }
 
   const mv = model.value
-  if (Array.isArray(mv)) {
-    return { start: toDayjs(mv[0]).startOf('day'), end: toDayjs(mv[1]).startOf('day') }
+
+  const committedStart = Array.isArray(mv) ? toDayjs(mv[0]).startOf('day') : null
+  const committedEnd = Array.isArray(mv) ? toDayjs(mv[1]).startOf('day') : null
+
+  const start = (rangeDraft.start?.startOf('day') || committedStart) ?? null
+  const endCommittedOrDraft = (rangeDraft.end?.startOf('day') || committedEnd) ?? null
+
+  // 面板打开时允许 hover 预览：hoverDate 作为临时 end（不修改已选值）
+  if (open.value && hoverDate.value && start) {
+    return { start, end: hoverDate.value.startOf('day') }
   }
 
-  const start = rangeDraft.start?.startOf('day') || null
-  const end = (rangeDraft.end || hoverDate.value)?.startOf('day') || null
-  return { start, end }
+  return { start, end: endCommittedOrDraft }
 }
 
 function buildCells(month: Dayjs): Cell[] {
@@ -980,31 +1032,41 @@ function buildCells(month: Dayjs): Cell[] {
 
   const { start, end } = getSelectedRangeForRender()
 
+  // daterange 固定渲染两个月：左 + 右。
+  // outside 日期如果属于另一侧正在显示的月份，会在两个面板里重复出现；这些 outside 只保留“本月面板”的高亮。
+  const otherPanelMonth = isRange.value ? (month.isSame(leftMonth.value, 'month') ? rightMonth.value : leftMonth.value) : null
+
   const res: Cell[] = []
   for (let i = 0; i < 42; i++) {
     const d = gridStart.add(i, 'day')
     const outside = d.month() !== startOfMonth.month()
     const disabled = isDisabledDate(d)
 
+    const suppressOutsideHighlight = isRange.value && outside && otherPanelMonth && d.isSame(otherPanelMonth, 'month')
+
     let selectedFlag = false
     let inRange = false
     let rangeStart = false
     let rangeEnd = false
 
-    if (!isRange.value && selectedSingle) {
-      selectedFlag = d.isSame(selectedSingle, 'day')
-    }
+    // outside 日期允许作为交互端点（hover/点击），但如果它属于另一侧面板正在展示的月份，为避免重复高亮则在本面板抑制。
+    if (!suppressOutsideHighlight) {
+      if (!isRange.value && selectedSingle) {
+        selectedFlag = d.isSame(selectedSingle, 'day')
+      }
 
-    if (isRange.value && start && end) {
-      const a = start.isBefore(end) ? start : end
-      const b = start.isBefore(end) ? end : start
-      rangeStart = d.isSame(a, 'day')
-      rangeEnd = d.isSame(b, 'day')
-      selectedFlag = rangeStart || rangeEnd
-      inRange = d.isAfter(a, 'day') && d.isBefore(b, 'day')
-    } else if (isRange.value && start && !end) {
-      rangeStart = d.isSame(start, 'day')
-      selectedFlag = rangeStart
+      if (isRange.value && start && end) {
+        const a = start.isBefore(end) ? start : end
+        const b = start.isBefore(end) ? end : start
+        rangeStart = d.isSame(a, 'day')
+        rangeEnd = d.isSame(b, 'day')
+        // 预览态：hover 端点也应是选中样式
+        selectedFlag = rangeStart || rangeEnd
+        inRange = d.isAfter(a, 'day') && d.isBefore(b, 'day')
+      } else if (isRange.value && start && !end) {
+        rangeStart = d.isSame(start, 'day')
+        selectedFlag = rangeStart
+      }
     }
 
     res.push({
@@ -1062,6 +1124,11 @@ function openPanel() {
   open.value = true
   emit('open')
   syncRangeTextFromModel()
+  if (isRange.value) {
+    // 默认优先编辑结束日期；仅在还没有起点时编辑起点
+    rangeActivePart.value = rangeDraft.start ? 'end' : 'start'
+    syncRangeViewMonthForActivePart()
+  }
   nextTick(() => {
     focusActiveCell()
   })
@@ -1118,6 +1185,18 @@ function onFocus(e: FocusEvent) {
     return
   }
   syncInputTextFromModel()
+}
+
+function onRangeStartFocus(e: FocusEvent) {
+  rangeActivePart.value = 'start'
+  syncRangeViewMonthForActivePart()
+  onFocus(e)
+}
+
+function onRangeEndFocus(e: FocusEvent) {
+  rangeActivePart.value = 'end'
+  syncRangeViewMonthForActivePart()
+  onFocus(e)
 }
 
 function onBlur(e: FocusEvent) {
@@ -1363,29 +1442,57 @@ function onShortcut(s: DatePickerShortcut) {
 }
 
 function goPrevMonth() {
-  viewMonth.value = viewMonth.value.subtract(1, 'month')
+  if (isRange.value) {
+    rangeLeftMonth.value = rangeLeftMonth.value.subtract(1, 'month').startOf('month')
+  } else {
+    viewMonth.value = viewMonth.value.subtract(1, 'month')
+  }
   focusActiveCell()
 }
 
 function goNextMonth() {
-  viewMonth.value = viewMonth.value.add(1, 'month')
+  if (isRange.value) {
+    rangeLeftMonth.value = rangeLeftMonth.value.add(1, 'month').startOf('month')
+  } else {
+    viewMonth.value = viewMonth.value.add(1, 'month')
+  }
   focusActiveCell()
 }
 
 function goPrevYear() {
-  viewMonth.value = viewMonth.value.subtract(1, 'year')
+  if (isRange.value) {
+    rangeLeftMonth.value = rangeLeftMonth.value.subtract(1, 'year').startOf('month')
+  } else {
+    viewMonth.value = viewMonth.value.subtract(1, 'year')
+  }
   focusActiveCell()
 }
 
 function goNextYear() {
-  viewMonth.value = viewMonth.value.add(1, 'year')
+  if (isRange.value) {
+    rangeLeftMonth.value = rangeLeftMonth.value.add(1, 'year').startOf('month')
+  } else {
+    viewMonth.value = viewMonth.value.add(1, 'year')
+  }
   focusActiveCell()
 }
 
-function onHoverCell(d: Dayjs) {
+function onHoverCell(d: Dayjs, outside?: boolean, disabled?: boolean) {
   if (!isRange.value) return
-  if (!rangeDraft.start || rangeDraft.end) return
+  if (!open.value) return
+  if (props.disabled || props.readonly) return
+  if (!rangeDraft.start && !Array.isArray(model.value)) return
+  if (disabled) return
+  if (hoverDate.value && hoverDate.value.isSame(d, 'day')) return
   hoverDate.value = d
+}
+
+function onHoverLeave() {
+  if (!isRange.value) return
+  if (!open.value) return
+  if (props.disabled || props.readonly) return
+  if (!rangeDraft.start && !Array.isArray(model.value)) return
+  hoverDate.value = null
 }
 
 function onSelectCell(d: Dayjs, panel?: 'left' | 'right') {
@@ -1395,17 +1502,14 @@ function onSelectCell(d: Dayjs, panel?: 'left' | 'right') {
   if (!isRange.value) {
     viewMonth.value = d.startOf('month')
   } else {
-    const left = leftMonth.value
-    const right = rightMonth.value
     const monthStart = d.startOf('month')
-
     if (panel === 'left') {
-      if (!monthStart.isSame(left, 'month')) {
-        viewMonth.value = monthStart
+      if (!monthStart.isSame(leftMonth.value, 'month')) {
+        rangeLeftMonth.value = monthStart
       }
     } else if (panel === 'right') {
-      if (!monthStart.isSame(right, 'month')) {
-        viewMonth.value = monthStart.subtract(1, 'month')
+      if (!monthStart.isSame(rightMonth.value, 'month')) {
+        rangeLeftMonth.value = monthStart.subtract(1, 'month').startOf('month')
       }
     }
   }
@@ -1425,15 +1529,59 @@ function onSelectCell(d: Dayjs, panel?: 'left' | 'right') {
   }
 
   // 范围选择
-  if (!rangeDraft.start || (rangeDraft.start && rangeDraft.end)) {
-    rangeDraft.start = d.startOf('day')
+  const pickedDay = d.startOf('day')
+
+  // 还没有起点：设置起点，进入选择终点阶段
+  if (!rangeDraft.start && !Array.isArray(model.value)) {
+    rangeDraft.start = pickedDay
     rangeDraft.end = null
+    rangeActivePart.value = 'end'
     hoverDate.value = null
     syncRangeTextFromModel()
     return
   }
 
-  rangeDraft.end = d.startOf('day')
+  // 已选完整范围：根据当前激活输入更新对应端点（默认 end）
+  if (rangeDraft.start && rangeDraft.end) {
+    if (rangeActivePart.value === 'start') {
+      rangeDraft.start = pickedDay
+    } else {
+      rangeDraft.end = pickedDay
+    }
+
+    // 归一化：保证 start <= end
+    if (rangeDraft.start && rangeDraft.end && rangeDraft.start.isAfter(rangeDraft.end, 'day')) {
+      const tmp = rangeDraft.start
+      rangeDraft.start = rangeDraft.end
+      rangeDraft.end = tmp
+    }
+
+    hoverDate.value = null
+    syncRangeTextFromModel()
+
+    if (!needsConfirm.value) {
+      const a = rangeDraft.start
+      const b = rangeDraft.end
+      if (a && b) {
+        commitValue([a.toDate(), b.toDate()], 'panel')
+        closePanel()
+      }
+    }
+
+    return
+  }
+
+  // 已有起点但还没选终点：设置终点
+  rangeDraft.end = pickedDay
+
+  // 归一化：保证 start <= end
+  if (rangeDraft.start && rangeDraft.end && rangeDraft.start.isAfter(rangeDraft.end, 'day')) {
+    const tmp = rangeDraft.start
+    rangeDraft.start = rangeDraft.end
+    rangeDraft.end = tmp
+  }
+
+  hoverDate.value = null
   syncRangeTextFromModel()
 
   if (!needsConfirm.value) {

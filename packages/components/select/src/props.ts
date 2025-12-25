@@ -69,12 +69,40 @@ export const selectProps = {
 export type SelectProps = ExtractPropTypes<typeof selectProps>
 
 export const selectEmits = {
+  /**
+   * @description 值变化时触发（v-model）
+   * @en Triggered when modelValue updates (v-model)
+   */
   'update:modelValue': (val: SelectModelValue) => true,
+  /**
+   * @description 选中值变化后触发
+   * @en Triggered when selected value changes
+   */
   change: (val: SelectModelValue) => true,
+  /**
+   * @description 点击清空按钮后触发
+   * @en Triggered after clicking clear button
+   */
   clear: () => true,
+  /**
+   * @description 下拉菜单显示状态变化时触发
+   * @en Triggered when dropdown visibility changes
+   */
   'visible-change': (visible: boolean) => true,
+  /**
+   * @description 多选模式下移除某个标签时触发
+   * @en Triggered when a tag is removed in multiple mode
+   */
   'remove-tag': (val: SelectValue) => true,
+  /**
+   * @description 输入框获得焦点时触发
+   * @en Triggered when input gets focus
+   */
   focus: (e: FocusEvent) => true,
+  /**
+   * @description 输入框失去焦点时触发
+   * @en Triggered when input loses focus
+   */
   blur: (e: FocusEvent) => true,
 }
 

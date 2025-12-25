@@ -193,13 +193,45 @@ export const datePickerProps = {
 } as const
 
 export const datePickerEmits = {
+  /**
+   * @description 值变化时触发（v-model）
+   * @en Triggered when modelValue updates (v-model)
+   */
   'update:modelValue': (value: DatePickerModelValue) => true,
+  /**
+   * @description 用户确认选择后触发
+   * @en Triggered after user confirms selection
+   */
   change: (value: DatePickerModelValue) => true,
+  /**
+   * @description 输入框获得焦点时触发
+   * @en Triggered when input gets focus
+   */
   focus: (e: FocusEvent) => true,
+  /**
+   * @description 输入框失去焦点时触发
+   * @en Triggered when input loses focus
+   */
   blur: (e: FocusEvent) => true,
+  /**
+   * @description 弹窗打开时触发
+   * @en Triggered when popup opens
+   */
   open: () => true,
+  /**
+   * @description 弹窗关闭时触发
+   * @en Triggered when popup closes
+   */
   close: () => true,
+  /**
+   * @description 点击清空按钮后触发
+   * @en Triggered after clicking clear button
+   */
   clear: () => true,
+  /**
+   * @description 选择快捷项时触发
+   * @en Triggered when selecting a shortcut
+   */
   selectShortcut: (option: DatePickerShortcut) => true,
 }
 

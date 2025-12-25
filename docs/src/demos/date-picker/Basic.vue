@@ -1,9 +1,5 @@
 <template>
-  <div style="display: flex; gap: 12px; align-items: center;">
-    <span>日期：</span>
-    <AmuDatePicker v-model="value" />
-    <span>{{ value ? value.toISOString().slice(0, 10) : 'null' }}</span>
-  </div>
+  <AmuDatePicker  v-model="value" />
 </template>
 
 <script setup lang="ts">

@@ -1,25 +1,32 @@
 .amu-date-picker,
 .amu-date-picker__panel {
+  --amu-date-picker-focus-ring: 0 0 0 2px
+    color-mix(in srgb, var(--amu-color-primary) 20%, transparent);
+  --amu-date-picker-range-bg: color-mix(in srgb, var(--amu-color-primary) 8%, transparent);
+}
+
+.amu-date-picker {
   display: inline-flex;
   max-width: 100%;
   position: relative;
   font-size: var(--amu-font-size);
   line-height: 1.5715;
   color: var(--amu-color-text);
-  --amu-date-picker-focus-ring: 0 0 0 2px
-    color-mix(in srgb, var(--amu-color-primary) 20%, transparent);
-  --amu-date-picker-range-bg: color-mix(in srgb, var(--amu-color-primary) 8%, transparent);
 }
 
 .amu-date-picker__trigger {
   display: inline-flex;
   max-width: 100%;
+  width: 100%;
+  min-width: 0;
 }
 
 .amu-date-picker__range-trigger {
   display: inline-flex;
   align-items: center;
   max-width: 100%;
+  width: 100%;
+  min-width: 0;
   box-sizing: border-box;
   border: 1px solid var(--amu-color-border);
   border-radius: var(--amu-radius);
@@ -95,7 +102,21 @@
   padding: 0;
 }
 
+/* DatePicker 单输入框：减少 suffix 图标右侧留白（不影响 range 的 borderless 输入框） */
+.amu-date-picker .amu-input-wrapper:not(.amu-date-picker__range-input).amu-input--small .amu-input__inner-wrapper {
+  padding-right: 4px;
+}
+
+.amu-date-picker .amu-input-wrapper:not(.amu-date-picker__range-input).amu-input--medium .amu-input__inner-wrapper {
+  padding-right: 6px;
+}
+
+.amu-date-picker .amu-input-wrapper:not(.amu-date-picker__range-input).amu-input--large .amu-input__inner-wrapper {
+  padding-right: 8px;
+}
+
 .amu-date-picker__panel {
+  display: block;
   position: fixed;
   z-index: 2000;
   min-width: 280px;
@@ -111,10 +132,17 @@
   display: flex;
   gap: 12px;
   padding: 12px;
+  align-items: stretch;
+}
+
+.amu-date-picker__panel-inner--with-time {
+  padding-bottom: 0;
 }
 
 .amu-date-picker__body {
   display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .amu-date-picker__calendars {
@@ -145,6 +173,8 @@
 
 .amu-date-picker__calendar {
   min-width: 280px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .amu-date-picker__header {
@@ -259,8 +289,18 @@
   background: var(--amu-color-bg-fill);
 }
 
-.amu-date-picker__cell--in-range:not(.amu-date-picker__cell--selected) .amu-date-picker__cell-btn:hover {
-  background: color-mix(in srgb, var(--amu-color-primary) 10%, transparent);
+/*
+  注意：cell-btn 是 AmuButton(type=text)。AmuButton 自带的 hover 选择器优先级更高，
+  会把范围/选中态的背景覆盖成灰色，因此这里需要更高优先级的覆盖规则。
+*/
+.amu-date-picker__cell--selected .amu-date-picker__cell-btn.amu-button--text:not(:disabled):not(.is-disabled):hover {
+  background: var(--amu-color-primary);
+  color: var(--amu-color-on-primary);
+}
+
+.amu-date-picker__cell--in-range:not(.amu-date-picker__cell--selected)
+  .amu-date-picker__cell-btn.amu-button--text:not(:disabled):not(.is-disabled):hover {
+  background: color-mix(in srgb, var(--amu-color-primary) 28%, transparent);
 }
 
 .amu-date-picker__cell--outside .amu-date-picker__cell-btn {
@@ -322,6 +362,10 @@
   border-top: 1px solid var(--amu-color-border);
 }
 
+.amu-date-picker__time-bar + .amu-date-picker__footer {
+  border-top: 0;
+}
+
 .amu-date-picker__footer-left {
   display: inline-flex;
   gap: 8px;
@@ -332,19 +376,64 @@
   padding: 0 8px;
 }
 
-.amu-date-picker__time {
+.amu-date-picker__time-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--amu-color-border);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.amu-date-picker__time-left,
+.amu-date-picker__time-right {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.amu-date-picker__time-main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.amu-date-picker__time-row {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
 }
 
-.amu-date-picker__time-select {
-  height: 28px;
-  border: 1px solid var(--amu-color-border);
-  border-radius: var(--amu-radius);
-  background: var(--amu-color-bg);
-  color: var(--amu-color-text);
+.amu-date-picker__time-label {
+  font-size: 12px;
+  color: var(--amu-color-text-default);
+  margin-right: 2px;
+}
+
+.amu-date-picker__time-sep {
+  color: var(--amu-color-text-default);
+}
+
+.amu-date-picker__time-select.amu-select {
+  width: 60px;
+  min-width: 60px;
+}
+
+.amu-date-picker__time-select .amu-select__wrapper {
+  min-height: 28px;
+  padding: 2px 4px;
+}
+
+.amu-date-picker__time-select .amu-select__suffix {
+  margin-left: 2px;
+}
+
+.amu-date-picker__time-select .amu-select__input {
+  min-width: 0;
 }
 
 .amu-date-picker__loading {

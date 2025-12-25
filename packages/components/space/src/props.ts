@@ -4,31 +4,31 @@ export type SpaceSize = 'small' | 'default' | 'large' | number | string
 
 export const spaceProps = {
   /**
-   * @description The alignment of the items in the container
-   * @default 'center'
+   * @description 子项在容器中的对齐方式
+   * @en The alignment of items in the container
    */
   align: {
     type: String as PropType<'start' | 'end' | 'center' | 'baseline'>,
   },
   /**
-   * @description The direction of the layout
-   * @default 'horizontal'
+   * @description 布局方向
+   * @en The direction of the layout
    */
   direction: {
     type: String as PropType<'vertical' | 'horizontal'>,
     default: 'horizontal',
   },
   /**
-   * @description The size of the space
-   * @default 'small'
+   * @description 间距大小
+   * @en The size of the space
    */
   size: {
     type: [String, Number] as PropType<SpaceSize>,
     default: 'small',
   },
   /**
-   * @description Whether to wrap the items
-   * @default false
+   * @description 是否自动换行
+   * @en Whether to wrap items
    */
   wrap: {
     type: Boolean,

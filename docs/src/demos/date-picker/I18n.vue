@@ -4,12 +4,13 @@
     <AmuConfigProvider :locale="lang">
       <AmuDatePicker v-model="value" />
     </AmuConfigProvider>
-    <button @click="toggle">切换语言</button>
+    <AmuButton size="mini" @click="toggle">切换语言</AmuButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { AmuButton } from 'amu-ui/button'
 import { AmuConfigProvider } from 'amu-ui/config-provider'
 import { AmuDatePicker } from 'amu-ui/date-picker'
 import { en, zhCn } from '@amu-ui/locale'

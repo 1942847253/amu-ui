@@ -86,7 +86,15 @@ export const switchProps = {
 } as const
 
 export const switchEmits = {
+  /**
+   * @description 值变化时触发（v-model）
+   * @en Triggered when modelValue updates (v-model)
+   */
   'update:modelValue': (value: boolean) => true,
+  /**
+   * @description 状态切换后触发
+   * @en Triggered after state changes
+   */
   change: (value: boolean) => true
 }
 

@@ -14,6 +14,12 @@ import FormValidate from "./FormValidate.vue";
 import FormValidateCode from "./FormValidate.vue?raw";
 import I18n from "./I18n.vue";
 import I18nCode from "./I18n.vue?raw";
+import SizeStatus from "./SizeStatus.vue";
+import SizeStatusCode from "./SizeStatus.vue?raw";
+import FormatTimezone from "./FormatTimezone.vue";
+import FormatTimezoneCode from "./FormatTimezone.vue?raw";
+import TimeStep from "./TimeStep.vue";
+import TimeStepCode from "./TimeStep.vue?raw";
 
 export const meta = {
   description: {
@@ -66,6 +72,20 @@ export const demos: DemoItem[] = [
     code: DateTimeCode,
   },
   {
+    key: "time-step",
+    title: {
+      "zh-CN": "时间步长",
+      "en-US": "Time Step",
+    },
+    description: {
+      "zh-CN": "用 `step` 控制时分秒下拉的步长。",
+      "en-US": "Control time dropdown step via `step`.",
+    },
+    component: TimeStep,
+    lang: "vue",
+    code: TimeStepCode,
+  },
+  {
     key: "shortcuts",
     title: {
       "zh-CN": "快捷选项",
@@ -106,6 +126,34 @@ export const demos: DemoItem[] = [
     component: FormValidate,
     lang: "vue",
     code: FormValidateCode,
+  },
+  {
+    key: "size-status",
+    title: {
+      "zh-CN": "尺寸与状态",
+      "en-US": "Size & Status",
+    },
+    description: {
+      "zh-CN": "演示 `size`（small/medium/large）与 `status`（error）。",
+      "en-US": "Show `size` (small/medium/large) and `status` (error).",
+    },
+    component: SizeStatus,
+    lang: "vue",
+    code: SizeStatusCode,
+  },
+  {
+    key: "format-timezone",
+    title: {
+      "zh-CN": "格式与时区",
+      "en-US": "Format & Timezone",
+    },
+    description: {
+      "zh-CN": "演示 `format`（字符串/函数）与 `timezone` 的显示差异。",
+      "en-US": "Show `format` (string/function) and `timezone` differences.",
+    },
+    component: FormatTimezone,
+    lang: "vue",
+    code: FormatTimezoneCode,
   },
   {
     key: "i18n",

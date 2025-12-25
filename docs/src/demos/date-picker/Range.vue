@@ -7,9 +7,7 @@
     <span>
       {{
         range
-          ? `${range[0].toISOString().slice(0, 10)} ~ ${range[1]
-              .toISOString()
-              .slice(0, 10)}`
+          ? `${dayjs(range[0]).format('YYYY-MM-DD')} ~ ${dayjs(range[1]).format('YYYY-MM-DD')}`
           : 'null'
       }}
     </span>
@@ -18,6 +16,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import dayjs from 'dayjs'
 import { AmuDatePicker } from 'amu-ui/date-picker'
 
 const range = ref<[Date, Date] | null>(null)
