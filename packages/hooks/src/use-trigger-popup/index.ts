@@ -90,14 +90,16 @@ export function useTriggerPopup(
     const viewportHeight = window.innerHeight
     const viewportWidth = window.innerWidth
 
-    const popupRect = popup.getBoundingClientRect()
+    // Use offsetWidth/Height to get the full size even if a scale transform is applied (e.g. transition)
+    const popupWidth = popup.offsetWidth
+    const popupHeight = popup.offsetHeight
 
     let finalPlacement: TriggerPopupPlacement = placement
 
     if (autoFlip) {
       const spaceBelow = viewportHeight - rect.bottom
       const spaceAbove = rect.top
-      const needSpace = Math.max(200, popupRect.height + offset + boundaryPadding)
+      const needSpace = Math.max(200, popupHeight + offset + boundaryPadding)
       if (spaceBelow < needSpace && spaceAbove > spaceBelow) {
         finalPlacement = 'top-start'
       }
@@ -119,7 +121,7 @@ export function useTriggerPopup(
         style.transform = 'translateY(-100%)'
         style.transformOrigin = 'center bottom'
       } else {
-        style.top = `${rect.top + scrollTop - popupRect.height - offset}px`
+        style.top = `${rect.top + scrollTop - popupHeight - offset}px`
         style.transformOrigin = 'center bottom'
       }
     } else {
@@ -134,11 +136,11 @@ export function useTriggerPopup(
       const leftNum = Number(String(style.left).replace('px', ''))
       const topNum = Number(String(style.top).replace('px', ''))
 
-      const maxLeft = viewportWidth - popupRect.width - boundaryPadding
+      const maxLeft = viewportWidth - popupWidth - boundaryPadding
       const clampedLeft = Math.min(Math.max(boundaryPadding, leftNum), Math.max(boundaryPadding, maxLeft))
       style.left = `${clampedLeft}px`
 
-      const maxTop = viewportHeight - popupRect.height - boundaryPadding
+      const maxTop = viewportHeight - popupHeight - boundaryPadding
       const clampedTop = Math.min(Math.max(boundaryPadding, topNum), Math.max(boundaryPadding, maxTop))
       style.top = `${clampedTop}px`
     }

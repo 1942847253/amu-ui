@@ -102,7 +102,7 @@ import { ref, computed, provide, watch, reactive, useSlots, nextTick } from 'vue
 import { selectProps, selectEmits, selectContextKey, type SelectValue, type OptionProps, type SelectOptionProxy } from './props'
 import { AmuIcon } from 'amu-ui/icon'
 import { AmuTag } from 'amu-ui/tag'
-import { AmuInput } from 'amu-ui/input'
+import { AmuInput } from '../../input'
 import { IconChevronDown, IconX, IconSearch } from '@amu-ui/icons'
 import { useHover, useTriggerPopup } from '@amu-ui/hooks'
 import AmuOption from './option.vue'

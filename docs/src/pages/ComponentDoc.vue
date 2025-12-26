@@ -6,7 +6,7 @@
       <p v-if="entry.description" class="doc-desc" v-html="formatDescription(entry.description)"></p>
     </header>
 
-    <div class="doc-body">
+    <div class="doc-body" v-if="!loading">
       <section v-for="d in entry.demos" :key="d.key" class="doc-section">
         <h2>{{ d.title }}</h2>
         <p v-if="d.description" v-html="formatDescription(d.description)"></p>
@@ -78,6 +78,7 @@ const name = computed(() => String(route.params.name || ""));
 
 const demos = ref<any[]>([]);
 const description = ref<string | Record<string, string>>("");
+const loading = ref(false);
 
 const title = computed(() => {
   for (const group of nav.groups) {
@@ -139,19 +140,30 @@ function findDemoLoaderKey(componentName: string) {
 watch(
   name,
   async (n) => {
+    loading.value = true;
     demos.value = [];
     description.value = "";
-    if (!n) return;
+    if (!n) {
+      loading.value = false;
+      return;
+    }
 
     const key = findDemoLoaderKey(n);
     const loader = key
       ? (demoModules as Record<string, () => Promise<any>>)[key]
       : undefined;
-    if (!loader) return;
+    if (!loader) {
+      loading.value = false;
+      return;
+    }
 
-    const mod = await loader();
-    demos.value = mod.demos ?? mod.default ?? [];
-    description.value = mod.meta?.description ?? "";
+    try {
+      const mod = await loader();
+      demos.value = mod.demos ?? mod.default ?? [];
+      description.value = mod.meta?.description ?? "";
+    } finally {
+      loading.value = false;
+    }
   },
   { immediate: true },
 );

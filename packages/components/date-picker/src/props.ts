@@ -164,7 +164,7 @@ export const datePickerProps = {
    */
   weekStart: {
     type: Number as PropType<0 | 1>,
-    default: 0,
+    default: 1,
   },
   /**
    * @description 时区设置。支持 'local' | 'utc' | IANA 时区字符串（如 'Asia/Shanghai'）
