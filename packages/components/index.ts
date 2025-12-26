@@ -13,6 +13,7 @@ import { AmuInput } from './input'
 import { AmuCheckbox, AmuCheckboxGroup } from './checkbox'
 import { AmuSwitch } from './switch'
 import { AmuDatePicker } from './date-picker'
+import { AmuSlider } from './slider'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -53,6 +54,9 @@ export * from './switch'
 export { AmuDatePicker } from './date-picker'
 export * from './date-picker'
 
+export { AmuSlider } from './slider'
+export * from './slider'
+
 const AmuUI: Plugin = {
   install(app: App) {
     app.use(AmuButton)
@@ -76,6 +80,7 @@ const AmuUI: Plugin = {
     app.use(AmuCheckboxGroup)
     app.use(AmuSwitch)
     app.use(AmuDatePicker)
+    app.use(AmuSlider)
   },
 }
 

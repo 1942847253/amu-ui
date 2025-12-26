@@ -124,6 +124,16 @@
       "import": "./dist/es/components/select/index.mjs",
       "require": "./dist/cjs/components/select/index.cjs"
     },
+    "./slider": {
+      "types": "./dist/types/components/slider/index.d.ts",
+      "import": "./dist/es/components/slider/index.mjs",
+      "require": "./dist/cjs/components/slider/index.cjs"
+    },
+    "./components/slider": {
+      "types": "./dist/types/components/slider/index.d.ts",
+      "import": "./dist/es/components/slider/index.mjs",
+      "require": "./dist/cjs/components/slider/index.cjs"
+    },
     "./space": {
       "types": "./dist/types/components/space/index.d.ts",
       "import": "./dist/es/components/space/index.mjs",

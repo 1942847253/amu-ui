@@ -62,6 +62,7 @@ export const messages = {
       select: 'Select 选择器',
       input: 'Input 输入框',
       switch: 'Switch 开关',
+      slider: 'Slider 滑块',
     }
   },
   'en-US': {
@@ -127,6 +128,7 @@ export const messages = {
       select: 'Select',
       input: 'Input',
       switch: 'Switch',
+      slider: 'Slider',
     }
   }
 } as const
