@@ -32,6 +32,7 @@ type NavItem = {
   name: string;
   title: string;
   route: string;
+  label?: string;
 };
 
 type NavGroup = {
@@ -48,6 +49,9 @@ const API_RESOLVED_ID = "\0" + API_VIRTUAL_ID;
 
 const NAV_VIRTUAL_ID = "virtual:amu-docs-nav";
 const NAV_RESOLVED_ID = "\0" + NAV_VIRTUAL_ID;
+
+const SEARCH_INDEX_VIRTUAL_ID = "virtual:amu-docs-search-index";
+const SEARCH_INDEX_RESOLVED_ID = "\0" + SEARCH_INDEX_VIRTUAL_ID;
 
 type NavConfig = {
   hiddenComponents?: string[];
@@ -419,6 +423,7 @@ function collectNavMeta(rootDir: string): NavMeta {
         name: ent.name,
         title: pascalCase(ent.name),
         route: `/components/${ent.name}`,
+        label,
       });
     }
   }
@@ -431,6 +436,7 @@ function collectNavMeta(rootDir: string): NavMeta {
       name: "icon",
       title: "Icon",
       route: "/components/icon",
+      label,
     });
   }
 
@@ -468,22 +474,71 @@ function collectNavMeta(rootDir: string): NavMeta {
   return { groups };
 }
 
+type SearchItem = {
+  title: string;
+  titleZh?: string;
+  route: string;
+  category: string;
+  keywords?: string[];
+};
+
+function collectSearchIndex(rootDir: string): SearchItem[] {
+  const navMeta = collectNavMeta(rootDir);
+  const items: SearchItem[] = [];
+
+  // Add Guide pages
+  items.push({
+    title: "Quick Start",
+    titleZh: "快速开始",
+    route: "/guide/quick-start",
+    category: "Guide",
+    keywords: ["install", "setup", "usage", "安装", "使用"]
+  });
+  
+  items.push({
+    title: "Internationalization",
+    titleZh: "国际化",
+    route: "/guide/i18n",
+    category: "Guide",
+    keywords: ["locale", "language", "i18n", "语言"]
+  });
+
+  // Add Components
+  for (const group of navMeta.groups) {
+    for (const item of group.items) {
+      items.push({
+        title: item.title,
+        titleZh: item.label,
+        route: item.route,
+        category: "Component",
+        keywords: [item.name, item.label || ""].filter(Boolean),
+      });
+    }
+  }
+
+  return items;
+}
+
 export function amuDocsApiPlugin(): Plugin {
   const rootDir = findRepoRoot(process.cwd());
   const getApiCode = () =>
     `export default ${JSON.stringify(collectApiMeta(rootDir), null, 2)};`;
   const getNavCode = () =>
     `export default ${JSON.stringify(collectNavMeta(rootDir), null, 2)};`;
+  const getSearchIndexCode = () =>
+    `export default ${JSON.stringify(collectSearchIndex(rootDir), null, 2)};`;
 
   return {
     name: "amu-docs-api",
     resolveId(id) {
       if (id === API_VIRTUAL_ID) return API_RESOLVED_ID;
       if (id === NAV_VIRTUAL_ID) return NAV_RESOLVED_ID;
+      if (id === SEARCH_INDEX_VIRTUAL_ID) return SEARCH_INDEX_RESOLVED_ID;
     },
     load(id) {
       if (id === API_RESOLVED_ID) return getApiCode();
       if (id === NAV_RESOLVED_ID) return getNavCode();
+      if (id === SEARCH_INDEX_RESOLVED_ID) return getSearchIndexCode();
     },
     configureServer(server) {
       const componentsRoot = path.resolve(rootDir, "packages/components");
@@ -513,6 +568,8 @@ export function amuDocsApiPlugin(): Plugin {
         if (file === navConfigPath) {
           const navMod = server.moduleGraph.getModuleById(NAV_RESOLVED_ID);
           if (navMod) server.moduleGraph.invalidateModule(navMod);
+          const searchMod = server.moduleGraph.getModuleById(SEARCH_INDEX_RESOLVED_ID);
+          if (searchMod) server.moduleGraph.invalidateModule(searchMod);
           server.ws.send({ type: "full-reload" });
           return;
         }
@@ -527,6 +584,8 @@ export function amuDocsApiPlugin(): Plugin {
         if (!dir.startsWith(componentsRoot)) return;
         const mod = server.moduleGraph.getModuleById(NAV_RESOLVED_ID);
         if (mod) server.moduleGraph.invalidateModule(mod);
+        const searchMod = server.moduleGraph.getModuleById(SEARCH_INDEX_RESOLVED_ID);
+        if (searchMod) server.moduleGraph.invalidateModule(searchMod);
         server.ws.send({ type: "full-reload" });
       });
 
@@ -534,6 +593,8 @@ export function amuDocsApiPlugin(): Plugin {
         if (!dir.startsWith(componentsRoot)) return;
         const mod = server.moduleGraph.getModuleById(NAV_RESOLVED_ID);
         if (mod) server.moduleGraph.invalidateModule(mod);
+        const searchMod = server.moduleGraph.getModuleById(SEARCH_INDEX_RESOLVED_ID);
+        if (searchMod) server.moduleGraph.invalidateModule(searchMod);
         server.ws.send({ type: "full-reload" });
       });
     },

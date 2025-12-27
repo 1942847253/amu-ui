@@ -38,25 +38,7 @@
         </div>
 
         <div class="header__center">
-          <div class="search-box">
-            <span class="search__icon">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </span>
-            <input class="search__input" type="text" placeholder="搜索" />
-            <span class="search__key">⌘ K</span>
-          </div>
+          <Search />
         </div>
 
         <div class="header__right">
@@ -64,14 +46,16 @@
             <div class="nav-item">{{ t.nav.design }}</div>
             <div class="nav-item">{{ t.nav.develop }}</div>
             <div class="nav-item">{{ t.nav.ecosystem }}</div>
-            <div class="nav-item" @click="toggleLang" style="cursor: pointer">
-              {{ lang === "zh-CN" ? "简体中文" : "English" }}
-            </div>
           </nav>
 
           <div class="divider"></div>
 
           <div class="actions">
+            <button class="action-btn" @click="toggleLang" :title="lang === 'zh-CN' ? 'Switch to English' : '切换到中文'">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+              </svg>
+            </button>
             <a href="https://github.com" target="_blank" class="action-btn">
               <svg
                 width="20"
@@ -84,44 +68,17 @@
                 />
               </svg>
             </a>
-            <button class="action-btn" @click="toggleTheme">
-              <svg
-                v-if="isDark"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-              </svg>
-              <svg
-                v-else
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-                ></path>
-              </svg>
-            </button>
+            <div class="theme-switch" @click="toggleTheme" role="button" tabindex="0" :title="isDark ? 'Switch to Light' : '切换到暗色模式'">
+              <div class="theme-switch__track" :class="{ 'theme-switch__track--dark': isDark }">
+                <div class="theme-switch__icon sun">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line><line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line><line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line><line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line></svg>
+                </div>
+                <div class="theme-switch__icon moon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </div>
+                <div class="theme-switch__thumb" :class="{ 'theme-switch__thumb--dark': isDark }"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -181,6 +138,7 @@ import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import nav from "virtual:amu-docs-nav";
 import Toc from "./components/Toc.vue";
+import Search from "./components/Search.vue";
 import { useLanguage } from "./composables/useLanguage";
 import { messages } from "./locales";
 
@@ -197,15 +155,59 @@ const toggleLang = () => {
 const isDark = ref(false);
 const docRoot = ref<HTMLElement | null>(null);
 
-const toggleTheme = () => {
-  isDark.value = !isDark.value;
-  const theme = isDark.value ? "dark" : "light";
-  document.documentElement.setAttribute("data-amu-theme", theme);
-  if (isDark.value) {
-    document.documentElement.classList.add("dark");
-  } else {
-    document.documentElement.classList.remove("dark");
+const toggleTheme = (event: MouseEvent) => {
+  const isAppearanceTransition =
+    // @ts-expect-error: Transition API
+    document.startViewTransition &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!isAppearanceTransition) {
+    isDark.value = !isDark.value;
+    const theme = isDark.value ? "dark" : "light";
+    document.documentElement.setAttribute("data-amu-theme", theme);
+    if (isDark.value) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    return;
   }
+
+  const x = !isDark.value ? event.clientX : 0;
+  const y = !isDark.value ? event.clientY : window.innerHeight;
+  const endRadius = Math.hypot(
+    Math.max(x, innerWidth - x),
+    Math.max(y, innerHeight - y)
+  );
+
+  // @ts-expect-error: Transition API
+  const transition = document.startViewTransition(() => {
+    isDark.value = !isDark.value;
+    const theme = isDark.value ? "dark" : "light";
+    document.documentElement.setAttribute("data-amu-theme", theme);
+    if (isDark.value) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  });
+
+  transition.ready.then(() => {
+    const clipPath = [
+      `circle(0px at ${x}px ${y}px)`,
+      `circle(${endRadius}px at ${x}px ${y}px)`,
+    ];
+    document.documentElement.animate(
+      {
+        clipPath: clipPath,
+      },
+      {
+        duration: 400,
+        easing: "ease-in",
+        pseudoElement: "::view-transition-new(root)",
+      }
+    );
+  });
 };
 
 onMounted(() => {
@@ -493,5 +495,82 @@ onMounted(() => {
   .header__left {
     width: auto;
   }
+}
+
+/* Theme Switch */
+.theme-switch {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.theme-switch__track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 44px;
+  height: 24px;
+  padding: 0 4px;
+  background-color: var(--amu-bg-code);
+  border: 1px solid var(--amu-border);
+  border-radius: 12px;
+  transition: background-color 0.3s, border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.theme-switch__track--dark {
+  background-color: #2c2c2c;
+  border-color: #3c3c3c;
+}
+
+.theme-switch__track:hover {
+  border-color: var(--amu-text-2);
+}
+
+.theme-switch__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--amu-text-2);
+  z-index: 2;
+  transition: color 0.3s;
+}
+
+.theme-switch__icon.sun {
+  color: #f59e0b;
+}
+
+.theme-switch__icon.moon {
+  color: var(--amu-text-2);
+}
+
+.dark .theme-switch__icon.sun {
+  color: var(--amu-text-2);
+}
+
+.dark .theme-switch__icon.moon {
+  color: #fcd34d;
+}
+
+.theme-switch__thumb {
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--amu-bg-body);
+  border: 1px solid var(--amu-border);
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s, background-color 0.3s, border-color 0.3s;
+  z-index: 1;
+}
+
+.theme-switch__thumb--dark {
+  transform: translateX(18px);
 }
 </style>

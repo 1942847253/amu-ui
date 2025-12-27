@@ -4,8 +4,8 @@ import Disabled from './Disabled.vue?raw'
 import DisabledComp from './Disabled.vue'
 import Group from './Group.vue?raw'
 import GroupComp from './Group.vue'
-import Button from './Button.vue?raw'
-import ButtonComp from './Button.vue'
+import RadioButtonStyle from './RadioButtonStyle.vue?raw'
+import RadioButtonStyleComp from './RadioButtonStyle.vue'
 import Size from './Size.vue?raw'
 import SizeComp from './Size.vue'
 import Border from './Border.vue?raw'
@@ -52,9 +52,9 @@ export const demos = [
     },
   },
   {
-    path: 'Button.vue',
-    code: Button,
-    component: ButtonComp,
+    path: 'RadioButtonStyle.vue',
+    code: RadioButtonStyle,
+    component: RadioButtonStyleComp,
     title: {
       'zh-CN': '按钮样式',
       'en-US': 'Button Style',

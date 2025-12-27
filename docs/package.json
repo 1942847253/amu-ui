@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "@amu-ui/icons": "workspace:*",
+    "@vueuse/core": "^14.1.0",
     "amu-ui": "workspace:*",
     "fflate": "^0.8.2",
+    "fuse.js": "^7.1.0",
     "highlight.js": "^11.11.1",
     "vue": "^3.4.0",
     "vue-router": "^4.5.0"

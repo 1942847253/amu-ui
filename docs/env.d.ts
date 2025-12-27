@@ -11,6 +11,7 @@ declare module "virtual:amu-docs-nav" {
     name: string;
     title: string;
     route: string;
+    label?: string;
   };
 
   export type NavGroup = {
@@ -54,4 +55,16 @@ declare module "virtual:amu-docs-api" {
 
   const api: ApiMeta;
   export default api;
+}
+
+declare module "virtual:amu-docs-search-index" {
+  export type SearchItem = {
+    title: string;
+    titleZh?: string;
+    route: string;
+    category: string;
+    keywords?: string[];
+  };
+  const searchIndex: SearchItem[];
+  export default searchIndex;
 }
