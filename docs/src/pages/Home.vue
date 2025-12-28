@@ -2,7 +2,7 @@
   <div class="home-container">
     <div class="hero">
       <div class="hero-content">
-        <h1 class="title">AMU UI</h1>
+        <h1 class="title">Amu UI</h1>
         <p class="subtitle">{{ t.home.subtitle }}</p>
         <p class="desc">
           {{ t.home.desc }}

@@ -33,7 +33,7 @@
                 </defs>
               </svg>
             </div>
-            <span class="brand__name">AMU UI</span>
+            <span class="brand__name">Amu UI</span>
           </RouterLink>
         </div>
 
@@ -180,7 +180,6 @@ const toggleTheme = (event: MouseEvent) => {
     Math.max(y, innerHeight - y)
   );
 
-  // @ts-expect-error: Transition API
   const transition = document.startViewTransition(() => {
     isDark.value = !isDark.value;
     const theme = isDark.value ? "dark" : "light";
@@ -262,7 +261,7 @@ onMounted(() => {
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   font-weight: 500;
   font-size: 18px;
   color: var(--amu-text-1);
@@ -271,6 +270,8 @@ onMounted(() => {
 .logo {
   display: flex;
   align-items: center;
+
+  margin-top: -5px;
 }
 
 .header__center {
@@ -441,7 +442,7 @@ onMounted(() => {
 }
 
 .dark .sidebar__link.active {
-  background-color: rgba(22, 93, 255, 0.2);
+  background-color: var(--amu-bg-code);
 }
 
 /* Content */

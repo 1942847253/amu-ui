@@ -45,15 +45,15 @@
   --amu-color-primary-active: #0E42D2;
   --amu-color-on-primary: #ffffff;
 
-  --amu-color-bg: #17171A;
-  --amu-color-bg-elevated: #232324;
+  --amu-color-bg: #242424;
+  --amu-color-bg-elevated: #2F2F2F;
   --amu-color-bg-fill: #373739;
 
   --amu-color-text: #F2F3F5;
   --amu-color-text-default: #C9CDD4;
   --amu-color-text-disabled: #86909C;
 
-  --amu-color-border: #2E2E30;
+  --amu-color-border: #484848;
 
   --amu-color-status-warning: #F59E0B;
   --amu-color-status-warning-hover: #D97706;
@@ -81,15 +81,15 @@
     --amu-color-primary-active: #0E42D2;
     --amu-color-on-primary: #ffffff;
 
-    --amu-color-bg: #17171A;
-    --amu-color-bg-elevated: #232324;
+    --amu-color-bg: #242424;
+    --amu-color-bg-elevated: #2F2F2F;
     --amu-color-bg-fill: #373739;
 
     --amu-color-text: #F2F3F5;
     --amu-color-text-default: #C9CDD4;
     --amu-color-text-disabled: #86909C;
 
-    --amu-color-border: #2E2E30;
+    --amu-color-border: #484848;
 
     --amu-color-status-warning: #F59E0B;
     --amu-color-status-warning-hover: #D97706;

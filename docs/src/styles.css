@@ -49,19 +49,19 @@
   --amu-brand-light: #3C7EFF;
   --amu-brand-dark: #0E42D2;
 
-  --amu-bg-body: #17171A;
-  --amu-bg-nav: rgba(23, 23, 26, 0.9);
-  --amu-bg-sidebar: #17171A;
-  --amu-bg-code: #232324;
-  --amu-bg-demo: #17171A;
-  --amu-bg-demo-ctrl: #232324;
+  --amu-bg-body: #242424;
+  --amu-bg-nav: rgba(36, 36, 36, 0.9);
+  --amu-bg-sidebar: #242424;
+  --amu-bg-code: #2F2F2F;
+  --amu-bg-demo: #242424;
+  --amu-bg-demo-ctrl: #2F2F2F;
 
   --amu-text-1: #F2F3F5;
   --amu-text-2: #C9CDD4;
   --amu-text-3: #86909C;
 
-  --amu-border: #2E2E30;
-  --amu-border-hover: #484849;
+  --amu-border: #484848;
+  --amu-border-hover: #636366;
 }
 
 html,
