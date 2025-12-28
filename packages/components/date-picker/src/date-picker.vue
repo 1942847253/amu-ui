@@ -1,152 +1,157 @@
 <template>
-  <div
-    :class="[
-      'amu-date-picker',
-      `amu-date-picker--${size}`,
-      {
-        'amu-date-picker--disabled': disabled,
-        'amu-date-picker--open': open,
-        'amu-date-picker--focused': inputFocused,
-        'amu-date-picker--range': isRange,
-        [`amu-date-picker--status-${status}`]: status !== 'normal',
-      },
-    ]"
-    ref="rootRef"
+  <AmuPopup
+    v-model="open"
+    trigger="manual"
+    placement="bottom-start"
+    :offset="4"
+    transition="amu-zoom-in-top"
+    class="amu-date-picker__panel"
+    role="dialog"
+    aria-modal="false"
+    @mousedown.stop
+    @hide="onPopupHide"
   >
-    <div class="amu-date-picker__trigger" @mousedown="onTriggerMouseDown" @keydown.capture="onInputKeydown">
-      <div v-if="isRange" class="amu-date-picker__range-trigger" :data-disabled="disabled ? 'true' : 'false'">
-        <AmuInput
-          class="amu-date-picker__range-input"
-          :model-value="rangeStartText"
-          :placeholder="rangeStartPlaceholder"
-          :size="size"
-          :status="status"
-          :disabled="disabled"
-          :readonly="readonly"
-          :borderless="true"
-          @focus="onRangeStartFocus"
-          @blur="onBlur"
-          @input="onRangeStartInput"
-          @enter="onEnter"
-          @update:modelValue="onRangeStartUpdate"
-        />
-
-        <span class="amu-date-picker__range-sep">-</span>
-
-        <AmuInput
-          class="amu-date-picker__range-input"
-          :model-value="rangeEndText"
-          :placeholder="rangeEndPlaceholder"
-          :size="size"
-          :status="status"
-          :disabled="disabled"
-          :readonly="readonly"
-          :borderless="true"
-          @focus="onRangeEndFocus"
-          @blur="onBlur"
-          @input="onRangeEndInput"
-          @enter="onEnter"
-          @update:modelValue="onRangeEndUpdate"
-        />
-
-        <span class="amu-date-picker__range-suffix">
-          <AmuButton
-            v-if="showClear"
-            class="amu-date-picker__suffix-btn"
-            type="text"
-            size="mini"
-            shape="circle"
-            :disabled="disabled"
-            @mousedown.prevent
-            @click="onClear"
-          >
-            <template #icon>
-              <AmuIcon>
-                <IconX />
-              </AmuIcon>
-            </template>
-          </AmuButton>
-
-          <AmuButton
-            v-else
-            class="amu-date-picker__suffix-btn"
-            type="text"
-            size="mini"
-            shape="circle"
-            :disabled="disabled"
-            @mousedown.prevent
-            @click="toggleOpen"
-          >
-            <template #icon>
-              <AmuIcon>
-                <IconCalendar />
-              </AmuIcon>
-            </template>
-          </AmuButton>
-        </span>
-      </div>
-
-      <AmuInput
-        v-else
-        :model-value="inputText"
-        :placeholder="placeholderComputed"
-        :size="size"
-        :status="status"
-        :disabled="disabled"
-        :readonly="readonly"
-        :clearable="clearable && !!model"
-        @focus="onFocus"
-        @blur="onBlur"
-        @input="onInput"
-        @enter="onEnter"
-        @clear="onClear"
-        @update:modelValue="onUpdateInput"
+    <template #reference>
+      <div
+        :class="[
+          'amu-date-picker',
+          `amu-date-picker--${size}`,
+          {
+            'amu-date-picker--disabled': disabled,
+            'amu-date-picker--open': open,
+            'amu-date-picker--focused': inputFocused,
+            'amu-date-picker--range': isRange,
+            [`amu-date-picker--status-${status}`]: status !== 'normal',
+          },
+        ]"
+        ref="rootRef"
+        v-bind="$attrs"
       >
-        <template #suffix>
-          <AmuButton
-            class="amu-date-picker__suffix-btn"
-            type="text"
-            size="mini"
-            shape="circle"
-            :disabled="disabled"
-            @mousedown.prevent
-            @click="toggleOpen"
-          >
-            <template #icon>
-              <AmuIcon>
-                <IconCalendar />
-              </AmuIcon>
-            </template>
-          </AmuButton>
-        </template>
-      </AmuInput>
-    </div>
-
-    <Teleport to="body">
-      <transition name="amu-zoom-in-top">
-        <div
-          v-if="open"
-          class="amu-date-picker__panel"
-          :style="panelStyle"
-          ref="panelRef"
-          role="dialog"
-          aria-modal="false"
-          @mousedown.stop
-        >
-          <div :class="['amu-date-picker__panel-inner', { 'amu-date-picker__panel-inner--with-time': showTimeComputed }]">
-          <div v-if="shortcutsComputed.length" class="amu-date-picker__shortcuts">
-            <AmuButton
-              v-for="s in shortcutsComputed"
-              :key="s.label"
-              class="amu-date-picker__shortcut"
-              type="text"
-              size="mini"
+        <div class="amu-date-picker__trigger" @mousedown="onTriggerMouseDown" @keydown.capture="onInputKeydown">
+          <div v-if="isRange" class="amu-date-picker__range-trigger" :data-disabled="disabled ? 'true' : 'false'">
+            <AmuInput
+              class="amu-date-picker__range-input"
+              :model-value="rangeStartText"
+              :placeholder="rangeStartPlaceholder"
+              :size="size"
+              :status="status"
               :disabled="disabled"
-              @click="onShortcut(s)"
-            >
-              {{ s.label }}
-            </AmuButton>
+              :readonly="readonly"
+              :borderless="true"
+              @focus="onRangeStartFocus"
+              @blur="onBlur"
+              @input="onRangeStartInput"
+              @enter="onEnter"
+              @update:modelValue="onRangeStartUpdate"
+            />
+
+            <span class="amu-date-picker__range-sep">-</span>
+
+            <AmuInput
+              class="amu-date-picker__range-input"
+              :model-value="rangeEndText"
+              :placeholder="rangeEndPlaceholder"
+              :size="size"
+              :status="status"
+              :disabled="disabled"
+              :readonly="readonly"
+              :borderless="true"
+              @focus="onRangeEndFocus"
+              @blur="onBlur"
+              @input="onRangeEndInput"
+              @enter="onEnter"
+              @update:modelValue="onRangeEndUpdate"
+            />
+
+            <span class="amu-date-picker__range-suffix">
+              <AmuButton
+                v-if="showClear"
+                class="amu-date-picker__suffix-btn"
+                type="text"
+                size="mini"
+                shape="circle"
+                :disabled="disabled"
+                @mousedown.prevent
+                @click="onClear"
+              >
+                <template #icon>
+                  <AmuIcon>
+                    <IconX />
+                  </AmuIcon>
+                </template>
+              </AmuButton>
+
+              <AmuButton
+                v-else
+                class="amu-date-picker__suffix-btn"
+                type="text"
+                size="mini"
+                shape="circle"
+                :disabled="disabled"
+                @mousedown.prevent
+                @click="toggleOpen"
+              >
+                <template #icon>
+                  <AmuIcon>
+                    <IconCalendar />
+                  </AmuIcon>
+                </template>
+              </AmuButton>
+            </span>
           </div>
+
+          <AmuInput
+            v-else
+            :model-value="inputText"
+            :placeholder="placeholderComputed"
+            :size="size"
+            :status="status"
+            :disabled="disabled"
+            :readonly="readonly"
+            :clearable="clearable && !!model"
+            @focus="onFocus"
+            @blur="onBlur"
+            @input="onInput"
+            @enter="onEnter"
+            @clear="onClear"
+            @update:modelValue="onUpdateInput"
+          >
+            <template #suffix>
+              <AmuButton
+                class="amu-date-picker__suffix-btn"
+                type="text"
+                size="mini"
+                shape="circle"
+                :disabled="disabled"
+                @mousedown.prevent
+                @click="toggleOpen"
+              >
+                <template #icon>
+                  <AmuIcon>
+                    <IconCalendar />
+                  </AmuIcon>
+                </template>
+              </AmuButton>
+            </template>
+          </AmuInput>
+        </div>
+      </div>
+    </template>
+
+    <div :class="['amu-date-picker__panel-inner', { 'amu-date-picker__panel-inner--with-time': showTimeComputed }]">
+      <div v-if="shortcutsComputed.length" class="amu-date-picker__shortcuts">
+        <AmuButton
+          v-for="s in shortcutsComputed"
+          :key="s.label"
+          class="amu-date-picker__shortcut"
+          type="text"
+          size="mini"
+          :disabled="disabled"
+          @click="onShortcut(s)"
+        >
+          {{ s.label }}
+        </AmuButton>
+      </div>
 
           <div class="amu-date-picker__body">
             <div v-if="isRange" class="amu-date-picker__calendars">
@@ -541,7 +546,7 @@
               </div>
             </div>
           </div>
-        </div>
+    </div>
 
         <div class="amu-date-picker__time-bar" v-if="showTimeComputed">
           <div class="amu-date-picker__time-left">
@@ -617,23 +622,21 @@
           </div>
         </div>
 
-        </div>
-      </transition>
-    </Teleport>
-  </div>
+  </AmuPopup>
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, reactive, ref, toRefs, useSlots, watch } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, toRefs, useSlots, watch, type Slots } from 'vue'
 import dayjs, { type Dayjs } from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { datePickerEmits, datePickerProps, type DatePickerModelValue, type DatePickerShortcut } from './props'
-import { useHover, useLocale, useTriggerPopup } from '@amu-ui/hooks'
+import { useHover, useLocale } from '@amu-ui/hooks'
 import { AmuButton } from '../../button'
 import { AmuIcon } from '../../icon'
 import { AmuInput } from '../../input'
+import { AmuPopup } from '../../popup'
 import { AmuSelect } from '../../select'
 import { IconCalendar, IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight, IconX } from '@amu-ui/icons'
 
@@ -643,6 +646,7 @@ dayjs.extend(timezone)
 
 defineOptions({
   name: 'AmuDatePicker',
+  inheritAttrs: false,
 })
 
 const props = defineProps(datePickerProps)
@@ -650,15 +654,13 @@ const emit = defineEmits(datePickerEmits)
 
 const { clearable, disabled, readonly, size, status } = toRefs(props)
 const { t } = useLocale()
-const slots = useSlots()
+const componentSlots = useSlots() as Slots
 
 const rootRef = ref<HTMLElement>()
-const panelRef = ref<HTMLElement>()
 const { hovered } = useHover(rootRef)
 
 const open = ref(false)
 const inputFocused = ref(false)
-const panelStyle = ref<Record<string, string | number>>({ left: '0px', top: '0px' })
 
 const isRange = computed(() => props.type === 'daterange' || props.type === 'datetimerange')
 const hasTimeByType = computed(() => props.type === 'datetime' || props.type === 'datetimerange')
@@ -768,7 +770,7 @@ const showClear = computed(() => {
   return props.clearable && !props.disabled && !props.readonly && !!props.modelValue && (inputFocused.value || open.value || hovered.value)
 })
 
-const showFooter = computed(() => !!slots.footer || (showTimeComputed.value && !!props.clearable))
+const showFooter = computed<boolean>(() => !!componentSlots.footer || (showTimeComputed.value && !!props.clearable))
 
 // Calendar Views
 const leftMonth = computed(() => leftViewMonth.value)
@@ -883,6 +885,19 @@ const leftCells = computed(() => buildCells(leftMonth.value))
 const rightCells = computed(() => buildCells(rightMonth.value))
 
 // --- Actions ---
+const ignoreNextClose = ref(false)
+
+function onPopupHide() {
+  if (ignoreNextClose.value) {
+    ignoreNextClose.value = false
+  } else {
+    syncFromProps()
+  }
+  isSelecting.value = false
+  hoverDate.value = null
+  emit('close')
+}
+
 function openPanel() {
   if (disabled.value || readonly.value || open.value) return
   open.value = true
@@ -908,13 +923,10 @@ function openPanel() {
 
 function closePanel(commit = false) {
   if (!open.value) return
-  if (!commit) {
-    syncFromProps()
+  if (commit) {
+    ignoreNextClose.value = true
   }
   open.value = false
-  isSelecting.value = false
-  hoverDate.value = null
-  emit('close')
 }
 
 function toggleOpen() {
@@ -1135,13 +1147,7 @@ function onInputKeydown(e: KeyboardEvent) {
   }
 }
 
-const { updatePosition } = useTriggerPopup(rootRef, panelRef, open, panelStyle, {
-  strategy: 'fixed',
-  placement: 'bottom-start',
-  offset: 6,
-  clamp: true,
-  onClose: () => closePanel(false)
-})
+
 
 const canConfirm = computed(() => {
   if (!needsConfirm.value) return true

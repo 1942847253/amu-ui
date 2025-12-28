@@ -1,5 +1,6 @@
 .amu-select {
   display: inline-block;
+  width: 100%;
   position: relative;
   min-width: 200px;
   font-size: var(--amu-font-size);

@@ -1,100 +1,102 @@
 <template>
-  <div
-    ref="selectRef"
-    class="amu-select"
-    :class="{
-      'is-disabled': disabled,
-      'is-clearable': clearable,
-      'is-focused': visible,
-      [`amu-select--${size}`]: size,
-    }"
-    @click.stop="toggleMenu"
+  <AmuPopup
+    ref="popupInstance"
+    v-model="visible"
+    trigger="manual"
+    placement="bottom-start"
+    :offset="4"
+    :match-width="true"
+    transition="amu-zoom-in-top"
+    class="amu-select__popper"
+    @click.stop
   >
-    <div class="amu-select__wrapper">
-      <div class="amu-select__selection">
-        <!-- Multiple Selection Tags -->
-        <template v-if="multiple && Array.isArray(modelValue) && modelValue.length > 0">
-          <amu-tag
-            v-for="item in selectedOptions"
-            :key="getValueKey(item.value)"
-            closable
-            size="small"
-            @close="removeTag(item.value)"
-          >
-            {{ item.label }}
-          </amu-tag>
-        </template>
+    <template #reference>
+      <div
+        ref="selectRef"
+        class="amu-select"
+        :class="{
+          'is-disabled': disabled,
+          'is-clearable': clearable,
+          'is-focused': visible,
+          [`amu-select--${size}`]: size,
+        }"
+        @click.stop="toggleMenu"
+        v-bind="$attrs"
+      >
+        <div class="amu-select__wrapper">
+          <div class="amu-select__selection">
+            <!-- Multiple Selection Tags -->
+            <template v-if="multiple && Array.isArray(modelValue) && modelValue.length > 0">
+              <amu-tag
+                v-for="item in selectedOptions"
+                :key="getValueKey(item.value)"
+                closable
+                size="small"
+                @close="removeTag(item.value)"
+              >
+                {{ item.label }}
+              </amu-tag>
+            </template>
 
-        <!-- Input / Placeholder -->
-        <amu-input
-          ref="inputRef"
-          class="amu-select__input"
-          :class="{ 'is-transparent': multiple && Array.isArray(modelValue) && modelValue.length > 0 }"
-          :readonly="!filterable"
-          :disabled="disabled"
-          :placeholder="showPlaceholder ? placeholder : ''"
-          :model-value="displayValue"
-          :borderless="true"
-          @input="handleInput"
-          @focus="handleFocus"
-          @blur="handleBlur"
-        />
-      </div>
+            <!-- Input / Placeholder -->
+            <amu-input
+              ref="inputRef"
+              class="amu-select__input"
+              :class="{ 'is-transparent': multiple && Array.isArray(modelValue) && modelValue.length > 0 }"
+              :readonly="!filterable"
+              :disabled="disabled"
+              :placeholder="showPlaceholder ? placeholder : ''"
+              :model-value="displayValue"
+              :borderless="true"
+              @input="handleInput"
+              @focus="handleFocus"
+              @blur="handleBlur"
+            />
+          </div>
 
-      <!-- Suffix Icons -->
-      <div class="amu-select__suffix">
-        <amu-icon
-          v-if="showClear"
-          class="amu-select__icon amu-select__clear"
-          @click.stop="handleClear"
-        >
-          <icon-x />
-        </amu-icon>
-        <amu-icon
-          v-else-if="filterable"
-          class="amu-select__icon amu-select__search"
-        >
-          <icon-search />
-        </amu-icon>
-        <amu-icon
-          v-else
-          class="amu-select__icon amu-select__arrow"
-          :class="{ 'is-reverse': visible }"
-        >
-          <icon-chevron-down />
-        </amu-icon>
-      </div>
-    </div>
-
-    <!-- Dropdown -->
-    <teleport to="body">
-      <transition name="amu-zoom-in-top">
-        <div
-          v-if="visible"
-          ref="popperRef"
-          class="amu-select__popper"
-          :style="popperStyle"
-          @click.stop
-        >
-          <div class="amu-select__content">
-            <div v-if="!$slots.default && options?.length" class="amu-select__options">
-               <amu-option
-                 v-for="opt in options"
-                 :key="getValueKey(opt.value)"
-                 :value="opt.value"
-                 :label="opt.label"
-                 :disabled="opt.disabled"
-               />
-            </div>
-            <slot />
-            <div v-if="emptyText" class="amu-select__empty">
-              {{ emptyText }}
-            </div>
+          <!-- Suffix Icons -->
+          <div class="amu-select__suffix">
+            <amu-icon
+              v-if="showClear"
+              class="amu-select__icon amu-select__clear"
+              @click.stop="handleClear"
+            >
+              <icon-x />
+            </amu-icon>
+            <amu-icon
+              v-else-if="filterable"
+              class="amu-select__icon amu-select__search"
+            >
+              <icon-search />
+            </amu-icon>
+            <amu-icon
+              v-else
+              class="amu-select__icon amu-select__arrow"
+              :class="{ 'is-reverse': visible }"
+            >
+              <icon-chevron-down />
+            </amu-icon>
           </div>
         </div>
-      </transition>
-    </teleport>
-  </div>
+      </div>
+    </template>
+
+    <div class="amu-select__content">
+      <div v-if="!$slots.default && options?.length" class="amu-select__options">
+          <amu-option
+            v-for="opt in options"
+            :key="getValueKey(opt.value)"
+            :value="opt.value"
+            :label="opt.label"
+            :disabled="opt.disabled"
+          />
+      </div>
+      <slot />
+      <div v-if="emptyText" class="amu-select__empty">
+        {{ emptyText }}
+      </div>
+    </div>
+  </AmuPopup>
 </template>
 
 <script setup lang="ts">
@@ -103,12 +105,14 @@ import { selectProps, selectEmits, selectContextKey, type SelectValue, type Opti
 import { AmuIcon } from 'amu-ui/icon'
 import { AmuTag } from 'amu-ui/tag'
 import { AmuInput } from '../../input'
+import { AmuPopup } from '../../popup'
 import { IconChevronDown, IconX, IconSearch } from '@amu-ui/icons'
-import { useHover, useTriggerPopup } from '@amu-ui/hooks'
+import { useHover } from '@amu-ui/hooks'
 import AmuOption from './option.vue'
 
 defineOptions({
   name: 'AmuSelect',
+  inheritAttrs: false,
 })
 
 const props = defineProps(selectProps)
@@ -116,7 +120,7 @@ const emit = defineEmits(selectEmits)
 const slots = useSlots()
 
 const selectRef = ref<HTMLElement>()
-const popperRef = ref<HTMLElement>()
+const popupInstance = ref<InstanceType<typeof AmuPopup>>()
 const inputRef = ref<InstanceType<typeof AmuInput>>()
 const visible = ref(false)
 const query = ref('')
@@ -124,30 +128,6 @@ const { hovered } = useHover(selectRef)
 
 // Store option info
 const optionsMap = reactive(new Map<SelectValue, SelectOptionProxy>())
-
-// Positioning
-const popperStyle = ref({})
-
-useTriggerPopup(
-  selectRef,
-  popperRef,
-  visible,
-  popperStyle,
-  {
-    strategy: 'absolute',
-    outsideEvent: 'click',
-    placement: (props.placement?.startsWith('top') ? 'top-start' : 'bottom-start') as any,
-    offset: 4,
-    zIndex: 2000,
-    matchWidth: true,
-    autoFlip: true,
-    useTransformTop: true,
-    observeResize: true,
-    onClose: () => {
-      visible.value = false
-    },
-  },
-)
 
 const toggleMenu = () => {
   if (props.disabled) return
@@ -159,7 +139,7 @@ const closeMenu = () => {
 }
 
 function scrollToSelectedOption() {
-  const popper = popperRef.value
+  const popper = popupInstance.value?.popupRef
   if (!popper) return
   const contentEl = popper.querySelector('.amu-select__content') as HTMLElement | null
   if (!contentEl) return

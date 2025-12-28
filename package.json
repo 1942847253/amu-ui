@@ -94,6 +94,16 @@
       "import": "./dist/es/components/layout/index.mjs",
       "require": "./dist/cjs/components/layout/index.cjs"
     },
+    "./popup": {
+      "types": "./dist/types/components/popup/index.d.ts",
+      "import": "./dist/es/components/popup/index.mjs",
+      "require": "./dist/cjs/components/popup/index.cjs"
+    },
+    "./components/popup": {
+      "types": "./dist/types/components/popup/index.d.ts",
+      "import": "./dist/es/components/popup/index.mjs",
+      "require": "./dist/cjs/components/popup/index.cjs"
+    },
     "./radio": {
       "types": "./dist/types/components/radio/index.d.ts",
       "import": "./dist/es/components/radio/index.mjs",

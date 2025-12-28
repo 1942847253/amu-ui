@@ -63,6 +63,7 @@ export const messages = {
       input: 'Input 输入框',
       switch: 'Switch 开关',
       slider: 'Slider 滑块',
+      popup: 'Popup 弹出层',
     }
   },
   'en-US': {
@@ -129,6 +130,7 @@ export const messages = {
       input: 'Input',
       switch: 'Switch',
       slider: 'Slider',
+      popup: 'Popup',
     }
   }
 } as const

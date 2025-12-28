@@ -112,6 +112,7 @@ const t = computed(() => messages[lang.value]);
   margin: 0 0 24px;
   background: linear-gradient(120deg, var(--amu-brand), var(--amu-brand-light));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
