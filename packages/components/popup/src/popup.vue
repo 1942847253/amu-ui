@@ -366,8 +366,9 @@ defineExpose({
 
 .amu-popup {
   position: absolute;
-  background: #fff;
-  border-radius: 4px;
+  background: var(--amu-color-bg-elevated);
+  color: var(--amu-color-text);
+  border-radius: var(--amu-radius);
   box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
     0 9px 28px 8px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
