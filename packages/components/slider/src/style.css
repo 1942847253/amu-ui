@@ -46,6 +46,9 @@
   transform: translate(-50%, -50%);
   z-index: 1;
   outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .amu-slider--vertical .amu-slider__thumb-wrapper {
@@ -53,6 +56,17 @@
   left: 50%;
   transform: translate(-50%, 50%);
 }
+
+/* Fix for AmuPopup reference wrapper affecting layout */
+.amu-slider__thumb-wrapper :deep(.amu-popup-reference) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  line-height: 0;
+}
+
 
 .amu-slider__thumb {
   width: 12px;
@@ -63,12 +77,11 @@
   transition: transform 0.2s;
 }
 
-.amu-slider__thumb:hover {
+.amu-slider:not(.amu-slider--disabled) .amu-slider__thumb:hover {
   transform: scale(1.15);
- 
 }
 
-.amu-slider__thumb-wrapper:focus .amu-slider__thumb {
+.amu-slider:not(.amu-slider--disabled) .amu-slider__thumb-wrapper:focus .amu-slider__thumb {
   box-shadow: 0 0 0 1px var(--amu-color-primary-hover);
 }
 
@@ -178,3 +191,67 @@
 .amu-slider__input-inner:focus {
   border-color: var(--amu-color-primary);
 }
+
+/* Tooltip */
+.amu-slider__tooltip {
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.2;
+  min-width: 20px;
+  text-align: center;
+  background-color: var(--amu-color-text) !important;
+  color: var(--amu-color-bg) !important;
+  border-radius: var(--amu-radius);
+  box-shadow: none !important;
+  /* Override AmuPopup positioning when teleport is disabled */
+  position: absolute !important;
+  top: -38px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+
+.amu-slider__tooltip::before {
+  display: none !important;
+}
+
+.amu-slider__tooltip .amu-popup__arrow {
+  display: none !important;
+}
+
+.amu-slider__tooltip::after {
+  content: "";
+  position: absolute;
+  
+  /* Reset AmuPopup styles */
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  width: 0 !important;
+  height: 0 !important;
+  inset: auto !important;
+
+  /* Arrow Styles */
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  border-width: 5px !important;
+  border-style: solid !important;
+  border-color: var(--amu-color-text) transparent transparent transparent !important;
+}
+
+.amu-slider--vertical .amu-slider__tooltip {
+  top: 50% !important;
+  left: auto !important;
+  right: 24px !important;
+  transform: translateY(-50%) !important;
+}
+
+.amu-slider--vertical .amu-slider__tooltip::after {
+  top: 50% !important;
+  left: 100% !important;
+  transform: translateY(-50%) !important;
+  border-color: transparent transparent transparent var(--amu-color-text) !important;
+}
+

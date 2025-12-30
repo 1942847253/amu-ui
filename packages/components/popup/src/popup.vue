@@ -9,7 +9,7 @@
     <slot name="reference" />
   </div>
 
-  <Teleport :to="teleportTo" :disabled="!teleportTo">
+  <Teleport :to="teleportTo || 'body'" :disabled="!teleportTo">
     <Transition :name="transition" @after-leave="onAfterLeave">
       <div
         v-if="visible"
@@ -22,6 +22,7 @@
         @mouseleave="onMouseLeave"
         @click.stop
       >
+        <div v-if="showArrow" class="amu-popup__arrow" />
         <slot />
       </div>
     </Transition>
@@ -30,6 +31,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { useZIndex } from '@amu-ui/hooks'
 import { popupProps, popupEmits, type PopupPlacement } from './props'
 
 defineOptions({
@@ -39,6 +41,7 @@ defineOptions({
 
 const props = defineProps(popupProps)
 const emit = defineEmits(popupEmits)
+const { nextZIndex } = useZIndex()
 
 const referenceRef = ref<HTMLElement | null>(null)
 const popupRef = ref<HTMLElement | null>(null)
@@ -46,13 +49,12 @@ const visible = ref(props.modelValue)
 const currentPlacement = ref(props.placement)
 const position = ref({ top: 0, left: 0 })
 const isPositioned = ref(false)
+const currentZIndex = ref(props.zIndex || nextZIndex())
 let timer: ReturnType<typeof setTimeout> | null = null
 let resizeObserver: ResizeObserver | null = null
 
-const zIndex = computed(() => props.zIndex)
-
 const popupStyle = computed(() => ({
-  zIndex: zIndex.value,
+  zIndex: currentZIndex.value,
   top: `${position.value.top}px`,
   left: `${position.value.left}px`,
   position: 'absolute' as const,
@@ -71,6 +73,15 @@ watch(
 )
 
 watch(
+  () => props.zIndex,
+  (val) => {
+    if (val !== undefined) {
+      currentZIndex.value = val
+    }
+  }
+)
+
+watch(
   () => props.placement,
   (val) => {
     currentPlacement.value = val
@@ -81,6 +92,11 @@ watch(
 const show = () => {
   if (props.disabled) return
   clearTimer()
+  if (props.zIndex !== undefined) {
+    currentZIndex.value = props.zIndex
+  } else {
+    currentZIndex.value = nextZIndex()
+  }
   visible.value = true
   isPositioned.value = false
   emit('update:modelValue', true)
@@ -178,13 +194,6 @@ const onAfterLeave = () => {
   // Cleanup if needed
 }
 
-const getOffset = () => {
-  if (Array.isArray(props.offset)) {
-    return { x: props.offset[0], y: props.offset[1] }
-  }
-  return { x: 0, y: props.offset }
-}
-
 const getTeleportTargetRect = () => {
   if (!props.teleportTo) return { top: 0, left: 0 }
   if (typeof props.teleportTo === 'string') {
@@ -204,9 +213,9 @@ const updatePosition = () => {
     popupRef.value.style.minWidth = `${refRect.width}px`
   }
 
-  const popupRect = popupRef.value.getBoundingClientRect()
+  const popupWidth = popupRef.value.offsetWidth
+  const popupHeight = popupRef.value.offsetHeight
   const targetRect = getTeleportTargetRect()
-  const { x: offsetX, y: offsetY } = getOffset()
   
   let top = 0
   let left = 0
@@ -216,6 +225,30 @@ const updatePosition = () => {
   const calculate = (p: PopupPlacement) => {
     const scrollX = window.scrollX
     const scrollY = window.scrollY
+
+    // Calculate offset based on placement
+    let offsetX = 0
+    let offsetY = 0
+    if (Array.isArray(props.offset)) {
+      offsetX = props.offset[0]
+      offsetY = props.offset[1]
+    } else {
+      if (p.startsWith('top') || p.startsWith('bottom')) {
+        offsetY = props.offset
+      } else {
+        offsetX = props.offset
+      }
+    }
+
+    // Add arrow offset if needed
+    if (props.showArrow) {
+      const arrowOffset = 4
+      if (p.startsWith('top') || p.startsWith('bottom')) {
+        offsetY += arrowOffset
+      } else if (p.startsWith('left') || p.startsWith('right')) {
+        offsetX += arrowOffset
+      }
+    }
     
     // Adjust for teleport target offset
     const baseTop = refRect.top - targetRect.top
@@ -240,20 +273,20 @@ const updatePosition = () => {
 
     switch (p) {
       case 'top':
-        top = baseTop - popupRect.height - offsetY + scrollAdjustmentY
-        left = baseLeft + (refRect.width - popupRect.width) / 2 + scrollAdjustmentX
+        top = baseTop - popupHeight - offsetY + scrollAdjustmentY
+        left = baseLeft + (refRect.width - popupWidth) / 2 + scrollAdjustmentX
         break
       case 'top-start':
-        top = baseTop - popupRect.height - offsetY + scrollAdjustmentY
+        top = baseTop - popupHeight - offsetY + scrollAdjustmentY
         left = baseLeft + scrollAdjustmentX
         break
       case 'top-end':
-        top = baseTop - popupRect.height - offsetY + scrollAdjustmentY
-        left = baseLeft + refRect.width - popupRect.width + scrollAdjustmentX
+        top = baseTop - popupHeight - offsetY + scrollAdjustmentY
+        left = baseLeft + refRect.width - popupWidth + scrollAdjustmentX
         break
       case 'bottom':
         top = baseTop + refRect.height + offsetY + scrollAdjustmentY
-        left = baseLeft + (refRect.width - popupRect.width) / 2 + scrollAdjustmentX
+        left = baseLeft + (refRect.width - popupWidth) / 2 + scrollAdjustmentX
         break
       case 'bottom-start':
         top = baseTop + refRect.height + offsetY + scrollAdjustmentY
@@ -261,22 +294,22 @@ const updatePosition = () => {
         break
       case 'bottom-end':
         top = baseTop + refRect.height + offsetY + scrollAdjustmentY
-        left = baseLeft + refRect.width - popupRect.width + scrollAdjustmentX
+        left = baseLeft + refRect.width - popupWidth + scrollAdjustmentX
         break
       case 'left':
-        top = baseTop + (refRect.height - popupRect.height) / 2 + scrollAdjustmentY
-        left = baseLeft - popupRect.width - offsetX + scrollAdjustmentX
+        top = baseTop + (refRect.height - popupHeight) / 2 + scrollAdjustmentY
+        left = baseLeft - popupWidth - offsetX + scrollAdjustmentX
         break
       case 'left-start':
         top = baseTop + scrollAdjustmentY
-        left = baseLeft - popupRect.width - offsetX + scrollAdjustmentX
+        left = baseLeft - popupWidth - offsetX + scrollAdjustmentX
         break
       case 'left-end':
-        top = baseTop + refRect.height - popupRect.height + scrollAdjustmentY
-        left = baseLeft - popupRect.width - offsetX + scrollAdjustmentX
+        top = baseTop + refRect.height - popupHeight + scrollAdjustmentY
+        left = baseLeft - popupWidth - offsetX + scrollAdjustmentX
         break
       case 'right':
-        top = baseTop + (refRect.height - popupRect.height) / 2 + scrollAdjustmentY
+        top = baseTop + (refRect.height - popupHeight) / 2 + scrollAdjustmentY
         left = baseLeft + refRect.width + offsetX + scrollAdjustmentX
         break
       case 'right-start':
@@ -284,7 +317,7 @@ const updatePosition = () => {
         left = baseLeft + refRect.width + offsetX + scrollAdjustmentX
         break
       case 'right-end':
-        top = baseTop + refRect.height - popupRect.height + scrollAdjustmentY
+        top = baseTop + refRect.height - popupHeight + scrollAdjustmentY
         left = baseLeft + refRect.width + offsetX + scrollAdjustmentX
         break
     }
@@ -306,7 +339,7 @@ const updatePosition = () => {
     const res = calculate(newPlacement)
     top = res.top
     left = res.left
-  } else if (placement.startsWith('bottom') && calculatedTop + popupRect.height - scrollTop > viewportHeight) {
+  } else if (placement.startsWith('bottom') && calculatedTop + popupHeight - scrollTop > viewportHeight) {
     const newPlacement = placement.replace('bottom', 'top') as PopupPlacement
     placement = newPlacement
     const res = calculate(newPlacement)
@@ -324,7 +357,7 @@ const updatePosition = () => {
      const res = calculate(newPlacement)
      top = res.top
      left = res.left
-  } else if (placement.startsWith('right') && left + popupRect.width - scrollLeft > viewportWidth) {
+  } else if (placement.startsWith('right') && left + popupWidth - scrollLeft > viewportWidth) {
      const newPlacement = placement.replace('right', 'left') as PopupPlacement
      placement = newPlacement
      const res = calculate(newPlacement)
@@ -366,12 +399,30 @@ defineExpose({
 
 .amu-popup {
   position: absolute;
-  background: var(--amu-color-bg-elevated);
   color: var(--amu-color-text);
+  box-sizing: border-box;
+  z-index: 2000; /* Ensure stacking context */
+}
+
+/* Background layer (No shadow) */
+.amu-popup::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--amu-color-bg-elevated);
+  border-radius: var(--amu-radius);
+  z-index: -1;
+}
+
+/* Shadow layer */
+.amu-popup::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   border-radius: var(--amu-radius);
   box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
     0 9px 28px 8px rgba(0, 0, 0, 0.05);
-  box-sizing: border-box;
+  z-index: -3;
 }
 
 /* Fade transition */
@@ -384,5 +435,75 @@ defineExpose({
 .amu-popup-fade-leave-to {
   opacity: 0;
   transform: scale(0.9);
+}
+
+.amu-popup__arrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--amu-color-bg-elevated);
+  transform: rotate(45deg);
+  z-index: -2; /* Between Shadow and Background */
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Top placements -> Arrow at bottom */
+.amu-popup[data-placement^='top'] .amu-popup__arrow {
+  bottom: -4px;
+}
+.amu-popup[data-placement='top'] .amu-popup__arrow {
+  left: 50%;
+  margin-left: -4px;
+}
+.amu-popup[data-placement='top-start'] .amu-popup__arrow {
+  left: 16px;
+}
+.amu-popup[data-placement='top-end'] .amu-popup__arrow {
+  right: 16px;
+}
+
+/* Bottom placements -> Arrow at top */
+.amu-popup[data-placement^='bottom'] .amu-popup__arrow {
+  top: -4px;
+}
+.amu-popup[data-placement='bottom'] .amu-popup__arrow {
+  left: 50%;
+  margin-left: -4px;
+}
+.amu-popup[data-placement='bottom-start'] .amu-popup__arrow {
+  left: 16px;
+}
+.amu-popup[data-placement='bottom-end'] .amu-popup__arrow {
+  right: 16px;
+}
+
+/* Left placements -> Arrow at right */
+.amu-popup[data-placement^='left'] .amu-popup__arrow {
+  right: -4px;
+}
+.amu-popup[data-placement='left'] .amu-popup__arrow {
+  top: 50%;
+  margin-top: -4px;
+}
+.amu-popup[data-placement='left-start'] .amu-popup__arrow {
+  top: 12px;
+}
+.amu-popup[data-placement='left-end'] .amu-popup__arrow {
+  bottom: 12px;
+}
+
+/* Right placements -> Arrow at left */
+.amu-popup[data-placement^='right'] .amu-popup__arrow {
+  left: -4px;
+}
+.amu-popup[data-placement='right'] .amu-popup__arrow {
+  top: 50%;
+  margin-top: -4px;
+}
+.amu-popup[data-placement='right-start'] .amu-popup__arrow {
+  top: 12px;
+}
+.amu-popup[data-placement='right-end'] .amu-popup__arrow {
+  bottom: 12px;
 }
 </style>

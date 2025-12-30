@@ -64,6 +64,7 @@ export const messages = {
       switch: 'Switch 开关',
       slider: 'Slider 滑块',
       popup: 'Popup 弹出层',
+      popconfirm: 'Popconfirm 气泡确认框',
     }
   },
   'en-US': {
@@ -131,6 +132,7 @@ export const messages = {
       switch: 'Switch',
       slider: 'Slider',
       popup: 'Popup',
+      popconfirm: 'Popconfirm',
     }
   }
 } as const

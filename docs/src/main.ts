@@ -5,7 +5,7 @@ import AmuUI from "amu-ui";
 import AmuIcons from "@amu-ui/icons";
 
 import "amu-ui/theme";
-import "highlight.js/styles/atom-one-light.css";
+import "./highlight-theme.css";
 import "./styles.css";
 
 createApp(App).use(router).use(AmuUI).use(AmuIcons).mount("#app");

@@ -16,7 +16,8 @@
     "input": "输入框",
     "switch": "开关",
     "slider": "滑块",
-    "popup": "弹出层"
+    "popup": "弹出层",
+    "popconfirm": "气泡确认框"
   },
   "groups": [
     {
@@ -37,7 +38,7 @@
     },
     {
       "key": "feedback",
-      "items": ["popup"]
+      "items": ["popup", "popconfirm"]
     },
     {
       "key": "navigation",

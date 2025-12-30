@@ -113,4 +113,10 @@ export default {
       cancelButtonText: '取消',
     },
   },
+  amu: {
+    popconfirm: {
+      confirm: '确定',
+      cancel: '取消',
+    },
+  },
 } as Language

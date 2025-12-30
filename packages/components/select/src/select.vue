@@ -45,7 +45,7 @@
               :class="{ 'is-transparent': multiple && Array.isArray(modelValue) && modelValue.length > 0 }"
               :readonly="!filterable"
               :disabled="disabled"
-              :placeholder="showPlaceholder ? placeholder : ''"
+              :placeholder="showPlaceholder ? currentPlaceholder : ''"
               :model-value="displayValue"
               :borderless="true"
               @input="handleInput"
@@ -107,7 +107,7 @@ import { AmuTag } from 'amu-ui/tag'
 import { AmuInput } from '../../input'
 import { AmuPopup } from '../../popup'
 import { IconChevronDown, IconX, IconSearch } from '@amu-ui/icons'
-import { useHover } from '@amu-ui/hooks'
+import { useHover, useLocale } from '@amu-ui/hooks'
 import AmuOption from './option.vue'
 
 defineOptions({
@@ -125,6 +125,7 @@ const inputRef = ref<InstanceType<typeof AmuInput>>()
 const visible = ref(false)
 const query = ref('')
 const { hovered } = useHover(selectRef)
+const { t } = useLocale()
 
 // Store option info
 const optionsMap = reactive(new Map<SelectValue, SelectOptionProxy>())
@@ -311,8 +312,12 @@ provide(selectContextKey, {
 } as any)
 
 const emptyText = computed(() => {
-  if (props.options && props.options.length === 0 && !slots.default) return 'No Data'
+  if (props.options && props.options.length === 0 && !slots.default) return t('el.select.noData')
   return null
+})
+
+const currentPlaceholder = computed(() => {
+  return props.placeholder || t('el.select.placeholder')
 })
 
 // Expose options prop for simple usage

@@ -1,0 +1,57 @@
+.amu-popconfirm {
+  padding: 12px 16px;
+  min-width: 200px;
+  max-width: 300px;
+  box-sizing: border-box;
+}
+
+.amu-popconfirm__header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.amu-popconfirm__icon {
+  margin-right: 8px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  height: 22px; /* Match line-height of title */
+}
+
+.amu-popconfirm__title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--amu-color-text);
+  line-height: 22px;
+  flex: 1;
+  word-break: break-word;
+}
+
+.amu-popconfirm__description {
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--amu-color-text-default);
+  line-height: 20px;
+  word-break: break-word;
+}
+
+.amu-popconfirm--has-icon .amu-popconfirm__description {
+  margin-left: 24px; /* 16px icon + 8px margin */
+}
+
+.amu-popconfirm__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.amu-popconfirm__icon :deep(svg circle) {
+  fill: currentColor;
+  stroke: none;
+}
+
+.amu-popconfirm__icon :deep(svg line) {
+  stroke: #fff;
+}

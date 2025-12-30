@@ -19,7 +19,6 @@ const visible = ref(false)
 <style scoped>
 .popup-content {
   padding: 12px;
-  color: #333;
   font-size: 14px;
 }
 </style>

@@ -94,6 +94,16 @@
       "import": "./dist/es/components/layout/index.mjs",
       "require": "./dist/cjs/components/layout/index.cjs"
     },
+    "./popconfirm": {
+      "types": "./dist/types/components/popconfirm/index.d.ts",
+      "import": "./dist/es/components/popconfirm/index.mjs",
+      "require": "./dist/cjs/components/popconfirm/index.cjs"
+    },
+    "./components/popconfirm": {
+      "types": "./dist/types/components/popconfirm/index.d.ts",
+      "import": "./dist/es/components/popconfirm/index.mjs",
+      "require": "./dist/cjs/components/popconfirm/index.cjs"
+    },
     "./popup": {
       "types": "./dist/types/components/popup/index.d.ts",
       "import": "./dist/es/components/popup/index.mjs",

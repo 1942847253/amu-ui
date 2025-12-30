@@ -1,6 +1,7 @@
 <template>
-  <div class="layout" :class="{ dark: isDark }">
-    <header class="header">
+  <AmuConfigProvider :locale="locale">
+    <div class="layout" :class="{ dark: isDark }">
+      <header class="header">
       <div class="header-container">
         <div class="header__left">
           <RouterLink class="brand" to="/">
@@ -131,6 +132,7 @@
       </aside>
     </div>
   </div>
+  </AmuConfigProvider>
 </template>
 
 <script setup lang="ts">
@@ -141,12 +143,17 @@ import Toc from "./components/Toc.vue";
 import Search from "./components/Search.vue";
 import { useLanguage } from "./composables/useLanguage";
 import { messages } from "./locales";
+import { en, zhCn } from "@amu-ui/locale";
 
 const route = useRoute();
 const isHome = computed(() => route.path === "/");
 
 const { lang, setLanguage, initLanguage } = useLanguage();
 const t = computed(() => messages[lang.value]);
+
+const locale = computed(() => {
+  return lang.value === "zh-CN" ? zhCn : en;
+});
 
 const toggleLang = () => {
   setLanguage(lang.value === "zh-CN" ? "en-US" : "zh-CN");

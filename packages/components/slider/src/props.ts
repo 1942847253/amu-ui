@@ -80,6 +80,22 @@ export const sliderProps = {
   showInput: {
     type: Boolean,
     default: false
+  },
+  /**
+   * @description 是否显示提示信息
+   * @en Whether to show tooltip
+   */
+  showTooltip: {
+    type: Boolean,
+    default: true
+  },
+  /**
+   * @description 格式化提示信息
+   * @en Format tooltip
+   */
+  formatTooltip: {
+    type: Function as PropType<(val: number) => number | string>,
+    default: undefined
   }
 } as const
 

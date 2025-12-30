@@ -47,8 +47,22 @@
         @mousedown.stop="onDragStart($event, 0)"
         tabindex="0"
         @keydown="onKeyDown($event, 0)"
+        @mouseenter="thumb1Hover = true"
+        @mouseleave="thumb1Hover = false"
       >
-        <div class="amu-slider__thumb"></div>
+        <AmuPopup
+          ref="popup1Ref"
+          class="amu-slider__tooltip"
+          :model-value="showTooltip && !disabled && (thumb1Hover || (isDragging && draggingIndex === 0))"
+          trigger="manual"
+          placement="top"
+          :teleport-to="''"
+        >
+          <template #reference>
+            <div class="amu-slider__thumb"></div>
+          </template>
+          {{ formatValue(firstValue) }}
+        </AmuPopup>
       </div>
 
       <!-- Thumb 2 (Range only) -->
@@ -59,8 +73,22 @@
         @mousedown.stop="onDragStart($event, 1)"
         tabindex="0"
         @keydown="onKeyDown($event, 1)"
+        @mouseenter="thumb2Hover = true"
+        @mouseleave="thumb2Hover = false"
       >
-        <div class="amu-slider__thumb"></div>
+        <AmuPopup
+          ref="popup2Ref"
+          class="amu-slider__tooltip"
+          :model-value="showTooltip && !disabled && (thumb2Hover || (isDragging && draggingIndex === 1))"
+          trigger="manual"
+          placement="top"
+          :teleport-to="''"
+        >
+          <template #reference>
+            <div class="amu-slider__thumb"></div>
+          </template>
+          {{ formatValue(secondValue) }}
+        </AmuPopup>
       </div>
     </div>
 
@@ -84,6 +112,7 @@
 <script setup lang="ts">
 import { computed, ref, watch, onMounted, nextTick } from 'vue'
 import { sliderProps, sliderEmits } from './props'
+import { AmuPopup } from '../../popup'
 
 defineOptions({ name: 'AmuSlider' })
 
@@ -97,6 +126,31 @@ const draggingIndex = ref(0) // 0 or 1
 // Internal values
 const firstValue = ref(0)
 const secondValue = ref(0)
+
+const thumb1Hover = ref(false)
+const thumb2Hover = ref(false)
+
+const popup1Ref = ref()
+const popup2Ref = ref()
+
+const formatValue = (val: number) => {
+  if (props.formatTooltip) {
+    return props.formatTooltip(val)
+  }
+  return val
+}
+
+watch(firstValue, () => {
+  nextTick(() => {
+    popup1Ref.value?.updatePosition()
+  })
+})
+
+watch(secondValue, () => {
+  nextTick(() => {
+    popup2Ref.value?.updatePosition()
+  })
+})
 
 // Initialize values
 const initValues = () => {

@@ -86,7 +86,6 @@ export const popupProps = {
    */
   zIndex: {
     type: Number,
-    default: 2000,
   },
   /**
    * 是否将弹出层宽度设置为与触发元素一致。
@@ -103,6 +102,14 @@ export const popupProps = {
   transition: {
     type: String,
     default: 'amu-popup-fade',
+  },
+  /**
+   * 是否显示箭头。
+   * @en Whether to show the arrow.
+   */
+  showArrow: {
+    type: Boolean,
+    default: false,
   },
 } as const
 

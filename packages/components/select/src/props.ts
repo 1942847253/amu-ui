@@ -33,7 +33,6 @@ export const selectProps = {
    */
   placeholder: {
     type: String,
-    default: 'Select',
   },
   /**
    * @description 是否可搜索
