@@ -17,7 +17,8 @@
     "switch": "开关",
     "slider": "滑块",
     "popup": "弹出层",
-    "popconfirm": "气泡确认框"
+    "popconfirm": "气泡确认框",
+    "dialog": "对话框"
   },
   "groups": [
     {
@@ -38,7 +39,7 @@
     },
     {
       "key": "feedback",
-      "items": ["popup", "popconfirm"]
+      "items": ["popup", "popconfirm", "dialog"]
     },
     {
       "key": "navigation",

@@ -127,7 +127,7 @@ const query = ref('')
 const { hovered } = useHover(selectRef)
 const { t } = useLocale()
 
-// Store option info
+// 存储选项信息
 const optionsMap = reactive(new Map<SelectValue, SelectOptionProxy>())
 
 const toggleMenu = () => {
@@ -170,7 +170,7 @@ watch(visible, async (val) => {
   inputRef.value?.blur()
 })
 
-// Selection Logic
+// 选择逻辑
 const selectedLabel = ref<string | number>('')
 
 function getOptionLabel(value: SelectValue) {
@@ -221,11 +221,11 @@ const handleClear = () => {
     emit('change', '')
   }
   emit('clear')
-  query.value = '' // Clear query
+  query.value = '' // 清空查询
   visible.value = false
 }
 
-// Watch modelValue to update selectedLabel when cleared or changed externally
+// 监听 modelValue 以在外部清除或更改时更新 selectedLabel
 watch(() => props.modelValue, (val) => {
   if (!props.multiple) {
     if (val === undefined || val === null || val === '') {
@@ -248,7 +248,7 @@ const removeTag = (val: SelectValue) => {
 const handleInput = (val: string) => {
   if (!props.filterable) return
   query.value = val
-  // TODO: Implement filtering logic
+  // TODO: 实现过滤逻辑
 }
 
 const handleFocus = (e: FocusEvent) => {
@@ -274,7 +274,7 @@ const onOptionSelect = (opt: SelectOptionProxy) => {
     }
     emit('update:modelValue', newValue)
     emit('change', newValue)
-    // Don't close on multiple select
+    // 不要在多选模式下关闭菜单
   } else {
     emit('update:modelValue', opt.value)
     emit('change', opt.value)
@@ -287,16 +287,18 @@ const onOptionDestroy = (val: SelectValue) => {
   optionsMap.delete(val)
 }
 
-// We need to track options to get labels
-// This is tricky with slots. We can use the provide/inject to register options.
-// But `onOptionSelect` is called by Option.
-// We also need to know the label of the selected value even if it's not clicked (initial render).
-// So Option should register itself.
+// 我们需要追踪选项（options）来获取它们的标签（label）
+// 这在使用 slot 的情况下会比较棘手
+// 我们可以用 provide / inject 来注册这些选项
+// 但是 `onOptionSelect` 是由 Option 组件触发的
+// 同时，就算某个值从未被点击过（比如首次渲染的默认值），
+// 我们也需要知道它对应的 label
+// 因此 Option 组件需要在创建时主动把自己注册进来
 
-// Let's add registration to context
+// 我们来把“注册”这件事加到上下文（context）里
 const registerOption = (opt: SelectOptionProxy) => {
   optionsMap.set(opt.value, opt)
-  // Update selected label if matches
+  // 如果是单选模式，且当前值等于该选项的值，则更新 selectedLabel
   if (!props.multiple && props.modelValue === opt.value) {
     selectedLabel.value = opt.label ?? (opt.value as string | number)
   }
@@ -320,11 +322,11 @@ const currentPlaceholder = computed(() => {
   return props.placeholder || t('el.select.placeholder')
 })
 
-// Expose options prop for simple usage
+// 处理 options 属性
 const options = computed(() => {
-  // If options prop is provided, we can use it.
-  // But we also support slots.
-  // If options prop is used, we render AmuOption in template.
+  // 如果提供了 options 属性，我们可以使用它。
+  // 但我们也支持 slots。
+  // 如果使用 options 属性，我们在模板中渲染 AmuOption。
   return (props as any).options || []
 })
 

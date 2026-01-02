@@ -118,5 +118,9 @@ export default {
       confirm: 'Confirm',
       cancel: 'Cancel',
     },
+    dialog: {
+      confirm: 'OK',
+      cancel: 'Cancel',
+    },
   },
 } as Language

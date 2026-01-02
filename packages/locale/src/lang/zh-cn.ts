@@ -118,5 +118,9 @@ export default {
       confirm: '确定',
       cancel: '取消',
     },
+    dialog: {
+      confirm: '确定',
+      cancel: '取消',
+    },
   },
 } as Language

@@ -1,0 +1,184 @@
+.amu-dialog-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.amu-dialog-overlay.is-non-modal {
+  pointer-events: none;
+  background-color: transparent;
+}
+
+.amu-dialog-overlay.is-non-modal .amu-dialog {
+  pointer-events: auto;
+}
+
+.amu-dialog {
+  position: relative;
+  margin: 0 auto;
+  background: var(--amu-color-bg-elevated);
+  border-radius: var(--amu-radius);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.amu-dialog.is-draggable {
+  position: absolute;
+  margin: 0;
+}
+
+.amu-dialog-header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.amu-dialog.is-draggable .amu-dialog-header {
+  cursor: move;
+}
+
+.amu-dialog-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--amu-color-text);
+  line-height: 1.5;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.amu-dialog-close {
+  cursor: pointer;
+  color: var(--amu-color-text-default);
+  font-size: 16px;
+  transition: color 0.2s;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.amu-dialog-close:hover {
+  color: var(--amu-color-text);
+}
+
+.amu-dialog-body {
+  padding: 20px;
+  color: var(--amu-color-text);
+  font-size: var(--amu-font-size);
+  line-height: 1.5;
+  flex: 1;
+  overflow: auto;
+}
+
+.amu-dialog-body-content {
+  word-break: break-all;
+}
+
+.amu-dialog-footer {
+  padding: 16px 20px;
+  text-align: right;
+  box-sizing: border-box;
+}
+
+.amu-dialog-footer button + button {
+  margin-left: 12px;
+}
+
+/* Feedback Types */
+.amu-dialog-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Unified Solid Circle Style for all feedback types */
+.amu-dialog-icon.is-success,
+.amu-dialog-icon.is-warning,
+.amu-dialog-icon.is-error,
+.amu-dialog-icon.is-info,
+.amu-dialog-icon.is-confirm {
+  color: #fff !important;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 14px; /* Size of the icon symbol inside */
+}
+
+/* Dark mode: Icon symbol should be black */
+[data-amu-theme='dark'] .amu-dialog-icon.is-success,
+[data-amu-theme='dark'] .amu-dialog-icon.is-warning,
+[data-amu-theme='dark'] .amu-dialog-icon.is-error,
+[data-amu-theme='dark'] .amu-dialog-icon.is-info,
+[data-amu-theme='dark'] .amu-dialog-icon.is-confirm {
+  color: #000 !important;
+}
+
+.amu-dialog-icon.is-success { background-color: var(--amu-color-status-success); }
+.amu-dialog-icon.is-warning { background-color: var(--amu-color-status-warning); }
+.amu-dialog-icon.is-error { background-color: var(--amu-color-status-danger); }
+.amu-dialog-icon.is-info { background-color: var(--amu-color-primary); }
+.amu-dialog-icon.is-confirm { background-color: var(--amu-color-primary); }
+
+/* Hide the circle path in SVGs that have it, because we use the container as the circle */
+.amu-dialog-icon.is-warning :deep(svg circle),
+.amu-dialog-icon.is-info :deep(svg circle),
+.amu-dialog-icon.is-confirm :deep(svg circle) {
+  display: none;
+}
+
+/* Ensure internal strokes are white (inherited from color: #fff) */
+.amu-dialog-icon.is-success :deep(svg polyline),
+.amu-dialog-icon.is-warning :deep(svg line),
+.amu-dialog-icon.is-error :deep(svg line),
+.amu-dialog-icon.is-info :deep(svg line),
+.amu-dialog-icon.is-confirm :deep(svg line) {
+  stroke: currentColor;
+  stroke-width: 3px; /* Make symbols bolder */
+}
+
+/* Adjustments for specific icons if needed */
+.amu-dialog-icon.is-error :deep(svg line) {
+  stroke-width: 3px;
+}
+
+/* Animations */
+.amu-dialog-fade-enter-active,
+.amu-dialog-fade-leave-active {
+  transition: opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.amu-dialog-fade-enter-from,
+.amu-dialog-fade-leave-to {
+  opacity: 0;
+}
+
+.amu-dialog-fade-enter-active .amu-dialog {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.amu-dialog-fade-leave-active .amu-dialog {
+  transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.amu-dialog-fade-enter-from .amu-dialog,
+.amu-dialog-fade-leave-to .amu-dialog {
+  transform: scale(0.1);
+}

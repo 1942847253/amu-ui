@@ -64,6 +64,16 @@
       "import": "./dist/es/components/date-picker/index.mjs",
       "require": "./dist/cjs/components/date-picker/index.cjs"
     },
+    "./dialog": {
+      "types": "./dist/types/components/dialog/index.d.ts",
+      "import": "./dist/es/components/dialog/index.mjs",
+      "require": "./dist/cjs/components/dialog/index.cjs"
+    },
+    "./components/dialog": {
+      "types": "./dist/types/components/dialog/index.d.ts",
+      "import": "./dist/es/components/dialog/index.mjs",
+      "require": "./dist/cjs/components/dialog/index.cjs"
+    },
     "./icon": {
       "types": "./dist/types/components/icon/index.d.ts",
       "import": "./dist/es/components/icon/index.mjs",
