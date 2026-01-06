@@ -3,6 +3,7 @@ import { ref, computed, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMagicKeys, onClickOutside } from '@vueuse/core'
 import Fuse from 'fuse.js'
+import { AmuScrollbar } from 'amu-ui/scrollbar'
 import { useLanguage } from '../composables/useLanguage'
 import searchIndex from 'virtual:amu-docs-search-index'
 
@@ -125,26 +126,28 @@ onClickOutside(modalRef, close)
               @keydown="onKeydown"
             />
           </div>
-          <div v-if="results.length" class="search-results">
-            <div
-              v-for="(item, index) in results"
-              :key="item.route"
-              class="search-result-item"
-              :class="{ active: index === activeIndex }"
-              @click="onSelect(item)"
-              @mouseenter="activeIndex = index"
-            >
-              <div class="result-content">
-                <div class="result-title">{{ lang === 'zh-CN' && item.titleZh ? `${item.title} ${item.titleZh}` : item.title }}</div>
-                <div class="result-category">{{ item.category }}</div>
-              </div>
-              <div class="result-action">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
+          <AmuScrollbar v-if="results.length" max-height="400px" class="search-results-scrollbar">
+            <div class="search-results">
+              <div
+                v-for="(item, index) in results"
+                :key="item.route"
+                class="search-result-item"
+                :class="{ active: index === activeIndex }"
+                @click="onSelect(item)"
+                @mouseenter="activeIndex = index"
+              >
+                <div class="result-content">
+                  <div class="result-title">{{ lang === 'zh-CN' && item.titleZh ? `${item.title} ${item.titleZh}` : item.title }}</div>
+                  <div class="result-category">{{ item.category }}</div>
+                </div>
+                <div class="result-action">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </div>
               </div>
             </div>
-          </div>
+          </AmuScrollbar>
           <div v-else-if="query" class="search-empty">
             {{ t.noResults }}
           </div>
@@ -249,9 +252,7 @@ onClickOutside(modalRef, close)
   color: var(--amu-text-1);
   background: transparent;
 }
-
-.search-results {
-  max-height: 400px;
+max-height: 400px;
   overflow-y: auto;
   padding: 8px;
 }

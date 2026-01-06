@@ -87,36 +87,38 @@
 
     <div class="main-container">
       <aside class="sidebar" v-if="!isHome">
-        <div class="sidebar__inner">
-          <div class="sidebar__group">
-            <div class="sidebar__title">{{ t.nav.guide }}</div>
-            <RouterLink
-              class="sidebar__link"
-              active-class="active"
-              to="/guide/quick-start"
-              >{{ t.nav.quickStart }}</RouterLink
-            >
-            <RouterLink
-              class="sidebar__link"
-              active-class="active"
-              to="/guide/i18n"
-              >{{ t.nav.i18n }}</RouterLink
-            >
-          </div>
+        <AmuScrollbar height="100%">
+          <div class="sidebar__inner">
+            <div class="sidebar__group">
+              <div class="sidebar__title">{{ t.nav.guide }}</div>
+              <RouterLink
+                class="sidebar__link"
+                active-class="active"
+                to="/guide/quick-start"
+                >{{ t.nav.quickStart }}</RouterLink
+              >
+              <RouterLink
+                class="sidebar__link"
+                active-class="active"
+                to="/guide/i18n"
+                >{{ t.nav.i18n }}</RouterLink
+              >
+            </div>
 
-          <div class="sidebar__group" v-for="group in nav.groups" :key="group.title">
-            <div class="sidebar__title">{{ (t.nav as Record<string, string>)[group.title] || group.title }}</div>
-            <RouterLink
-              v-for="c in group.items"
-              :key="c.name"
-              class="sidebar__link"
-              active-class="active"
-              :to="c.route"
-            >
-              {{ (t.components as Record<string, string>)[c.name] || c.title }}
-            </RouterLink>
+            <div class="sidebar__group" v-for="group in nav.groups" :key="group.title">
+              <div class="sidebar__title">{{ (t.nav as Record<string, string>)[group.title] || group.title }}</div>
+              <RouterLink
+                v-for="c in group.items"
+                :key="c.name"
+                class="sidebar__link"
+                active-class="active"
+                :to="c.route"
+              >
+                {{ (t.components as Record<string, string>)[c.name] || c.title }}
+              </RouterLink>
+            </div>
           </div>
-        </div>
+        </AmuScrollbar>
       </aside>
 
       <main class="content" :class="{ 'content--home': isHome }">
@@ -128,7 +130,11 @@
       </main>
 
       <aside class="toc-sidebar" v-if="!isHome">
-        <Toc :root="docRoot" />
+        <AmuScrollbar height="100%">
+          <div class="toc-wrapper">
+            <Toc :root="docRoot" />
+          </div>
+        </AmuScrollbar>
       </aside>
     </div>
   </div>
@@ -141,6 +147,7 @@ import { useRoute } from "vue-router";
 import nav from "virtual:amu-docs-nav";
 import Toc from "./components/Toc.vue";
 import Search from "./components/Search.vue";
+import { AmuScrollbar } from "amu-ui/scrollbar";
 import { useLanguage } from "./composables/useLanguage";
 import { messages } from "./locales";
 import { en, zhCn } from "@amu-ui/locale";
@@ -399,15 +406,13 @@ onMounted(() => {
 }
 
 /* Sidebar */
-.sidebar {
-  position: fixed;
-  top: var(--amu-nav-height);
-  bottom: 0;
-  left: 0;
-  width: var(--amu-sidebar-width);
-  overflow-y: auto;
-  border-right: 1px solid var(--amu-border);
+.sborder-right: 1px solid var(--amu-border);
   background-color: var(--amu-bg-sidebar);
+  z-index: 10;
+}
+
+.sidebar__inner {
+  padding: 24px-color: var(--amu-bg-sidebar);
   padding: 24px 0;
   z-index: 10;
 }
@@ -483,6 +488,8 @@ onMounted(() => {
   overflow-y: auto;
 }
 
+.toc-wrapper {
+  padding: 40px 24px
 @media (max-width: 1200px) {
   .toc-sidebar {
     display: none;
