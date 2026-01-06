@@ -3,7 +3,9 @@ import type { ComponentPublicInstance } from 'vue'
 import AmuDrawer from './drawer.vue'
 import { DrawerProps } from './props'
 
-type DrawerOptions = Partial<DrawerProps>
+type DrawerOptions = Partial<DrawerProps> & {
+  onClosed?: () => void
+}
 
 export interface DrawerInstance {
   close: () => void
