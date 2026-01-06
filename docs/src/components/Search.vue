@@ -252,8 +252,8 @@ onClickOutside(modalRef, close)
   color: var(--amu-text-1);
   background: transparent;
 }
-max-height: 400px;
-  overflow-y: auto;
+
+.search-results {
   padding: 8px;
 }
 
