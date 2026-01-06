@@ -74,6 +74,16 @@
       "import": "./dist/es/components/dialog/index.mjs",
       "require": "./dist/cjs/components/dialog/index.cjs"
     },
+    "./drawer": {
+      "types": "./dist/types/components/drawer/index.d.ts",
+      "import": "./dist/es/components/drawer/index.mjs",
+      "require": "./dist/cjs/components/drawer/index.cjs"
+    },
+    "./components/drawer": {
+      "types": "./dist/types/components/drawer/index.d.ts",
+      "import": "./dist/es/components/drawer/index.mjs",
+      "require": "./dist/cjs/components/drawer/index.cjs"
+    },
     "./icon": {
       "types": "./dist/types/components/icon/index.d.ts",
       "import": "./dist/es/components/icon/index.mjs",

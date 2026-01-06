@@ -18,7 +18,8 @@
     "slider": "滑块",
     "popup": "弹出层",
     "popconfirm": "气泡确认框",
-    "dialog": "对话框"
+    "dialog": "对话框",
+    "drawer": "抽屉"
   },
   "groups": [
     {
@@ -39,7 +40,7 @@
     },
     {
       "key": "feedback",
-      "items": ["popup", "popconfirm", "dialog"]
+      "items": ["popup", "popconfirm", "dialog", "drawer"]
     },
     {
       "key": "navigation",
