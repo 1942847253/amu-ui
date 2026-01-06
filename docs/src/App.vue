@@ -406,19 +406,19 @@ onMounted(() => {
 }
 
 /* Sidebar */
-.sborder-right: 1px solid var(--amu-border);
+.sidebar {
+  position: fixed;
+  top: var(--amu-nav-height);
+  bottom: 0;
+  left: 0;
+  width: var(--amu-sidebar-width);
+  border-right: 1px solid var(--amu-border);
   background-color: var(--amu-bg-sidebar);
   z-index: 10;
 }
 
 .sidebar__inner {
-  padding: 24px-color: var(--amu-bg-sidebar);
-  padding: 24px 0;
-  z-index: 10;
-}
-
-.sidebar__inner {
-  padding: 0 12px;
+  padding: 24px 12px;
 }
 
 .sidebar__group {
