@@ -484,12 +484,12 @@ onMounted(() => {
   bottom: 0;
   right: 0;
   width: var(--amu-toc-width);
-  padding: 40px 24px;
-  overflow-y: auto;
 }
 
 .toc-wrapper {
-  padding: 40px 24px
+  padding: 40px 24px;
+}
+
 @media (max-width: 1200px) {
   .toc-sidebar {
     display: none;
