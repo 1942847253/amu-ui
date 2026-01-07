@@ -99,8 +99,8 @@ const rendered = ref(false)
 const shouldRender = computed(() => {
   // 如果处于打开状态，强制渲染
   if (visible.value) return true
-  // 如果未打开且已经渲染过，根据 destroyOnClose 决定是否保留
-  if (rendered.value && !props.destroyOnClose) return true
+  // 只要 rendered 为 true，就说明还没真正销毁（动画没结束或者通过参数配置了不销毁）
+  if (rendered.value) return true
   // 初始化时，如果 modelValue 为 true，也应该渲染（配合 internalOpen 逻辑）
   if (props.modelValue) return true
   
@@ -290,7 +290,7 @@ const handleResizeStart = (e: MouseEvent) => {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: var(--amu-overlay-color, rgba(0, 0, 0, 0.5));
+  background-color: rgba(0, 0, 0, 0.5);
   /* 并行结构下，overlay 单独处理，需要恢复 pointer-events 响应点击 */
   pointer-events: auto;
   will-change: background-color;
@@ -303,11 +303,11 @@ const handleResizeStart = (e: MouseEvent) => {
 
 .amu-drawer {
   position: fixed;
-  background: var(--amu-bg-color, #fff); /* 兜底值 */
-  color: var(--amu-text-color-primary, #333);
+  background: var(--amu-color-bg-elevated);
+  color: var(--amu-color-text);
   display: flex;
   flex-direction: column;
-  box-shadow: var(--amu-box-shadow-dark, 0 16px 48px 16px rgba(0, 0, 0, 0.08));
+  box-shadow: 0 16px 48px 16px rgba(0, 0, 0, 0.08);
   transition: width 0.3s, height 0.3s;
   will-change: transform;
   backface-visibility: hidden;
@@ -331,7 +331,7 @@ const handleResizeStart = (e: MouseEvent) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--amu-border-color-light, #e4e7ed);
+  border-bottom: 1px solid var(--amu-color-border);
 }
 .amu-drawer__title {
   font-size: 18px;
@@ -348,10 +348,10 @@ const handleResizeStart = (e: MouseEvent) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--amu-text-color-regular, #606266);
+  color: var(--amu-color-text-default);
 }
 .amu-drawer__close:hover {
-  color: var(--amu-color-primary, #409eff);
+  color: var(--amu-color-primary);
 }
 
 .amu-drawer__body {
@@ -365,7 +365,7 @@ const handleResizeStart = (e: MouseEvent) => {
 
 .amu-drawer__footer {
   padding: 16px 20px;
-  border-top: 1px solid var(--amu-border-color-light, #e4e7ed);
+  border-top: 1px solid var(--amu-color-border);
   text-align: right;
 }
 
@@ -377,7 +377,7 @@ const handleResizeStart = (e: MouseEvent) => {
   transition: 0.2s;
 }
 .amu-drawer__resizer:hover, .amu-drawer.is-dragging .amu-drawer__resizer {
-  background: var(--amu-color-primary, #409eff);
+  background: var(--amu-color-primary);
   opacity: 0.5;
 }
 
