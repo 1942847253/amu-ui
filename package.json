@@ -114,6 +114,16 @@
       "import": "./dist/es/components/layout/index.mjs",
       "require": "./dist/cjs/components/layout/index.cjs"
     },
+    "./message": {
+      "types": "./dist/types/components/message/index.d.ts",
+      "import": "./dist/es/components/message/index.mjs",
+      "require": "./dist/cjs/components/message/index.cjs"
+    },
+    "./components/message": {
+      "types": "./dist/types/components/message/index.d.ts",
+      "import": "./dist/es/components/message/index.mjs",
+      "require": "./dist/cjs/components/message/index.cjs"
+    },
     "./popconfirm": {
       "types": "./dist/types/components/popconfirm/index.d.ts",
       "import": "./dist/es/components/popconfirm/index.mjs",
@@ -183,6 +193,16 @@
       "types": "./dist/types/components/space/index.d.ts",
       "import": "./dist/es/components/space/index.mjs",
       "require": "./dist/cjs/components/space/index.cjs"
+    },
+    "./spinner": {
+      "types": "./dist/types/components/spinner/index.d.ts",
+      "import": "./dist/es/components/spinner/index.mjs",
+      "require": "./dist/cjs/components/spinner/index.cjs"
+    },
+    "./components/spinner": {
+      "types": "./dist/types/components/spinner/index.d.ts",
+      "import": "./dist/es/components/spinner/index.mjs",
+      "require": "./dist/cjs/components/spinner/index.cjs"
     },
     "./switch": {
       "types": "./dist/types/components/switch/index.d.ts",

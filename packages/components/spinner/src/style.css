@@ -1,0 +1,18 @@
+@keyframes amu-spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.amu-spinner {
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background: conic-gradient(from 90deg, transparent 0%, currentColor 100%);
+  -webkit-mask: radial-gradient(closest-side, transparent 72%, black 74%);
+  mask: radial-gradient(closest-side, transparent 72%, black 74%);
+  animation: amu-spinner-rotate 1s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  box-sizing: border-box;
+}

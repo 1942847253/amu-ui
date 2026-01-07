@@ -79,15 +79,10 @@
   }
 }
 
-@keyframes amu-button-spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .amu-button__loading-icon {
   display: inline-flex;
   align-items: center;
+
   width: 0;
   opacity: 0;
   overflow: hidden;
@@ -101,26 +96,14 @@
   margin-right: 0;
 }
 
-.amu-button__spinner {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 1px solid currentColor;
-  border-right-color: transparent;
-  border-top-color: transparent;
-  animation: amu-button-spinner 0.7s linear infinite;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.amu-button--loading .amu-button__spinner {
+.amu-button--loading .amu-spinner {
   opacity: 0.75;
 }
 
 /* Type: default (Default) */
 .amu-button--default {
+
+
   background-color: var(--amu-color-bg-fill);
   border-color: transparent;
   color: var(--amu-color-text-default);

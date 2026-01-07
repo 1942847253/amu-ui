@@ -67,6 +67,7 @@ export const messages = {
       popconfirm: 'Popconfirm 气泡确认框',
       dialog: 'Dialog 对话框',
       drawer: 'Drawer 抽屉',
+      message: 'Message 全局提示',
     }
   },
   'en-US': {
@@ -137,6 +138,7 @@ export const messages = {
       popconfirm: 'Popconfirm',
       dialog: 'Dialog',
       drawer: 'Drawer',
+      message: 'Message',
     }
   }
 } as const

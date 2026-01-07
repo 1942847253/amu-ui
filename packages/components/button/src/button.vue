@@ -20,7 +20,7 @@
   >
     <span class="amu-button__loading-icon">
       <slot name="loading-icon">
-        <span class="amu-button__spinner" aria-hidden="true"></span>
+        <AmuSpinner />
       </slot>
     </span>
 
@@ -35,6 +35,7 @@
 <script setup lang="ts">
 import { ref, nextTick } from "vue";
 import { buttonProps } from "./props";
+import { AmuSpinner } from "amu-ui/spinner";
 
 defineOptions({
   name: "AmuButton",

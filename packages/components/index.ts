@@ -19,12 +19,17 @@ import { AmuPopconfirm } from './popconfirm'
 import { AmuDialog, Dialog } from './dialog'
 
 import { AmuDrawer } from './drawer'
+import { AmuMessage } from './message'
+import { AmuSpinner } from './spinner'
 
 export { AmuButton } from './button'
 export * from './button'
 
 export { AmuIcon } from './icon'
 export * from './icon'
+
+export { AmuSpinner } from './spinner'
+export * from './spinner'
 
 export { AmuConfigProvider } from './config-provider'
 export * from './config-provider'
@@ -74,6 +79,9 @@ export * from './dialog'
 export { AmuDrawer } from './drawer'
 export * from './drawer'
 
+export { AmuMessage } from './message'
+export * from './message'
+
 const AmuUI: Plugin = {
   install(app: App) {
     app.use(AmuButton)
@@ -102,6 +110,8 @@ const AmuUI: Plugin = {
     app.use(AmuSlider)
     app.use(AmuPopup)
     app.use(AmuPopconfirm)
+    app.use(AmuMessage)
+    app.use(AmuSpinner)
   },
 }
 

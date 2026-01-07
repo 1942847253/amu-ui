@@ -12,3 +12,11 @@ export const withInstall = <T>(component: T): SFCWithInstall<T> => {
   }
   return comp as SFCWithInstall<T>
 }
+
+export const withInstallFunction = <T>(fn: T, name: string): T & Plugin => {
+  ;(fn as any).install = (app: App) => {
+    app.config.globalProperties[name] = fn
+    app.provide(name, fn)
+  }
+  return fn as T & Plugin
+}

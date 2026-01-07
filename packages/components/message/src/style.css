@@ -1,0 +1,241 @@
+:root {
+  --amu-message-bg-color: var(--amu-color-bg-elevated, #ffffff);
+  --amu-message-border-color: var(--amu-color-border, #ebeef5);
+  --amu-message-padding: 12px 19px;
+  --amu-message-close-size: 16px;
+  --amu-message-close-icon-color: var(--amu-color-text-disabled, #a8abb2);
+  --amu-message-close-hover-color: var(--amu-color-text-default, #909399);
+}
+
+.amu-message {
+  width: fit-content;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  border-radius: var(--amu-border-radius-base, 8px);
+  /* 移除边框，改用纯阴影风格。但在暗黑模式下可能需要边框来区分层级，这里暂且保持一致，依靠 bg-elevated 区分 */
+  border: 1px solid var(--amu-color-border); 
+  /* 覆盖 border 颜色，默认透明或极淡，或者直接利用 border-color-light */
+  border-color: transparent; 
+  
+  position: relative;
+  /* 使用变量背景 */
+  background-color: var(--amu-message-bg-color);
+  transition: opacity 0.3s, transform 0.3s, background-color 0.3s, border-color 0.3s;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  /* 增强阴影 */
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin-bottom: 16px; 
+  pointer-events: auto;
+}
+
+/* 简单的暗黑模式适配增强：添加边框以增加对比度 */
+[data-amu-theme='dark'] .amu-message {
+  border-color: var(--amu-color-border);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-amu-theme]) .amu-message {
+    border-color: var(--amu-color-border);
+  }
+}
+
+
+.amu-message-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+
+.amu-message-list {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px; /* Default offset */
+  width: auto;
+}
+
+.amu-message-list.is-top {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.amu-message-list.is-top-left {
+  top: 0;
+  left: 0;
+  align-items: flex-start;
+}
+
+.amu-message-list.is-top-right {
+  top: 0;
+  right: 0;
+  align-items: flex-end;
+}
+
+.amu-message-list.is-bottom {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column-reverse; /* Stack upwards */
+}
+
+.amu-message-list.is-bottom-left {
+  bottom: 0;
+  left: 0;
+  align-items: flex-start;
+  flex-direction: column-reverse;
+}
+
+.amu-message-list.is-bottom-right {
+  bottom: 0;
+  right: 0;
+  align-items: flex-end;
+  flex-direction: column-reverse;
+}
+
+/* Override default margin for bottom lists? */
+.amu-message-list.is-bottom .amu-message,
+.amu-message-list.is-bottom-left .amu-message,
+.amu-message-list.is-bottom-right .amu-message {
+  margin-bottom: 0;
+  margin-top: 16px;
+}
+
+.amu-message--success {
+  --amu-message-type-color: #52c41a;
+  --amu-message-text-color: var(--amu-color-text, #1D2129);
+}
+
+.amu-message--warning {
+  --amu-message-type-color: #faad14;
+  --amu-message-text-color: var(--amu-color-text, #1D2129);
+}
+
+.amu-message--info {
+  --amu-message-type-color: #1890ff;
+  --amu-message-text-color: var(--amu-color-text, #1D2129);
+}
+
+.amu-message--error {
+  --amu-message-type-color: #ff4d4f;
+  --amu-message-text-color: var(--amu-color-text, #1D2129);
+}
+
+.amu-message--help {
+  --amu-message-type-color: #2f54eb;
+  --amu-message-text-color: var(--amu-color-text, #1D2129);
+}
+
+.amu-message--loading {
+  --amu-message-type-color: #1890ff; /* Loading use standard blue */
+  --amu-message-text-color: var(--amu-color-text, #1D2129);
+}
+
+.amu-message p {
+  margin: 0;
+}
+
+.amu-message__content {
+  padding: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--amu-message-text-color);
+  word-break: break-word; /* Ensure long words break */
+  overflow-wrap: break-word;
+}
+
+.amu-message__icon {
+  margin-right: 12px;
+  width: 20px;
+  height: 20px;
+  /* display: flex; REMOVED because it's an SVG */
+  color: var(--amu-message-type-color);
+  flex-shrink: 0;
+}
+
+/* 
+  Popconfirm Style Icon: 
+  使用 currentColor 填充 circle，内部线条反白 stroke 
+*/
+.amu-message__icon circle {
+  fill: currentColor;
+  stroke: none;
+}
+
+.amu-message__icon line,
+.amu-message__icon polyline,
+.amu-message__icon path {
+  stroke: #fff;
+}
+
+/* Success icon (IconCheck) special handling: solid background circle */
+.amu-message--success .amu-message__icon {
+  background-color: var(--amu-message-type-color);
+  color: #fff; /* Make stroke white */
+  border-radius: 50%;
+  padding: 3px; 
+  box-sizing: border-box;
+}
+
+/* Loading icon special handling: no fill */
+.amu-message--loading .amu-message__icon circle {
+  fill: none;
+  stroke: currentColor;
+}
+.amu-message--loading .amu-message__icon line,
+.amu-message--loading .amu-message__icon polyline,
+.amu-message--loading .amu-message__icon path {
+  stroke: currentColor;
+}
+
+.amu-message__closeBtn {
+  cursor: pointer;
+  color: var(--amu-message-close-icon-color);
+  font-size: var(--amu-message-close-size);
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+  flex-shrink: 0;
+}
+
+.amu-message__closeBtn:hover {
+  color: var(--amu-message-close-hover-color);
+}
+
+.amu-message.is-closable .amu-message__content {
+  padding-right: 0;
+}
+
+.amu-message.is-center {
+  justify-content: center;
+}
+
+.amu-message-fade-enter-active,
+.amu-message-fade-leave-active {
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.amu-message-fade-enter-from,
+.amu-message-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.amu-message-list.is-bottom .amu-message-fade-enter-from,
+.amu-message-list.is-bottom .amu-message-fade-leave-to,
+.amu-message-list.is-bottom-left .amu-message-fade-enter-from,
+.amu-message-list.is-bottom-left .amu-message-fade-leave-to,
+.amu-message-list.is-bottom-right .amu-message-fade-enter-from,
+.amu-message-list.is-bottom-right .amu-message-fade-leave-to {
+  transform: translateY(20px);
+}
+
