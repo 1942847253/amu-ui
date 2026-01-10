@@ -69,6 +69,7 @@ export const messages = {
       drawer: 'Drawer 抽屉',
       message: 'Message 全局提示',
       rate: 'Rate 评分',
+      'input-number': 'InputNumber 数字输入框',
     }
   },
   'en-US': {
@@ -141,6 +142,7 @@ export const messages = {
       drawer: 'Drawer',
       message: 'Message',
       rate: 'Rate',
+      'input-number': 'InputNumber',
     }
   }
 } as const

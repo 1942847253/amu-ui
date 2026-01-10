@@ -1,0 +1,152 @@
+.amu-input-number {
+  display: inline-flex;
+  position: relative;
+  width: 100%;
+  line-height: 1.5715;
+  vertical-align: bottom; /* Match AmuInput */
+  font-size: var(--amu-font-size);
+}
+
+/* Default Buttons (Absolute Mode) */
+.amu-input-number__decrease,
+.amu-input-number__increase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  width: 32px;
+  z-index: 2; /* Ensure above input */
+  color: var(--amu-color-text);
+  background: var(--amu-color-bg-fill);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s;
+  box-sizing: border-box; /* Fix sizing */
+}
+
+.amu-input-number__decrease {
+    left: 1px;
+    border-right: 1px solid var(--amu-color-border);
+    border-top-left-radius: var(--amu-radius);
+    border-bottom-left-radius: var(--amu-radius);
+}
+.amu-input-number__increase {
+    right: 1px;
+    border-left: 1px solid var(--amu-color-border);
+    border-top-right-radius: var(--amu-radius);
+    border-bottom-right-radius: var(--amu-radius);
+}
+
+.amu-input-number__decrease:hover,
+.amu-input-number__increase:hover {
+    color: var(--amu-color-primary);
+    background: var(--amu-color-fill-tertiary);
+}
+
+/* Disabled buttons */
+.amu-input-number__decrease.is-disabled,
+.amu-input-number__increase.is-disabled {
+    color: var(--amu-color-text-disabled);
+    cursor: not-allowed;
+    background: var(--amu-color-bg-disabled);
+}
+
+/* Input Padding Adjustment */
+/* Using descendant selector instead of :deep since this is a global CSS file or imported globally */
+/* Note: We target the inner input element to add padding so text doesn't overlap buttons */
+
+.amu-input-number:not(.is-controls-right) .amu-input__inner {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+    text-align: center;
+}
+
+/* Controls Right */
+.amu-input-number.is-controls-right .amu-input__inner {
+    padding-right: 40px !important;
+    padding-left: 12px !important;
+    text-align: left;
+}
+
+.amu-input-number__controls-right {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    bottom: 1px;
+    width: 32px;
+    border-left: 1px solid var(--amu-color-border);
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    background: var(--amu-color-bg-fill);
+    border-top-right-radius: var(--amu-radius);
+    border-bottom-right-radius: var(--amu-radius);
+}
+
+.amu-input-number.is-controls-right .amu-input-number__decrease,
+.amu-input-number.is-controls-right .amu-input-number__increase {
+    position: relative; /* Inside flex container */
+    width: 100%;
+    height: 50%;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    border: none;
+    border-radius: 0;
+}
+
+.amu-input-number.is-controls-right .amu-input-number__increase {
+    border-bottom: 1px solid var(--amu-color-border);
+    border-top-right-radius: var(--amu-radius);
+}
+
+.amu-input-number.is-controls-right .amu-input-number__decrease {
+    border-bottom-right-radius: var(--amu-radius);
+}
+
+
+/* Sizes overrides - adjust button width and input padding */
+.amu-input-number--small {
+    font-size: 12px;
+}
+.amu-input-number--small .amu-input-number__decrease,
+.amu-input-number--small .amu-input-number__increase,
+.amu-input-number--small .amu-input-number__controls-right {
+    width: 24px;
+}
+.amu-input-number--small:not(.is-controls-right) .amu-input__inner {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+}
+.amu-input-number--small.is-controls-right .amu-input__inner {
+    padding-right: 30px !important;
+}
+
+.amu-input-number--large {
+    font-size: 16px;
+}
+.amu-input-number--large .amu-input-number__decrease,
+.amu-input-number--large .amu-input-number__increase,
+.amu-input-number--large .amu-input-number__controls-right {
+    width: 40px;
+}
+.amu-input-number--large:not(.is-controls-right) .amu-input__inner {
+    padding-left: 48px !important;
+    padding-right: 48px !important;
+}
+.amu-input-number--large.is-controls-right .amu-input__inner {
+    padding-right: 48px !important;
+}
+
+/* Hide native spinners */
+.amu-input-number .amu-input__inner {
+    -moz-appearance: textfield;
+}
+.amu-input-number .amu-input__inner::-webkit-outer-spin-button,
+.amu-input-number .amu-input__inner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

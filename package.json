@@ -104,6 +104,16 @@
       "import": "./dist/es/components/input/index.mjs",
       "require": "./dist/cjs/components/input/index.cjs"
     },
+    "./input-number": {
+      "types": "./dist/types/components/input-number/index.d.ts",
+      "import": "./dist/es/components/input-number/index.mjs",
+      "require": "./dist/cjs/components/input-number/index.cjs"
+    },
+    "./components/input-number": {
+      "types": "./dist/types/components/input-number/index.d.ts",
+      "import": "./dist/es/components/input-number/index.mjs",
+      "require": "./dist/cjs/components/input-number/index.cjs"
+    },
     "./layout": {
       "types": "./dist/types/components/layout/index.d.ts",
       "import": "./dist/es/components/layout/index.mjs",

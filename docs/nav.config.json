@@ -21,7 +21,8 @@
     "dialog": "对话框",
     "drawer": "抽屉",
     "message": "全局提示",
-    "rate": "评分"
+    "rate": "评分",
+    "input-number": "数字输入框"
   },
   "groups": [
     {
@@ -38,7 +39,7 @@
     },
     {
       "key": "dataEntry",
-      "items": ["radio", "checkbox", "select", "input", "switch", "date-picker", "slider", "rate"]
+      "items": ["radio", "checkbox", "select", "input", "input-number", "switch", "date-picker", "slider", "rate"]
     },
     {
       "key": "feedback",
