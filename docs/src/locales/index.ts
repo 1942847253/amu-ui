@@ -68,6 +68,7 @@ export const messages = {
       dialog: 'Dialog 对话框',
       drawer: 'Drawer 抽屉',
       message: 'Message 全局提示',
+      rate: 'Rate 评分',
     }
   },
   'en-US': {
@@ -139,6 +140,7 @@ export const messages = {
       dialog: 'Dialog',
       drawer: 'Drawer',
       message: 'Message',
+      rate: 'Rate',
     }
   }
 } as const

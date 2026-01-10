@@ -20,7 +20,8 @@
     "popconfirm": "气泡确认框",
     "dialog": "对话框",
     "drawer": "抽屉",
-    "message": "全局提示"
+    "message": "全局提示",
+    "rate": "评分"
   },
   "groups": [
     {
@@ -37,7 +38,7 @@
     },
     {
       "key": "dataEntry",
-      "items": ["radio", "checkbox", "select", "input", "switch", "date-picker", "slider"]
+      "items": ["radio", "checkbox", "select", "input", "switch", "date-picker", "slider", "rate"]
     },
     {
       "key": "feedback",

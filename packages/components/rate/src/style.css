@@ -1,0 +1,103 @@
+.amu-rate {
+  --amu-rate-void-color: var(--amu-color-bg-fill, #F2F3F5);
+  --amu-rate-fill-color: var(--amu-color-status-warning, #F59E0B);
+  --amu-rate-disabled-void-color: var(--amu-color-bg-fill, #F2F3F5);
+  --amu-rate-text-color: var(--amu-color-text-default, #4E5969);
+  --amu-rate-icon-margin: 6px;
+  --amu-rate-font-size: 14px;
+
+  display: inline-flex;
+  align-items: center;
+  color: var(--amu-rate-text-color);
+  line-height: 1;
+  height: max-content;
+  position: relative;
+  outline: none;
+}
+
+.amu-rate.amu-rate--sm {
+  --amu-rate-icon-margin: 4px;
+  --amu-rate-font-size: 12px;
+}
+
+.amu-rate.amu-rate--lg {
+  --amu-rate-icon-margin: 8px;
+  --amu-rate-font-size: 16px;
+}
+
+.amu-rate:not(.is-disabled):not(.is-readonly) {
+  cursor: pointer;
+}
+
+.amu-rate.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.amu-rate__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--amu-rate-icon-margin);
+  vertical-align: middle;
+  transition: transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
+}
+
+.amu-rate__item:last-child {
+  margin-right: 0;
+}
+
+.amu-rate:not(.is-disabled):not(.is-readonly) .amu-rate__item:hover {
+  transform: scale(1.15);
+}
+
+.amu-rate__item.is-active-anim {
+  animation: amu-rate-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes amu-rate-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.amu-rate__icon {
+  width: 1em; /* Rely on font-size provided by parent .amu-rate */
+  height: 1em;
+  display: block;
+  /* Void color */
+  color: var(--amu-rate-void-color);
+  transition: color 0.2s;
+}
+
+.amu-rate__icon.is-filled svg {
+  fill: currentColor;
+}
+
+.amu-rate__decimal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+  font-size: inherit; /* Inherit 18px */
+  transition: width 0.2s ease-in-out;
+}
+
+.amu-rate__icon--active {
+  /* Default active color if not overridden inline */
+  color: var(--amu-rate-fill-color); 
+}
+
+/* Prevent double icons if the decimal one covers partially */
+/* Actually we overlay it. The background icon remains. */
+
+.amu-rate__text {
+  font-size: var(--amu-rate-font-size);
+  margin-left: 8px;
+  vertical-align: middle;
+  line-height: 1;
+}

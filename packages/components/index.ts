@@ -21,6 +21,7 @@ import { AmuDialog, Dialog } from './dialog'
 import { AmuDrawer } from './drawer'
 import { AmuMessage } from './message'
 import { AmuSpinner } from './spinner'
+import { AmuRate } from './rate'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -30,6 +31,9 @@ export * from './icon'
 
 export { AmuSpinner } from './spinner'
 export * from './spinner'
+
+export { AmuRate } from './rate'
+export * from './rate'
 
 export { AmuConfigProvider } from './config-provider'
 export * from './config-provider'
@@ -112,6 +116,7 @@ const AmuUI: Plugin = {
     app.use(AmuPopconfirm)
     app.use(AmuMessage)
     app.use(AmuSpinner)
+    app.use(AmuRate)
   },
 }
 

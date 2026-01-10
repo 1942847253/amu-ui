@@ -154,6 +154,16 @@
       "import": "./dist/es/components/radio/index.mjs",
       "require": "./dist/cjs/components/radio/index.cjs"
     },
+    "./rate": {
+      "types": "./dist/types/components/rate/index.d.ts",
+      "import": "./dist/es/components/rate/index.mjs",
+      "require": "./dist/cjs/components/rate/index.cjs"
+    },
+    "./components/rate": {
+      "types": "./dist/types/components/rate/index.d.ts",
+      "import": "./dist/es/components/rate/index.mjs",
+      "require": "./dist/cjs/components/rate/index.cjs"
+    },
     "./scrollbar": {
       "types": "./dist/types/components/scrollbar/index.d.ts",
       "import": "./dist/es/components/scrollbar/index.mjs",
