@@ -105,7 +105,7 @@ const text = computed(() => {
   return ''
 })
 
-const valueToMap = (value: number, map: Record<number, any> | any[]) => {
+const valueToMap = (value: number, map: Record<number, any> | any[] | undefined) => {
   if (!map) return undefined
   if (Array.isArray(map)) {
     if (map.length === 3) {

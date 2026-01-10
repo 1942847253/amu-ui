@@ -243,6 +243,16 @@
       "types": "./dist/types/components/tag/index.d.ts",
       "import": "./dist/es/components/tag/index.mjs",
       "require": "./dist/cjs/components/tag/index.cjs"
+    },
+    "./tree": {
+      "types": "./dist/types/components/tree/index.d.ts",
+      "import": "./dist/es/components/tree/index.mjs",
+      "require": "./dist/cjs/components/tree/index.cjs"
+    },
+    "./components/tree": {
+      "types": "./dist/types/components/tree/index.d.ts",
+      "import": "./dist/es/components/tree/index.mjs",
+      "require": "./dist/cjs/components/tree/index.cjs"
     }
   },
   "files": [

@@ -1,0 +1,186 @@
+@layer components {
+    .amu-tree {
+        position: relative;
+        cursor: default;
+        background: var(--amu-color-bg, #fff);
+        color: var(--amu-color-text, #606266);
+        font-size: 14px;
+    }
+
+    .amu-tree--highlight-current .amu-tree-node.is-current > .amu-tree-node__content {
+        background-color: var(--amu-color-bg-fill);
+        color: var(--amu-color-primary);
+        font-weight: 500;
+    }
+
+    .amu-tree-node {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        outline: none;
+        box-sizing: border-box;
+        margin-bottom: 4px;
+    }
+
+    .amu-tree-node:hover > .amu-tree-node__content {
+        background-color: var(--amu-color-bg-fill);
+    }
+    
+    .amu-tree-node.is-disabled {
+        cursor: not-allowed;
+        color: var(--amu-color-text-disabled, #c0c4cc);
+    }
+    .amu-tree-node.is-disabled > .amu-tree-node__content {
+        cursor: not-allowed;
+    }
+
+    .amu-tree-node__expand-icon {
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        flex-shrink: 0;
+        transition: transform 0.3s;
+        transform: rotate(0deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: var(--amu-color-text-default);
+    }
+
+    .amu-tree-node__expand-icon.expanded {
+        transform: rotate(90deg);
+    }
+    
+    .amu-tree-node__expand-icon.is-leaf {
+        cursor: default;
+        color: transparent;
+    }
+
+    .amu-tree-node__content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        height: 28px;
+        cursor: pointer;
+        padding-right: 8px;
+        padding-left: 4px;
+        transition: background-color 0.2s;
+        border-radius: 2px;
+        min-width: 0; /* content overflow */
+    }
+
+    /* Show Line Styles */
+    .amu-tree-node__indent {
+        display: flex;
+        flex-direction: row;
+        align-self: stretch;
+    }
+    .amu-tree-node__indent-block {
+        width: 24px; /* match expand icon width roughly, or prop indent */
+        flex-shrink: 0;
+        display: inline-block;
+        position: relative;
+    }
+    .amu-tree-node__indent-block:not(.is-blank)::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        border-left: 1px solid var(--amu-color-border, #dcdfe6);
+    }
+    
+    .amu-tree-node__expand-icon.is-show-line {
+        position: relative;
+        z-index: 1;
+        background: var(--amu-color-bg); /* cover line */
+        width: 24px; /* match indent */
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    /* vertical line through expand icon if not last? No, for current node, expand icon is the junction */
+    /* If leaf, we need horizontal line */
+    /* If parent, we probably need line too? */
+    
+    /* We need 'L' or 'T' shape for the Expand Icon block itself */
+    /* But expand icon is div. */
+    /* Let's use ::before on expand-icon to draw lines */
+    
+    /* Horizontal line to content */
+    /*
+    .amu-tree-node__expand-icon.is-show-line::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: 10px; 
+        border-top: 1px solid #dcdfe6;
+    }
+    */
+    
+    .amu-tree-node__line-icon {
+        border: 1px solid var(--amu-color-border);
+        width: 14px;
+        height: 14px;
+        line-height: 12px;
+        text-align: center;
+        display: inline-block;
+        border-radius: 2px;
+        color: var(--amu-color-text-default);
+        background: var(--amu-color-bg);
+    }
+
+    /* Checkbox */
+    .amu-tree-node__checkbox {
+        margin-right: 8px;
+    }
+
+    /* Loading Icon */
+    .amu-tree-node__loading-icon {
+        display: inline-block;
+        animation: amu-loading-rotate 2s linear infinite;
+        margin-right: 4px;
+        color: var(--amu-color-text-default);
+    }
+    @keyframes amu-loading-rotate {
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Drop Indicator */
+    .amu-tree__drop-indicator {
+        position: absolute;
+        height: 2px;
+        background-color: var(--amu-color-primary, #409eff);
+        pointer-events: none;
+        z-index: 1000;
+    }
+    
+    .amu-tree__empty-block {
+        text-align: center;
+        padding: 20px 0;
+        color: var(--amu-color-text-default);
+    }
+
+    /* Animation */
+    .amu-tree-list-move,
+    .amu-tree-list-enter-active,
+    .amu-tree-list-leave-active {
+        transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+
+    .amu-tree-list-leave-active {
+        position: absolute !important; /* Ensure it's removed from flow for smooth list reordering */
+        opacity: 0;
+    }
+
+    .amu-tree-list-enter-from,
+    .amu-tree-list-leave-to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}

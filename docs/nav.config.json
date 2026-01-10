@@ -1,6 +1,7 @@
 {
   "hiddenComponents": [
-    "config-provider"
+    "config-provider",
+    "spinner"
   ],
   "labels": {
     "button": "按钮",
@@ -22,7 +23,8 @@
     "drawer": "抽屉",
     "message": "全局提示",
     "rate": "评分",
-    "input-number": "数字输入框"
+    "input-number": "数字输入框",
+    "tree": "树形控件"
   },
   "groups": [
     {
@@ -35,7 +37,7 @@
     },
     {
       "key": "dataDisplay",
-      "items": ["tag"]
+      "items": ["tag", "tree"]
     },
     {
       "key": "dataEntry",

@@ -23,6 +23,7 @@ import { AmuMessage } from './message'
 import { AmuSpinner } from './spinner'
 import { AmuRate } from './rate'
 import { AmuInputNumber } from './input-number'
+import { AmuTree } from './tree'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -38,6 +39,9 @@ export * from './rate'
 
 export { AmuInputNumber } from './input-number'
 export * from './input-number'
+
+export { AmuTree } from './tree'
+export * from './tree'
 
 export { AmuConfigProvider } from './config-provider'
 export * from './config-provider'
@@ -119,6 +123,7 @@ const AmuUI: Plugin = {
     app.use(AmuPopup)
     app.use(AmuPopconfirm)
     app.use(AmuMessage)
+    app.use(AmuTree)
     app.use(AmuSpinner)
     app.use(AmuRate)
     app.use(AmuInputNumber)

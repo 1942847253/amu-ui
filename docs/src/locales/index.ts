@@ -70,6 +70,7 @@ export const messages = {
       message: 'Message 全局提示',
       rate: 'Rate 评分',
       'input-number': 'InputNumber 数字输入框',
+      'tree': 'Tree 树形控件',
     }
   },
   'en-US': {

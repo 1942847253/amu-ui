@@ -45,9 +45,9 @@
         :id="id"
         :disabled="disabled"
         :readonly="readonly"
-        :size="size"
+        :size="(size as any)"
         :placeholder="placeholder"
-        :status="status"
+        :status="(status as any)"
         :align="controlsPosition === 'right' ? 'left' : 'center'"
         @input="handleInput"
         @focus="handleFocus"
@@ -151,11 +151,11 @@ const displayValue = computed(() => {
     if (userInput.value !== null) {
         return userInput.value
     }
-    let val = props.modelValue
+    let val: number | string | undefined = props.modelValue
     if (!isNumber(val)) return ''
     if (isNumber(val)) {
         if (props.precision !== undefined) {
-            val = val.toFixed(props.precision)
+            val = (val as number).toFixed(props.precision)
         }
     }
     return formatValue(val!)
@@ -234,7 +234,8 @@ const handleBlur = (event: FocusEvent) => {
     let newVal = parseValue(value) // returns number or null (empty/NaN is null)
     
     if (newVal !== null) {
-        newVal = getValidValue(newVal)
+        const valid = getValidValue(newVal)
+        if (valid !== undefined) newVal = valid
     }
     
     // Reset user input to trigger formatting re-calc logic later
