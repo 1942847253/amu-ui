@@ -124,6 +124,16 @@
       "import": "./dist/es/components/layout/index.mjs",
       "require": "./dist/cjs/components/layout/index.cjs"
     },
+    "./menu": {
+      "types": "./dist/types/components/menu/index.d.ts",
+      "import": "./dist/es/components/menu/index.mjs",
+      "require": "./dist/cjs/components/menu/index.cjs"
+    },
+    "./components/menu": {
+      "types": "./dist/types/components/menu/index.d.ts",
+      "import": "./dist/es/components/menu/index.mjs",
+      "require": "./dist/cjs/components/menu/index.cjs"
+    },
     "./message": {
       "types": "./dist/types/components/message/index.d.ts",
       "import": "./dist/es/components/message/index.mjs",

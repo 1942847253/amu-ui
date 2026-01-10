@@ -71,6 +71,7 @@ export const messages = {
       rate: 'Rate 评分',
       'input-number': 'InputNumber 数字输入框',
       'tree': 'Tree 树形控件',
+      menu: 'Menu 导航菜单',
     }
   },
   'en-US': {
@@ -144,6 +145,8 @@ export const messages = {
       message: 'Message',
       rate: 'Rate',
       'input-number': 'InputNumber',
+      tree: 'Tree',
+      menu: 'Menu',
     }
   }
 } as const

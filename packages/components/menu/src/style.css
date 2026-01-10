@@ -1,0 +1,322 @@
+@layer components {
+  .amu-menu {
+    --amu-menu-bg: var(--amu-color-bg);
+    --amu-menu-hover-bg: var(--amu-color-bg-fill);
+    --amu-menu-text-color: var(--amu-color-text-default);
+    --amu-menu-active-color: var(--amu-color-primary);
+    --amu-menu-active-bg: var(--amu-color-primary-light-9, #e8f3ff); /* Fallback */
+    --amu-menu-item-height: 40px;
+    --amu-menu-popup-bg: var(--amu-color-bg-elevated);
+
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--amu-menu-bg);
+    color: var(--amu-menu-text-color);
+    transition: background-color 0.3s, width 0.3s;
+    font-size: var(--amu-font-size);
+  }
+
+  .amu-menu__logo {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: var(--amu-menu-item-height);
+    overflow: hidden;
+    white-space: nowrap;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+  
+  .amu-menu__operations {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: var(--amu-menu-item-height);
+    margin-left: auto; /* Push to right */
+    white-space: nowrap;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+  
+  .amu-menu--collapsed .amu-menu__logo {
+    padding: 0;
+    justify-content: center;
+  }
+
+  .amu-menu--vertical,
+  .amu-menu--inline {
+    border-right: 1px solid var(--amu-color-border);
+  }
+
+  .amu-menu--horizontal {
+    display: flex;
+    flex-wrap: nowrap;
+    border-bottom: 1px solid var(--amu-color-border);
+    align-items: center;
+  }
+
+  /* Dark Theme Overrides */
+  .amu-menu--dark,
+  [data-amu-theme='dark'] .amu-menu,
+  .amu-menu[data-amu-theme='dark'] {
+    --amu-menu-bg: #232324;
+    --amu-menu-hover-bg: #333335;
+    --amu-menu-text-color: #a6a6a6;
+    --amu-menu-active-color: #fff;
+    --amu-menu-active-bg: var(--amu-color-primary);
+    --amu-menu-popup-bg: #303030;
+  }
+  
+  /* Dark Menu Active Override (Solid Blue) */
+  .amu-menu--dark .amu-menu-item.is-active,
+  [data-amu-theme='dark'] .amu-menu .amu-menu-item.is-active {
+    background-color: var(--amu-menu-active-bg);
+    color: var(--amu-menu-active-color);
+  }
+
+  /* Menu Item */
+  .amu-menu-item {
+    display: flex;
+    align-items: center;
+    height: var(--amu-menu-item-height);
+    line-height: var(--amu-menu-item-height);
+    padding: 0 16px;
+    margin: 0 8px; /* Inset style */
+    border-radius: var(--amu-radius); /* Rounded corners */
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+    position: relative;
+    white-space: nowrap;
+    box-sizing: border-box;
+    color: var(--amu-menu-text-color);
+  }
+
+  .amu-menu-item:hover,
+  .amu-sub-menu__title:hover {
+    background-color: var(--amu-menu-hover-bg);
+  }
+
+  /* Active State (Light/Default) */
+  .amu-menu-item.is-active {
+    color: var(--amu-color-primary);
+    background-color: var(--amu-color-primary-light-9, #ecf2fe);
+    font-weight: 500;
+  }
+  
+  /* Horizontal Mode Styles Update: Button style instead of underline */
+  .amu-menu--horizontal {
+     padding: 8px 10px;
+  }
+
+  .amu-menu--horizontal > .amu-menu-item {
+      margin: 0 4px;
+      border-radius: var(--amu-radius);
+      padding: 0 16px;
+  }
+  
+  .amu-menu--horizontal > .amu-menu-item.is-active {
+    background-color: var(--amu-menu-active-bg);
+    color: var(--amu-menu-active-color);
+    border-bottom: none;
+  }
+  
+  /* Horizontal Sub Menu Title Active */
+  .amu-menu--horizontal > .amu-sub-menu.is-active > .amu-sub-menu__title {
+     color: var(--amu-menu-active-color);
+     background-color: var(--amu-menu-active-bg);
+     border-radius: var(--amu-radius);
+  }
+  
+  .amu-menu--horizontal > .amu-sub-menu {
+      margin: 0 4px;
+  }
+  
+  .amu-menu--horizontal > .amu-sub-menu > .amu-sub-menu__title {
+      border-radius: var(--amu-radius);
+      padding: 0 16px;
+  }
+
+  .amu-menu-item.is-disabled,
+  .amu-sub-menu.is-disabled > .amu-sub-menu__title {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: none !important;
+  }
+
+  /* Sub Menu */
+  .amu-sub-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  /* Sub Menu Title */
+  .amu-sub-menu__title {
+    display: flex;
+    align-items: center;
+    height: var(--amu-menu-item-height);
+    line-height: var(--amu-menu-item-height);
+    padding: 0 16px;
+    margin: 0 8px; /* Inset style */
+    border-radius: var(--amu-radius);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    position: relative;
+    white-space: nowrap;
+    box-sizing: border-box;
+    color: var(--amu-menu-text-color);
+  }
+  
+  .amu-sub-menu__icon-arrow {
+    margin-left: auto;
+    transition: transform 0.3s;
+    font-size: 12px;
+  }
+  
+  .amu-sub-menu.is-opened > .amu-sub-menu__title .amu-sub-menu__icon-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* Group */
+  .amu-menu-group__title {
+    padding: 8px 20px;
+    font-size: 12px;
+    color: var(--amu-color-text-description, #8a8a8a);
+    line-height: 1.5;
+  }
+
+  /* Icons */
+  .amu-menu-item__icon,
+  .amu-sub-menu__icon {
+    display: flex; /* Ensure it behaves like a flex container for centering if needed */
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    width: 24px; /* Fix icon slot width */
+    height: 24px;
+    font-size: 18px; /* Standard icon size */
+    text-align: center;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  .amu-menu-item__title,
+  .amu-sub-menu__text {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+  }
+
+  /* Collapsed (Icon Only) Mode */
+  .amu-menu--collapsed {
+    width: 64px;
+    transition: width 0.3s;
+  }
+
+  .amu-menu--collapsed .amu-menu-item,
+  .amu-menu--collapsed .amu-sub-menu__title {
+    padding: 0;
+    margin: 4px 0; /* Reset horizontal margin, keep vertical spacing if desired or set to 0 */
+    border-radius: 0; /* Reset radius for full width collapsed state */
+    justify-content: center; /* Center icons */
+  }
+  
+  .amu-menu--collapsed .amu-menu-item__icon,
+  .amu-menu--collapsed .amu-sub-menu__icon {
+    margin: 0;
+    width: 100%; /* Take full width of parent padding area effectively */
+    justify-content: center;
+  }
+  
+  .amu-menu--collapsed .amu-menu-item__title,
+  .amu-menu--collapsed .amu-sub-menu__text,
+  .amu-menu--collapsed .amu-sub-menu__icon-arrow,
+  .amu-menu--collapsed .amu-menu-group__title {
+    display: none;
+    opacity: 0;
+    width: 0;
+  }
+
+  /* SubMenu content transition */
+  .amu-menu-collapse-transition-enter-active,
+  .amu-menu-collapse-transition-leave-active {
+    transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    overflow: hidden; /* Ensure content doesn't spill during transition */
+  }
+
+  /* Popup Container (Used for Horizontal and Collapsed modes) */
+  .amu-menu--popup-container {
+    position: absolute;
+    z-index: 100;
+    background: var(--amu-menu-popup-bg);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    min-width: 160px;
+    border-radius: var(--amu-radius);
+    padding: 4px 0;
+  }
+  
+  /* Collapse Trigger (Footer) */
+  .amu-menu__collapse-trigger {
+    height: 48px; /** Trough looks slightly larger usually */
+    display: flex;
+    align-items: center;
+    padding-left: 20px; /* Align with general icon padding? Item is 0 16px. */
+    cursor: pointer;
+    border-top: 1px solid var(--amu-color-border);
+    color: var(--amu-menu-text-color);
+    transition: background-color 0.2s, color 0.2s;
+    margin-top: auto; /* Push to bottom if container is flex col */
+    /* Remove default margin or align with inset style if desired, but footer usually full width */
+    width: 100%; 
+    box-sizing: border-box;
+  }
+
+  /* Adjust collapse trigger padding to match items in different states maybe? */
+  .amu-menu--collapsed .amu-menu__collapse-trigger {
+      justify-content: center;
+      padding: 0;
+  }
+  
+  /* Fix Dark Mode Border Color */
+  .amu-menu--dark .amu-menu__collapse-trigger,
+  [data-amu-theme='dark'] .amu-menu .amu-menu__collapse-trigger {
+      border-top-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .amu-menu__collapse-trigger:hover {
+      background-color: var(--amu-menu-hover-bg);
+      color: var(--amu-menu-active-color); /* Highlight on hover? */
+  }
+
+  /* Make Vertical Menu a Flex Container to support margin-top: auto for footer */
+  .amu-menu--vertical {
+      display: flex;
+      flex-direction: column;
+  }
+  
+  /* Fix: Ensure submenu popups are correctly positioned */
+  .amu-menu--popup-container.is-horizontal {
+      top: 100%;
+      left: 0;
+      margin-top: 5px; /* Gap */
+  }
+
+  /* Collapsed Submenu Popup - To the right */
+  .amu-menu--popup-container.is-collapsed {
+      top: 0;
+      left: 100%;
+      margin-left: 5px; /* Gap */
+  }
+
+  .amu-menu--popup .amu-menu-item,
+  .amu-menu--popup .amu-sub-menu__title {
+     padding: 0 16px;
+     height: 36px;
+     line-height: 36px;
+  }
+}
