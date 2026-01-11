@@ -25,7 +25,8 @@
     "rate": "评分",
     "input-number": "数字输入框",
     "tree": "树形控件",
-    "menu": "导航菜单"
+    "menu": "导航菜单",
+    "dropdown": "下拉菜单"
   },
   "groups": [
     {
@@ -50,7 +51,7 @@
     },
     {
       "key": "navigation",
-      "items": ["menu"]
+      "items": ["menu", "dropdown"]
     },
     {
       "key": "other",

@@ -13,7 +13,16 @@
             </template>
             <amu-menu-item index="1"><template #icon><DashboardIcon /></template>系统总览</amu-menu-item>
             <amu-menu-item index="2"><template #icon><ServerIcon /></template>用户管理</amu-menu-item>
-            <amu-menu-item index="3"><template #icon><FolderIcon /></template>内容管理</amu-menu-item>
+            <amu-sub-menu index="3" title="内容管理">
+                <template #icon><FolderIcon /></template>
+                <template #title>内容管理</template>
+                <amu-menu-item index="3-1">文章管理</amu-menu-item>
+                <amu-sub-menu index="3-2" title="媒体库">
+                    <template #title>媒体库</template>
+                     <amu-menu-item index="3-2-1">图片</amu-menu-item>
+                     <amu-menu-item index="3-2-2">视频</amu-menu-item>
+                </amu-sub-menu>
+            </amu-sub-menu>
             <amu-menu-item index="4"><template #icon><BoxIcon /></template>任务调度</amu-menu-item>
             <amu-menu-item index="5"><template #icon><MonitorIcon /></template>监控告警</amu-menu-item>
             <amu-menu-item index="6"><template #icon><MailIcon /></template>消息中心</amu-menu-item>
@@ -37,7 +46,16 @@
              </template>
             <amu-menu-item index="1"><template #icon><DashboardIcon /></template>系统总览</amu-menu-item>
             <amu-menu-item index="2"><template #icon><ServerIcon /></template>用户管理</amu-menu-item>
-            <amu-menu-item index="3" class="fake-hover"><template #icon><FolderIcon /></template>内容管理</amu-menu-item>
+            <amu-sub-menu index="3" title="内容管理">
+                <template #icon><FolderIcon /></template>
+                <template #title>内容管理</template>
+                <amu-menu-item index="3-1">文章管理</amu-menu-item>
+                <amu-sub-menu index="3-2" title="媒体库">
+                    <template #title>媒体库</template>
+                     <amu-menu-item index="3-2-1">图片</amu-menu-item>
+                     <amu-menu-item index="3-2-2">视频</amu-menu-item>
+                </amu-sub-menu>
+            </amu-sub-menu>
             <amu-menu-item index="4"><template #icon><BoxIcon /></template>任务调度</amu-menu-item>
             <amu-menu-item index="5"><template #icon><MonitorIcon /></template>监控告警</amu-menu-item>
             <amu-menu-item index="6"><template #icon><MailIcon /></template>消息中心</amu-menu-item>
@@ -51,7 +69,7 @@
 
 <script setup lang="ts">
 import { h, ref } from 'vue'
-import { AmuMenu, AmuMenuItem } from 'amu-ui/menu'
+import { AmuMenu, AmuMenuItem, AmuSubMenu } from 'amu-ui/menu'
 
 const collapsed1 = ref(false)
 const collapsed2 = ref(false)

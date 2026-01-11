@@ -72,6 +72,7 @@ export const messages = {
       'input-number': 'InputNumber 数字输入框',
       'tree': 'Tree 树形控件',
       menu: 'Menu 导航菜单',
+      dropdown: 'Dropdown 下拉菜单',
     }
   },
   'en-US': {
@@ -147,6 +148,7 @@ export const messages = {
       'input-number': 'InputNumber',
       tree: 'Tree',
       menu: 'Menu',
+      dropdown: 'Dropdown',
     }
   }
 } as const

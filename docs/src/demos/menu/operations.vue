@@ -15,6 +15,15 @@
         
         <amu-menu-item index="1">Menu 1</amu-menu-item>
         <amu-menu-item index="2">Menu 2</amu-menu-item>
+        <amu-sub-menu index="sub1" title="SubMenu">
+             <template #title>SubMenu</template>
+             <amu-menu-item index="3-1">Option 1</amu-menu-item>
+             <amu-menu-item index="3-2">Option 2</amu-menu-item>
+             <amu-sub-menu index="sub1-2" title="Nested">
+                 <template #title>Nested</template>
+                 <amu-menu-item index="3-3-1">Option 3</amu-menu-item>
+             </amu-sub-menu>
+        </amu-sub-menu>
         <amu-menu-item index="3" disabled>Disabled</amu-menu-item>
         
         <template #operations>
@@ -45,6 +54,11 @@
         
         <amu-menu-item index="1">Menu 1</amu-menu-item>
         <amu-menu-item index="2">Menu 2</amu-menu-item>
+        <amu-sub-menu index="sub1" title="SubMenu">
+             <template #title>SubMenu</template>
+             <amu-menu-item index="3-1">Option 1</amu-menu-item>
+             <amu-menu-item index="3-2">Option 2</amu-menu-item>
+        </amu-sub-menu>
         <amu-menu-item index="3" disabled>Disabled</amu-menu-item>
         
         <template #operations>
@@ -60,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { AmuMenu, AmuMenuItem } from 'amu-ui/menu'
+import { AmuMenu, AmuMenuItem, AmuSubMenu } from 'amu-ui/menu'
 </script>
 
 <style scoped>

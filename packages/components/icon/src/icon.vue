@@ -5,7 +5,8 @@
     role="img"
     aria-hidden="true"
   >
-    <slot />
+    <component :is="resolvedIcon" v-if="resolvedIcon" />
+    <slot v-else />
   </span>
 </template>
 
@@ -19,6 +20,8 @@ defineOptions({
 })
 
 const props = defineProps(iconProps)
+
+const resolvedIcon = computed(() => props.icon || props.name)
 
 const iconStyle = computed(() => {
   const size = typeof props.size === 'number' ? `${props.size}px` : props.size

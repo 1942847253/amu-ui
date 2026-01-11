@@ -25,6 +25,7 @@ import { AmuRate } from './rate'
 import { AmuInputNumber } from './input-number'
 import { AmuTree } from './tree'
 import { AmuMenu, AmuMenuItem, AmuSubMenu, AmuMenuGroup } from './menu'
+import { AmuDropdown, AmuDropdownMenu, AmuDropdownItem } from './dropdown'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -97,6 +98,8 @@ export * from './message'
 
 export * from './menu'
 
+export * from './dropdown'
+
 const AmuUI: Plugin = {
   install(app: App) {
     app.use(AmuButton)
@@ -134,6 +137,9 @@ const AmuUI: Plugin = {
     app.use(AmuMenuItem)
     app.use(AmuSubMenu)
     app.use(AmuMenuGroup)
+    app.use(AmuDropdown)
+    app.use(AmuDropdownMenu)
+    app.use(AmuDropdownItem)
   },
 }
 

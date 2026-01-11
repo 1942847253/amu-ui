@@ -84,6 +84,16 @@
       "import": "./dist/es/components/drawer/index.mjs",
       "require": "./dist/cjs/components/drawer/index.cjs"
     },
+    "./dropdown": {
+      "types": "./dist/types/components/dropdown/index.d.ts",
+      "import": "./dist/es/components/dropdown/index.mjs",
+      "require": "./dist/cjs/components/dropdown/index.cjs"
+    },
+    "./components/dropdown": {
+      "types": "./dist/types/components/dropdown/index.d.ts",
+      "import": "./dist/es/components/dropdown/index.mjs",
+      "require": "./dist/cjs/components/dropdown/index.cjs"
+    },
     "./icon": {
       "types": "./dist/types/components/icon/index.d.ts",
       "import": "./dist/es/components/icon/index.mjs",

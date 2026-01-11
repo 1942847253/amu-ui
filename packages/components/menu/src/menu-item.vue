@@ -5,6 +5,7 @@
       'is-active': active,
       'is-disabled': disabled
     }"
+    :style="itemStyle"
     role="menuitem"
     @click="handleClick"
   >
@@ -20,9 +21,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject } from 'vue'
+import { computed, inject, onMounted, onUnmounted } from 'vue'
 import { menuItemProps, menuItemEmits } from './props'
-import { MenuContextKey } from './context'
+import { MenuContextKey, SubMenuContextKey } from './context'
 
 defineOptions({
   name: 'AmuMenuItem'
@@ -36,6 +37,31 @@ if (!rootMenu) {
   throw new Error('AmuMenuItem must be used inside AmuMenu')
 }
 
+const parentSubMenu = inject(SubMenuContextKey, undefined)
+const level = (parentSubMenu?.level || 0) + 1
+const indexPath = computed(() => {
+    const parentPath = parentSubMenu?.indexPath.value || []
+    return [...parentPath, props.index]
+})
+
+const itemStyle = computed(() => {
+  const mode = rootMenu.mode.value
+  const isCollapsed = rootMenu.isCollapsed.value
+  
+  if ((mode === 'vertical' || mode === 'inline') && !isCollapsed) {
+    return { paddingLeft: `${20 * level}px` }
+  }
+  return {}
+})
+
+onMounted(() => {
+  parentSubMenu?.addChild(props.index)
+})
+
+onUnmounted(() => {
+  parentSubMenu?.removeChild(props.index)
+})
+
 // TODO: Handle icons better (string name vs component)
 const icon = null 
 
@@ -48,7 +74,7 @@ const handleClick = (e: MouseEvent) => {
     e.stopImmediatePropagation()
     return
   }
-  rootMenu.handleSelect(props.index)
-  emit('click', { index: props.index, indexPath: [props.index] }) // TODO: Path
+  rootMenu.handleSelect(props.index, indexPath.value)
+  emit('click', { index: props.index, indexPath: indexPath.value })
 }
 </script>

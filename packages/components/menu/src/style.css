@@ -1,4 +1,4 @@
-@layer components {
+/* @layer components removed to fix specificity issues with unlayered dropdown styles */
   .amu-menu {
     --amu-menu-bg: var(--amu-color-bg);
     --amu-menu-hover-bg: var(--amu-color-bg-fill);
@@ -124,7 +124,7 @@
   }
   
   /* Horizontal Sub Menu Title Active */
-  .amu-menu--horizontal > .amu-sub-menu.is-active > .amu-sub-menu__title {
+  .amu-menu--horizontal > .amu-sub-menu.is-active .amu-sub-menu__title {
      color: var(--amu-menu-active-color);
      background-color: var(--amu-menu-active-bg);
      border-radius: var(--amu-radius);
@@ -134,13 +134,13 @@
       margin: 0 4px;
   }
   
-  .amu-menu--horizontal > .amu-sub-menu > .amu-sub-menu__title {
+  .amu-menu--horizontal > .amu-sub-menu .amu-sub-menu__title {
       border-radius: var(--amu-radius);
       padding: 0 16px;
   }
 
   .amu-menu-item.is-disabled,
-  .amu-sub-menu.is-disabled > .amu-sub-menu__title {
+  .amu-sub-menu.is-disabled .amu-sub-menu__title {
     opacity: 0.5;
     cursor: not-allowed;
     background: none !important;
@@ -152,6 +152,12 @@
     margin: 0;
     padding: 0;
     position: relative;
+  }
+
+  /* Active SubMenu Title - Text Highlight */
+  .amu-sub-menu.is-active > .amu-sub-menu__title,
+  .amu-sub-menu.is-active > .amu-sub-menu__dropdown .amu-sub-menu__title {
+    color: var(--amu-menu-active-color);
   }
 
   /* Sub Menu Title */
@@ -175,9 +181,17 @@
     margin-left: auto;
     transition: transform 0.3s;
     font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Horizontal Menu: Arrow should be close to text, not pushed to far right (if width exists) */
+  .amu-menu--horizontal .amu-sub-menu__icon-arrow {
+      margin-left: 8px;
   }
   
-  .amu-sub-menu.is-opened > .amu-sub-menu__title .amu-sub-menu__icon-arrow {
+  .amu-sub-menu.is-opened .amu-sub-menu__title .amu-sub-menu__icon-arrow {
     transform: rotate(180deg);
   }
 
@@ -221,15 +235,32 @@
   .amu-menu--collapsed .amu-menu-item,
   .amu-menu--collapsed .amu-sub-menu__title {
     padding: 0;
-    margin: 4px 0; /* Reset horizontal margin, keep vertical spacing if desired or set to 0 */
-    border-radius: 0; /* Reset radius for full width collapsed state */
-    justify-content: center; /* Center icons */
+    margin: 4px auto; /* Center the item block horizontally */
+    width: 44px;      /* Make it a square/rounded block */
+    height: 40px;
+    line-height: 40px;
+    border-radius: var(--amu-radius);
+    justify-content: center; /* Center icons flexually */
   }
   
+  /* Collapsed Active State: Solid Block Style (Like Ant Design) */
+  .amu-menu--collapsed .amu-menu-item.is-active,
+  .amu-menu--collapsed .amu-sub-menu.is-active .amu-sub-menu__title {
+    background-color: var(--amu-color-primary) !important;
+    color: #ffffff !important;
+  }
+
   .amu-menu--collapsed .amu-menu-item__icon,
   .amu-menu--collapsed .amu-sub-menu__icon {
-    margin: 0;
-    width: 100%; /* Take full width of parent padding area effectively */
+    margin: 0 !important;
+    width: auto; /* Remove 100% width to let flex center it properly */
+    justify-content: center;
+  }
+
+  /* Fix AmuPopup reference wrapper being inline-flex causing left alignment in collapsed mode */
+  .amu-menu--collapsed .amu-sub-menu__dropdown .amu-popup-reference {
+    display: flex !important;
+    width: 100%;
     justify-content: center;
   }
   
@@ -292,6 +323,45 @@
       background-color: var(--amu-menu-hover-bg);
       color: var(--amu-menu-active-color); /* Highlight on hover? */
   }
+  
+  /* Popup Menus (Dropdown Override) */
+  .amu-menu--popup.amu-dropdown-menu {
+      padding: 4px 0;
+      min-width: 160px;
+      background-color: var(--amu-menu-popup-bg); 
+      border-radius: var(--amu-radius);
+  }
+
+  .amu-menu--popup.amu-menu--dark.amu-dropdown-menu {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background-color: var(--amu-menu-popup-bg);
+      color: var(--amu-menu-text-color);
+  }
+
+  .amu-menu--popup .amu-menu-item,
+  .amu-menu--popup .amu-sub-menu__title {
+      margin: 0 6px; /* Inset style for popup items */
+      border-radius: var(--amu-radius);
+      padding: 0 12px;
+  }
+  
+  .amu-menu--popup.amu-menu--dark .amu-menu-item,
+  .amu-menu--popup.amu-menu--dark .amu-sub-menu__title {
+      color: var(--amu-menu-text-color); /* Correctly inherit dark text color */
+  }
+
+  .amu-menu--popup.amu-menu--dark .amu-menu-item:hover, 
+  .amu-menu--popup.amu-menu--dark .amu-sub-menu__title:hover {
+      background-color: var(--amu-menu-hover-bg);
+      color: var(--amu-menu-active-color);
+  }
+
+  /* Active State in Dark Popup - Match the main menu active style (Solid Blue) */
+  .amu-menu--popup.amu-menu--dark .amu-menu-item.is-active,
+  .amu-menu--popup.amu-menu--dark .amu-sub-menu.is-active > .amu-sub-menu__title {
+      background-color: var(--amu-menu-active-bg);
+      color: var(--amu-menu-active-color);
+  }
 
   /* Make Vertical Menu a Flex Container to support margin-top: auto for footer */
   .amu-menu--vertical {
@@ -319,4 +389,3 @@
      height: 36px;
      line-height: 36px;
   }
-}

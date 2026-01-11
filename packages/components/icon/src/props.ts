@@ -18,6 +18,20 @@ export const iconProps = {
     default: 'currentColor',
   },
   /**
+   * 图标名称或组件
+   * @en Icon name or component
+   */
+  name: {
+    type: [String, Object] as PropType<string | object>,
+  },
+  /**
+   * 旋转方向 (legacy support via name prop usually, but here just name)
+   * Alias for name to support <AmuIcon :icon="..." />
+   */
+  icon: {
+    type: [String, Object] as PropType<string | object>,
+  },
+  /**
    * 是否持续旋转
    * @en Whether to spin continuously
    */

@@ -30,9 +30,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, provide, inject } from 'vue'
 import { useZIndex } from '@amu-ui/hooks'
-import { popupProps, popupEmits, type PopupPlacement } from './props'
+import { popupProps, popupEmits, type PopupPlacement, POPUP_KEY } from './props'
 
 defineOptions({
   name: 'AmuPopup',
@@ -50,8 +50,37 @@ const currentPlacement = ref(props.placement)
 const position = ref({ top: 0, left: 0 })
 const isPositioned = ref(false)
 const currentZIndex = ref(props.zIndex || nextZIndex())
+const isHovering = ref(false)
+
 let timer: ReturnType<typeof setTimeout> | null = null
 let resizeObserver: ResizeObserver | null = null
+
+// Hierarchy logic
+const activeChildren = ref(0)
+
+const registerChild = () => {
+    activeChildren.value++
+    clearTimer()
+}
+
+const unregisterChild = () => {
+    if (activeChildren.value > 0) {
+        activeChildren.value--
+    }
+    
+    if (props.trigger === 'hover' && !visible.value) return 
+    
+    // If a child closes, we should check if we should close too.
+    // If we are currently hovering this popup, do nothing.
+    // If we are NOT hovering this popup (mouse is elsewhere), then start closing sequence.
+    if (props.trigger === 'hover' && activeChildren.value === 0 && !isHovering.value) {
+       onMouseLeave()
+    }
+}
+
+provide(POPUP_KEY, { registerChild, unregisterChild })
+const parentPopup = inject(POPUP_KEY, undefined)
+
 
 const popupStyle = computed(() => ({
   zIndex: currentZIndex.value,
@@ -67,10 +96,23 @@ watch(
     if (val) {
       show()
     } else {
-      hide()
+      hide(true)
     }
   }
 )
+
+watch(visible, (val) => {
+    if (parentPopup) {
+        if (val) {
+            parentPopup.registerChild()
+        } else {
+            // Only unregister if we are transitioning from true to false?
+            // But immediate run might have oldVals undefined.
+            // We just rely on unregisterChild protecting against negative values.
+            parentPopup.unregisterChild()
+        }
+    }
+}, { immediate: true })
 
 watch(
   () => props.zIndex,
@@ -103,19 +145,25 @@ const show = () => {
   emit('show')
   nextTick(() => {
     updatePosition()
-    window.addEventListener('click', onClickOutside)
-    window.addEventListener('keydown', onEsc)
-    window.addEventListener('resize', updatePosition)
-    window.addEventListener('scroll', updatePosition, true)
-
     if (referenceRef.value) {
       resizeObserver = new ResizeObserver(updatePosition)
       resizeObserver.observe(referenceRef.value)
     }
+
+    // Delay checking for outside clicks to avoid capturing the trigger click
+    setTimeout(() => {
+        if (!visible.value) return
+        window.addEventListener('click', onClickOutside)
+        window.addEventListener('keydown', onEsc)
+        window.addEventListener('resize', updatePosition)
+        window.addEventListener('scroll', updatePosition, true)
+    }, 0)
   })
 }
 
-const hide = () => {
+const hide = (force = false) => {
+  if (!force && activeChildren.value > 0) return // Don't hide if children are active
+  
   clearTimer()
   visible.value = false
   isPositioned.value = false
@@ -134,7 +182,7 @@ const hide = () => {
 
 const toggle = () => {
   if (visible.value) {
-    hide()
+    hide(true)
   } else {
     show()
   }
@@ -148,6 +196,7 @@ const onClick = (e: MouseEvent) => {
 }
 
 const onMouseEnter = () => {
+  isHovering.value = true
   if (props.trigger === 'hover') {
     clearTimer()
     if (!visible.value) {
@@ -157,7 +206,9 @@ const onMouseEnter = () => {
 }
 
 const onMouseLeave = () => {
+  isHovering.value = false
   if (props.trigger === 'hover') {
+    clearTimer() // Clear existing timer to avoid duplicate
     timer = setTimeout(() => {
       hide()
     }, 200)
@@ -167,6 +218,11 @@ const onMouseLeave = () => {
 const onClickOutside = (e: MouseEvent) => {
   if (!props.closeOnClickOutside) return
   const target = e.target as Node
+  // If we are here, we are clicking outside Parent.
+  // But maybe inside Child?
+  // If inside Child, we shouldn't close Parent.
+  // We rely on activeChildren > 0.
+  
   if (
     referenceRef.value &&
     !referenceRef.value.contains(target) &&
@@ -226,7 +282,6 @@ const updatePosition = () => {
     const scrollX = window.scrollX
     const scrollY = window.scrollY
 
-    // Calculate offset based on placement
     let offsetX = 0
     let offsetY = 0
     if (Array.isArray(props.offset)) {
@@ -240,7 +295,6 @@ const updatePosition = () => {
       }
     }
 
-    // Add arrow offset if needed
     if (props.showArrow) {
       const arrowOffset = 4
       if (p.startsWith('top') || p.startsWith('bottom')) {
@@ -250,23 +304,9 @@ const updatePosition = () => {
       }
     }
     
-    // Adjust for teleport target offset
     const baseTop = refRect.top - targetRect.top
     const baseLeft = refRect.left - targetRect.left
 
-    // If teleport target is body, we need to add scroll. 
-    // If it's not body, we assume it's a positioned element and we are calculating relative to it.
-    // However, getBoundingClientRect is viewport relative.
-    // If target is body, targetRect is (0,0) usually (unless body has margin/transform).
-    // If target is a div, targetRect is its viewport position.
-    // The popup is absolute positioned.
-    // If target is body: top = refRect.top + scrollY. (baseTop + scrollY)
-    // If target is div (relative): top = refRect.top - targetRect.top + target.scrollTop?
-    // Wait, if target is relative, absolute child is relative to padding box.
-    // refRect.top - targetRect.top gives the distance from target top border to ref top border.
-    // This is exactly what we need for 'top'.
-    // BUT, if we are teleported to body, we need scrollY because body is the initial containing block (usually).
-    
     const isBody = props.teleportTo === 'body' || (typeof props.teleportTo === 'object' && props.teleportTo === document.body)
     const scrollAdjustmentX = isBody ? scrollX : 0
     const scrollAdjustmentY = isBody ? scrollY : 0
@@ -324,7 +364,6 @@ const updatePosition = () => {
     return { top, left }
   }
 
-  // Auto flip logic
   const { top: calculatedTop, left: calculatedLeft } = calculate(placement)
   
   const viewportWidth = window.innerWidth
@@ -332,7 +371,6 @@ const updatePosition = () => {
   const scrollTop = window.scrollY
   const scrollLeft = window.scrollX
   
-  // Vertical flip
   if (placement.startsWith('top') && calculatedTop - scrollTop < 0) {
     const newPlacement = placement.replace('top', 'bottom') as PopupPlacement
     placement = newPlacement
@@ -350,7 +388,6 @@ const updatePosition = () => {
     left = calculatedLeft
   }
 
-  // Horizontal flip (simple check for left/right placements)
   if (placement.startsWith('left') && left - scrollLeft < 0) {
      const newPlacement = placement.replace('left', 'right') as PopupPlacement
      placement = newPlacement
@@ -377,6 +414,10 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  if (visible.value && parentPopup) {
+    parentPopup.unregisterChild()
+  }
+  
   window.removeEventListener('click', onClickOutside)
   window.removeEventListener('keydown', onEsc)
   window.removeEventListener('resize', updatePosition)
@@ -425,6 +466,10 @@ defineExpose({
   z-index: -3;
 }
 
+[data-amu-theme='dark'] .amu-popup::before {
+    background: var(--amu-color-bg-elevated); 
+}
+
 /* Fade transition */
 .amu-popup-fade-enter-active,
 .amu-popup-fade-leave-active {
@@ -447,7 +492,7 @@ defineExpose({
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Top placements -> Arrow at bottom */
+/* Top placements */
 .amu-popup[data-placement^='top'] .amu-popup__arrow {
   bottom: -4px;
 }
@@ -462,7 +507,7 @@ defineExpose({
   right: 16px;
 }
 
-/* Bottom placements -> Arrow at top */
+/* Bottom placements */
 .amu-popup[data-placement^='bottom'] .amu-popup__arrow {
   top: -4px;
 }
@@ -477,7 +522,7 @@ defineExpose({
   right: 16px;
 }
 
-/* Left placements -> Arrow at right */
+/* Left placements */
 .amu-popup[data-placement^='left'] .amu-popup__arrow {
   right: -4px;
 }
@@ -492,7 +537,7 @@ defineExpose({
   bottom: 12px;
 }
 
-/* Right placements -> Arrow at left */
+/* Right placements */
 .amu-popup[data-placement^='right'] .amu-popup__arrow {
   left: -4px;
 }

@@ -1,4 +1,9 @@
-import type { PropType, ExtractPropTypes } from 'vue'
+import type { PropType, ExtractPropTypes, InjectionKey } from 'vue'
+
+export const POPUP_KEY: InjectionKey<{
+  registerChild: () => void
+  unregisterChild: () => void
+}> = Symbol('amu-popup')
 
 export type PopupTrigger = 'click' | 'hover' | 'manual'
 export type PopupPlacement =
@@ -49,6 +54,14 @@ export const popupProps = {
     default: 4,
   },
   /**
+   * 是否显示箭头。
+   * @en Whether to show the arrow.
+   */
+  showArrow: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * 是否禁用。
    * @en Whether the popup is disabled.
    */
@@ -57,93 +70,107 @@ export const popupProps = {
     default: false,
   },
   /**
-   * 是否在点击外部时关闭。
-   * @en Whether to close the popup when clicking outside.
+   * 弹出层 CSS 类名。
+   * @en Custom class name for the popup.
    */
-  closeOnClickOutside: {
-    type: Boolean,
-    default: true,
+  overlayClassName: {
+    type: String,
+    default: '',
   },
   /**
-   * 是否在按下 ESC 键时关闭。
-   * @en Whether to close the popup when pressing ESC.
-   */
-  closeOnEsc: {
-    type: Boolean,
-    default: true,
-  },
-  /**
-   * 挂载的节点，默认为 body。
-   * @en Teleport to which element, defaults to body.
-   */
-  teleportTo: {
-    type: [String, Object] as PropType<string | HTMLElement>,
-    default: 'body',
-  },
-  /**
-   * 弹出层的 z-index 值。
-   * @en Z-index of the popup.
-   */
-  zIndex: {
-    type: Number,
-  },
-  /**
-   * 是否将弹出层宽度设置为与触发元素一致。
-   * @en Whether to set the popup width to match the trigger element.
+   * 是否将宽度与 trigger 保持一致。
+   * @en Whether to match width with trigger.
    */
   matchWidth: {
     type: Boolean,
     default: false,
   },
   /**
-   * 弹出层过渡动画名称。
-   * @en Transition name of the popup.
+   * 动画名称。
+   * @en Transition name.
    */
   transition: {
     type: String,
     default: 'amu-popup-fade',
   },
   /**
-   * 是否显示箭头。
-   * @en Whether to show the arrow.
+   * 挂载节点。
+   * @en Mount node.
    */
-  showArrow: {
+  teleportTo: {
+    type: [String, Object] as PropType<string | HTMLElement>,
+    default: 'body',
+  },
+  /**
+   * z-index 层级。
+   * @en z-index level.
+   */
+  zIndex: {
+    type: Number,
+    default: undefined,
+  },
+  /**
+   * 点击外部是否关闭。
+   * @en Whether to close when clicking outside.
+   */
+  closeOnClickOutside: {
     type: Boolean,
-    default: false,
+    default: true,
+  },
+  /**
+   * 按 ESC 是否关闭。
+   * @en Whether to close when pressing ESC.
+   */
+  closeOnEsc: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * 显示延迟。
+   * @en Show timeout.
+   */
+  showTimeout: {
+    type: Number,
+    default: 0,
+  },
+  /**
+   * 隐藏延迟。
+   * @en Hide timeout.
+   */
+  hideTimeout: {
+    type: Number,
+    default: 200,
   },
 } as const
 
-export type PopupProps = ExtractPropTypes<typeof popupProps>
-
 export const popupEmits = {
   /**
-   * 显示状态改变时触发。
-   * @en Triggered when the visibility changes.
+   * 绑定值变化时触发。
+   * @en Triggered when the bound value changes.
    */
-  'update:modelValue': (value: boolean) => typeof value === 'boolean',
+  'update:modelValue': (visible: boolean) => typeof visible === 'boolean',
   /**
    * 显示时触发。
-   * @en Triggered when the popup is shown.
+   * @en Triggered when shown.
    */
   show: () => true,
   /**
    * 隐藏时触发。
-   * @en Triggered when the popup is hidden.
+   * @en Triggered when hidden.
    */
   hide: () => true,
+  // open/close for compatibility
+  /**
+   * 显示时触发（兼容）。
+   * @en Triggered when shown (compatibility).
+   */
+  open: () => true,
+  /**
+   * 隐藏时触发（兼容）。
+   * @en Triggered when hidden (compatibility).
+   */
+  close: () => true,
 }
 
+export type PopupProps = ExtractPropTypes<typeof popupProps>
 export type PopupEmits = typeof popupEmits
-
-export const popupSlots = {
-  /**
-   * 弹出层内容。
-   * @en Popup content.
-   */
-  default: {},
-  /**
-   * 触发元素。
-   * @en Reference element.
-   */
-  reference: {},
-}
