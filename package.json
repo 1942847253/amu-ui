@@ -254,6 +254,16 @@
       "import": "./dist/es/components/switch/index.mjs",
       "require": "./dist/cjs/components/switch/index.cjs"
     },
+    "./tabs": {
+      "types": "./dist/types/components/tabs/index.d.ts",
+      "import": "./dist/es/components/tabs/index.mjs",
+      "require": "./dist/cjs/components/tabs/index.cjs"
+    },
+    "./components/tabs": {
+      "types": "./dist/types/components/tabs/index.d.ts",
+      "import": "./dist/es/components/tabs/index.mjs",
+      "require": "./dist/cjs/components/tabs/index.cjs"
+    },
     "./tag": {
       "types": "./dist/types/components/tag/index.d.ts",
       "import": "./dist/es/components/tag/index.mjs",

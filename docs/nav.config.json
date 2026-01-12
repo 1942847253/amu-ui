@@ -26,7 +26,8 @@
     "input-number": "数字输入框",
     "tree": "树形控件",
     "menu": "导航菜单",
-    "dropdown": "下拉菜单"
+    "dropdown": "下拉菜单",
+    "tabs": "标签页"
   },
   "groups": [
     {
@@ -51,7 +52,7 @@
     },
     {
       "key": "navigation",
-      "items": ["menu", "dropdown"]
+      "items": ["menu", "dropdown", "tabs"]
     },
     {
       "key": "other",

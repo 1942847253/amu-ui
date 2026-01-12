@@ -1,0 +1,362 @@
+/* d:\workspace\amu-ui-new\packages\components\tabs\src\style.css */
+
+.amu-tabs {
+  display: flex;
+  flex-direction: column;
+  color: var(--amu-color-text);
+}
+
+/* Position: Top (default) */
+.amu-tabs--top {
+  flex-direction: column;
+}
+.amu-tabs--bottom {
+  flex-direction: column-reverse;
+}
+.amu-tabs--left {
+  flex-direction: row;
+}
+.amu-tabs--right {
+  flex-direction: row-reverse;
+}
+
+/* Header */
+.amu-tabs__header {
+  display: flex;
+  position: relative;
+  border-bottom: 1px solid var(--amu-color-border);
+  flex-shrink: 0;
+  margin-bottom: 15px; /* Add some spacing between header and content */
+}
+
+.amu-tabs--left .amu-tabs__header {
+    border-bottom: none;
+    border-right: 1px solid var(--amu-color-border);
+    flex-direction: column;
+    height: 100%;
+    margin-bottom: 0;
+    margin-right: 15px;
+}
+.amu-tabs--right .amu-tabs__header {
+    border-bottom: none;
+    border-left: 1px solid var(--amu-color-border);
+    flex-direction: column;
+    height: 100%;
+    margin-bottom: 0;
+    margin-left: 15px;
+}
+
+.amu-tabs--bottom .amu-tabs__header {
+    border-bottom: none;
+    border-top: 1px solid var(--amu-color-border);
+    margin-bottom: 0;
+    margin-top: 15px;
+}
+
+
+/* Nav Wrap */
+.amu-tabs__nav-wrap {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.amu-tabs__nav-wrap.is-scrollable {
+    padding: 0 20px;
+}
+
+.amu-tabs--left .amu-tabs__nav-wrap,
+.amu-tabs--right .amu-tabs__nav-wrap {
+    flex-direction: column;
+}
+
+.amu-tabs--left .amu-tabs__nav-wrap.is-scrollable,
+.amu-tabs--right .amu-tabs__nav-wrap.is-scrollable {
+    padding: 20px 0;
+}
+
+
+/* Nav Scroll */
+.amu-tabs__nav-scroll {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.amu-tabs--left .amu-tabs__nav-scroll,
+.amu-tabs--right .amu-tabs__nav-scroll {
+    height: 100%;
+    width: auto;
+}
+
+/* Nav Prev/Next Buttons */
+.amu-tabs__nav-prev,
+.amu-tabs__nav-next {
+    position: absolute;
+    cursor: pointer;
+    line-height: 40px;
+    font-size: 16px;
+    color: var(--amu-color-text-default);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    background-color: var(--amu-color-bg); /* Use bg color to overlay tabs */
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    width: 20px; /* Fixed width */
+    height: 100%; /* Full height of header */
+}
+
+.amu-tabs__nav-prev {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.amu-tabs__nav-next {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.amu-tabs--left .amu-tabs__nav-prev,
+.amu-tabs--right .amu-tabs__nav-prev {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) rotate(90deg); /* Rotate for vertical */
+}
+
+.amu-tabs--left .amu-tabs__nav-next,
+.amu-tabs--right .amu-tabs__nav-next {
+    top: auto;
+    bottom: 0;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) rotate(90deg);
+}
+
+
+/* Nav */
+.amu-tabs__nav {
+  display: inline-flex;
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.amu-tabs--left .amu-tabs__nav,
+.amu-tabs--right .amu-tabs__nav {
+    flex-direction: column;
+}
+
+/* Items */
+.amu-tabs__item {
+  padding: 0 8px;
+  height: 40px;
+  box-sizing: border-box;
+  line-height: 40px;
+  display: inline-block;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--amu-color-text);
+  position: relative;
+  flex-shrink: 0; 
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.amu-tabs__item:focus {
+    outline: none;
+}
+
+/* Sizes */
+.amu-tabs--lg .amu-tabs__item {
+    padding: 0 20px;
+    height: 48px;
+    line-height: 48px;
+    font-size: 16px;
+}
+
+.amu-tabs--sm .amu-tabs__item {
+    padding: 0 12px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 12px;
+}
+
+.amu-tabs__item .amu-tabs__icon {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+.amu-tabs__item .amu-tabs__label {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+/* Override button styles inside tabs to inherit properly */
+.amu-tabs__item .amu-button {
+    color: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    height: auto;
+    border: none;
+    background: transparent;
+}
+.amu-tabs__item .amu-button:hover,
+.amu-tabs__item .amu-button:focus,
+.amu-tabs__item .amu-button:active {
+    color: inherit;
+    background: transparent;
+}
+
+.amu-tabs__item:hover {
+    color: var(--amu-color-primary-hover);
+}
+
+.amu-tabs__item.is-active {
+    color: var(--amu-color-primary);
+    font-weight: 500;
+}
+
+.amu-tabs__item.is-disabled {
+    color: var(--amu-color-text-disabled);
+    cursor: not-allowed;
+}
+
+/* Active Bar */
+.amu-tabs__active-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background-color: var(--amu-color-primary);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  z-index: 1;
+}
+
+.amu-tabs--left .amu-tabs__active-bar {
+    right: 0;
+    left: auto;
+    top: 0;
+    bottom: auto;
+    width: 2px;
+    height: auto; 
+}
+.amu-tabs--right .amu-tabs__active-bar {
+    left: 0;
+    right: auto;
+    top: 0;
+    bottom: auto;
+    width: 2px;
+    height: auto;
+}
+.amu-tabs--top .amu-tabs__active-bar {
+    bottom: 0;
+}
+.amu-tabs--bottom .amu-tabs__active-bar {
+    top: 0;
+}
+.amu-tabs--top .amu-tabs__active-bar, .amu-tabs--bottom .amu-tabs__active-bar {
+    height: 2px;
+    width: auto;
+}
+
+
+/* Type: Card */
+.amu-tabs--card > .amu-tabs__header {
+    border-bottom: 1px solid var(--amu-color-border);
+}
+
+.amu-tabs--card .amu-tabs__item {
+    padding: 0 16px;
+    border: 1px solid var(--amu-color-border);
+    border-bottom: none;
+    background-color: var(--amu-color-bg-fill);
+    color: var(--amu-color-text-default);
+    margin-right: -1px;
+    margin-bottom: -1px;
+    border-radius: 0;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.amu-tabs--card .amu-tabs__item:first-child {
+    border-left: 1px solid var(--amu-color-border);
+}
+
+.amu-tabs--card .amu-tabs__item.is-active {
+    background-color: var(--amu-color-bg);
+    border-bottom-color: var(--amu-color-bg);
+    color: var(--amu-color-primary);
+}
+
+.amu-tabs--card .amu-tabs__item:hover:not(.is-active):not(.is-disabled) {
+    color: var(--amu-color-text);
+    background-color: var(--amu-color-border);
+}
+
+/* Type: Editable Card */
+.amu-tabs--editable-card > .amu-tabs__header {
+    border-bottom: 1px solid var(--amu-color-border);
+    background-color: transparent;
+    padding: 0;
+}
+
+.amu-tabs--editable-card .amu-tabs__item {
+    padding: 0 16px;
+    border: 1px solid var(--amu-color-border);
+    border-bottom: none;
+    background-color: var(--amu-color-bg-fill);
+    color: var(--amu-color-text-default);
+    margin-right: -1px;
+    margin-bottom: -1px;
+    border-radius: 0;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.amu-tabs--editable-card .amu-tabs__item.amu-tabs__new-tab {
+    padding: 0 14px;
+}
+
+.amu-tabs--editable-card .amu-tabs__item:first-child {
+    border-left: 1px solid var(--amu-color-border);
+}
+
+.amu-tabs--editable-card .amu-tabs__item.is-active {
+    background-color: var(--amu-color-bg);
+    border-bottom-color: var(--amu-color-bg);
+    color: var(--amu-color-primary);
+}
+
+.amu-tabs--editable-card .amu-tabs__item:hover:not(.is-active):not(.is-disabled) {
+    color: var(--amu-color-text);
+    background-color: var(--amu-color-border);
+}
+
+/* Close Icon */
+.amu-tabs__close-icon {
+    margin-left: 8px;
+    font-size: 12px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.amu-tabs__close-icon:hover {
+    background: rgba(0,0,0,0.1);
+    color: var(--amu-color-text);
+}
+
+/* Content */
+.amu-tabs__content {
+  padding: 16px 0;
+  flex: 1;
+}
