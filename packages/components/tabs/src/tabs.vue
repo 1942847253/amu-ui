@@ -12,7 +12,14 @@
          <!-- Left Extra Content Reservation (if needed in future) -->
       </div>
       
-      <div class="amu-tabs__nav-wrap" ref="navWrapRef" :class="{ 'is-scrollable': isScrollable }">
+      <div 
+        class="amu-tabs__nav-wrap" 
+        ref="navWrapRef" 
+        :class="{ 
+          'is-scrollable': isScrollable,
+          'is-dragging': isDragging
+        }"
+      >
          <span class="amu-tabs__nav-prev" v-if="isScrollable" @click="scrollPrev">
            <AmuIcon><IconChevronLeft /></AmuIcon>
          </span>
@@ -20,7 +27,7 @@
            <AmuIcon><IconChevronRight /></AmuIcon>
          </span>
 
-         <div class="amu-tabs__nav-scroll" ref="navScrollRef">
+         <div class="amu-tabs__nav-scroll" ref="navScrollRef" @mousedown="handleMouseDown">
             <div class="amu-tabs__nav" ref="navRef" role="tablist">
               <!-- Active Bar (Only for line type) -->
               <div 
@@ -99,21 +106,20 @@
                     <AmuIcon><IconX /></AmuIcon>
                  </span>
               </div>
-              
-              <!-- Add Button for editable-card -->
-              <div 
-                v-if="addable || editable"
-                class="amu-tabs__item amu-tabs__new-tab"
-                @click="handleAdd"
-                tabindex="0"
-                @keydown.enter="handleAdd"
-              >
-                  <slot name="addIcon">
-                    <AmuIcon><IconPlus /></AmuIcon>
-                  </slot>
-              </div>
             </div>
          </div>
+      </div>
+
+      <div 
+        v-if="addable || editable"
+        class="amu-tabs__item amu-tabs__new-tab"
+        @click="handleAdd"
+        tabindex="0"
+        @keydown.enter="handleAdd"
+      >
+          <slot name="addIcon">
+            <AmuIcon><IconPlus /></AmuIcon>
+          </slot>
       </div>
 
       <div v-if="$slots.extra || tabBarExtraContent" class="amu-tabs__extra">
@@ -148,6 +154,63 @@ const navRef = ref<HTMLElement>()
 const currentActiveKey = ref<string | number>(props.modelValue ?? props.defaultActiveKey ?? '')
 const isScrollable = ref(false)
 const tabRefs = ref<Map<string | number, HTMLElement>>(new Map())
+const isDragging = ref(false)
+let startX = 0
+let startScrollLeft = 0
+let isDragEvent = false
+
+const handleMouseDown = (e: MouseEvent) => {
+  if (props.position === 'left' || props.position === 'right') return
+  if (!isScrollable.value) return
+
+  isDragging.value = true
+  isDragEvent = false
+  startX = e.pageX
+  startScrollLeft = navScrollRef.value?.scrollLeft || 0
+
+  document.addEventListener('mousemove', handleMouseMove)
+  document.addEventListener('mouseup', handleMouseUp)
+}
+
+const handleMouseMove = (e: MouseEvent) => {
+  if (!isDragging.value) return
+  
+  const currentX = e.pageX
+  const distance = currentX - startX
+  
+  // Threshold to consider it as a drag
+  if (Math.abs(distance) > 5) {
+    isDragEvent = true
+    if (navScrollRef.value) {
+      navScrollRef.value.scrollLeft = startScrollLeft - distance
+    }
+  }
+}
+
+const handleMouseUp = () => {
+  isDragging.value = false
+  document.removeEventListener('mousemove', handleMouseMove)
+  document.removeEventListener('mouseup', handleMouseUp)
+  
+  // Use a timeout to reset drag status to ensure click event handler can read it
+  setTimeout(() => {
+    isDragEvent = false
+  }, 0)
+}
+
+const handleTabClick = (pane: TabPaneContext, ev: Event) => {
+  if (isDragEvent) {
+    ev.stopPropagation()
+    return
+  }
+  if (pane.props.disabled) return
+  
+  emit('tabClick', pane.name, ev)
+
+  if (currentActiveKey.value !== pane.name) {
+    changeTab(pane.name)
+  }
+}
 
 // Register/Unregister Tabs
 const registerTab = (pane: TabPaneContext) => {
@@ -202,16 +265,6 @@ watch(() => [props.position, props.type, props.size], () => {
 })
 
 // Handlers
-function handleTabClick(pane: TabPaneContext, e: Event) {
-   if (pane.props.disabled) return
-   
-   emit('tabClick', pane.name, e)
-   
-   if (currentActiveKey.value !== pane.name) {
-     changeTab(pane.name)
-   }
-}
-
 async function changeTab(key: string | number) {
   const shouldLeave = props.beforeLeave ? await props.beforeLeave(key, currentActiveKey.value!) : true
   if (shouldLeave) {
@@ -238,8 +291,8 @@ function handleAdd() {
 
 // Helpers
 const isClosable = (pane: TabPaneContext) => {
-  if (props.type === 'editable-card') return true
   if (pane.props.closable !== undefined) return pane.props.closable
+  if (props.type === 'editable-card' || props.editable) return true
   return props.closable
 }
 

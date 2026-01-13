@@ -67,6 +67,16 @@
     padding: 0 20px;
 }
 
+.amu-tabs__nav-wrap.is-scrollable .amu-tabs__nav-scroll {
+    cursor: grab;
+    user-select: none; /* Prevent text selection while dragging */
+}
+
+.amu-tabs__nav-wrap.is-dragging .amu-tabs__nav-scroll {
+    cursor: grabbing;
+}
+
+
 .amu-tabs--left .amu-tabs__nav-wrap,
 .amu-tabs--right .amu-tabs__nav-wrap {
     flex-direction: column;
@@ -154,8 +164,9 @@
   padding: 0 8px;
   height: 40px;
   box-sizing: border-box;
-  line-height: 40px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   list-style: none;
   font-size: 14px;
   font-weight: 500;
@@ -203,7 +214,6 @@
     font-weight: inherit;
     font-size: inherit;
     line-height: inherit;
-    height: auto;
     border: none;
     background: transparent;
 }
@@ -270,6 +280,8 @@
 /* Type: Card */
 .amu-tabs--card > .amu-tabs__header {
     border-bottom: 1px solid var(--amu-color-border);
+    border-top: 1px solid var(--amu-color-border);
+    background-color: var(--amu-color-bg-fill);
 }
 
 .amu-tabs--card .amu-tabs__item {
@@ -280,6 +292,7 @@
     color: var(--amu-color-text-default);
     margin-right: -1px;
     margin-bottom: -1px;
+    margin-top: -1px;
     border-radius: 0;
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
@@ -302,7 +315,8 @@
 /* Type: Editable Card */
 .amu-tabs--editable-card > .amu-tabs__header {
     border-bottom: 1px solid var(--amu-color-border);
-    background-color: transparent;
+    border-top: 1px solid var(--amu-color-border);
+    background-color: var(--amu-color-bg-fill);
     padding: 0;
 }
 
@@ -314,6 +328,7 @@
     color: var(--amu-color-text-default);
     margin-right: -1px;
     margin-bottom: -1px;
+    margin-top: -1px;
     border-radius: 0;
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
