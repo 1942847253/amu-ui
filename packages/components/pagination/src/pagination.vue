@@ -110,7 +110,7 @@
           :size="selectSize" 
           placement="bottom"
           fit-input-width
-          @change="handlePageSizeChange"
+          @change="(val: any) => handlePageSizeChange(val as number)"
           :options="sizeOptionsFormatted"
        />
     </span>
@@ -178,7 +178,7 @@
             size="small" 
             placement="bottom"
             fit-input-width
-            @change="handlePageSizeChange"
+            @change="(val: any) => handlePageSizeChange(val as number)"
             :options="sizeOptionsFormatted"
          />
       </span>

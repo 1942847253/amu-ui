@@ -1,9 +1,9 @@
-import { computed, ref, watch, nextTick } from 'vue'
+import { computed, ref, watch, nextTick, type SetupContext } from 'vue'
 import type { PaginationProps, PaginationEmits } from './props'
 
 export const usePagination = (
   props: PaginationProps,
-  emit: PaginationEmits
+  emit: SetupContext<PaginationEmits>['emit']
 ) => {
   // --- Page Size ---
   const internalPageSize = ref(props.pageSize ?? props.defaultPageSize)
