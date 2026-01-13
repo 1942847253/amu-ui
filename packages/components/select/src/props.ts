@@ -53,7 +53,7 @@ export const selectProps = {
    */
   placement: {
     type: String as PropType<'bottom' | 'top' | 'bottom-start' | 'top-start' | 'bottom-end' | 'top-end'>,
-    default: 'bottom-start',
+    default: 'bottom',
   },
   /**
    * @description 选项数据，如果设置则不需要手动写 amu-option
@@ -63,6 +63,11 @@ export const selectProps = {
     type: Array as PropType<Array<{ label: string | number; value: SelectValue; disabled?: boolean }>>,
     default: () => [],
   },
+  /**
+   * @description 是否根据输入内容自适应宽度
+   * @en Whether to fit the width of the input content
+   */
+  fitInputWidth: Boolean,
 } as const
 
 export type SelectProps = ExtractPropTypes<typeof selectProps>

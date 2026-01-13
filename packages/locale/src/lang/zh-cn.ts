@@ -7,6 +7,12 @@ export default {
       confirm: '确定',
       clear: '清空',
     },
+    pagination: {
+      goto: '前往',
+      pagesize: '条/页',
+      total: '共 {total} 条',
+      pageClassifier: '页',
+    },
     datepicker: {
       now: '此刻',
       today: '今天',

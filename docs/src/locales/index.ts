@@ -74,6 +74,7 @@ export const messages = {
       'tree': 'Tree 树形控件',
       menu: 'Menu 导航菜单',
       dropdown: 'Dropdown 下拉菜单',
+      pagination: 'Pagination 分页',
     }
   },
   'en-US': {
@@ -151,6 +152,7 @@ export const messages = {
       tree: 'Tree',
       menu: 'Menu',
       dropdown: 'Dropdown',
+      pagination: 'Pagination',
     }
   }
 } as const

@@ -8,6 +8,16 @@
   box-sizing: border-box;
 }
 
+.amu-select.is-auto-width {
+  min-width: unset;
+  width: auto;
+  display: inline-flex;
+}
+
+.amu-select.is-auto-width .amu-select__wrapper {
+  width: auto;
+}
+
 .amu-select__wrapper {
   position: relative;
   display: flex;

@@ -1,0 +1,175 @@
+.amu-pagination {
+  display: flex;
+  align-items: center;
+  font-size: var(--amu-font-size);
+  color: var(--amu-color-text);
+  line-height: 1.5;
+}
+
+.amu-pagination--disabled {
+  cursor: not-allowed;
+}
+
+.amu-pagination--disabled .amu-pagination__item,
+.amu-pagination--disabled .amu-pagination__prev,
+.amu-pagination--disabled .amu-pagination__next,
+.amu-pagination--disabled .amu-pagination__sizes,
+.amu-pagination--disabled .amu-pagination__jump {
+  pointer-events: none;
+  color: var(--amu-color-text-disabled);
+}
+
+.amu-pagination__total {
+  margin-right: 16px;
+  color: var(--amu-color-text-default);
+}
+
+.amu-pagination__pager {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.amu-pagination__item,
+.amu-pagination__prev,
+.amu-pagination__next {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 4px;
+  margin-right: 8px;
+  box-sizing: border-box;
+  color: var(--amu-color-text);
+  background-color: transparent;
+  border-radius: var(--amu-radius);
+  cursor: pointer;
+  user-select: none;
+  font-family: inherit;
+  transition: all 0.2s;
+  border: 0;
+  outline: none;
+}
+
+.amu-pagination__item:hover,
+.amu-pagination__prev:hover:not(:disabled),
+.amu-pagination__next:hover:not(:disabled) {
+  color: var(--amu-color-primary);
+}
+
+.amu-pagination__item.is-active {
+  color: var(--amu-color-primary);
+  font-weight: 600;
+  cursor: default;
+}
+
+.amu-pagination__prev:disabled,
+.amu-pagination__next:disabled {
+  color: var(--amu-color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* More Icon */
+.amu-pagination__more {
+  line-height: 32px;
+}
+
+/* Background Mode */
+.amu-pagination--background .amu-pagination__item,
+.amu-pagination--background .amu-pagination__prev,
+.amu-pagination--background .amu-pagination__next {
+  background-color: var(--amu-color-bg);
+  border: 1px solid var(--amu-color-border);
+  color: var(--amu-color-text);
+}
+
+.amu-pagination--background .amu-pagination__item:hover:not(.is-disabled):not(.is-active),
+.amu-pagination--background .amu-pagination__prev:hover:not(:disabled),
+.amu-pagination--background .amu-pagination__next:hover:not(:disabled) {
+  color: var(--amu-color-primary);
+  border-color: var(--amu-color-primary);
+}
+
+.amu-pagination--background .amu-pagination__item.is-active {
+  background-color: var(--amu-color-primary);
+  color: var(--amu-color-on-primary);
+  border-color: var(--amu-color-primary);
+}
+
+.amu-pagination--background .amu-pagination__item.is-disabled,
+.amu-pagination--background .amu-pagination__prev:disabled,
+.amu-pagination--background .amu-pagination__next:disabled {
+  background-color: var(--amu-color-bg-fill);
+  border-color: var(--amu-color-border);
+  color: var(--amu-color-text-disabled);
+}
+
+/* Sizes */
+.amu-pagination--small .amu-pagination__item,
+.amu-pagination--small .amu-pagination__prev,
+.amu-pagination--small .amu-pagination__next {
+  min-width: 24px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 12px;
+}
+
+.amu-pagination--large .amu-pagination__item,
+.amu-pagination--large .amu-pagination__prev,
+.amu-pagination--large .amu-pagination__next {
+  min-width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 16px;
+}
+
+/* Size Changer */
+.amu-pagination__sizes {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.amu-pagination__sizes .amu-select {
+  min-width: 105px;
+}
+
+/* Jumper */
+.amu-pagination__jump {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+  color: var(--amu-color-text-default);
+}
+
+.amu-pagination__editor {
+  margin: 0 8px;
+  width: 50px;
+}
+.amu-pagination__editor .amu-input__inner {
+  text-align: center;
+}
+
+/* Simple Mode */
+.amu-pagination--simple .amu-pagination__simple-pager {
+  display: flex;
+  align-items: center;
+  margin: 0 8px;
+}
+
+.amu-pagination__simple-input {
+  width: 50px;
+  margin-right: 8px;
+}
+.amu-pagination__simple-input .amu-input__inner {
+  text-align: center;
+}
+
+.amu-pagination__simple-total {
+    margin-left: 8px;
+}
+
+.amu-pagination__slash {
+    margin: 0 4px;
+}

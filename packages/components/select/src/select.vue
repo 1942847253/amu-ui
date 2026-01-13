@@ -3,8 +3,9 @@
     ref="popupInstance"
     v-model="visible"
     trigger="manual"
-    placement="bottom-start"
+    :placement="placement"
     :offset="4"
+    :show-arrow="false"
     :match-width="true"
     transition="amu-zoom-in-top"
     class="amu-select__popper"
@@ -18,6 +19,7 @@
           'is-disabled': disabled,
           'is-clearable': clearable,
           'is-focused': visible,
+          'is-auto-width': fitInputWidth,
           [`amu-select--${size}`]: size,
         }"
         @click.stop="toggleMenu"
@@ -48,6 +50,7 @@
               :placeholder="showPlaceholder ? currentPlaceholder : ''"
               :model-value="displayValue"
               :borderless="true"
+              :auto-width="fitInputWidth"
               @input="handleInput"
               @focus="handleFocus"
               @blur="handleBlur"
@@ -227,15 +230,32 @@ const handleClear = () => {
 
 // 监听 modelValue 以在外部清除或更改时更新 selectedLabel
 watch(() => props.modelValue, (val) => {
-  if (!props.multiple) {
-    if (val === undefined || val === null || val === '') {
-      selectedLabel.value = ''
-    } else {
-      const label = getOptionLabel(val as SelectValue)
-      selectedLabel.value = (label ?? val) as string | number
-    }
+  if (props.multiple) return
+  if (val === undefined || val === null || val === '') {
+    selectedLabel.value = ''
+  } else {
+    // 优先从 prop.options 中查找，防止 AmuOption 尚未更新时 Map 中存的是旧值
+    // 但 getOptionLabel 优先查 Map，所以在 options 变化场景下（i18n），
+    // 如果 Map 中的数据还没更新（prop 更新早于子组件 patch），会导致旧值。
+    // 因此我们需要单独的邏輯或 nextTick，这里使用 nextTick 确保子组件更新
+    nextTick(() => {
+       const label = getOptionLabel(val as SelectValue)
+       selectedLabel.value = (label ?? val) as string | number
+    })
   }
 }, { immediate: true })
+
+// 监听 options 变化（例如国际化导致 label 变更）
+watch(() => props.options, () => {
+  if (props.multiple) return
+  const val = props.modelValue
+  if (val === undefined || val === null || val === '') return
+
+  nextTick(() => {
+     const label = getOptionLabel(val as SelectValue)
+     selectedLabel.value = (label ?? val) as string | number
+  })
+}, { deep: true })
 
 const removeTag = (val: SelectValue) => {
   if (props.disabled) return

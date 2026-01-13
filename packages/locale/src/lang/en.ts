@@ -7,6 +7,12 @@ export default {
       confirm: 'OK',
       clear: 'Clear',
     },
+    pagination: {
+      goto: 'Go to',
+      pagesize: '/page',
+      total: 'Total {total}',
+      pageClassifier: '',
+    },
     datepicker: {
       now: 'Now',
       today: 'Today',

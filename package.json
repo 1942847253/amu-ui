@@ -154,6 +154,16 @@
       "import": "./dist/es/components/message/index.mjs",
       "require": "./dist/cjs/components/message/index.cjs"
     },
+    "./pagination": {
+      "types": "./dist/types/components/pagination/index.d.ts",
+      "import": "./dist/es/components/pagination/index.mjs",
+      "require": "./dist/cjs/components/pagination/index.cjs"
+    },
+    "./components/pagination": {
+      "types": "./dist/types/components/pagination/index.d.ts",
+      "import": "./dist/es/components/pagination/index.mjs",
+      "require": "./dist/cjs/components/pagination/index.cjs"
+    },
     "./popconfirm": {
       "types": "./dist/types/components/popconfirm/index.d.ts",
       "import": "./dist/es/components/popconfirm/index.mjs",
