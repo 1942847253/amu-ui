@@ -1,11 +1,17 @@
 <template>
-  <amu-form ref="formRef" :model="form" :rules="rules" :label-width="120" style="width: 500px">
-    <amu-form-item label="Password" prop="pass">
-      <amu-input v-model="form.pass" type="password" show-password autocomplete="off" />
-    </amu-form-item>
-    <amu-form-item label="Confirm" prop="checkPass">
-      <amu-input v-model="form.checkPass" type="password" show-password autocomplete="off" />
-    </amu-form-item>
+  <amu-form ref="formRef" :model="form" :rules="rules" :label-width="120" style="width: 600px">
+    <amu-row :gutter="20">
+      <amu-col :span="12">
+        <amu-form-item label="Password" prop="pass">
+          <amu-input v-model="form.pass" type="password" show-password autocomplete="off" />
+        </amu-form-item>
+      </amu-col>
+      <amu-col :span="12">
+        <amu-form-item label="Confirm" prop="checkPass">
+          <amu-input v-model="form.checkPass" type="password" show-password autocomplete="off" />
+        </amu-form-item>
+      </amu-col>
+    </amu-row>
     <amu-form-item label="Age" prop="age">
       <amu-input-number v-model="form.age" />
     </amu-form-item>
@@ -18,7 +24,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { AmuForm, AmuFormItem, AmuInput, AmuInputNumber, AmuButton, AmuMessage } from 'amu-ui'
+import { AmuForm, AmuFormItem, AmuInput, AmuInputNumber, AmuButton, AmuMessage, AmuRow, AmuCol } from 'amu-ui'
 import type { FormInstance, FormRules } from 'amu-ui'
 
 const formRef = ref<FormInstance>()

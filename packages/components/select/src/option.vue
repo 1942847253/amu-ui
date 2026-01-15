@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onBeforeUnmount } from 'vue'
+import { computed, inject, onBeforeUnmount, watch } from 'vue'
 import { optionProps, selectContextKey } from './props'
 
 defineOptions({
@@ -25,6 +25,13 @@ defineOptions({
 const props = defineProps(optionProps)
 
 const select = inject(selectContextKey)
+
+// Generate a plain object representing the current state
+const optionState = computed(() => ({
+  value: props.value,
+  label: props.label,
+  disabled: props.disabled
+}))
 
 const currentLabel = computed(() => {
   return props.label ?? (props.value as string | number)
@@ -60,13 +67,20 @@ const isLimitReached = computed(() => {
 
 const selectOption = () => {
   if (props.disabled || isLimitReached.value) return
-  select?.onOptionSelect(props)
+  select?.onOptionSelect(optionState.value)
 }
 
-// Register option
-select?.registerOption(props)
+// Watch option state changes to sync with parent map
+watch(optionState, (newVal, oldVal) => {
+  // If value changed, remove old entry from map
+  if (oldVal && newVal.value !== oldVal.value) {
+    select?.onOptionDestroy(oldVal.value)
+  }
+  // Register/Update new entry
+  select?.registerOption(newVal)
+}, { immediate: true, deep: true })
 
-// Notify parent when destroyed (optional, for cleanup if needed)
+// Notify parent when destroyed
 onBeforeUnmount(() => {
   select?.onOptionDestroy(props.value)
 })

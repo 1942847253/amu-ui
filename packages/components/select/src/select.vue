@@ -7,6 +7,7 @@
     :offset="4"
     :show-arrow="false"
     :match-width="true"
+    :force-render="true"
     transition="amu-zoom-in-top"
     class="amu-select__popper"
     @click.stop
@@ -103,7 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, provide, watch, reactive, useSlots, nextTick, inject } from 'vue'
+import { ref, computed, provide, watch, reactive, useSlots, nextTick, inject, shallowReactive } from 'vue'
 import { selectProps, selectEmits, selectContextKey, type SelectValue, type OptionProps, type SelectOptionProxy } from './props'
 import { AmuIcon } from 'amu-ui/icon'
 import { AmuTag } from 'amu-ui/tag'
@@ -141,7 +142,9 @@ const { hovered } = useHover(selectRef)
 const { t } = useLocale()
 
 // 存储选项信息
-const optionsMap = reactive(new Map<SelectValue, SelectOptionProxy>())
+const optionsMap = shallowReactive(new Map<SelectValue, SelectOptionProxy>())
+// 缓存已见过的选项 label，用于回显（当 Option 组件被销毁时，例如下拉菜单关闭）
+const cachedOptionsMap = new Map<SelectValue, string | number>()
 
 const toggleMenu = () => {
   if (selectDisabled.value) return
@@ -184,11 +187,17 @@ watch(visible, async (val) => {
 })
 
 // 选择逻辑
-const selectedLabel = ref<string | number>('')
+const selectedLabel = ref<string | number>(props.modelValue as string | number ?? '')
 
 function getOptionLabel(value: SelectValue) {
   const fromMap = optionsMap.get(value)
   if (fromMap?.label !== undefined) return fromMap.label
+  
+  // 尝试从缓存获取
+  if (cachedOptionsMap.has(value)) {
+    return cachedOptionsMap.get(value)
+  }
+
   const fromProp = (props.options || []).find((opt) => opt.value === value)
   return fromProp?.label
 }
@@ -244,16 +253,18 @@ watch(() => props.modelValue, (val) => {
   if (val === undefined || val === null || val === '') {
     selectedLabel.value = ''
   } else {
-    // 优先从 prop.options 中查找，防止 AmuOption 尚未更新时 Map 中存的是旧值
-    // 但 getOptionLabel 优先查 Map，所以在 options 变化场景下（i18n），
-    // 如果 Map 中的数据还没更新（prop 更新早于子组件 patch），会导致旧值。
-    // 因此我们需要单独的邏輯或 nextTick，这里使用 nextTick 确保子组件更新
+    // 默认先显示 value，防止旧 label 残留
+    selectedLabel.value = val as string | number
+
+    // 尝试查找对应的 label
     nextTick(() => {
        const label = getOptionLabel(val as SelectValue)
-       selectedLabel.value = (label ?? val) as string | number
+       if (label !== undefined) {
+         selectedLabel.value = label
+       }
     })
   }
-}, { immediate: true })
+})
 
 // 监听 options 变化（例如国际化导致 label 变更）
 watch(() => props.options, () => {
@@ -328,9 +339,17 @@ const onOptionDestroy = (val: SelectValue) => {
 // 我们来把“注册”这件事加到上下文（context）里
 const registerOption = (opt: SelectOptionProxy) => {
   optionsMap.set(opt.value, opt)
+  // 更新缓存
+  if (opt.label) {
+    cachedOptionsMap.set(opt.value, opt.label)
+  } else {
+    cachedOptionsMap.set(opt.value, opt.value as string | number)
+  }
+
   // 如果是单选模式，且当前值等于该选项的值，则更新 selectedLabel
-  if (!props.multiple && props.modelValue === opt.value) {
-    selectedLabel.value = opt.label ?? (opt.value as string | number)
+  // 使用宽松相等以兼容 number/string 差异
+  if (!props.multiple && (props.modelValue === opt.value || props.modelValue == opt.value)) {
+     selectedLabel.value = opt.label ?? (opt.value as string | number)
   }
 }
 

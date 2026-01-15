@@ -44,6 +44,16 @@
       "import": "./dist/es/components/checkbox/index.mjs",
       "require": "./dist/cjs/components/checkbox/index.cjs"
     },
+    "./col": {
+      "types": "./dist/types/components/col/index.d.ts",
+      "import": "./dist/es/components/col/index.mjs",
+      "require": "./dist/cjs/components/col/index.cjs"
+    },
+    "./components/col": {
+      "types": "./dist/types/components/col/index.d.ts",
+      "import": "./dist/es/components/col/index.mjs",
+      "require": "./dist/cjs/components/col/index.cjs"
+    },
     "./config-provider": {
       "types": "./dist/types/components/config-provider/index.d.ts",
       "import": "./dist/es/components/config-provider/index.mjs",
@@ -213,6 +223,16 @@
       "types": "./dist/types/components/rate/index.d.ts",
       "import": "./dist/es/components/rate/index.mjs",
       "require": "./dist/cjs/components/rate/index.cjs"
+    },
+    "./row": {
+      "types": "./dist/types/components/row/index.d.ts",
+      "import": "./dist/es/components/row/index.mjs",
+      "require": "./dist/cjs/components/row/index.cjs"
+    },
+    "./components/row": {
+      "types": "./dist/types/components/row/index.d.ts",
+      "import": "./dist/es/components/row/index.mjs",
+      "require": "./dist/cjs/components/row/index.cjs"
     },
     "./scrollbar": {
       "types": "./dist/types/components/scrollbar/index.d.ts",

@@ -76,6 +76,7 @@ export const messages = {
       dropdown: 'Dropdown 下拉菜单',
       pagination: 'Pagination 分页',
       form: 'Form 表单',
+      row: 'Grid 栅格',
     }
   },
   'en-US': {
@@ -155,6 +156,7 @@ export const messages = {
       dropdown: 'Dropdown',
       pagination: 'Pagination',
       form: 'Form',
+      row: 'Grid',
     }
   }
 } as const

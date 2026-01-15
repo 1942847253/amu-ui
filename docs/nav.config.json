@@ -1,9 +1,14 @@
 {
   "hiddenComponents": [
     "config-provider",
-    "spinner"
+    "spinner",
+    "col"
   ],
+  "titles": {
+    "row": "Grid"
+  },
   "labels": {
+    "row": "栅格",
     "button": "按钮",
     "icon": "图标",
     "date-picker": "日期选择器",
@@ -38,7 +43,7 @@
     },
     {
       "key": "layout",
-      "items": ["layout", "space", "scrollbar"]
+      "items": ["row", "layout", "space", "scrollbar"]
     },
     {
       "key": "dataDisplay",

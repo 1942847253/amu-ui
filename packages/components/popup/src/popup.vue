@@ -12,7 +12,8 @@
   <Teleport :to="teleportTo || 'body'" :disabled="!teleportTo">
     <Transition :name="transition" @after-leave="onAfterLeave">
       <div
-        v-if="visible"
+        v-if="forceRender || visible"
+        v-show="visible"
         ref="popupRef"
         class="amu-popup"
         v-bind="$attrs"

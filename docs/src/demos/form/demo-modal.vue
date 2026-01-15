@@ -1,14 +1,20 @@
 <template>
   <amu-button type="primary" @click="visible = true">Open Form Dialog</amu-button>
 
-  <amu-dialog v-model="visible" title="Edit User" width="500px">
+  <amu-dialog v-model="visible" title="Edit User" width="600px">
     <amu-form ref="formRef" :model="form" :rules="rules" :label-width="80">
-      <amu-form-item label="Name" prop="name">
-        <amu-input v-model="form.name" />
-      </amu-form-item>
-      <amu-form-item label="Email" prop="email">
-        <amu-input v-model="form.email" />
-      </amu-form-item>
+      <amu-row :gutter="20">
+        <amu-col :span="12">
+          <amu-form-item label="Name" prop="name">
+            <amu-input v-model="form.name" />
+          </amu-form-item>
+        </amu-col>
+        <amu-col :span="12">
+          <amu-form-item label="Email" prop="email">
+            <amu-input v-model="form.email" />
+          </amu-form-item>
+        </amu-col>
+      </amu-row>
       <amu-form-item label="Role" prop="role">
         <amu-select v-model="form.role">
           <amu-option value="admin" label="Admin" />
@@ -26,7 +32,7 @@
 
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue'
-import { AmuForm, AmuFormItem, AmuInput, AmuButton, AmuDialog, AmuSelect, AmuOption, AmuMessage } from 'amu-ui'
+import { AmuForm, AmuFormItem, AmuInput, AmuButton, AmuDialog, AmuSelect, AmuOption, AmuMessage, AmuRow, AmuCol } from 'amu-ui'
 import type { FormInstance, FormRules } from 'amu-ui'
 
 const visible = ref(false)

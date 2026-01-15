@@ -141,6 +141,14 @@ export const popupProps = {
     type: Number,
     default: 200,
   },
+  /**
+   * 是否强制渲染内容（不使用 v-if 而是 v-show）。
+   * @en Whether to force render the content (use v-show instead of v-if).
+   */
+  forceRender: {
+    type: Boolean,
+    default: false,
+  },
 } as const
 
 export const popupEmits = {

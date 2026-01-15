@@ -1,0 +1,62 @@
+.amu-row {
+  display: flex;
+  flex-flow: row wrap;
+  box-sizing: border-box;
+}
+
+.amu-row::before,
+.amu-row::after {
+  display: flex;
+}
+
+.amu-row--no-wrap {
+  flex-wrap: nowrap;
+}
+
+/* Justify */
+.amu-row.is-justify-start {
+  justify-content: flex-start;
+}
+.amu-row.is-justify-end {
+  justify-content: flex-end;
+}
+.amu-row.is-justify-center {
+  justify-content: center;
+}
+.amu-row.is-justify-space-around {
+  justify-content: space-around;
+}
+.amu-row.is-justify-space-between {
+  justify-content: space-between;
+}
+.amu-row.is-justify-space-evenly {
+  justify-content: space-evenly;
+}
+
+/* Align */
+.amu-row.is-align-top {
+  align-items: flex-start;
+}
+.amu-row.is-align-middle {
+  align-items: center;
+}
+.amu-row.is-align-bottom {
+  align-items: flex-end;
+}
+.amu-row.is-align-stretch {
+  align-items: stretch;
+}
+
+/* Debug */
+.amu-row--debug {
+  outline: 1px dashed rgba(255, 0, 0, 0.5);
+}
+.amu-row--debug > * {
+  outline: 1px dashed rgba(0, 0, 255, 0.5);
+  background: rgba(0, 0, 255, 0.1);
+}
+
+/* Dense */
+.amu-row--dense > * {
+  /* Dense logic if needed */
+}

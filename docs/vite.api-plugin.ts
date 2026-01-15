@@ -56,6 +56,7 @@ const SEARCH_INDEX_RESOLVED_ID = "\0" + SEARCH_INDEX_VIRTUAL_ID;
 type NavConfig = {
   hiddenComponents?: string[];
   labels?: Record<string, string>;
+  titles?: Record<string, string>;
   groups?: { key: string; items: string[] }[];
 };
 
@@ -387,6 +388,11 @@ function collectApiMeta(rootDir: string): ApiMeta {
     meta.components[compName] = subComponents;
   }
 
+  // Merge Col into Row (Grid)
+  if (meta.components["row"] && meta.components["col"]) {
+    Object.assign(meta.components["row"], meta.components["col"]);
+  }
+
   return meta;
 }
 
@@ -403,6 +409,7 @@ function collectNavMeta(rootDir: string): NavMeta {
   const navConfig = readNavConfig(rootDir);
   const hiddenComponents = new Set<string>(navConfig.hiddenComponents ?? []);
   const labels = navConfig.labels ?? {};
+  const titles = navConfig.titles ?? {};
   
   // Scan components
   const componentsRoot = path.resolve(rootDir, "packages/components");
@@ -419,9 +426,10 @@ function collectNavMeta(rootDir: string): NavMeta {
       if (!fs.existsSync(entry)) continue;
 
       const label = labels[ent.name];
+      const title = titles[ent.name] || pascalCase(ent.name);
       componentsMap.set(ent.name, {
         name: ent.name,
-        title: pascalCase(ent.name),
+        title,
         route: `/components/${ent.name}`,
         label,
       });

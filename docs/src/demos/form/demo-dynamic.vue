@@ -11,10 +11,14 @@
         trigger: 'blur',
       }"
     >
-        <div style="display: flex; gap: 10px; width: 100%">
-            <amu-input v-model="domain.value" />
-            <amu-button @click.prevent="removeDomain(domain)">Delete</amu-button>
-        </div>
+        <amu-row :gutter="10" style="width: 100%">
+            <amu-col :span="20">
+                <amu-input v-model="domain.value" />
+            </amu-col>
+            <amu-col :span="4">
+                <amu-button @click.prevent="removeDomain(domain)" style="width: 100%">Delete</amu-button>
+            </amu-col>
+        </amu-row>
     </amu-form-item>
     <amu-form-item>
       <amu-button type="primary" @click="submitForm">Submit</amu-button>
@@ -26,7 +30,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { AmuForm, AmuFormItem, AmuInput, AmuButton, AmuMessage } from 'amu-ui'
+import { AmuForm, AmuFormItem, AmuInput, AmuButton, AmuMessage, AmuRow, AmuCol } from 'amu-ui'
 import type { FormInstance } from 'amu-ui'
 
 interface DomainItem {
