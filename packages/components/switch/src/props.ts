@@ -41,7 +41,7 @@ export const switchProps = {
    */
   size: {
     type: String as PropType<SwitchSize>,
-    default: 'medium'
+    default: undefined
   },
   /**
    * 打开时的文案

@@ -20,6 +20,14 @@ export const radioProps = {
     default: '',
   },
   /**
+   * @description Radio 的 value (作为 label 的别名)
+   * @en Radio value (alias for label)
+   */
+  value: {
+    type: [String, Number, Boolean] as PropType<RadioValueType>,
+    default: undefined,
+  },
+  /**
    * @description 是否禁用
    * @en Whether to disable
    */
@@ -42,7 +50,7 @@ export const radioProps = {
    * @en Size of the Radio
    */
   size: {
-    type: String as PropType<'small' | 'large' | 'default'>,
+    type: String as PropType<'small' | 'large' | 'medium'>,
     default: undefined,
   },
 } as const
@@ -89,8 +97,8 @@ export const radioGroupProps = {
    * @en Size of the Radio
    */
   size: {
-    type: String as PropType<'small' | 'large' | 'default'>,
-    default: 'default',
+    type: String as PropType<'small' | 'large' | 'medium'>,
+    default: undefined,
   },
   /**
    * @description 按钮形式的 Radio 激活时的文本颜色
@@ -133,6 +141,14 @@ export const radioButtonProps = {
   label: {
     type: [String, Number, Boolean] as PropType<RadioValueType>,
     default: '',
+  },
+  /**
+   * @description Radio 的 value (作为 label 的别名)
+   * @en Radio value (alias for label)
+   */
+  value: {
+    type: [String, Number, Boolean] as PropType<RadioValueType>,
+    default: undefined,
   },
   /**
    * @description 是否禁用

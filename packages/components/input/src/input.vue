@@ -1,10 +1,10 @@
 <template>
     <div :class="[
         'amu-input-wrapper',
-        `amu-input--${size}`,
+        `amu-input--${inputSize}`,
         `amu-input--${variant}`,
         {
-            'amu-input--disabled': disabled,
+            'amu-input--disabled': inputDisabled,
             'amu-input--borderless': borderless,
             'amu-input--group': $slots.prepend || $slots.append,
             [`amu-input--status-${status}`]: status !== 'normal'
@@ -23,7 +23,7 @@
 
             <!-- 输入框元素 -->
             <input ref="inputRef" class="amu-input__inner" :type="inputType" :value="displayValue"
-                :placeholder="placeholder" :disabled="disabled" :readonly="readonly" :maxlength="nativeMaxlength"
+                :placeholder="placeholder" :disabled="inputDisabled" :readonly="readonly" :maxlength="nativeMaxlength"
                 :style="inputStyle" @input="handleInput" @focus="handleFocus" @blur="handleBlur" @change="handleChange"
                 @keydown.enter="handleEnter" />
 
@@ -63,10 +63,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick, onMounted } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, inject } from 'vue'
 import { IconEye, IconEyeOff, IconX } from '@amu-ui/icons'
 import { inputProps, inputEmits } from './props'
 import { AmuIcon } from 'amu-ui'
+import { formContextKey, formItemContextKey } from '../../form/src/constants'
 
 defineOptions({
     name: 'AmuInput'
@@ -74,6 +75,17 @@ defineOptions({
 
 const props = defineProps(inputProps)
 const emit = defineEmits(inputEmits)
+
+const formContext = inject(formContextKey, undefined)
+const formItemContext = inject(formItemContextKey, undefined)
+
+const inputSize = computed(() => {
+    return props.size || formContext?.props.size || 'medium'
+})
+
+const inputDisabled = computed(() => {
+    return props.disabled || formContext?.props.disabled || false
+})
 
 const inputRef = ref<HTMLInputElement>()
 const mirrorRef = ref<HTMLElement>()

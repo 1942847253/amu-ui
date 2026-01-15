@@ -4,7 +4,7 @@ export type ButtonType = 'primary' | 'default' | 'dashed' | 'outline' | 'text'
 
 export type ButtonShape = 'rect' | 'circle' | 'round'
 
-export type ButtonSize = 'mini' | 'small' | 'default' | 'large'
+export type ButtonSize = 'mini' | 'small' | 'medium' | 'large'
 
 export type ButtonStatus = 'warning' | 'danger' | 'success'
 
@@ -26,12 +26,12 @@ export const buttonProps = {
     default: 'default'
   },
   /**
-   * 按钮尺寸，对应 mini、small、default、large。
-   * @en Button size, corresponds to mini, small, default, large.
+   * 按钮尺寸，对应 mini、small、medium、large。
+   * @en Button size, corresponds to mini, small, medium, large.
    */
   size: {
     type: String as PropType<ButtonSize>,
-    default: 'default'
+    default: undefined
   },
   /**
    * 状态色，目前支持 warning、danger、success，与 type 叠加时优先级更高。

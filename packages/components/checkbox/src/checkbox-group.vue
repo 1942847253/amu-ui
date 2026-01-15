@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['amu-checkbox-group', `amu-checkbox-group--${size}`]"
+    :class="['amu-checkbox-group', `amu-checkbox-group--${groupSize}`]"
     role="group"
   >
     <!-- 使用 options 快速生成 -->
@@ -19,9 +19,10 @@
 </template>
 
 <script setup lang="ts">
-import { provide, computed, toRef } from 'vue'
+import { provide, computed, toRef, inject, reactive } from 'vue'
 import { checkboxGroupProps, checkboxGroupEmits, checkboxGroupKey } from './props'
 import type { CheckboxGroupContext } from './props'
+import { formContextKey } from '../../form/src/constants'
 import AmuCheckbox from './checkbox.vue'
 
 defineOptions({
@@ -30,6 +31,15 @@ defineOptions({
 
 const props = defineProps(checkboxGroupProps)
 const emit = defineEmits(checkboxGroupEmits)
+const formContext = inject(formContextKey, undefined)
+
+const groupSize = computed(() => {
+    return props.size || formContext?.props.size || 'medium'
+})
+
+const groupDisabled = computed(() => {
+    return props.disabled || formContext?.props.disabled || false
+})
 
 // 当前选中的值
 const currentValue = computed(() => props.modelValue || [])
@@ -74,34 +84,16 @@ const changeValue = (value: string | number, checked: boolean) => {
 }
 
 // 提供上下文给子 Checkbox
-const context: CheckboxGroupContext = {
-  modelValue: currentValue.value,
-  disabled: props.disabled,
-  size: props.size,
-  min: props.min,
-  max: props.max,
-  changeValue,
-}
-
-// 使用响应式的方式提供上下文
-provide(checkboxGroupKey, {
-  get modelValue() {
-    return currentValue.value
-  },
-  get disabled() {
-    return props.disabled
-  },
-  get size() {
-    return props.size
-  },
-  get min() {
-    return props.min
-  },
-  get max() {
-    return props.max
-  },
+const checkboxGroupContext = reactive({
+  modelValue: currentValue,
+  disabled: groupDisabled,
+  size: groupSize,
+  min: toRef(props, 'min'),
+  max: toRef(props, 'max'),
   changeValue,
 })
+
+provide(checkboxGroupKey, checkboxGroupContext as CheckboxGroupContext)
 
 // 暴露方法
 defineExpose({

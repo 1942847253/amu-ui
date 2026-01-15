@@ -478,7 +478,7 @@
   --amu-button-font-size: 12px;
 }
 
-.amu-button--size-default {
+.amu-button--size-medium {
   --amu-button-height: 32px;
   --amu-button-padding: 0 15px;
   --amu-button-font-size: 14px;

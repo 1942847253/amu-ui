@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, ref, shallowRef, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import DemoTabs from "../components/DemoTabs.vue";
@@ -76,7 +76,7 @@ const demoModules = import.meta.glob("../demos/*/index.ts");
 const route = useRoute();
 const name = computed(() => String(route.params.name || ""));
 
-const demos = ref<any[]>([]);
+const demos = shallowRef<any[]>([]);
 const description = ref<string | Record<string, string>>("");
 const loading = ref(false);
 

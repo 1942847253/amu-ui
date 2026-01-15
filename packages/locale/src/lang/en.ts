@@ -72,12 +72,6 @@ export default {
       noData: 'No data',
       placeholder: 'Select',
     },
-    pagination: {
-      goto: 'Go to',
-      pagesize: '/page',
-      total: 'Total {total}',
-      pageClassifier: '',
-    },
     messagebox: {
       title: 'Message',
       confirm: 'OK',

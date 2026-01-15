@@ -21,7 +21,7 @@ const gapSize = computed(() => {
     return `${size}px`
   }
   if (size === 'small') return '8px'
-  if (size === 'default') return '12px'
+  if (size === 'medium') return '12px'
   if (size === 'large') return '16px'
   return size
 })

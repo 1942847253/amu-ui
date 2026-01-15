@@ -3,7 +3,7 @@
     class="amu-button"
     :class="[
       `amu-button--${type}`,
-      `amu-button--size-${size}`,
+      `amu-button--size-${buttonSize}`,
       `amu-button--${shape}`,
       status ? `amu-button--status-${status}` : '',
       {
@@ -12,7 +12,7 @@
         'amu-button--fill': fill,
       },
     ]"
-    :disabled="disabled || loading"
+    :disabled="buttonDisabled || loading"
     :aria-busy="loading ? 'true' : undefined"
     :type="htmlType"
     @click="handleClick"
@@ -33,20 +33,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from "vue";
+import { ref, nextTick, inject, computed } from "vue";
 import { buttonProps } from "./props";
 import { AmuSpinner } from "amu-ui/spinner";
+import { formContextKey } from "../../form/src/constants";
 
 defineOptions({
   name: "AmuButton",
 });
 
 const props = defineProps(buttonProps);
+const formContext = inject(formContextKey, undefined);
+
+const buttonSize = computed(() => props.size || formContext?.props.size || 'medium');
+const buttonDisabled = computed(() => props.disabled || formContext?.props.disabled || false);
 
 const isWave = ref(false);
 
 const handleClick = () => {
-  if (props.disabled || props.loading || props.type === "text") return;
+  if (buttonDisabled.value || props.loading || props.type === "text") return;
 
   if (isWave.value) {
     isWave.value = false;

@@ -91,7 +91,7 @@ export const inputNumberProps = {
   size: {
     type: String,
     values: ['small', 'medium', 'large'],
-    default: 'medium',
+    default: undefined,
   },
   /**
    * @description 验证状态

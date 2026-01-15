@@ -1,0 +1,90 @@
+.amu-form-item {
+    display: flex;
+    margin-bottom: 24px; /* default margin */
+    align-items: flex-start; /* better for textarea */
+}
+
+.amu-form-item__label {
+    text-align: right;
+    vertical-align: middle;
+    float: left;
+    font-size: 14px;
+    color: var(--amu-color-text-default, #1d2129);
+    line-height: 32px; /* default size height */
+    padding: 0 12px 0 0;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.amu-form-item__content {
+    line-height: 32px;
+    position: relative;
+    font-size: 14px;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Required star */
+.amu-form-item--required > .amu-form-item__label::before {
+    content: '*';
+    color: var(--amu-color-danger, #f53f3f);
+    margin-right: 4px;
+}
+
+/* Error */
+.amu-form-item__error {
+    color: var(--amu-color-danger, #f53f3f);
+    font-size: 12px;
+    line-height: 1;
+    padding-top: 4px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+
+.amu-form-item--error .amu-input__inner,
+.amu-form-item--error .amu-textarea__inner,
+.amu-form-item--error .amu-select__trigger {
+    border-color: var(--amu-color-danger, #f53f3f) !important;
+}
+
+/* Inline */
+.amu-form--inline .amu-form-item {
+    display: inline-flex;
+    margin-right: 16px;
+    vertical-align: top;
+}
+
+/* Label Position */
+.amu-form--label-top .amu-form-item {
+    flex-direction: column;
+}
+
+.amu-form--label-top .amu-form-item__label {
+    text-align: left;
+    margin-bottom: 8px;
+    width: 100% !important;
+    padding: 0;
+    line-height: 1.5715;
+}
+
+.amu-form--label-left .amu-form-item__label {
+    text-align: left;
+}
+
+/* Validation Status Styles (Optional: could add success color etc) */
+.amu-form-item--success .amu-input__inner {
+    border-color: var(--amu-color-success, #00b42a);
+}
+
+/* Animation */
+.amu-zoom-in-top-enter-active,
+.amu-zoom-in-top-leave-active {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: center top;
+}
+.amu-zoom-in-top-enter-from,
+.amu-zoom-in-top-leave-to {
+  opacity: 0;
+  transform: scaleY(0);
+}

@@ -626,7 +626,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, reactive, ref, toRefs, useSlots, watch, type Slots } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, toRefs, useSlots, watch, type Slots, inject } from 'vue'
 import dayjs, { type Dayjs } from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import utc from 'dayjs/plugin/utc'
@@ -639,6 +639,7 @@ import { AmuInput } from '../../input'
 import { AmuPopup } from '../../popup'
 import { AmuSelect } from '../../select'
 import { IconCalendar, IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight, IconX } from '@amu-ui/icons'
+import { formContextKey } from '../../form/src/constants'
 
 dayjs.extend(customParseFormat)
 dayjs.extend(utc)
@@ -651,8 +652,12 @@ defineOptions({
 
 const props = defineProps(datePickerProps)
 const emit = defineEmits(datePickerEmits)
+const formContext = inject(formContextKey, undefined)
 
-const { clearable, disabled, readonly, size, status } = toRefs(props)
+const { clearable, readonly, status } = toRefs(props)
+const size = computed(() => props.size || formContext?.props.size || 'medium')
+const disabled = computed(() => props.disabled || formContext?.props.disabled || false)
+
 const { t } = useLocale()
 const componentSlots = useSlots() as Slots
 
@@ -777,7 +782,7 @@ const leftMonth = computed(() => leftViewMonth.value)
 const rightMonth = computed(() => rightViewMonth.value)
 
 // Header Selects
-const headerSelectSize = computed(() => size.value === 'small' ? 'small' : (size.value === 'large' ? 'large' : 'default'))
+const headerSelectSize = computed(() => size.value === 'small' ? 'small' : (size.value === 'large' ? 'large' : 'medium'))
 const monthOptions = computed(() => Array.from({ length: 12 }, (_, i) => ({ label: String(i + 1), value: i + 1 })))
 
 const leftYearOptions = computed(() => {

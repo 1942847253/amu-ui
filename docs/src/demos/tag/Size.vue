@@ -1,7 +1,7 @@
 <template>
   <div class="demo-tag">
     <amu-tag size="small">Small</amu-tag>
-    <amu-tag size="default">Default</amu-tag>
+    <amu-tag size="medium">Medium</amu-tag>
     <amu-tag size="large">Large</amu-tag>
   </div>
 </template>

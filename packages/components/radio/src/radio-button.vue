@@ -2,7 +2,7 @@
   <label
     class="amu-radio-button"
     :class="{
-      'is-active': modelValue === label,
+      'is-active': modelValue === actualValue,
       'is-disabled': isDisabled,
       [`amu-radio-button--${radioSize}`]: radioSize,
     }"
@@ -12,14 +12,14 @@
       v-model="modelValue"
       class="amu-radio-button__original"
       type="radio"
-      :value="label"
+      :value="actualValue"
       :name="name || groupName"
       :disabled="isDisabled"
       @change="handleChange"
     />
     <span
       class="amu-radio-button__inner"
-      :style="modelValue === label ? activeStyle : {}"
+      :style="modelValue === actualValue ? activeStyle : {}"
       @keydown.stop
     >
       <slot>
@@ -46,6 +46,11 @@ const radioGroup = inject(radioGroupKey, undefined)
 
 const isGroup = computed(() => !!radioGroup)
 
+const actualValue = computed(() => {
+  if (props.value !== undefined) return props.value
+  return props.label
+})
+
 const modelValue = computed<RadioValueType | undefined>({
   get() {
     return isGroup.value ? radioGroup!.props.modelValue : undefined
@@ -58,7 +63,7 @@ const modelValue = computed<RadioValueType | undefined>({
 })
 
 const radioSize = computed(() => {
-  return radioGroup?.props.size || 'default'
+  return radioGroup?.props.size || 'medium'
 })
 
 const isDisabled = computed(() => {

@@ -1,6 +1,6 @@
 import type { PropType } from 'vue'
 
-export type SpaceSize = 'small' | 'default' | 'large' | number | string
+export type SpaceSize = 'small' | 'medium' | 'large' | number | string
 
 export const spaceProps = {
   /**

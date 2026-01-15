@@ -44,8 +44,8 @@ export const selectProps = {
    * @en Size of Input
    */
   size: {
-    type: String as PropType<'small' | 'large' | 'default'>,
-    default: 'default',
+    type: String as PropType<'small' | 'large' | 'medium'>,
+    default: undefined,
   },
   /**
    * @description 弹窗位置

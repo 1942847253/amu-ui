@@ -28,7 +28,8 @@
     "menu": "导航菜单",
     "dropdown": "下拉菜单",
     "tabs": "标签页",
-    "pagination": "分页"
+    "pagination": "分页",
+    "form": "表单"
   },
   "groups": [
     {
@@ -45,7 +46,7 @@
     },
     {
       "key": "dataEntry",
-      "items": ["radio", "checkbox", "select", "input", "input-number", "switch", "date-picker", "slider", "rate"]
+      "items": ["form", "radio", "checkbox", "select", "input", "input-number", "switch", "date-picker", "slider", "rate"]
     },
     {
       "key": "feedback",

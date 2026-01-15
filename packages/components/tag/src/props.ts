@@ -1,7 +1,7 @@
 import type { ExtractPropTypes, PropType } from 'vue'
 
 export type TagType = 'default' | 'primary' | 'success' | 'warning' | 'danger'
-export type TagSize = 'small' | 'default' | 'large'
+export type TagSize = 'small' | 'medium' | 'large'
 export type TagShape = 'square' | 'round' | 'mark'
 
 export const tagProps = {
@@ -14,12 +14,12 @@ export const tagProps = {
     default: 'default'
   },
   /**
-   * 标签尺寸，支持 small、default、large
-   * @en Tag size, supports small, default, large
+   * 标签尺寸，支持 small、medium、large
+   * @en Tag size, supports small, medium, large
    */
   size: {
     type: String as PropType<TagSize>,
-    default: 'default'
+    default: 'medium'
   },
   /**
    * 标签形状，支持 square、round、mark

@@ -4,7 +4,7 @@
       <AmuButton type="primary">Small</AmuButton>
       <AmuButton >Small</AmuButton>
     </AmuSpace>
-    <AmuSpace size="default">
+    <AmuSpace size="medium">
       <AmuButton status="danger">Default</AmuButton>
       <AmuButton>Default</AmuButton>
     </AmuSpace>

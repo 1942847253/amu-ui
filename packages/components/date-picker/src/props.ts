@@ -148,7 +148,7 @@ export const datePickerProps = {
    */
   size: {
     type: String as PropType<DatePickerSize>,
-    default: 'medium',
+    default: undefined,
   },
   /**
    * @description 状态

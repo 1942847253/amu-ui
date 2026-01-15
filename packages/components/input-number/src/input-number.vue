@@ -2,9 +2,9 @@
   <div
     :class="[
       'amu-input-number',
-      `amu-input-number--${size}`,
+      `amu-input-number--${inputNumberSize}`,
       {
-        'is-disabled': disabled,
+        'is-disabled': inputNumberDisabled,
         'is-without-controls': !controls,
         'is-controls-right': controlsPosition === 'right',
         [`is-status-${status}`]: status,
@@ -16,7 +16,7 @@
     <span
         v-if="controls && controlsPosition !== 'right'"
         role="button"
-        :class="['amu-input-number__decrease', { 'is-disabled': minDisabled }]"
+        :class="['amu-input-number__decrease', { 'is-disabled': minDisabled || inputNumberDisabled }]"
         @click="decrease"
         @mousedown.prevent
     >
@@ -29,7 +29,7 @@
     <span
         v-if="controls && controlsPosition !== 'right'"
         role="button"
-        :class="['amu-input-number__increase', { 'is-disabled': maxDisabled }]"
+        :class="['amu-input-number__increase', { 'is-disabled': maxDisabled || inputNumberDisabled }]"
         @click="increase"
         @mousedown.prevent
     >
@@ -43,9 +43,9 @@
         :model-value="displayValue"
         :name="name"
         :id="id"
-        :disabled="disabled"
+        :disabled="inputNumberDisabled"
         :readonly="readonly"
-        :size="(size as any)"
+        :size="(inputNumberSize as any)"
         :placeholder="placeholder"
         :status="(status as any)"
         :align="controlsPosition === 'right' ? 'left' : 'center'"
@@ -64,7 +64,7 @@
     >
         <span 
             role="button"
-            :class="['amu-input-number__increase', { 'is-disabled': maxDisabled }]"
+            :class="['amu-input-number__increase', { 'is-disabled': maxDisabled || inputNumberDisabled }]"
             @click.stop="increase"
             @mousedown.prevent
         >
@@ -72,7 +72,7 @@
         </span>
         <span 
             role="button"
-            :class="['amu-input-number__decrease', { 'is-disabled': minDisabled }]"
+            :class="['amu-input-number__decrease', { 'is-disabled': minDisabled || inputNumberDisabled }]"
             @click.stop="decrease"
             @mousedown.prevent
         >
@@ -83,12 +83,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch, nextTick, onMounted } from 'vue'
+import { computed, ref, watch, nextTick, onMounted, inject } from 'vue'
 import { AmuInput } from '../../input' // Import AmuInput
 import { AmuIcon } from '../../icon'
 import { IconMinus, IconPlus, IconChevronUp, IconChevronDown } from '@amu-ui/icons'
 import { inputNumberProps, inputNumberEmits } from './props'
 import { add, subtract, isNumber, getPrecision } from './utils'
+import { formContextKey } from '../../form/src/constants'
 
 defineOptions({
   name: 'AmuInputNumber',
@@ -96,6 +97,15 @@ defineOptions({
 
 const props = defineProps(inputNumberProps)
 const emit = defineEmits(inputNumberEmits)
+const formContext = inject(formContextKey, undefined)
+
+const inputNumberSize = computed(() => {
+    return props.size || formContext?.props.size || 'medium'
+})
+
+const inputNumberDisabled = computed(() => {
+    return props.disabled || formContext?.props.disabled || false
+})
 
 const input = ref<HTMLInputElement>()
 const userInput = ref<string | null>(null)
@@ -191,7 +201,7 @@ const setCurrentValue = (newVal: number | undefined | null) => {
 }
 
 const increase = () => {
-    if (props.disabled || props.readonly || maxDisabled.value) return
+    if (inputNumberDisabled.value || props.readonly || maxDisabled.value) return
     const val = props.modelValue || 0
     const newVal = add(val, props.step)
     setCurrentValue(newVal)
@@ -199,7 +209,7 @@ const increase = () => {
 }
 
 const decrease = () => {
-    if (props.disabled || props.readonly || minDisabled.value) return
+    if (inputNumberDisabled.value || props.readonly || minDisabled.value) return
     const val = props.modelValue || 0
     const newVal = subtract(val, props.step)
     setCurrentValue(newVal)

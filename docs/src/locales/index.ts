@@ -75,6 +75,7 @@ export const messages = {
       menu: 'Menu 导航菜单',
       dropdown: 'Dropdown 下拉菜单',
       pagination: 'Pagination 分页',
+      form: 'Form 表单',
     }
   },
   'en-US': {
@@ -153,6 +154,7 @@ export const messages = {
       menu: 'Menu',
       dropdown: 'Dropdown',
       pagination: 'Pagination',
+      form: 'Form',
     }
   }
 } as const

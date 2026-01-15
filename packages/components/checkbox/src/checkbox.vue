@@ -67,6 +67,7 @@
 import { computed, inject, ref } from 'vue'
 import { checkboxProps, checkboxEmits, checkboxGroupKey } from './props'
 import type { CheckboxGroupContext } from './props'
+import { formContextKey } from '../../form/src/constants'
 
 defineOptions({
   name: 'AmuCheckbox',
@@ -74,6 +75,7 @@ defineOptions({
 
 const props = defineProps(checkboxProps)
 const emit = defineEmits(checkboxEmits)
+const formContext = inject(formContextKey, undefined)
 
 // 注入 CheckboxGroup 上下文
 const checkboxGroup = inject<CheckboxGroupContext>(checkboxGroupKey, undefined!)
@@ -86,7 +88,11 @@ const isInGroup = computed(() => !!checkboxGroup)
 
 // 是否禁用
 const isDisabled = computed(() => {
-  return props.disabled || checkboxGroup?.disabled || false
+  return props.disabled || checkboxGroup?.disabled || formContext?.props.disabled || false
+})
+
+const size = computed(() => {
+  return props.size || checkboxGroup?.size || formContext?.props.size || 'medium'
 })
 
 // 是否选中

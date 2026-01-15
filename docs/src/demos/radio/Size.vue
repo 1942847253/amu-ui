@@ -5,7 +5,7 @@
             <amu-radio label="2">Option 2</amu-radio>
         </amu-radio-group>
 
-        <amu-radio-group v-model="radio2" size="default">
+        <amu-radio-group v-model="radio2" size="medium">
             <amu-radio label="1">Option 1</amu-radio>
             <amu-radio label="2">Option 2</amu-radio>
         </amu-radio-group>

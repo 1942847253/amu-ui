@@ -94,6 +94,16 @@
       "import": "./dist/es/components/dropdown/index.mjs",
       "require": "./dist/cjs/components/dropdown/index.cjs"
     },
+    "./form": {
+      "types": "./dist/types/components/form/index.d.ts",
+      "import": "./dist/es/components/form/index.mjs",
+      "require": "./dist/cjs/components/form/index.cjs"
+    },
+    "./components/form": {
+      "types": "./dist/types/components/form/index.d.ts",
+      "import": "./dist/es/components/form/index.mjs",
+      "require": "./dist/cjs/components/form/index.cjs"
+    },
     "./icon": {
       "types": "./dist/types/components/icon/index.d.ts",
       "import": "./dist/es/components/icon/index.mjs",
@@ -301,12 +311,15 @@
   "dependencies": {
     "@amu-ui/hooks": "workspace:*",
     "@amu-ui/locale": "workspace:*",
-    "dayjs": "^1.11.19"
+    "async-validator": "^4.2.5",
+    "dayjs": "^1.11.19",
+    "lodash-es": "^4.17.22"
   },
   "peerDependencies": {
     "vue": "^3.4.0"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.10.0",
     "@vitejs/plugin-vue": "^5.2.0",
     "@vitest/coverage-v8": "^4.0.15",

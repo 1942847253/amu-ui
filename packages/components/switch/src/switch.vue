@@ -2,7 +2,7 @@
   <div
     :class="[
       'amu-switch',
-      `amu-switch--${size}`,
+      `amu-switch--${switchSize}`,
       {
         'is-checked': isChecked,
         'is-disabled': switchDisabled,
@@ -49,10 +49,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, inject } from 'vue'
 import { switchProps, switchEmits } from './props'
 import { AmuIcon } from '../../icon'
 import './style.css'
+import { formContextKey } from '../../form/src/constants'
 
 defineOptions({
   name: 'AmuSwitch'
@@ -60,11 +61,13 @@ defineOptions({
 
 const props = defineProps(switchProps)
 const emit = defineEmits(switchEmits)
+const formContext = inject(formContextKey, undefined)
 
 const innerLoading = ref(false)
 const isChecked = computed(() => props.modelValue === true)
 const isLoading = computed(() => props.loading || innerLoading.value)
-const switchDisabled = computed(() => props.disabled || isLoading.value)
+const switchDisabled = computed(() => props.disabled || isLoading.value || formContext?.props.disabled || false)
+const switchSize = computed(() => props.size || formContext?.props.size || 'medium')
 
 const coreStyle = computed(() => {
   const style: Record<string, string> = {}

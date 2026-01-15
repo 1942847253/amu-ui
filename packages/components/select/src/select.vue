@@ -16,11 +16,11 @@
         ref="selectRef"
         class="amu-select"
         :class="{
-          'is-disabled': disabled,
+          'is-disabled': selectDisabled,
           'is-clearable': clearable,
           'is-focused': visible,
           'is-auto-width': fitInputWidth,
-          [`amu-select--${size}`]: size,
+          [`amu-select--${selectSize}`]: selectSize,
         }"
         @click.stop="toggleMenu"
         v-bind="$attrs"
@@ -46,7 +46,7 @@
               class="amu-select__input"
               :class="{ 'is-transparent': multiple && Array.isArray(modelValue) && modelValue.length > 0 }"
               :readonly="!filterable"
-              :disabled="disabled"
+              :disabled="selectDisabled"
               :placeholder="showPlaceholder ? currentPlaceholder : ''"
               :model-value="displayValue"
               :borderless="true"
@@ -103,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, provide, watch, reactive, useSlots, nextTick } from 'vue'
+import { ref, computed, provide, watch, reactive, useSlots, nextTick, inject } from 'vue'
 import { selectProps, selectEmits, selectContextKey, type SelectValue, type OptionProps, type SelectOptionProxy } from './props'
 import { AmuIcon } from 'amu-ui/icon'
 import { AmuTag } from 'amu-ui/tag'
@@ -111,6 +111,7 @@ import { AmuInput } from '../../input'
 import { AmuPopup } from '../../popup'
 import { IconChevronDown, IconX, IconSearch } from '@amu-ui/icons'
 import { useHover, useLocale } from '@amu-ui/hooks'
+import { formContextKey } from '../../form/src/constants'
 import AmuOption from './option.vue'
 
 defineOptions({
@@ -121,6 +122,15 @@ defineOptions({
 const props = defineProps(selectProps)
 const emit = defineEmits(selectEmits)
 const slots = useSlots()
+const formContext = inject(formContextKey, undefined)
+
+const selectSize = computed(() => {
+    return props.size || formContext?.props.size || 'medium'
+})
+
+const selectDisabled = computed(() => {
+    return props.disabled || formContext?.props.disabled || false
+})
 
 const selectRef = ref<HTMLElement>()
 const popupInstance = ref<InstanceType<typeof AmuPopup>>()
@@ -134,7 +144,7 @@ const { t } = useLocale()
 const optionsMap = reactive(new Map<SelectValue, SelectOptionProxy>())
 
 const toggleMenu = () => {
-  if (props.disabled) return
+  if (selectDisabled.value) return
   visible.value = !visible.value
 }
 

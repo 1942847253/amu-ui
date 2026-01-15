@@ -288,7 +288,7 @@ const selectSize = computed(() => {
 })
 
 const inputSize = computed(() => {
-  return props.size === 'default' ? 'medium' : props.size
+  return props.size
 })
 
 const sizeOptionsFormatted = computed(() => {

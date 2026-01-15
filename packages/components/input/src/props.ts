@@ -27,7 +27,7 @@ export const inputProps = {
    */
   size: {
     type: String as PropType<InputSize>,
-    default: 'medium'
+    default: undefined
   },
   /**
    * @description 输入框风格变体

@@ -90,7 +90,7 @@ export const checkboxProps = {
    */
   size: {
     type: String as PropType<CheckboxSize>,
-    default: 'medium',
+    default: undefined,
   },
   /**
    * 是否显示错误状态
@@ -216,7 +216,7 @@ export const checkboxGroupProps = {
    */
   size: {
     type: String as PropType<CheckboxSize>,
-    default: 'medium',
+    default: undefined,
   },
 } as const
 

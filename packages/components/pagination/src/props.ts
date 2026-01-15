@@ -110,8 +110,8 @@ export const paginationProps = {
    * @en Component size
    */
   size: {
-    type: String as PropType<'small' | 'default' | 'large'>,
-    default: 'default'
+    type: String as PropType<'small' | 'medium' | 'large'>,
+    default: 'medium'
   },
   /**
    * @description 是否带有背景色（此时页码为方框形状）
