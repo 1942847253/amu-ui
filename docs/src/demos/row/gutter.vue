@@ -1,10 +1,10 @@
 <template>
   <div class="demo-gutter">
     <AmuRow :gutter="20">
-      <AmuCol :span="6"><div class="grid-content ep-bg-purple" /></AmuCol>
-      <AmuCol :span="6"><div class="grid-content ep-bg-purple" /></AmuCol>
-      <AmuCol :span="6"><div class="grid-content ep-bg-purple" /></AmuCol>
-      <AmuCol :span="6"><div class="grid-content ep-bg-purple" /></AmuCol>
+      <AmuCol :span="6"><div class="grid-content amu-bg-primary" /></AmuCol>
+      <AmuCol :span="6"><div class="grid-content amu-bg-primary" /></AmuCol>
+      <AmuCol :span="6"><div class="grid-content amu-bg-primary" /></AmuCol>
+      <AmuCol :span="6"><div class="grid-content amu-bg-primary" /></AmuCol>
     </AmuRow>
   </div>
 </template>
@@ -16,6 +16,8 @@ import { AmuRow, AmuCol } from 'amu-ui'
 <style scoped>
 .grid-content {
   min-height: 36px;
-  background: #d3dce6;
+}
+.amu-bg-primary {
+  background: var(--amu-color-primary);
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <div class="demo-order">
     <AmuRow>
-      <AmuCol :span="6" :order="4"><div class="grid-content ep-bg-purple">1 (排序 4)</div></AmuCol>
-      <AmuCol :span="6" :order="3"><div class="grid-content ep-bg-purple-light">2 (排序 3)</div></AmuCol>
-      <AmuCol :span="6" :order="2"><div class="grid-content ep-bg-purple">3 (排序 2)</div></AmuCol>
-      <AmuCol :span="6" :order="1"><div class="grid-content ep-bg-purple-light">4 (排序 1)</div></AmuCol>
+      <AmuCol :span="6" :order="4"><div class="grid-content amu-bg-primary">1 (排序 4)</div></AmuCol>
+      <AmuCol :span="6" :order="3"><div class="grid-content amu-bg-light">2 (排序 3)</div></AmuCol>
+      <AmuCol :span="6" :order="2"><div class="grid-content amu-bg-primary">3 (排序 2)</div></AmuCol>
+      <AmuCol :span="6" :order="1"><div class="grid-content amu-bg-light">4 (排序 1)</div></AmuCol>
     </AmuRow>
   </div>
 </template>
@@ -19,12 +19,12 @@ import { AmuRow, AmuCol } from 'amu-ui'
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #555;
+  color: var(--amu-color-on-primary);
 }
-.ep-bg-purple {
-  background: #d3dce6;
+.amu-bg-primary {
+  background: var(--amu-color-primary);
 }
-.ep-bg-purple-light {
-  background: #e5e9f2;
+.amu-bg-light {
+  background: var(--amu-color-primary-hover);
 }
 </style>

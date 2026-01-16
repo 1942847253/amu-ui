@@ -1,22 +1,22 @@
 <template>
   <div class="demo-row">
     <AmuRow>
-      <AmuCol :span="24"><div class="grid-content ep-bg-purple-dark">col-24</div></AmuCol>
+      <AmuCol :span="24"><div class="grid-content amu-bg-dark">col-24</div></AmuCol>
     </AmuRow>
     <AmuRow>
-      <AmuCol :span="12"><div class="grid-content ep-bg-purple">col-12</div></AmuCol>
-      <AmuCol :span="12"><div class="grid-content ep-bg-purple-light">col-12</div></AmuCol>
+      <AmuCol :span="12"><div class="grid-content amu-bg-primary">col-12</div></AmuCol>
+      <AmuCol :span="12"><div class="grid-content amu-bg-light">col-12</div></AmuCol>
     </AmuRow>
     <AmuRow>
-      <AmuCol :span="8"><div class="grid-content ep-bg-purple">col-8</div></AmuCol>
-      <AmuCol :span="8"><div class="grid-content ep-bg-purple-light">col-8</div></AmuCol>
-      <AmuCol :span="8"><div class="grid-content ep-bg-purple">col-8</div></AmuCol>
+      <AmuCol :span="8"><div class="grid-content amu-bg-primary">col-8</div></AmuCol>
+      <AmuCol :span="8"><div class="grid-content amu-bg-light">col-8</div></AmuCol>
+      <AmuCol :span="8"><div class="grid-content amu-bg-primary">col-8</div></AmuCol>
     </AmuRow>
     <AmuRow>
-      <AmuCol :span="6"><div class="grid-content ep-bg-purple">col-6</div></AmuCol>
-      <AmuCol :span="6"><div class="grid-content ep-bg-purple-light">col-6</div></AmuCol>
-      <AmuCol :span="6"><div class="grid-content ep-bg-purple">col-6</div></AmuCol>
-      <AmuCol :span="6"><div class="grid-content ep-bg-purple-light">col-6</div></AmuCol>
+      <AmuCol :span="6"><div class="grid-content amu-bg-primary">col-6</div></AmuCol>
+      <AmuCol :span="6"><div class="grid-content amu-bg-light">col-6</div></AmuCol>
+      <AmuCol :span="6"><div class="grid-content amu-bg-primary">col-6</div></AmuCol>
+      <AmuCol :span="6"><div class="grid-content amu-bg-light">col-6</div></AmuCol>
     </AmuRow>
   </div>
 </template>
@@ -40,16 +40,15 @@ import { AmuRow, AmuCol } from 'amu-ui'
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #555;
-
+  color: var(--amu-color-on-primary);
 }
-.ep-bg-purple-dark {
-  background: #99a9bf;
+.amu-bg-dark {
+  background: var(--amu-color-primary-active);
 }
-.ep-bg-purple {
-  background: #d3dce6;
+.amu-bg-primary {
+  background: var(--amu-color-primary);
 }
-.ep-bg-purple-light {
-  background: #e5e9f2;
+.amu-bg-light {
+  background: var(--amu-color-primary-hover);
 }
 </style>

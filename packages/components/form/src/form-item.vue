@@ -7,7 +7,7 @@
         </label>
         <div class="amu-form-item__content" :style="contentStyle">
             <slot />
-            <transition name="amu-zoom-in-top">
+            <transition name="amu-form-error-fade">
                 <div v-if="shouldShowError" class="amu-form-item__error">
                     <slot name="error" :error="validateMessage">
                         {{ validateMessage }}

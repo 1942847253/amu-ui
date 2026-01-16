@@ -1,5 +1,5 @@
 <template>
-  <amu-form ref="formRef" :model="form" :rules="rules" :label-width="120" style="width: 600px">
+  <amu-form ref="formRef" :model="form" :rules="rules" :label-width="100" style="max-width: 800px">
     <amu-row :gutter="20">
       <amu-col :span="12">
         <amu-form-item label="Password" prop="pass">
