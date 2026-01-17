@@ -1,10 +1,11 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
+import vueJsx from "@vitejs/plugin-vue-jsx";
 import { resolve } from "node:path";
 import { amuDocsApiPlugin } from "./vite.api-plugin";
 
 export default defineConfig({
-  plugins: [vue(), amuDocsApiPlugin()],
+  plugins: [vue(), vueJsx(), amuDocsApiPlugin()],
   resolve: {
     alias: [
       // docs 开发时直接指向源码，保证 HMR 与调试体验

@@ -18,6 +18,7 @@
     "scrollbar": "滚动条",
     "radio": "单选框",
     "checkbox": "多选框",
+    "table": "表格",
     "select": "选择器",
     "input": "输入框",
     "switch": "开关",

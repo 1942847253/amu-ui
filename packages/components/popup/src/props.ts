@@ -54,6 +54,13 @@ export const popupProps = {
     default: 4,
   },
   /**
+   * 虚拟触发元素，用于自定义触发位置。
+   * @en Virtual reference element for custom trigger position.
+   */
+  virtualRef: {
+    type: Object as PropType<HTMLElement | { getBoundingClientRect: () => DOMRect }>,
+  },
+  /**
    * 是否显示箭头。
    * @en Whether to show the arrow.
    */

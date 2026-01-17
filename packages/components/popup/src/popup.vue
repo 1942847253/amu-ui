@@ -132,6 +132,28 @@ watch(
   }
 )
 
+watch(
+  () => props.virtualRef,
+  (val) => {
+    if (visible.value) {
+      // Re-observe if virtualRef changes while visible
+       if (resizeObserver) {
+          resizeObserver.disconnect()
+          resizeObserver = null
+       }
+       updatePosition()
+       
+       const targetRef = val || referenceRef.value
+       if (targetRef) {
+          resizeObserver = new ResizeObserver(updatePosition)
+          if (targetRef instanceof Element) {
+             resizeObserver.observe(targetRef)
+          }
+       }
+    }
+  }
+)
+
 const show = () => {
   if (props.disabled) return
   clearTimer()
@@ -146,9 +168,12 @@ const show = () => {
   emit('show')
   nextTick(() => {
     updatePosition()
-    if (referenceRef.value) {
+    const targetRef = props.virtualRef || referenceRef.value
+    if (targetRef) {
       resizeObserver = new ResizeObserver(updatePosition)
-      resizeObserver.observe(referenceRef.value)
+      if (targetRef instanceof Element) {
+          resizeObserver.observe(targetRef)
+      }
     }
 
     // Delay checking for outside clicks to avoid capturing the trigger click
@@ -219,14 +244,12 @@ const onMouseLeave = () => {
 const onClickOutside = (e: MouseEvent) => {
   if (!props.closeOnClickOutside) return
   const target = e.target as Node
-  // If we are here, we are clicking outside Parent.
-  // But maybe inside Child?
-  // If inside Child, we shouldn't close Parent.
-  // We rely on activeChildren > 0.
+  const targetRef = props.virtualRef || referenceRef.value
   
   if (
-    referenceRef.value &&
-    !referenceRef.value.contains(target) &&
+    targetRef &&
+    (targetRef instanceof Node) &&
+    !targetRef.contains(target) &&
     popupRef.value &&
     !popupRef.value.contains(target)
   ) {
@@ -262,9 +285,10 @@ const getTeleportTargetRect = () => {
 }
 
 const updatePosition = () => {
-  if (!visible.value || !referenceRef.value || !popupRef.value) return
+  const targetRef = props.virtualRef || referenceRef.value
+  if (!visible.value || !targetRef || !popupRef.value) return
 
-  const refRect = referenceRef.value.getBoundingClientRect()
+  const refRect = targetRef.getBoundingClientRect()
   
   if (props.matchWidth) {
     popupRef.value.style.minWidth = `${refRect.width}px`

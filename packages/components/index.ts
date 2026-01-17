@@ -28,6 +28,7 @@ import { AmuMenu, AmuMenuItem, AmuSubMenu, AmuMenuGroup } from './menu'
 import { AmuDropdown, AmuDropdownMenu, AmuDropdownItem } from './dropdown'
 import { AmuTabs, AmuTabPane } from './tabs'
 import { AmuPagination } from './pagination'
+import { AmuTable, AmuTableColumn } from './table'
 import { AmuForm, AmuFormItem } from './form'
 import { AmuRow } from './row'
 import { AmuCol } from './col'
@@ -120,6 +121,9 @@ export * from './pagination'
 export { AmuForm, AmuFormItem } from './form'
 export * from './form'
 
+export { AmuTable, AmuTableColumn } from './table'
+export * from './table'
+
 const AmuUI: Plugin = {
   install(app: App) {
     app.use(AmuButton)
@@ -163,6 +167,8 @@ const AmuUI: Plugin = {
     app.use(AmuDropdownMenu)
     app.use(AmuDropdownItem)
     app.use(AmuPagination)
+    app.use(AmuTable)
+    app.use(AmuTableColumn)
     app.use(AmuRow)
     app.use(AmuCol)
     app.use(AmuForm)

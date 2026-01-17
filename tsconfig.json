@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "types": ["vite/client"],
     "baseUrl": ".",
     "paths": {
