@@ -2,13 +2,18 @@
   <div 
     class="amu-table"
     :class="[
-      `amu-table--${size}`,
-      { 'amu-table--border': border },
-      { 'amu-table--stripe': stripe },
+      `amu-table--${props.size}`,
+      { 'amu-table--border': props.border },
+      { 'amu-table--stripe': props.stripe },
       { 'is-scrolling-left': scrollPosition.left },
       { 'is-scrolling-right': scrollPosition.right }
     ]"
     :style="wrapperStyle"
+    v-loading="props.loading"
+    :amu-loading-text="props.loadingText"
+    :amu-loading-background="props.loadingBackground"
+    :amu-loading-size="props.loadingSize"
+    :amu-loading-spinner="typeof props.loadingSpinner === 'string' ? props.loadingSpinner : undefined"
   >
     <!-- Hidden slots for column collection -->
     <div class="hidden-columns" ref="hiddenColumns">
@@ -42,10 +47,10 @@
       :style="bodyStyle"
     >
       <VirtualScroller 
-        v-if="virtual"
+        v-if="props.virtual"
         ref="scrollbarRef"
         :items="store.tableData.value"
-        :item-height="rowHeight"
+        :item-height="props.rowHeight"
         :enabled="true"
         @scroll="onScroll"
         v-slot="{ data }"
@@ -85,6 +90,17 @@
       </AmuScrollbar>
     </div>
 
+    <!-- Pagination -->
+    <div 
+      v-if="props.pagination && typeof props.pagination === 'object'" 
+      class="amu-table__pagination"
+    >
+       <AmuPagination 
+          v-bind="props.pagination" 
+          @change="handlePageChange"
+       />
+    </div>
+
     <!-- Tooltip -->
     <AmuPopup 
         v-model="tooltipVisible"
@@ -107,6 +123,8 @@ import TableHeader from './components/table-header'
 import TableBody from './components/table-body'
 import VirtualScroller from './components/virtual-scroller.vue'
 import { AmuPopup } from '../../popup'
+import { AmuLoadingDirective as vLoading } from '../../loading'
+import { AmuPagination } from '../../pagination'
 import Sortable from 'sortablejs'
 
 defineOptions({
@@ -145,6 +163,10 @@ watch(tooltipVisible, (val) => {
         store.setTooltip(null)
     }
 })
+
+const handlePageChange = (current: number, pageSize: number) => {
+    emit('page-change', current, pageSize)
+}
 
 const updateScrollState = () => {
     const wrap = scrollbarRef.value?.wrap
@@ -241,10 +263,13 @@ const initSortable = () => {
              const { newIndex, oldIndex } = evt
              if (newIndex === oldIndex) return
              
+             const list = store.tableData.value
              emit('row-drag-end', {
                  newIndex,
                  oldIndex,
-                 list: store.tableData.value
+                 newRow: list[newIndex],
+                 oldRow: list[oldIndex],
+                 list
              })
         }
     }
@@ -497,5 +522,12 @@ onBeforeUnmount(() => {
   color: var(--amu-table-text-secondary);
   font-size: 14px;
   width: 100%;
+}
+
+.amu-table__pagination {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0;
+    background-color: var(--amu-color-bg);
 }
 </style>

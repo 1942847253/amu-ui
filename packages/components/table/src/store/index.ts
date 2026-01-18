@@ -9,7 +9,7 @@ export const TABLE_COLUMN_INJECTION_KEY = Symbol('AmuTableColumn')
 
 export function createStore(props: TableProps, emit: any) {
   const { 
-    columns, flatColumns, fixedLeftColumns, fixedRightColumns, notFixedColumns, fullRenderColumns, tableWidth, setColumns, insertColumn, resizeColumn, headerRows 
+    columns, flatColumns, fixedLeftColumns, fixedRightColumns, notFixedColumns, fullRenderColumns, tableWidth, setColumns, insertColumn, resizeColumn, removeColumn, headerRows 
   } = useColumns(props)
   
   const { tableData, sortState, handleSort } = useData(props)
@@ -47,6 +47,7 @@ export function createStore(props: TableProps, emit: any) {
     setColumns,
     insertColumn,
     resizeColumn,
+    removeColumn,
     headerRows,
     
     tableData,

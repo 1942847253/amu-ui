@@ -78,6 +78,7 @@ export const messages = {
       table: 'Table 表格',
       form: 'Form 表单',
       row: 'Grid 栅格',
+      loading: 'Loading 加载中',
     }
   },
   'en-US': {
@@ -159,6 +160,7 @@ export const messages = {
       table: 'Table',
       form: 'Form',
       row: 'Grid',
+      loading: 'Loading',
     }
   }
 } as const

@@ -1,0 +1,64 @@
+.amu-loading-mask {
+  position: absolute;
+  z-index: 2000;
+  /* 默认背景色带透明度，不使用 opacity 属性以免影响子元素（图标文字） */
+  background-color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+[data-amu-theme='dark'] .amu-loading-mask {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.amu-loading-mask.is-fullscreen {
+  position: fixed;
+  z-index: 2000;
+}
+
+.amu-loading-spinner {
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.amu-loading-spinner .amu-spinner {
+  display: inline-block;
+  color: var(--amu-color-primary, #165DFF);
+  font-size: 42px;
+  margin-bottom: 4px;
+}
+
+.amu-loading-text {
+  color: var(--amu-color-primary, #165DFF);
+  margin: 10px 0 0;
+  font-size: 13px;
+  margin-top: 0;
+  text-align: center;
+}
+
+.amu-loading-fade-enter-from,
+.amu-loading-fade-leave-to {
+  opacity: 0;
+}
+
+/* 加上父级相对定位类，用于指令附加时 */
+.amu-loading-parent--relative {
+  position: relative !important;
+}
+
+/* 隐藏滚动条 */
+.amu-loading-parent--hidden {
+  overflow: hidden !important;
+}

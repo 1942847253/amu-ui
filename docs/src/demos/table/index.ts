@@ -39,6 +39,12 @@ import DraggableComp from './draggable.vue'
 import Resizable from './resizable.vue?raw'
 import ResizableComp from './resizable.vue'
 
+import Loading from './loading.vue?raw'
+import LoadingComp from './loading.vue'
+
+import Pagination from './pagination.vue?raw'
+import PaginationComp from './pagination.vue'
+
 export const demos = [
   {
     path: 'basic',
@@ -208,8 +214,33 @@ export const demos = [
     },
     component: ResizableComp,
     code: Resizable,
-  }
-]
+  },
+  {
+    path: 'loading',
+    title: {
+      'zh-CN': '加载中',
+      'en-US': 'Loading',
+    },
+    description: {
+      'zh-CN': '表格数据加载时的占位显示。',
+      'en-US': 'Placeholder display when table data is loading.',
+    },
+    component: LoadingComp,
+    code: Loading,
+  },
+  {
+    path: 'pagination',
+    title: {
+      'zh-CN': '带分页的表格',
+      'en-US': 'Table with Pagination'
+    },
+    description: {
+      'zh-CN': '通过 `pagination` 属性配置内置分页组件。监听 `page-change` 事件来获取最新的页码和 pageSize。',
+      'en-US': 'Configure built-in pagination via `pagination` prop. Listen to `page-change` event to get latest page and pageSize.'
+    },
+    component: PaginationComp,
+    code: Pagination
+  }]
 
 export const meta = {
   description: {

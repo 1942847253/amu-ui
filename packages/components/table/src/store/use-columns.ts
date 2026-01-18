@@ -325,6 +325,18 @@ export function useColumns(props: TableProps) {
       findAndUpdate(_columns.value)
   }
 
+  const removeColumn = (id: string, parent?: TableColumn) => {
+    if (parent) {
+      if (parent.children) {
+         const index = parent.children.findIndex(col => col.id === id)
+         if (index > -1) parent.children.splice(index, 1)
+      }
+    } else {
+       const index = _columns.value.findIndex(col => col.id === id)
+       if (index > -1) _columns.value.splice(index, 1)
+    }
+  }
+
   return {
     columns: _columns,
     flatColumns,
@@ -336,6 +348,7 @@ export function useColumns(props: TableProps) {
     setColumns,
     insertColumn,
     resizeColumn,
+    removeColumn,
     headerRows
   }
 }

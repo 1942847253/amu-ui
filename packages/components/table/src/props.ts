@@ -1,4 +1,5 @@
 import type { ExtractPropTypes, PropType, CSSProperties } from 'vue'
+import type { PaginationProps } from '../../pagination/src/props'
 
 export type TableSize = 'small' | 'default' | 'large'
 export type TableLayout = 'auto' | 'fixed'
@@ -58,6 +59,35 @@ export const tableProps = {
   data: {
     type: Array as PropType<any[]>,
     default: () => [],
+  },
+  /**
+   * @description 是否加载中
+   * @en Whether to show loading
+   */
+  loading: Boolean,
+  /**
+   * @description 加载文案
+   * @en Loading text
+   */
+  loadingText: String,
+  /**
+   * @description 加载图标
+   * @en Loading icon
+   */
+  loadingSpinner: {
+    type: [String, Object] as PropType<string | any>
+  },
+  /**
+   * @description 加载背景色
+   * @en Loading background color
+   */
+  loadingBackground: String,
+  /**
+   * @description 加载图标大小
+   * @en Loading icon size
+   */
+  loadingSize: {
+    type: [String, Number] as PropType<string | number>
   },
   /**
    * @description 列配置（Schema 模式）
@@ -134,6 +164,14 @@ export const tableProps = {
    */
   spanMethod: {
     type: Function as PropType<SpanMethod>,
+  },
+  /**
+   * @description 分页配置
+   * @en Pagination configuration
+   */
+  pagination: {
+    type: [Boolean, Object] as PropType<boolean | Partial<PaginationProps>>,
+    default: false
   }
 } as const
 
@@ -165,6 +203,11 @@ export const tableEmits = {
    * @en Triggered when row dragging ends
    */
   'row-drag-end': (evt: { newIndex: number; oldIndex: number; newRow: any; oldRow: any; list: any[] }) => true,
+  /**
+   * @description 分页发生变化时触发
+   * @en Triggered when pagination changes
+   */
+  'page-change': (page: number, pageSize: number) => true
 }
 
 export type TableEmits = typeof tableEmits

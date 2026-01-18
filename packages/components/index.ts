@@ -21,6 +21,7 @@ import { AmuDialog, Dialog } from './dialog'
 import { AmuDrawer } from './drawer'
 import { AmuMessage } from './message'
 import { AmuSpinner } from './spinner'
+import { AmuLoading } from './loading'
 import { AmuRate } from './rate'
 import { AmuInputNumber } from './input-number'
 import { AmuTree } from './tree'
@@ -47,6 +48,10 @@ export * from './icon'
 
 export { AmuSpinner } from './spinner'
 export * from './spinner'
+
+export { AmuLoading, AmuLoadingDirective, AmuLoadingServiceFn } from './loading'
+export * from './loading'
+
 
 export { AmuRate } from './rate'
 export * from './rate'
@@ -155,6 +160,7 @@ const AmuUI: Plugin = {
     app.use(AmuMessage)
     app.use(AmuTree)
     app.use(AmuSpinner)
+    app.use(AmuLoading)
     app.use(AmuRate)
     app.use(AmuInputNumber)
     app.use(AmuMenu)
