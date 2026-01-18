@@ -45,35 +45,32 @@ export function useColumns(props: TableProps) {
     // 计算左侧 Offset
     let leftOffset = 0
     const finalLeft = left.map((col, index) => {
-       const w = col.width ? parseInt(String(col.width), 10) : 100
+       const widthVal = col.width 
+         ? parseInt(String(col.width), 10) 
+         : (col.minWidth ? parseInt(String(col.minWidth), 10) : 80)
+       
        const newCol = { 
            ...col, 
            renderLeft: leftOffset,
            isLastLeft: index === left.length - 1 
        }
-       leftOffset += w
+       leftOffset += widthVal
        return newCol
     })
 
     // 计算右侧 Offset (从右向左累加)
     let rightOffset = 0
-    // 反向遍历副本计算，但通过 map 生成的需要是正序的
-    // Right columns: [A, B] -> B is rightmost (0 offset), A is left of B (width(B) offset)
-    // Actually fixed='right' usually means last one is at Right:0.
-    // If we have [R1, R2]. R1 is first in DOM. R2 is second.
-    // Display: ... [R1] [R2] |
-    // R2 right = 0.
-    // R1 right = R2.width.
-    
-    // Create a copy to reverse iterate or just index logic
     const finalRightReverse = [...right].reverse().map((col, index) => {
-       const w = col.width ? parseInt(String(col.width), 10) : 100
+       const widthVal = col.width 
+         ? parseInt(String(col.width), 10) 
+         : (col.minWidth ? parseInt(String(col.minWidth), 10) : 80)
+
        const newCol = { 
            ...col, 
            renderRight: rightOffset,
            isFirstRight: index === right.length - 1 
        }
-       rightOffset += w
+       rightOffset += widthVal
        return newCol
     })
     const finalRight = finalRightReverse.reverse()
@@ -94,6 +91,154 @@ export function useColumns(props: TableProps) {
     }
 
     return result
+  })
+
+  // 缓存样式的 Map (用于从 Leaf 节点反推 Group 节点样式)
+  const columnStyles = computed(() => {
+     const styles = new Map<string, any>()
+     fullRenderColumns.value.forEach(col => {
+         if (col.id) {
+             styles.set(col.id, {
+                 fixed: col.fixed,
+                 renderLeft: col.renderLeft,
+                 renderRight: col.renderRight,
+                 isLastLeft: col.isLastLeft,
+                 isFirstRight: col.isFirstRight,
+             })
+         }
+     })
+     return styles
+  })
+
+  // 递归获取列样式 (含 Group 处理)
+  const getColumnStyle = (col: TableColumn, styleMap: Map<string, any>): any => {
+      // 1. Leaf Node: 查表返回
+      if (!col.children || col.children.length === 0) {
+          if (col.id && styleMap.has(col.id)) {
+              return styleMap.get(col.id)
+          }
+          return {}
+      }
+
+      // 2. Group Node: 递归 children 计算
+      const childStyles = col.children.map(child => getColumnStyle(child, styleMap))
+      
+      // Determine Fixed status: A group is fixed if ALL its children are fixed in the same way
+      const firstFixed = childStyles[0].fixed
+      const allSame = childStyles.every(s => s.fixed === firstFixed)
+      const fixed = allSame ? firstFixed : undefined
+
+      let renderLeft
+      let renderRight
+      let isLastLeft = false
+      let isFirstRight = false
+
+      if (fixed === 'left' || fixed === true) {
+          renderLeft = childStyles[0].renderLeft
+          isLastLeft = childStyles[childStyles.length - 1].isLastLeft
+      }
+      if (fixed === 'right') {
+          // Parent's right offset is governed by its right-most child's offset
+          renderRight = childStyles[childStyles.length - 1].renderRight
+          isFirstRight = childStyles[0].isFirstRight
+      }
+
+      return {
+          fixed,
+          renderLeft,
+          renderRight,
+          isLastLeft,
+          isFirstRight
+      }
+  }
+
+  const convertToRows = (originColumns: TableColumn[]) => {
+    let maxLevel = 1
+    
+    // 1. Calculate Level & MaxLevel & ColSpan
+    const traverse = (column: TableColumn, parent?: TableColumn) => {
+      if (parent) {
+        column.level = parent.level! + 1
+        if (maxLevel < column.level) {
+          maxLevel = column.level
+        }
+      } else {
+        column.level = 1
+      }
+
+      if (column.children && column.children.length > 0) {
+        let colSpan = 0
+        column.children.forEach((subColumn) => {
+          traverse(subColumn, column)
+          colSpan += subColumn.colSpan!
+        })
+        column.colSpan = colSpan
+      } else {
+        column.colSpan = 1
+      }
+    }
+
+    originColumns.forEach((col) => {
+      col.level = 1 // Init root level
+      traverse(col)
+    })
+
+    // 2. Build rows
+    const rows: TableColumn[][] = []
+    for (let i = 0; i < maxLevel; i++) {
+      rows.push([])
+    }
+
+    const getAllColumns = (columns: TableColumn[]) => {
+      const result: TableColumn[] = []
+      columns.forEach((column) => {
+        if (column.children) {
+          result.push(column)
+          result.push(...getAllColumns(column.children))
+        } else {
+          result.push(column)
+        }
+      })
+      return result
+    }
+
+    const allColumns = getAllColumns(originColumns)
+    
+    allColumns.forEach((column) => {
+      if (column.children && column.children.length > 0) {
+        column.rowSpan = 1
+      } else {
+        column.rowSpan = maxLevel - column.level! + 1
+      }
+      rows[column.level! - 1].push(column)
+    })
+
+    // Mark Right Edge for Header Border
+    const markRightEdge = (cols: TableColumn[]) => {
+       if (!cols.length) return
+       const last = cols[cols.length - 1]
+       last.isRightEdge = true
+       if (last.children) {
+           markRightEdge(last.children)
+       }
+    }
+    markRightEdge(originColumns)
+
+    return rows
+  }
+
+  // 计算表头行数据 (合并样式信息)
+  const headerRows = computed(() => {
+    const rawRows = convertToRows(_columns.value)
+    const styles = columnStyles.value
+    
+    return rawRows.map(row => row.map(col => {
+        const style = getColumnStyle(col, styles)
+        return {
+            ...col,
+            ...style
+        }
+    }))
   })
 
   // 计算表格总宽度
@@ -164,6 +309,22 @@ export function useColumns(props: TableProps) {
     }
   }
 
+  const resizeColumn = (id: string, width: number) => {
+      const findAndUpdate = (cols: TableColumn[]): boolean => {
+          for (const col of cols) {
+              if (col.id === id) {
+                  col.width = width
+                  return true
+              }
+              if (col.children && findAndUpdate(col.children)) {
+                  return true
+              }
+          }
+          return false
+      }
+      findAndUpdate(_columns.value)
+  }
+
   return {
     columns: _columns,
     flatColumns,
@@ -173,6 +334,8 @@ export function useColumns(props: TableProps) {
     fullRenderColumns,
     tableWidth,
     setColumns,
-    insertColumn
+    insertColumn,
+    resizeColumn,
+    headerRows
   }
 }

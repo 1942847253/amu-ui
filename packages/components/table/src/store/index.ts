@@ -5,10 +5,11 @@ import { useData } from './use-data'
 import { useSelection } from './use-selection'
 
 export const TABLE_INJECTION_KEY = Symbol('AmuTable')
+export const TABLE_COLUMN_INJECTION_KEY = Symbol('AmuTableColumn')
 
 export function createStore(props: TableProps, emit: any) {
   const { 
-    columns, flatColumns, fixedLeftColumns, fixedRightColumns, notFixedColumns, fullRenderColumns, tableWidth, setColumns, insertColumn 
+    columns, flatColumns, fixedLeftColumns, fixedRightColumns, notFixedColumns, fullRenderColumns, tableWidth, setColumns, insertColumn, resizeColumn, headerRows 
   } = useColumns(props)
   
   const { tableData, sortState, handleSort } = useData(props)
@@ -45,6 +46,8 @@ export function createStore(props: TableProps, emit: any) {
     notFixedColumns,
     setColumns,
     insertColumn,
+    resizeColumn,
+    headerRows,
     
     tableData,
     sortState,

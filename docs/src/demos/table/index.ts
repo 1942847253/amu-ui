@@ -27,6 +27,18 @@ import VirtualScrollComp from './virtual-scroll.vue'
 import MergeCell from './merge-cell.vue?raw'
 import MergeCellComp from './merge-cell.vue'
 
+import MultiHeader from './multi-header.vue?raw'
+import MultiHeaderComp from './multi-header.vue'
+
+import Empty from './empty.vue?raw'
+import EmptyComp from './empty.vue'
+
+import Draggable from './draggable.vue?raw'
+import DraggableComp from './draggable.vue'
+
+import Resizable from './resizable.vue?raw'
+import ResizableComp from './resizable.vue'
+
 export const demos = [
   {
     path: 'basic',
@@ -144,6 +156,58 @@ export const demos = [
     },
     component: MergeCellComp,
     code: MergeCell,
+  },
+  {
+    path: 'multi-header',
+    title: {
+      'zh-CN': '多级表头',
+      'en-US': 'Multi-level Header',
+    },
+    description: {
+      'zh-CN': '数据结构比较复杂的时候，可使用多级表头来展现数据的层次关系。',
+      'en-US': 'When the data structure is complex, you can use multi-level headers to show the hierarchy of data.',
+    },
+    component: MultiHeaderComp,
+    code: MultiHeader,
+  },
+  {
+    path: 'empty',
+    title: {
+      'zh-CN': '空数据',
+      'en-US': 'Empty Data',
+    },
+    description: {
+      'zh-CN': '当 `data` 为空时，表格将显示空数据提示。',
+      'en-US': 'When `data` is empty, the table will display an empty data message.',
+    },
+    component: EmptyComp,
+    code: Empty,
+  },
+  {
+    path: 'draggable',
+    title: {
+      'zh-CN': '拖拽排序',
+      'en-US': 'Drag Sorting',
+    },
+    description: {
+      'zh-CN': '配合 `sortablejs` 等第三方库可以实现表格拖拽排序。',
+      'en-US': 'Combine with `sortablejs` to implement table drag sorting.',
+    },
+    component: DraggableComp,
+    code: Draggable,
+  },
+  {
+    path: 'resizable',
+    title: {
+      'zh-CN': '列宽拖拽',
+      'en-US': 'Resizable Column',
+    },
+    description: {
+      'zh-CN': '设置 `resizable` 属性结合 `border` 即可开启列宽拖拽功能。',
+      'en-US': 'Set `resizable` attribute combined with `border` to enable column width resizing.',
+    },
+    component: ResizableComp,
+    code: Resizable,
   }
 ]
 

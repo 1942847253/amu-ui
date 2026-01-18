@@ -48,7 +48,7 @@
     },
     {
       "key": "dataDisplay",
-      "items": ["tag", "tree"]
+      "items": ["tag", "tree", "table"]
     },
     {
       "key": "dataEntry",

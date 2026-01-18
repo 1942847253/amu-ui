@@ -20,6 +20,16 @@ export interface TableColumn<T = any> {
   renderHeader?: (data: { column: TableColumn<T>; $index: number }) => any
   showOverflowTooltip?: boolean
   children?: TableColumn<T>[]
+  // Internal properties for layout
+  rowSpan?: number
+  colSpan?: number
+  level?: number
+  renderLeft?: number
+  renderRight?: number
+  isLastLeft?: boolean
+  isFirstRight?: boolean
+  isLastFluid?: boolean
+  isRightEdge?: boolean
   [key: string]: any
 }
 
@@ -37,6 +47,14 @@ export const tableProps = {
    * @description 表格数据
    * @en Table data
    */
+  /**
+   * @description 是否开启行拖拽
+   * @en Whether to enable row dragging
+   */
+  draggable: {
+    type: Boolean,
+    default: false
+  },
   data: {
     type: Array as PropType<any[]>,
     default: () => [],
@@ -142,6 +160,11 @@ export const tableEmits = {
    * @en Triggered when column width changes by dragging header
    */
   'header-dragend': (newWidth: number, oldWidth: number, column: any, event: MouseEvent) => true,
+  /**
+   * @description 当行拖拽结束时触发
+   * @en Triggered when row dragging ends
+   */
+  'row-drag-end': (evt: { newIndex: number; oldIndex: number; newRow: any; oldRow: any; list: any[] }) => true,
 }
 
 export type TableEmits = typeof tableEmits

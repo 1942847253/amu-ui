@@ -44,7 +44,6 @@ import {
   computed,
   nextTick,
   onMounted,
-  onUpdated,
   provide,
   ref,
   onBeforeUnmount,
@@ -165,9 +164,7 @@ let resizeObserver: ResizeObserver | undefined
 
 onMounted(() => {
   if (!props.native) {
-    nextTick(() => {
       update()
-    })
   }
   if (!props.noresize) {
     resizeObserver = new ResizeObserver(() => update())
@@ -175,8 +172,6 @@ onMounted(() => {
     if (scrollbar.value) resizeObserver.observe(scrollbar.value)
   }
 })
-
-onUpdated(() => update())
 
 onBeforeUnmount(() => {
   if (resizeObserver) {

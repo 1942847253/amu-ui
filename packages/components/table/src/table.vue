@@ -38,6 +38,7 @@
     <!-- Main Body -->
     <div 
       class="amu-table__body-wrapper" 
+      ref="bodyWrapper"
       :style="bodyStyle"
     >
       <VirtualScroller 
@@ -106,6 +107,7 @@ import TableHeader from './components/table-header'
 import TableBody from './components/table-body'
 import VirtualScroller from './components/virtual-scroller.vue'
 import { AmuPopup } from '../../popup'
+import Sortable from 'sortablejs'
 
 defineOptions({
   name: 'AmuTable'
@@ -116,6 +118,7 @@ const emit = defineEmits(tableEmits)
 
 const store = createStore(props, emit)
 const headerWrapper = ref<HTMLElement>()
+const bodyWrapper = ref<HTMLElement>()
 const scrollPosition = ref({ left: false, right: false }) // Default false
 const scrollbarRef = ref() 
 const gutterWidth = ref(0) // Scrollbar gutter
@@ -220,6 +223,50 @@ const bodyStyle = computed(() => {
 })
 
 // TODO: Sync scroll logic between header and body if body scrolls horizontally
+
+// Drag & Drop
+let sortable: Sortable | null = null
+
+const initSortable = () => {
+    if (sortable) sortable.destroy()
+    if (!props.draggable) return
+    if (props.virtual) return // Virtual scroll not supported yet
+
+    const el = bodyWrapper.value?.querySelector('.amu-table__body tbody') as HTMLElement
+    if (!el) return
+
+    const options: any = {
+        animation: 150,
+        onEnd: (evt: any) => {
+             const { newIndex, oldIndex } = evt
+             if (newIndex === oldIndex) return
+             
+             emit('row-drag-end', {
+                 newIndex,
+                 oldIndex,
+                 list: store.tableData.value
+             })
+        }
+    }
+    
+    if (el.querySelector('.amu-table__drag-handle')) {
+        options.handle = '.amu-table__drag-handle'
+    }
+
+    sortable = Sortable.create(el, options)
+}
+
+watch(() => props.draggable, initSortable)
+
+onMounted(() => {
+    nextTick(() => {
+        initSortable()
+    })
+})
+
+onBeforeUnmount(() => {
+    if (sortable) sortable.destroy()
+})
 </script>
 
 <style>
@@ -278,6 +325,22 @@ const bodyStyle = computed(() => {
   box-sizing: border-box;
   text-overflow: ellipsis;
   vertical-align: middle;
+  position: relative; /* For Resize Proxy */
+}
+
+/* Resize Proxy */
+.amu-table__column-resize-proxy {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+  cursor: col-resize;
+  z-index: 10;
+  user-select: none;
+}
+.amu-table__column-resize-proxy:hover {
+  border-right: 2px solid var(--amu-color-primary);
 }
 
 .amu-table__cell .cell {
@@ -384,7 +447,7 @@ const bodyStyle = computed(() => {
   border-right: 1px solid var(--amu-table-border-color);
 }
 
-.amu-table--border .amu-table__cell:last-child {
+.amu-table--border .amu-table__cell.is-right-edge {
   border-right: none;
 }
 
@@ -426,6 +489,13 @@ const bodyStyle = computed(() => {
    /* Popup component should handle basic styles, we override theme vars or specific props */
 }
 
-
-
+.amu-table__empty {
+  min-height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--amu-table-text-secondary);
+  font-size: 14px;
+  width: 100%;
+}
 </style>

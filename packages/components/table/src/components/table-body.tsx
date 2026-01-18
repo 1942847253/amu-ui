@@ -62,7 +62,8 @@ export default defineComponent({
                    'amu-table__cell', 
                    { 'amu-table__cell-selection': col.type === 'selection' },
                    col.isLastLeft ? 'is-last-left' : '',
-                   col.isFirstRight ? 'is-first-right' : ''
+                   col.isFirstRight ? 'is-first-right' : '',
+                   colIndex === fullRenderColumns.value.length - 1 ? 'is-right-edge' : ''
                 ]}
                 style={{
                   textAlign: col.align || 'left',

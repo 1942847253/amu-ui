@@ -2,44 +2,48 @@
   <AmuTable 
     :data="tableData" 
     style="width: 100%"
-    :default-sort="{ prop: 'date', order: 'descending' }"
+    :default-sort="{ prop: 'score', order: 'descending' }"
     @sort-change="handleSortChange"
   >
-    <AmuTableColumn prop="date" label="Date" sortable width="180" />
-    <AmuTableColumn prop="name" label="Name" sortable width="180" />
-    <AmuTableColumn prop="address" label="Address" :formatter="formatter" />
+    <AmuTableColumn prop="name" label="Employee" width="180" />
+    <AmuTableColumn prop="department" label="Department" width="150" />
+    <AmuTableColumn prop="projects" label="Projects Done" sortable width="150" />
+    <AmuTableColumn prop="score" label="Performance Score" sortable width="180" />
+    <AmuTableColumn prop="joinDate" label="Join Date" sortable />
   </AmuTable>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 const tableData = [
   {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    name: 'Sarah Connor',
+    department: 'Sales',
+    projects: 12,
+    score: 95,
+    joinDate: '2022-05-15'
   },
   {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    name: 'John Doe',
+    department: 'Engineering',
+    projects: 8,
+    score: 88,
+    joinDate: '2023-01-10'
   },
   {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    name: 'Emily Blunt',
+    department: 'Design',
+    projects: 15,
+    score: 92,
+    joinDate: '2021-11-05'
   },
   {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
+    name: 'Michael Scott',
+    department: 'Management',
+    projects: 5,
+    score: 75,
+    joinDate: '2019-03-20'
+  }
 ]
-
-const formatter = (row: any) => {
-  return row.address
-}
 
 const handleSortChange = ({ column, prop, order }: any) => {
     console.log('Sort changed:', column, prop, order)

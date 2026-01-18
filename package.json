@@ -333,7 +333,8 @@
     "@amu-ui/locale": "workspace:*",
     "async-validator": "^4.2.5",
     "dayjs": "^1.11.19",
-    "lodash-es": "^4.17.22"
+    "lodash-es": "^4.17.22",
+    "sortablejs": "^1.15.6"
   },
   "peerDependencies": {
     "vue": "^3.4.0"
