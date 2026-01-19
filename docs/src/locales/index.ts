@@ -79,6 +79,7 @@ export const messages = {
       form: 'Form 表单',
       row: 'Grid 栅格',
       loading: 'Loading 加载中',
+      card: 'Card 卡片',
     }
   },
   'en-US': {
@@ -161,6 +162,7 @@ export const messages = {
       form: 'Form',
       row: 'Grid',
       loading: 'Loading',
+      card: 'Card',
     }
   }
 } as const

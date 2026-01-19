@@ -36,7 +36,8 @@
     "tabs": "标签页",
     "pagination": "分页",
     "form": "表单",
-    "loading": "加载中"
+    "loading": "加载中",
+    "card": "卡片"
   },
   "groups": [
     {
@@ -49,7 +50,7 @@
     },
     {
       "key": "dataDisplay",
-      "items": ["tag", "tree", "table"]
+      "items": ["card", "tag", "tree", "table"]
     },
     {
       "key": "dataEntry",

@@ -33,12 +33,16 @@ import { AmuTable, AmuTableColumn } from './table'
 import { AmuForm, AmuFormItem } from './form'
 import { AmuRow } from './row'
 import { AmuCol } from './col'
+import { AmuCard, AmuCardGrid, AmuCardMeta } from './card'
 
 export { AmuRow } from './row'
 export * from './row'
 
 export { AmuCol } from './col'
 export * from './col'
+
+export { AmuCard, AmuCardGrid, AmuCardMeta } from './card'
+export * from './card'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -177,6 +181,9 @@ const AmuUI: Plugin = {
     app.use(AmuTableColumn)
     app.use(AmuRow)
     app.use(AmuCol)
+    app.use(AmuCard)
+    app.use(AmuCardGrid)
+    app.use(AmuCardMeta)
     app.use(AmuForm)
     app.use(AmuFormItem)
   },
