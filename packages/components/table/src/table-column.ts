@@ -1,30 +1,10 @@
 import { defineComponent, inject, onMounted, onBeforeUnmount, watch, provide, h } from 'vue'
 import { TABLE_INJECTION_KEY, TABLE_COLUMN_INJECTION_KEY } from './store'
-import type { TableColumn } from './props'
+import { tableColumnProps, type TableColumn } from './props'
 
 export default defineComponent({
   name: 'AmuTableColumn',
-  props: {
-    type: String,
-    prop: String,
-    label: String,
-    width: [String, Number],
-    minWidth: [String, Number],
-    sortable: {
-      type: [Boolean, String],
-      default: false
-    },
-    fixed: [Boolean, String],
-    align: String,
-    headerAlign: String,
-    formatter: Function,
-    resizable: {
-      type: Boolean,
-      default: true
-    },
-    showOverflowTooltip: Boolean,
-    index: [Number, Function]
-  },
+  props: tableColumnProps,
   setup(props, { slots }) {
     const store = inject(TABLE_INJECTION_KEY) as any
     const parentColumn = inject(TABLE_COLUMN_INJECTION_KEY, null) as TableColumn | null

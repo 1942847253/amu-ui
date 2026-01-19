@@ -45,6 +45,15 @@ import LoadingComp from './loading.vue'
 import Pagination from './pagination.vue?raw'
 import PaginationComp from './pagination.vue'
 
+import Expand from './expand.vue?raw'
+import ExpandComp from './expand.vue'
+
+import NestedTable from './nested-table.vue?raw'
+import NestedTableComp from './nested-table.vue'
+
+import Filter from './filter.vue?raw'
+import FilterComp from './filter.vue'
+
 export const demos = [
   {
     path: 'basic',
@@ -240,6 +249,45 @@ export const demos = [
     },
     component: PaginationComp,
     code: Pagination
+  },
+  {
+    path: 'expand',
+    title: {
+      'zh-CN': '展开行',
+      'en-US': 'Expandable Row'
+    },
+    description: {
+      'zh-CN': '通过 `type="expand"` 列和 Slot 可以开启展开行功能，常用于展示详情信息。',
+      'en-US': 'Use `type="expand"` column and Slot to enable expandable row, usually used for displaying details.'
+    },
+    component: ExpandComp,
+    code: Expand
+  },
+  {
+    path: 'filter',
+    title: {
+      'zh-CN': '筛选',
+      'en-US': 'Filter'
+    },
+    description: {
+      'zh-CN': '对表格数据进行筛选。',
+      'en-US': 'Filter table data.'
+    },
+    component: FilterComp,
+    code: Filter
+  },
+  {
+    path: 'nested-table',
+    title: {
+      'zh-CN': '嵌套子表格',
+      'en-US': 'Nested Table'
+    },
+    description: {
+      'zh-CN': '在展开行中可以放置另一个 Table 组件，实现嵌套表格的数据展示。',
+      'en-US': 'You can put another Table component in the expanded row to display nested table data.'
+    },
+    component: NestedTableComp,
+    code: NestedTable
   }]
 
 export const meta = {

@@ -1,32 +1,26 @@
 <template>
-  <div>
     <div style="margin-bottom: 16px; display: flex; gap: 8px; align-items: center;">
       <span>Selected: {{ selection.length }}</span>
-      <AmuButton :disabled="selection.length === 0" type="primary" size="small">Batch Export</AmuButton>
-      <AmuButton :disabled="selection.length === 0" type="danger" size="small">Batch Delete</AmuButton>
+      <AmuButton :disabled="selection.length === 0" type="primary" size="small" @click="handleBatchExport">Batch Export</AmuButton>
+      <AmuButton :disabled="selection.length === 0" type="danger" size="small" @click="handleBatchDelete">Batch Delete</AmuButton>
     </div>
-    <AmuTable 
-      :data="tableData" 
-      :row-key="(row) => row.id"
-      @selection-change="handleSelectionChange"
-      ref="tableRef"
-    >
-      <AmuTableColumn type="selection" width="55" />
-      <AmuTableColumn prop="orderId" label="Order ID" width="120" />
-      <AmuTableColumn prop="customer" label="Customer" width="150" />
-      <AmuTableColumn prop="amount" label="Amount" sortable width="120" />
-      <AmuTableColumn prop="status" label="Status" width="120">
+    <AmuTable  :data="tableData" :row-key="(row) => row.id" @selection-change="handleSelectionChange" ref="tableRef">
+      <AmuTableColumn type="selection" />
+      <AmuTableColumn prop="orderId" label="Order ID" />
+      <AmuTableColumn prop="customer" label="Customer" />
+      <AmuTableColumn prop="amount" label="Amount" sortable />
+      <AmuTableColumn prop="status" label="Status">
         <template #default="{ row }">
-           <AmuTag :type="row.status === 'Paid' ? 'success' : 'warning'">{{ row.status }}</AmuTag>
+          <AmuTag :type="row.status === 'Paid' ? 'success' : 'warning'">{{ row.status }}</AmuTag>
         </template>
       </AmuTableColumn>
       <AmuTableColumn prop="date" label="Date" sortable />
     </AmuTable>
-  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { AmuMessage } from 'amu-ui'
 
 const tableData = [
   {
@@ -76,5 +70,13 @@ const tableRef = ref(null)
 
 const handleSelectionChange = (val: any[]) => {
   selection.value = val
+}
+
+const handleBatchExport = () => {
+    AmuMessage.success(`Exporting ${selection.value.length} items`)
+}
+
+const handleBatchDelete = () => {
+    AmuMessage.warning(`Deleting ${selection.value.length} items`)
 }
 </script>

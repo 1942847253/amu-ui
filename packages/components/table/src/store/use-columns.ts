@@ -278,6 +278,18 @@ export function useColumns(props: TableProps) {
   })
 
   const setColumns = (cols: TableColumn[]) => {
+    // Default width for selection
+    const normalize = (columns: TableColumn[]) => {
+      columns.forEach((col) => {
+        if ((col.type === 'selection' || col.type === 'expand') && !col.width) {
+          col.width = 48
+        }
+        if (col.children) {
+          normalize(col.children)
+        }
+      })
+    }
+    normalize(cols)
     _columns.value = cols
   }
 
@@ -298,7 +310,11 @@ export function useColumns(props: TableProps) {
     if (!column.id) {
         column.id = `amu-col-${seed++}`
     }
-    
+
+    if ((column.type === 'selection' || column.type === 'expand') && !column.width) {
+        column.width = 48
+    }
+
     // 简单实现：这里通常配合 Slot 模式使用
     // 实际生产级库需要处理 Slot 收集逻辑，这里简化为响应式数组操作
     if (parent) {

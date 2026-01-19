@@ -14,7 +14,7 @@ export default defineComponent({
     const store = inject(TABLE_INJECTION_KEY) as any
 
     return () => {
-      const { fullRenderColumns, isRowSelected, toggleRowSelection } = store
+      const { fullRenderColumns, isRowSelected, toggleRowSelection, isRowExpanded, toggleRowExpansion } = store
       // data comes from VirtualScroller slot: { item: row, index: rowIndex }
       // OR direct data if not virtual
 
@@ -37,9 +37,12 @@ export default defineComponent({
         const rowIndex = rowObj.index !== undefined ? rowObj.index : mapIndex
         
         const isSelected = isRowSelected(row, rowIndex)
+        const isExpanded = isRowExpanded(row)
         const isStriped = store.props.stripe && rowIndex % 2 === 1
 
-        return (
+        const rowParams = { row, rowIndex }
+
+        const mainRow = (
           <tr 
             class={[
               'amu-table__row', 
@@ -61,6 +64,7 @@ export default defineComponent({
                 class={[
                    'amu-table__cell', 
                    { 'amu-table__cell-selection': col.type === 'selection' },
+                   { 'amu-table__cell-expand': col.type === 'expand' },
                    col.isLastLeft ? 'is-last-left' : '',
                    col.isFirstRight ? 'is-first-right' : '',
                    colIndex === fullRenderColumns.value.length - 1 ? 'is-right-edge' : ''
@@ -92,7 +96,23 @@ export default defineComponent({
                         onClick={(e: Event) => e.stopPropagation()}
                       />
                    ) : (
-                     col.render ? col.render({ row, column: col, $index: rowIndex }) : (col.formatter ? col.formatter(row, col, row[col.prop], rowIndex) : row[col.prop])
+                     col.type === 'expand' ? (
+                        (col.expandable && !col.expandable(row, rowIndex)) ? null : (
+                          <div 
+                              class={['amu-table__expand-icon', { 'amu-table__expand-icon--expanded': isExpanded }]}
+                              onClick={(e) => {
+                                  e.stopPropagation()
+                                  toggleRowExpansion(row)
+                              }}
+                          >
+                              <svg viewBox="0 0 1024 1024" width="1em" height="1em">
+                                  <path d="M340.864 149.312a30.592 30.592 0 0 0 0 42.752L652.736 512 340.864 831.872a30.592 30.592 0 0 0 0 42.752 29.12 29.12 0 0 0 41.728 0L714.24 534.336a32 32 0 0 0 0-44.672L382.592 149.376a29.12 29.12 0 0 0-41.728 0z" fill="currentColor"></path>
+                              </svg>
+                          </div>
+                        )
+                     ) : (
+                        col.render ? col.render({ row, column: col, $index: rowIndex }) : (col.formatter ? col.formatter(row, col, row[col.prop], rowIndex) : row[col.prop])
+                     )
                    )}
                  </div>
               </td>
@@ -100,6 +120,22 @@ export default defineComponent({
             })}
           </tr>
         )
+
+        if (isExpanded) {
+            const expandColumn = fullRenderColumns.value.find((col: any) => col.type === 'expand')
+            if (expandColumn) {
+                return [
+                    mainRow,
+                    <tr class="amu-table__row amu-table__row--expanded">
+                        <td colspan={fullRenderColumns.value.length} class="amu-table__cell amu-table__expanded-cell">
+                            { expandColumn.render ? expandColumn.render({ row, column: expandColumn, $index: rowIndex }) : null }
+                        </td>
+                    </tr>
+                ]
+            }
+        }
+        
+        return mainRow
       }
 
       return (

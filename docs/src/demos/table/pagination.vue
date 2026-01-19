@@ -4,6 +4,7 @@
       :data="tableData" 
       :columns="columns" 
       :pagination="pagination"
+      :loading="loading"
       @page-change="onPageChange"
       height="300"
     />
@@ -11,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { AmuTable, AmuTableColumn } from 'amu-ui/table'
 import { AmuMessage } from 'amu-ui/message'
 
@@ -21,15 +22,8 @@ const columns = [
   { prop: 'address', label: 'Address' }
 ]
 
-const generateData = (page: number, size: number) => {
-    return Array.from({ length: size }).map((_, index) => ({
-        date: '2016-05-03',
-        name: `Tom ${page}-${index + 1}`,
-        address: `No. 189, Grove St, Los Angeles`
-    }))
-}
-
-const tableData = ref(generateData(1, 10))
+const loading = ref(false)
+const tableData = ref([])
 
 const pagination = reactive({
     current: 1,
@@ -40,13 +34,46 @@ const pagination = reactive({
     showTotal: true
 })
 
-const onPageChange = (current: number, pageSize: number) => {
-    AmuMessage.success(`Page: ${current}, Size: ${pageSize}`)
-    pagination.current = current
-    pagination.pageSize = pageSize
-    // Simulate API call
-    tableData.value = generateData(current, pageSize)
+const fetchData = (page: number, size: number) => {
+    return new Promise<{ list: any[], total: number }>((resolve) => {
+        setTimeout(() => {
+            // Simulate backend total count
+            const total = 100 
+            // Simulate data generation for current page
+            const list = Array.from({ length: size }).map((_, index) => ({
+                date: '2016-05-03',
+                name: `Tom ${page}-${index + 1}`,
+                address: `No. 189, Grove St, Los Angeles`
+            }))
+            
+            resolve({
+                list,
+                total
+            })
+        }, 800)
+    })
 }
+
+const loadData = async (page: number, size: number) => {
+    loading.value = true
+    try {
+        const { list, total } = await fetchData(page, size)
+        tableData.value = list
+        pagination.current = page
+        pagination.pageSize = size
+        pagination.total = total
+    } finally {
+        loading.value = false
+    }
+}
+
+const onPageChange = (current: number, pageSize: number) => {
+    loadData(current, pageSize)
+}
+
+onMounted(() => {
+    loadData(1, 10)
+})
 </script>
 
 <style scoped>

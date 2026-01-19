@@ -26,13 +26,13 @@
         ref="headerWrapper"
         :style="{ paddingRight: gutterWidth + 'px' }"
     >
-      <table class="amu-table__header" cellspacing="0" cellpadding="0" border="0" :style="{ width: store.tableWidth.value, minWidth: minTableWidth }">
+      <table class="amu-table__header" cellspacing="0" cellpadding="0" border="0" :style="{ width: store.tableWidth.value, minWidth: minTableWidth, tableLayout: 'fixed' }">
         <colgroup>
            <col 
              v-for="(col, index) in (store.fullRenderColumns.value as any[])" 
              :key="index" 
              :style="{ 
-               width: col.width ? col.width + 'px' : (col.isLastFluid ? undefined : (col.minWidth ? col.minWidth + 'px' : '80px'))
+               width: col.width ? col.width + 'px' : (col.minWidth ? col.minWidth + 'px' : (col.fixed ? '80px' : undefined))
              }" 
            >
         </colgroup>
@@ -61,7 +61,7 @@
                v-for="(col, index) in (store.fullRenderColumns.value as any[])" 
                :key="index" 
                :style="{ 
-                 width: col.width ? col.width + 'px' : (col.isLastFluid ? undefined : (col.minWidth ? col.minWidth + 'px' : '80px'))
+                 width: col.width ? col.width + 'px' : (col.minWidth ? col.minWidth + 'px' : (col.fixed ? '80px' : undefined))
                }"
              >
            </colgroup>
@@ -76,7 +76,7 @@
                  v-for="(col, index) in (store.fullRenderColumns.value as any[])" 
                  :key="index" 
                  :style="{ 
-                   width: col.width ? col.width + 'px' : (col.isLastFluid ? undefined : (col.minWidth ? col.minWidth + 'px' : '80px'))
+                   width: col.width ? col.width + 'px' : (col.minWidth ? col.minWidth + 'px' : (col.fixed ? '80px' : undefined))
                  }"
                >
           </colgroup>
@@ -318,6 +318,30 @@ onBeforeUnmount(() => {
   --amu-table-text-secondary: var(--amu-color-text-default);
   --amu-table-placeholder-color: #c0c4cc;
   --amu-table-row-selected-bg: #E8F3FF;
+
+  --amu-table-expand-icon-color: var(--amu-color-text-default);
+  --amu-table-expanded-cell-bg: var(--amu-color-bg-fill);
+}
+
+.amu-table__expand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  color: var(--amu-table-expand-icon-color);
+}
+
+.amu-table__expand-icon--expanded {
+  transform: rotate(90deg);
+}
+
+.amu-table__expanded-cell {
+  padding: 0;
+  background-color: var(--amu-table-expanded-cell-bg); 
+  border-bottom: 1px solid var(--amu-table-border-color);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -392,6 +416,12 @@ onBeforeUnmount(() => {
   color: var(--amu-table-text-secondary);
   font-weight: 600;
   background-color: var(--amu-table-header-bg);
+  transition: background-color 0.2s;
+}
+
+.amu-table__header .amu-table__cell.is-sortable:hover {
+  background-color: var(--amu-color-border) !important; /* Slightly darker than fill */
+  cursor: pointer;
 }
 
 .caret-wrapper {

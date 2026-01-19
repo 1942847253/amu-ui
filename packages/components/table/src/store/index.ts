@@ -3,6 +3,7 @@ import type { TableProps } from '../props'
 import { useColumns } from './use-columns'
 import { useData } from './use-data'
 import { useSelection } from './use-selection'
+import { useExpand } from './use-expand'
 
 export const TABLE_INJECTION_KEY = Symbol('AmuTable')
 export const TABLE_COLUMN_INJECTION_KEY = Symbol('AmuTableColumn')
@@ -12,7 +13,7 @@ export function createStore(props: TableProps, emit: any) {
     columns, flatColumns, fixedLeftColumns, fixedRightColumns, notFixedColumns, fullRenderColumns, tableWidth, setColumns, insertColumn, resizeColumn, removeColumn, headerRows 
   } = useColumns(props)
   
-  const { tableData, sortState, handleSort } = useData(props)
+  const { tableData, sortState, filters, handleSort, handleFilterChange } = useData(props, columns, emit)
 
   const {
     selection,
@@ -23,6 +24,8 @@ export function createStore(props: TableProps, emit: any) {
     isAllSelected,
     isIndeterminate
   } = useSelection(props, tableData, emit)
+
+  const { expandedRowKeys, isRowExpanded, toggleRowExpansion } = useExpand(props, emit)
 
   // Tooltip State
   const tooltipState = ref<{ el: HTMLElement, content: string } | null>(null)
@@ -52,7 +55,9 @@ export function createStore(props: TableProps, emit: any) {
     
     tableData,
     sortState,
+    filters,
     handleSort,
+    handleFilterChange,
 
     selection,
     toggleRowSelection,
@@ -61,6 +66,10 @@ export function createStore(props: TableProps, emit: any) {
     isRowSelected,
     isAllSelected,
     isIndeterminate,
+
+    expandedRowKeys,
+    isRowExpanded,
+    toggleRowExpansion,
 
     tooltipState,
     setTooltip: (el: HTMLElement | null, content: string = '') => {

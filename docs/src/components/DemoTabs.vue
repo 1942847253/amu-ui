@@ -6,100 +6,118 @@
 
     <div class="demo-meta" v-if="activeDemo.code !== ''">
       <div class="demo-actions">
-        <button
-          class="action-btn"
-          @click="expanded = !expanded"
-          :title="expanded ? 'Hide Code' : 'Show Code'"
-          :class="{ active: expanded }"
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="16 18 22 12 16 6"></polyline>
-            <polyline points="8 6 2 12 8 18"></polyline>
-          </svg>
-        </button>
-        <button
-          class="action-btn"
-          @click="onCopy"
-          title="Copy Code"
-          :class="{ copied: isCopied }"
-        >
-          <svg
-            v-if="!isCopied"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-            <path
-              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2v1"
-            ></path>
-          </svg>
-          <svg
-            v-else
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-        </button>
-        <button
-          class="action-btn"
-          @click="handleOpenStackBlitz"
-          title="Open in StackBlitz"
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-          </svg>
-        </button>
+        <AmuPopup trigger="hover" placement="top" class="demo-tooltip">
+          <template #reference>
+            <button
+              class="action-btn"
+              @click="expanded = !expanded"
+              :class="{ active: expanded }"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+            </button>
+          </template>
+          <div class="demo-tooltip-content">
+            {{ expanded ? "Hide Code" : "Show Code" }}
+          </div>
+        </AmuPopup>
 
-        <button
-          class="action-btn"
-          @click="handleOpenVuePlayground"
-          title="Open in Vue Playground"
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M2 3l10 18L22 3"></path>
-            <path d="M6 3l6 10 6-10"></path>
-          </svg>
-        </button>
+        <AmuPopup trigger="hover" placement="top" class="demo-tooltip">
+          <template #reference>
+            <button
+              class="action-btn"
+              @click="onCopy"
+              :class="{ copied: isCopied }"
+            >
+              <svg
+                v-if="!isCopied"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path
+                  d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2v1"
+                ></path>
+              </svg>
+              <svg
+                v-else
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+          </template>
+          <div class="demo-tooltip-content">
+            {{ isCopied ? "Copied!" : "Copy Code" }}
+          </div>
+        </AmuPopup>
+
+        <AmuPopup trigger="hover" placement="top" class="demo-tooltip">
+          <template #reference>
+            <button class="action-btn" @click="handleOpenStackBlitz">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polygon
+                  points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
+                ></polygon>
+              </svg>
+            </button>
+          </template>
+          <div class="demo-tooltip-content">Open in StackBlitz</div>
+        </AmuPopup>
+
+        <AmuPopup trigger="hover" placement="top" class="demo-tooltip">
+          <template #reference>
+            <button class="action-btn" @click="handleOpenVuePlayground">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M2 3l10 18L22 3"></path>
+                <path d="M6 3l6 10 6-10"></path>
+              </svg>
+            </button>
+          </template>
+          <div class="demo-tooltip-content">Open in Vue Playground</div>
+        </AmuPopup>
       </div>
     </div>
 
@@ -111,6 +129,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { AmuPopup } from "amu-ui";
 import CodeBlock from "./CodeBlock.vue";
 import { openInStackBlitz } from "../utils/open-in-stackblitz";
 import { openInVuePlayground } from "../utils/open-in-vue-playground";
@@ -240,5 +259,23 @@ const handleOpenVuePlayground = () => {
   border: none !important;
   background: transparent !important;
   font-size: 13px !important;
+}
+
+.demo-tooltip-content {
+  padding: 4px 8px;
+  font-size: 12px;
+  background: var(--amu-text-1);
+  color: var(--amu-text-inverse);
+  border-radius: 4px;
+}
+</style>
+
+<style>
+/* Global styles for the tooltip popper */
+.demo-tooltip .amu-popup__arrow {
+  background: var(--amu-text-1) !important;
+}
+.demo-tooltip::before {
+  background: var(--amu-text-1) !important;
 }
 </style>

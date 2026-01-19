@@ -288,6 +288,32 @@ function collectApiMeta(rootDir: string): ApiMeta {
                     }
                   }
                 }
+              } else {
+                // Handle cases where prop is defined directly, e.g. prop: String or prop: String as PropType<...>
+                const initExpr = desc;
+                if (
+                  ts.isAsExpression(initExpr) ||
+                  ts.isSatisfiesExpression(initExpr)
+                ) {
+                  const typeNode = initExpr.type;
+                  if (
+                    ts.isTypeReferenceNode(typeNode) &&
+                    typeNode.typeArguments?.length
+                  ) {
+                    const arg = typeNode.typeArguments[0];
+                    const t = checker.getTypeFromTypeNode(arg);
+                    typeText = checker.typeToString(
+                      t,
+                      undefined,
+                      ts.TypeFormatFlags.NoTruncation,
+                    );
+                  } else {
+                    typeText =
+                      primitiveFromCtor(initExpr.expression) ?? "any";
+                  }
+                } else {
+                  typeText = primitiveFromCtor(initExpr) ?? "any";
+                }
               }
 
               return {

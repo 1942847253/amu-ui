@@ -1,6 +1,7 @@
 import { defineComponent, h, inject, ref } from 'vue'
 import { TABLE_INJECTION_KEY } from '../store'
 import { AmuCheckbox } from '../../../checkbox' // Correct path to checkbox component
+import FilterPanel from './filter-panel.vue'
 
 export default defineComponent({
   name: 'AmuTableHeader',
@@ -104,6 +105,9 @@ export default defineComponent({
                         <i class={['sort-caret', 'ascending', { active: sortState.value.prop === column.prop && sortState.value.order === 'ascending' }]}></i>
                         <i class={['sort-caret', 'descending', { active: sortState.value.prop === column.prop && sortState.value.order === 'descending' }]}></i>
                      </span>
+                  )}
+                  {column.filters && (
+                      <FilterPanel column={column} />
                   )}
                 </>
               )}

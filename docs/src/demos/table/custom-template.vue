@@ -1,18 +1,15 @@
 <template>
-  <AmuTable 
-    :data="tableData" 
-    style="width: 100%"
-    border
-  >
+  <AmuTable :data="tableData" style="width: 100%" border>
     <AmuTableColumn prop="name" label="File Name" width="250">
       <template #default="{ row }">
         <div style="display: flex; align-items: center">
-          <AmuIcon :name="row.type === 'folder' ? 'folder' : 'document'" style="margin-right: 8px; font-size: 16px;" color="var(--amu-color-primary)" />
+          <AmuIcon :name="row.type === 'folder' ? 'folder' : 'document'" style="margin-right: 8px; font-size: 16px;"
+            color="var(--amu-color-primary)" />
           <span>{{ row.name }}</span>
         </div>
       </template>
     </AmuTableColumn>
-    
+
     <AmuTableColumn prop="type" label="Type" width="120">
       <template #default="{ row }">
         <AmuTag :type="row.type === 'folder' ? 'info' : 'success'" size="small">{{ row.type.toUpperCase() }}</AmuTag>
@@ -24,14 +21,18 @@
 
     <AmuTableColumn label="Operations">
       <template #default="{ row }">
-        <AmuButton size="small" type="primary" link @click="handleDownload(row)">Download</AmuButton>
-        <AmuButton size="small" type="danger" link @click="handleDelete(row)">Delete</AmuButton>
+        <AmuSpace>
+          <AmuButton size="small" type="primary" link @click="handleDownload(row)">Download</AmuButton>
+          <AmuButton size="small" status="danger" link @click="handleDelete(row)">Delete</AmuButton>
+        </AmuSpace>
       </template>
     </AmuTableColumn>
   </AmuTable>
 </template>
 
 <script setup lang="ts">
+import { AmuSpace } from 'amu-ui'
+
 const tableData = [
   {
     name: 'Documents',
