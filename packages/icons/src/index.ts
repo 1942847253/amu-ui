@@ -1,6 +1,7 @@
 import type { App } from 'vue'
 import IconActivity from './icons/IconActivity.vue'
 import IconAirplay from './icons/IconAirplay.vue'
+import IconAlertCircleFill from './icons/IconAlertCircleFill.vue'
 import IconAlertCircle from './icons/IconAlertCircle.vue'
 import IconAlertOctagon from './icons/IconAlertOctagon.vue'
 import IconAlertTriangle from './icons/IconAlertTriangle.vue'
@@ -42,6 +43,7 @@ import IconCalendar from './icons/IconCalendar.vue'
 import IconCameraOff from './icons/IconCameraOff.vue'
 import IconCamera from './icons/IconCamera.vue'
 import IconCast from './icons/IconCast.vue'
+import IconCheckCircleFill from './icons/IconCheckCircleFill.vue'
 import IconCheckCircle from './icons/IconCheckCircle.vue'
 import IconCheckSquare from './icons/IconCheckSquare.vue'
 import IconCheck from './icons/IconCheck.vue'
@@ -277,6 +279,7 @@ import IconWatch from './icons/IconWatch.vue'
 import IconWifiOff from './icons/IconWifiOff.vue'
 import IconWifi from './icons/IconWifi.vue'
 import IconWind from './icons/IconWind.vue'
+import IconXCircleFill from './icons/IconXCircleFill.vue'
 import IconXCircle from './icons/IconXCircle.vue'
 import IconXOctagon from './icons/IconXOctagon.vue'
 import IconXSquare from './icons/IconXSquare.vue'
@@ -291,6 +294,7 @@ import IconZoomOut from './icons/IconZoomOut.vue'
 export {
   IconActivity,
   IconAirplay,
+  IconAlertCircleFill,
   IconAlertCircle,
   IconAlertOctagon,
   IconAlertTriangle,
@@ -332,6 +336,7 @@ export {
   IconCameraOff,
   IconCamera,
   IconCast,
+  IconCheckCircleFill,
   IconCheckCircle,
   IconCheckSquare,
   IconCheck,
@@ -567,6 +572,7 @@ export {
   IconWifiOff,
   IconWifi,
   IconWind,
+  IconXCircleFill,
   IconXCircle,
   IconXOctagon,
   IconXSquare,
@@ -582,6 +588,7 @@ export {
 const icons = [
     IconActivity,
     IconAirplay,
+    IconAlertCircleFill,
     IconAlertCircle,
     IconAlertOctagon,
     IconAlertTriangle,
@@ -623,6 +630,7 @@ const icons = [
     IconCameraOff,
     IconCamera,
     IconCast,
+    IconCheckCircleFill,
     IconCheckCircle,
     IconCheckSquare,
     IconCheck,
@@ -858,6 +866,7 @@ const icons = [
     IconWifiOff,
     IconWifi,
     IconWind,
+    IconXCircleFill,
     IconXCircle,
     IconXOctagon,
     IconXSquare,

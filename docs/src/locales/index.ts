@@ -81,6 +81,7 @@ export const messages = {
       loading: 'Loading 加载中',
       card: 'Card 卡片',
       skeleton: 'Skeleton 骨架屏',
+      progress: 'Progress 进度条',
     }
   },
   'en-US': {
@@ -165,6 +166,7 @@ export const messages = {
       loading: 'Loading',
       card: 'Card',
       skeleton: 'Skeleton',
+      progress: 'Progress',
     }
   }
 } as const

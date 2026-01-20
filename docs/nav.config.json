@@ -38,7 +38,8 @@
     "form": "表单",
     "loading": "加载中",
     "card": "卡片",
-    "skeleton": "骨架屏"
+    "skeleton": "骨架屏",
+    "progress": "进度条"
   },
   "groups": [
     {
@@ -59,7 +60,7 @@
     },
     {
       "key": "feedback",
-      "items": ["popup", "popconfirm", "dialog", "drawer", "message", "loading", "skeleton"]
+      "items": ["popup", "popconfirm", "dialog", "drawer", "message", "loading", "skeleton", "progress"]
     },
     {
       "key": "navigation",

@@ -1,0 +1,183 @@
+@import './animation.css';
+
+/* Progress Bar Container */
+.amu-progress {
+  position: relative;
+  line-height: 1;
+}
+
+/* Linear Progress specific layout */
+.amu-progress--line {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.amu-progress--line.amu-progress--without-text .amu-progress-bar {
+  margin-right: 0;
+  padding-right: 0;
+}
+
+/* Text on the right side */
+.amu-progress__text {
+  font-size: 14px;
+  color: var(--amu-color-text-default);
+  margin-left: 10px;
+  min-width: 50px;
+  line-height: 1;
+  text-align: left;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Icon in text */
+.amu-progress__icon {
+  width: 1.2em;
+  height: 1.2em;
+  fill: currentColor;
+}
+
+/* Bar Wrapper */
+.amu-progress-bar {
+  flex-grow: 1;
+  box-sizing: border-box;
+}
+
+/* Outer Track */
+.amu-progress-bar__outer {
+  width: 100%;
+  border-radius: 100px;
+  background-color: var(--amu-color-bg-fill);
+  overflow: hidden;
+  position: relative;
+  vertical-align: middle;
+}
+
+/* Inner Bar (Colored part) */
+.amu-progress-bar__inner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: var(--amu-color-primary);
+  text-align: right;
+  border-radius: 100px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: width 0.6s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Text Inside The Bar */
+.amu-progress-bar__innerText {
+  display: inline-block;
+  color: #fff;
+  font-size: 12px;
+  margin: 0 5px;
+  vertical-align: middle;
+}
+
+/* Status variants for Linear */
+.amu-progress.is-success .amu-progress-bar__inner {
+  background-color: var(--amu-color-status-success);
+}
+.amu-progress.is-success .amu-progress__text,
+.amu-progress.is-success .amu-progress__icon {
+  color: var(--amu-color-status-success);
+}
+
+.amu-progress.is-warning .amu-progress-bar__inner {
+  background-color: var(--amu-color-status-warning);
+}
+.amu-progress.is-warning .amu-progress__text,
+.amu-progress.is-warning .amu-progress__icon {
+  color: var(--amu-color-status-warning);
+}
+
+.amu-progress.is-exception .amu-progress-bar__inner {
+  background-color: var(--amu-color-status-danger);
+}
+.amu-progress.is-exception .amu-progress__text,
+.amu-progress.is-exception .amu-progress__icon {
+  color: var(--amu-color-status-danger);
+}
+
+
+/* Circular / Dashboard Progress */
+.amu-progress.amu-progress--circle,
+.amu-progress.amu-progress--dashboard {
+  display: inline-block;
+  position: relative;
+}
+
+/* Circular Text Container */
+.amu-progress.amu-progress--circle .amu-progress__text,
+.amu-progress.amu-progress--dashboard .amu-progress__text {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  /* Centering */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* Reset previous styles */
+  transform: none;
+  z-index: 10;
+  
+  /* Text Style */
+  font-size: 16px; /* Base size, scaled by JS */
+  color: var(--amu-color-text-default); /* Inside circle usually darker */
+  min-width: 0; /* Reset min-width from linear settings */
+}
+
+/* Status variants for Circular Text/Icon */
+.amu-progress.amu-progress--circle.is-success .amu-progress__text,
+.amu-progress.amu-progress--dashboard.is-success .amu-progress__text {
+  color: var(--amu-color-status-success);
+}
+.amu-progress.amu-progress--circle.is-warning .amu-progress__text,
+.amu-progress.amu-progress--dashboard.is-warning .amu-progress__text {
+  color: var(--amu-color-status-warning);
+}
+.amu-progress.amu-progress--circle.is-exception .amu-progress__text,
+.amu-progress.amu-progress--dashboard.is-exception .amu-progress__text {
+  color: var(--amu-color-status-danger);
+}
+
+/* Circular SVG Icon scaling */
+.amu-progress.amu-progress--circle .amu-progress__text svg,
+.amu-progress.amu-progress--dashboard .amu-progress__text svg {
+  width: 2.2em;
+  height: 2.2em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* SVG Elements */
+.amu-progress--circle svg,
+.amu-progress--dashboard svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Indeterminate Animation Overlay */
+.amu-progress-bar__indeterminate {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #fff;
+  opacity: 0.3;
+  border-radius: 100px;
+  animation: amu-progress-active 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+}

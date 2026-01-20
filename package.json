@@ -224,6 +224,16 @@
       "import": "./dist/es/components/popup/index.mjs",
       "require": "./dist/cjs/components/popup/index.cjs"
     },
+    "./progress": {
+      "types": "./dist/types/components/progress/index.d.ts",
+      "import": "./dist/es/components/progress/index.mjs",
+      "require": "./dist/cjs/components/progress/index.cjs"
+    },
+    "./components/progress": {
+      "types": "./dist/types/components/progress/index.d.ts",
+      "import": "./dist/es/components/progress/index.mjs",
+      "require": "./dist/cjs/components/progress/index.cjs"
+    },
     "./radio": {
       "types": "./dist/types/components/radio/index.d.ts",
       "import": "./dist/es/components/radio/index.mjs",
