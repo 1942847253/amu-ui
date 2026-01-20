@@ -6,39 +6,30 @@
       </template>
       <amu-card-meta title="System Modernization">
         <template #description>
-          <p class="meta-desc">
             Upgrade legacy systems to modern architecture using microservices and cloud-native technologies.
-          </p>
         </template>
         <template #avatar>
           <div class="user-avatar">PM</div>
         </template>
       </amu-card-meta>
       <template #actions>
-        <span class="action-item">👏 122</span>
-        <span class="action-item">💬 34</span>
+        <span class="action-item"><amu-icon><IconThumbsUp /></amu-icon> 122</span>
+        <span class="action-item"><amu-icon><IconMessageCircle /></amu-icon> 34</span>
+        <span class="action-item"><amu-icon><IconShare2 /></amu-icon> Share</span>
       </template>
     </amu-card>
   </amu-space>
 </template>
 
 <script lang="ts" setup>
-import { AmuCard, AmuCardMeta, AmuSpace } from 'amu-ui'
+import { AmuCard, AmuCardMeta, AmuSpace, AmuIcon } from 'amu-ui'
+import { IconThumbsUp, IconMessageCircle, IconShare2 } from '@amu-ui/icons'
 </script>
 
 <style scoped>
 .card-cover-gradient {
   height: 160px;
   background: linear-gradient(135deg, #165DFF 0%, #722ED1 100%);
-}
-
-.meta-desc {
-  margin: 0;
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .user-avatar {
@@ -60,5 +51,11 @@ import { AmuCard, AmuCardMeta, AmuSpace } from 'amu-ui'
   align-items: center;
   justify-content: center;
   gap: 4px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.action-item:hover {
+  color: var(--amu-color-primary);
 }
 </style>

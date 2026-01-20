@@ -1,10 +1,14 @@
 import Basic from './Basic.vue?raw'
+import Simple from './Simple.vue?raw'
+import Shadow from './Shadow.vue?raw'
 import Grid from './Grid.vue?raw'
 import Meta from './Meta.vue?raw'
 import Loading from './Loading.vue?raw'
 import Complex from './Complex.vue?raw'
 
 import BasicComp from './Basic.vue'
+import SimpleComp from './Simple.vue'
+import ShadowComp from './Shadow.vue'
 import GridComp from './Grid.vue'
 import MetaComp from './Meta.vue'
 import LoadingComp from './Loading.vue'
@@ -18,57 +22,89 @@ export const demos = [
     },
     description: {
       'zh-CN': '包含标题、内容、操作区域。',
-      'en-US': 'Includes title, content, and action area.',
+      'en-US': 'Title, content, and extra area.',
     },
-    component: BasicComp,
     code: Basic,
+    component: BasicComp,
   },
   {
     title: {
-      'zh-CN': '网格卡片',
+      'zh-CN': '简单卡片',
+      'en-US': 'Simple Card',
+    },
+    description: {
+      'zh-CN': '只有内容区域。',
+      'en-US': 'Only content area.',
+    },
+    code: Simple,
+    component: SimpleComp,
+  },
+  {
+    title: {
+      'zh-CN': '阴影与边框',
+      'en-US': 'Shadow and Border',
+    },
+    description: {
+      'zh-CN': '可以设置阴影显示时机 `shadow` 和是否有边框 `bordered`。',
+      'en-US': 'You can set when to show the shadow with `shadow` and whether to show border with `bordered`.',
+    },
+    code: Shadow,
+    component: ShadowComp,
+  },
+  {
+    title: {
+      'zh-CN': '网格布局',
       'en-US': 'Card Grid',
     },
     description: {
-      'zh-CN': '一种常见的卡片内容区隔模式。',
-      'en-US': 'A common content partition mode for cards.',
+      'zh-CN': '一种常见的卡片内容布局。',
+      'en-US': 'A common layout for card content.',
     },
-    component: GridComp,
     code: Grid,
+    component: GridComp,
   },
   {
     title: {
-      'zh-CN': '元数据卡片',
-      'en-US': 'Meta Card',
+      'zh-CN': '灵活内容',
+      'en-US': 'Flexible Content',
     },
     description: {
-      'zh-CN': '支持封面、头像、标题和描述信息。',
-      'en-US': 'Supports cover, avatar, title, and description.',
+      'zh-CN': '可以利用 `cover` 插槽和 `AmuCardMeta` 组件展示更丰富的内容。',
+      'en-US': 'You can use `cover` slot and `AmuCardMeta` component to display richer content.',
     },
-    component: MetaComp,
     code: Meta,
+    component: MetaComp,
   },
   {
     title: {
-      'zh-CN': '加载状态',
-      'en-US': 'Loading State',
+      'zh-CN': '预加载',
+      'en-US': 'Loading',
     },
     description: {
-      'zh-CN': '数据加载时的占位显示。',
-      'en-US': 'Placeholder display during data loading.',
+      'zh-CN': '数据加载中占位。',
+      'en-US': 'Shows a placeholder when data is loading.',
     },
-    component: LoadingComp,
     code: Loading,
+    component: LoadingComp,
   },
   {
     title: {
-      'zh-CN': '复杂交互',
-      'en-US': 'Complex Interaction',
+      'zh-CN': '综合功能',
+      'en-US': 'Complex Functionality',
     },
     description: {
-      'zh-CN': '支持折叠、全屏、关闭等微交互。',
-      'en-US': 'Supports collapse, fullscreen, close and other micro-interactions.',
+      'zh-CN': '支持折叠、全屏、关闭等高级功能。',
+      'en-US': 'Supports advanced features such as collapsible, maximizable, and closable.',
     },
-    component: ComplexComp,
     code: Complex,
+    component: ComplexComp,
   },
 ]
+
+export const meta = {
+  description: {
+    'zh-CN': '通用容器，用来包裹内容。',
+    'en-US': 'A common container for wrapping content.',
+  },
+}
+

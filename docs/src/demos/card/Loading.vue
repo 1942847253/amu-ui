@@ -1,8 +1,15 @@
 <template>
   <amu-space direction="vertical" fill>
-    <amu-switch v-model="loading" />
-    <amu-card :loading="loading" title="Card Title" style="width: 300px">
-      Whatever content
+    <div style="margin-bottom: 16px">
+        <amu-switch v-model="loading" />
+        <span style="margin-left: 8px">Loading: {{ loading }}</span>
+    </div>
+    
+    <amu-card :loading="loading" title="Card Title" style="width: 360px">
+      <template #extra>More</template>
+      <p>Card content</p>
+      <p>Card content</p>
+      <p>Card content</p>
     </amu-card>
   </amu-space>
 </template>

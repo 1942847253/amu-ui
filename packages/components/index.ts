@@ -34,6 +34,7 @@ import { AmuForm, AmuFormItem } from './form'
 import { AmuRow } from './row'
 import { AmuCol } from './col'
 import { AmuCard, AmuCardGrid, AmuCardMeta } from './card'
+import { AmuSkeleton, AmuSkeletonItem } from './skeleton'
 
 export { AmuRow } from './row'
 export * from './row'
@@ -43,6 +44,9 @@ export * from './col'
 
 export { AmuCard, AmuCardGrid, AmuCardMeta } from './card'
 export * from './card'
+
+export { AmuSkeleton, AmuSkeletonItem } from './skeleton'
+export * from './skeleton'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -184,6 +188,8 @@ const AmuUI: Plugin = {
     app.use(AmuCard)
     app.use(AmuCardGrid)
     app.use(AmuCardMeta)
+    app.use(AmuSkeleton)
+    app.use(AmuSkeletonItem)
     app.use(AmuForm)
     app.use(AmuFormItem)
   },

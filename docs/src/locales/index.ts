@@ -80,6 +80,7 @@ export const messages = {
       row: 'Grid 栅格',
       loading: 'Loading 加载中',
       card: 'Card 卡片',
+      skeleton: 'Skeleton 骨架屏',
     }
   },
   'en-US': {
@@ -163,6 +164,7 @@ export const messages = {
       row: 'Grid',
       loading: 'Loading',
       card: 'Card',
+      skeleton: 'Skeleton',
     }
   }
 } as const

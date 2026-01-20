@@ -1,34 +1,35 @@
 <template>
   <amu-card title="Workspace Apps" class="grid-card-demo">
-    <amu-card-grid class="grid-item" style="width: 25%">
-      <div class="app-icon">📊</div>
+    <amu-card-grid hoverable class="grid-item" style="width: 25%">
+      <div class="app-icon"><amu-icon size="24"><IconGrid /></amu-icon></div>
       <div class="app-name">Analytics</div>
     </amu-card-grid>
-    <amu-card-grid class="grid-item" style="width: 25%">
-      <div class="app-icon">👥</div>
+    <amu-card-grid hoverable class="grid-item" style="width: 25%">
+      <div class="app-icon"><amu-icon size="24"><IconUser /></amu-icon></div>
       <div class="app-name">Users</div>
     </amu-card-grid>
-    <amu-card-grid class="grid-item" style="width: 25%">
-      <div class="app-icon">📦</div>
+    <amu-card-grid hoverable class="grid-item" style="width: 25%">
+      <div class="app-icon"><amu-icon size="24"><IconArchive /></amu-icon></div>
       <div class="app-name">Inventory</div>
     </amu-card-grid>
-    <amu-card-grid class="grid-item" style="width: 25%">
-      <div class="app-icon">⚙️</div>
+    <amu-card-grid hoverable class="grid-item" style="width: 25%">
+      <div class="app-icon"><amu-icon size="24"><IconSettings /></amu-icon></div>
       <div class="app-name">Settings</div>
     </amu-card-grid>
-    <amu-card-grid class="grid-item" style="width: 25%">
-      <div class="app-icon">🔔</div>
+    <amu-card-grid hoverable class="grid-item" style="width: 25%">
+      <div class="app-icon"><amu-icon size="24"><IconBell /></amu-icon></div>
       <div class="app-name">Alerts</div>
     </amu-card-grid>
-    <amu-card-grid class="grid-item" style="width: 25%">
-      <div class="app-icon">📝</div>
+    <amu-card-grid hoverable class="grid-item" style="width: 25%">
+      <div class="app-icon"><amu-icon size="24"><IconFile /></amu-icon></div>
       <div class="app-name">Reports</div>
     </amu-card-grid>
   </amu-card>
 </template>
 
 <script lang="ts" setup>
-import { AmuCard, AmuCardGrid } from 'amu-ui'
+import { AmuCard, AmuCardGrid, AmuIcon } from 'amu-ui'
+import { IconGrid, IconUser, IconArchive, IconSettings, IconBell, IconFile } from '@amu-ui/icons'
 </script>
 
 <style scoped>
@@ -43,8 +44,8 @@ import { AmuCard, AmuCardGrid } from 'amu-ui'
 }
 
 .app-icon {
-  font-size: 28px;
   margin-bottom: 8px;
+  color: var(--amu-color-text-caption);
 }
 
 .app-name {

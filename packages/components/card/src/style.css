@@ -21,16 +21,16 @@
 
 /* Shadow */
 .amu-card--shadow-always {
-  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .amu-card--shadow-hover:hover {
-  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
 /* Hoverable */
 .amu-card--hoverable:hover {
   border-color: transparent;
-  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
@@ -102,15 +102,16 @@
   background-color: var(--amu-color-bg-fill);
   color: var(--amu-color-text);
 }
-.amu-card__tool-btn span {
-  font-size: 12px;
+.amu-card__tool-btn span,
+.amu-card__tool-btn .amu-icon {
+  font-size: 14px;
   line-height: 1;
 }
 
 .amu-card__icon-arrow {
   display: inline-block;
   transition: transform 0.3s;
-  font-size: 10px;
+  font-size: 14px;
 }
 .amu-card__icon-arrow.is-rotated {
   transform: rotate(-90deg);
@@ -131,17 +132,15 @@
 }
 
 /* Loading Skeleton */
-.amu-card__skeleton-row {
-  margin-top: 16px;
-  height: 16px;
-  background: var(--amu-color-bg-fill);
-  border-radius: 4px;
-  animation: amu-card-loading 1.4s ease infinite;
+.amu-card__loading-content {
+  display: flex;
+  flex-direction: column;
 }
-@keyframes amu-card-loading {
-  0% { opacity: 0.5; }
-  50% { opacity: 1; }
-  100% { opacity: 0.5; }
+.amu-card__loading-content .amu-skeleton__item {
+  margin-top: 16px;
+}
+.amu-card__loading-content .amu-skeleton__item:first-child {
+  margin-top: 0;
 }
 
 /* Cover */
@@ -196,7 +195,7 @@
 .amu-card-grid:hover {
   position: relative;
   z-index: 1;
-  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
 /* Card Meta */

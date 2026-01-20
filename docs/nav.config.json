@@ -37,7 +37,8 @@
     "pagination": "分页",
     "form": "表单",
     "loading": "加载中",
-    "card": "卡片"
+    "card": "卡片",
+    "skeleton": "骨架屏"
   },
   "groups": [
     {
@@ -58,7 +59,7 @@
     },
     {
       "key": "feedback",
-      "items": ["popup", "popconfirm", "dialog", "drawer", "message", "loading"]
+      "items": ["popup", "popconfirm", "dialog", "drawer", "message", "loading", "skeleton"]
     },
     {
       "key": "navigation",

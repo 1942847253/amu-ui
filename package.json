@@ -274,6 +274,16 @@
       "import": "./dist/es/components/select/index.mjs",
       "require": "./dist/cjs/components/select/index.cjs"
     },
+    "./skeleton": {
+      "types": "./dist/types/components/skeleton/index.d.ts",
+      "import": "./dist/es/components/skeleton/index.mjs",
+      "require": "./dist/cjs/components/skeleton/index.cjs"
+    },
+    "./components/skeleton": {
+      "types": "./dist/types/components/skeleton/index.d.ts",
+      "import": "./dist/es/components/skeleton/index.mjs",
+      "require": "./dist/cjs/components/skeleton/index.cjs"
+    },
     "./slider": {
       "types": "./dist/types/components/slider/index.d.ts",
       "import": "./dist/es/components/slider/index.mjs",

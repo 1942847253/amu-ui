@@ -35,7 +35,9 @@
               class="amu-card__tool-btn"
               @click="toggleCollapse"
             >
-              <span class="amu-card__icon-arrow" :class="{ 'is-rotated': isCollapsed }">▼</span>
+              <amu-icon class="amu-card__icon-arrow" :class="{ 'is-rotated': isCollapsed }">
+                <IconChevronDown />
+              </amu-icon>
             </button>
             <button
               v-if="maximizable"
@@ -43,7 +45,10 @@
               class="amu-card__tool-btn"
               @click="toggleFullscreen"
             >
-              <span>{{ isFullscreen ? '❐' : '□' }}</span>
+              <amu-icon>
+                <IconMinimize v-if="isFullscreen" />
+                <IconMaximize v-else />
+              </amu-icon>
             </button>
             <button
               v-if="closable"
@@ -51,7 +56,9 @@
               class="amu-card__tool-btn"
               @click="handleClose"
             >
-              <span>✕</span>
+              <amu-icon>
+                <IconX />
+              </amu-icon>
             </button>
           </div>
         </div>
@@ -70,14 +77,17 @@
       class="amu-card__body"
       :style="bodyStyle"
     >
-      <div v-if="loading" class="amu-card__loading-content">
-        <!-- Simple Skeleton -->
-        <div class="amu-card__skeleton-row" style="width: 38%;"></div>
-        <div class="amu-card__skeleton-row" style="width: 100%;"></div>
-        <div class="amu-card__skeleton-row" style="width: 80%;"></div>
-        <div class="amu-card__skeleton-row" style="width: 60%;"></div>
-      </div>
-      <slot v-else />
+      <amu-skeleton :loading="loading" animated>
+        <template #template>
+          <div class="amu-card__loading-content">
+            <amu-skeleton-item style="width: 38%" />
+            <amu-skeleton-item style="width: 100%" />
+            <amu-skeleton-item style="width: 80%" />
+            <amu-skeleton-item style="width: 60%" />
+          </div>
+        </template>
+        <slot />
+      </amu-skeleton>
     </div>
 
     <!-- Actions (Footer-like but usually grid of buttons) -->
@@ -94,6 +104,9 @@
 
 <script lang="ts" setup>
 import { computed, ref, useSlots, watch } from 'vue'
+import { AmuIcon } from '../../icon'
+import { AmuSkeleton, AmuSkeletonItem } from '../../skeleton'
+import { IconChevronDown, IconMaximize, IconMinimize, IconX } from '@amu-ui/icons'
 import { cardProps, cardEmits } from './props'
 
 defineOptions({
