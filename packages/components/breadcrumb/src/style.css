@@ -1,0 +1,55 @@
+.amu-breadcrumb {
+  display: flex;
+  align-items: center;
+  font-size: var(--amu-font-size-base);
+  line-height: 1.5;
+  color: var(--amu-color-text-default);
+}
+
+.amu-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.amu-breadcrumb-item__link {
+  font-weight: 400;
+  text-decoration: none;
+  color: var(--amu-color-text-default);
+  transition: color 0.2s;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.amu-breadcrumb-item__link svg {
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 4px;
+  stroke-width: 1.7;
+}
+
+
+.amu-breadcrumb-item__link:hover {
+  color: var(--amu-color-primary);
+}
+
+.amu-breadcrumb-item__link.is-active {
+  font-weight: 600;
+  cursor: default;
+  color: var(--amu-color-text-default);
+}
+
+.amu-breadcrumb-item__link.is-active:hover {
+  color: var(--amu-color-text-default);
+}
+
+.amu-breadcrumb-item__separator {
+  margin: 0 8px;
+  color: var(--amu-color-text-secondary);
+  font-weight: 400;
+}
+
+.amu-breadcrumb-item__icon {
+  margin-right: 4px;
+  vertical-align: top;
+}

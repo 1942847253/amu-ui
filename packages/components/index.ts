@@ -27,6 +27,7 @@ import { AmuInputNumber } from './input-number'
 import { AmuTree } from './tree'
 import { AmuMenu, AmuMenuItem, AmuSubMenu, AmuMenuGroup } from './menu'
 import { AmuDropdown, AmuDropdownMenu, AmuDropdownItem } from './dropdown'
+import { AmuBreadcrumb, AmuBreadcrumbItem } from './breadcrumb'
 import { AmuTabs, AmuTabPane } from './tabs'
 import { AmuPagination } from './pagination'
 import { AmuTable, AmuTableColumn } from './table'
@@ -129,6 +130,9 @@ export * from './menu'
 
 export * from './dropdown'
 
+export { AmuBreadcrumb, AmuBreadcrumbItem } from './breadcrumb'
+export * from './breadcrumb'
+
 export { AmuTabs, AmuTabPane } from './tabs'
 export * from './tabs'
 
@@ -184,6 +188,8 @@ const AmuUI: Plugin = {
     app.use(AmuDropdown)
     app.use(AmuDropdownMenu)
     app.use(AmuDropdownItem)
+    app.use(AmuBreadcrumb)
+    app.use(AmuBreadcrumbItem)
     app.use(AmuPagination)
     app.use(AmuTable)
     app.use(AmuTableColumn)

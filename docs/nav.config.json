@@ -32,6 +32,7 @@
     "input-number": "数字输入框",
     "tree": "树形控件",
     "menu": "导航菜单",
+    "breadcrumb": "面包屑",
     "dropdown": "下拉菜单",
     "tabs": "标签页",
     "pagination": "分页",
@@ -64,7 +65,7 @@
     },
     {
       "key": "navigation",
-      "items": ["menu", "dropdown", "tabs", "pagination"]
+      "items": ["menu", "breadcrumb", "dropdown", "tabs", "pagination"]
     },
     {
       "key": "other",

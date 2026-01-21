@@ -24,6 +24,16 @@
       "require": "./dist/cjs/locale/index.cjs"
     },
     "./package.json": "./package.json",
+    "./breadcrumb": {
+      "types": "./dist/types/components/breadcrumb/index.d.ts",
+      "import": "./dist/es/components/breadcrumb/index.mjs",
+      "require": "./dist/cjs/components/breadcrumb/index.cjs"
+    },
+    "./components/breadcrumb": {
+      "types": "./dist/types/components/breadcrumb/index.d.ts",
+      "import": "./dist/es/components/breadcrumb/index.mjs",
+      "require": "./dist/cjs/components/breadcrumb/index.cjs"
+    },
     "./button": {
       "types": "./dist/types/components/button/index.d.ts",
       "import": "./dist/es/components/button/index.mjs",
