@@ -14,12 +14,28 @@ export const inputProps = {
     default: ''
   },
   /**
-   * @description 输入框类型，同原生 input type
-   * @en Input type, same as native input type
+   * @description 输入框类型，同原生 input type，额外支持 'tags'
+   * @en Input type, same as native input type, additionally supports 'tags'
    */
   type: {
     type: String,
     default: 'text'
+  },
+  /**
+   * @description 标签列表 (当 type="tags" 时生效)
+   * @en Tag list (effective when type="tags")
+   */
+  tags: {
+    type: Array as PropType<string[]>,
+    default: () => []
+  },
+  /**
+   * @description 标签最大数量 (当 type="tags" 时生效)
+   * @en Max tag count (effective when type="tags")
+   */
+  maxTags: {
+    type: Number,
+    default: undefined
   },
   /**
    * @description 输入框尺寸
@@ -171,6 +187,11 @@ export const inputEmits = {
    * @en Triggered when value changes
    */
   'update:modelValue': (value: string | number) => true,
+  /**
+   * @description 标签列表改变时触发
+   * @en Triggered when tags list changes
+   */
+  'update:tags': (tags: string[]) => Array.isArray(tags),
   /**
    * @description 输入框值改变时触发
    * @en Triggered when input value changes

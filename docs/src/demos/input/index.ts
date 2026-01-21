@@ -20,6 +20,9 @@ import GroupComp from './Group.vue'
 import VariantComp from './Variant.vue'
 import IconComp from './Icon.vue'
 
+import Tags from './Tags.vue?raw'
+import TagsComp from './Tags.vue'
+
 export const demos = [
   {
     path: 'basic',
@@ -150,6 +153,19 @@ export const demos = [
     },
     component: GroupComp,
     code: Group
+  },
+  {
+    path: 'tags',
+    title: {
+      'zh-CN': '标签输入',
+      'en-US': 'Tags Input'
+    },
+    description: {
+      'zh-CN': '输入文本后按回车键生成标签。',
+      'en-US': 'Generate tags by pressing Enter after typing text.'
+    },
+    component: TagsComp,
+    code: Tags
   }
 ]
 

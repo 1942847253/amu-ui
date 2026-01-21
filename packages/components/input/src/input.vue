@@ -15,17 +15,30 @@
             <slot name="prepend" />
         </div>
 
-        <div class="amu-input__inner-wrapper">
+        <div class="amu-input__inner-wrapper" :class="{ 'amu-input__inner-wrapper--tags': isTagsMode }">
             <!-- 前缀 -->
             <span v-if="$slots.prefix" class="amu-input__prefix">
                 <slot name="prefix" />
             </span>
 
+            <!-- Tags 列表 -->
+            <div v-if="isTagsMode && tags && tags.length" class="amu-input__tags">
+                <AmuTag
+                    v-for="(tag, index) in tags"
+                    :key="index"
+                    closable
+                    :size="inputSize === 'large' ? 'medium' : 'small'"
+                    @close="handleCloseTag(index)"
+                >
+                    {{ tag }}
+                </AmuTag>
+            </div>
+
             <!-- 输入框元素 -->
             <input ref="inputRef" class="amu-input__inner" :type="inputType" :value="displayValue"
-                :placeholder="placeholder" :disabled="inputDisabled" :readonly="readonly" :maxlength="nativeMaxlength"
+                :placeholder="isTagsMode && tags && tags.length ? '' : placeholder" :disabled="inputDisabled" :readonly="readonly" :maxlength="nativeMaxlength"
                 :style="inputStyle" @input="handleInput" @focus="handleFocus" @blur="handleBlur" @change="handleChange"
-                @keydown.enter="handleEnter" />
+                @keydown="handleKeydown" @keydown.enter="handleEnter" />
 
             <!-- 用于自适应宽度的隐藏 span -->
             <span v-if="autoWidth" ref="mirrorRef" class="amu-input__mirror">{{ displayValue || placeholder }}</span>
@@ -67,6 +80,7 @@ import { ref, computed, watch, nextTick, onMounted, inject } from 'vue'
 import { IconEye, IconEyeOff, IconX } from '@amu-ui/icons'
 import { inputProps, inputEmits } from './props'
 import { AmuIcon } from 'amu-ui'
+import { AmuTag } from '../../tag'
 import { formContextKey, formItemContextKey } from '../../form/src/constants'
 
 defineOptions({
@@ -92,10 +106,15 @@ const mirrorRef = ref<HTMLElement>()
 const focused = ref(false)
 const passwordVisible = ref(false)
 
+const isTagsMode = computed(() => props.type === 'tags')
+
 // 输入类型控制
 const inputType = computed(() => {
     if (props.showPassword) {
         return passwordVisible.value ? 'text' : 'password'
+    }
+    if (props.type === 'tags') {
+        return 'text'
     }
     return props.type
 })
@@ -271,7 +290,34 @@ const togglePassword = () => {
   })
 }
 
+const handleKeydown = (e: KeyboardEvent) => {
+    if (isTagsMode.value && e.key === 'Backspace' && String(props.modelValue).length === 0 && props.tags.length > 0) {
+        const newTags = [...props.tags]
+        newTags.pop()
+        emit('update:tags', newTags)
+    }
+}
+
+const handleCloseTag = (index: number) => {
+    const newTags = [...props.tags]
+    newTags.splice(index, 1)
+    emit('update:tags', newTags)
+}
+
 const handleEnter = (e: KeyboardEvent) => {
+    if (isTagsMode.value) {
+        const val = String(props.modelValue).trim()
+        if (val) {
+            e.preventDefault()
+            if (props.maxTags && props.tags.length >= props.maxTags) return
+
+            const newTags = [...props.tags, val]
+            emit('update:tags', newTags)
+            emit('update:modelValue', '')
+            emit('input', '')
+            return
+        }
+    }
     emit('enter', e)
 }
 
