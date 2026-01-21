@@ -10,6 +10,7 @@ import { AmuScrollbar } from './scrollbar'
 import { AmuRadio, AmuRadioGroup, AmuRadioButton } from './radio'
 import { AmuSelect, AmuOption } from './select'
 import { AmuInput } from './input'
+import { AmuTextarea } from './textarea'
 import { AmuCheckbox, AmuCheckboxGroup } from './checkbox'
 import { AmuSwitch } from './switch'
 import { AmuDatePicker } from './date-picker'
@@ -99,6 +100,9 @@ export * from './select'
 export { AmuInput } from './input'
 export * from './input'
 
+export { AmuTextarea } from './textarea'
+export * from './textarea'
+
 export { AmuCheckbox, AmuCheckboxGroup } from './checkbox'
 export * from './checkbox'
 
@@ -161,6 +165,7 @@ const AmuUI: Plugin = {
     app.use(AmuRadio)
     app.use(AmuRadioGroup)
     app.use(AmuInput)
+    app.use(AmuTextarea)
     app.use(AmuRadioButton)
     app.use(AmuSelect)
     app.use(AmuOption)

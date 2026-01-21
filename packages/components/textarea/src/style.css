@@ -1,0 +1,146 @@
+.amu-textarea-wrapper {
+  display: inline-flex;
+  width: 100%;
+  position: relative;
+  font-size: var(--amu-font-size);
+  line-height: 1.5715;
+  color: var(--amu-color-text);
+  vertical-align: bottom;
+}
+
+.amu-textarea__inner-wrapper {
+  display: block;
+  flex: 1;
+  position: relative;
+  width: 100%;
+  /* Removed border/bg/radius from here */
+  box-sizing: border-box;
+}
+
+.amu-textarea__inner {
+  display: block;
+  resize: vertical;
+  width: 100%;
+  padding: 4px 12px;
+  /* Moved visuals here */
+  border: 1px solid transparent;
+  border-radius: var(--amu-radius);
+  background-color: var(--amu-color-bg);
+  transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), border-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), background-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), box-shadow 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  outline: none;
+  color: inherit;
+  /* Ensure resizing is not constrained by parent width */
+  max-width: none;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  box-sizing: border-box;
+  min-height: 32px;
+}
+
+.amu-textarea__inner::placeholder {
+  color: var(--amu-color-text-disabled);
+}
+
+/* Sizes */
+.amu-textarea--small .amu-textarea__inner {
+  padding: 2px 8px;
+  font-size: 12px;
+}
+
+.amu-textarea--large .amu-textarea__inner {
+  padding: 6px 16px;
+  font-size: 16px;
+}
+
+/* Variants */
+.amu-textarea--outline .amu-textarea__inner {
+  border-color: var(--amu-color-border);
+}
+
+.amu-textarea--outline:hover .amu-textarea__inner {
+  border-color: var(--amu-color-primary-hover);
+}
+
+.amu-textarea--outline .amu-textarea__inner:focus {
+  border-color: var(--amu-color-primary);
+  box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.2);
+}
+
+.amu-textarea--filled .amu-textarea__inner {
+  background-color: var(--amu-color-bg-fill);
+  border-color: transparent;
+}
+
+.amu-textarea--filled:hover .amu-textarea__inner {
+  background-color: var(--amu-color-bg-fill);
+  border-color: var(--amu-color-border);
+}
+
+.amu-textarea--filled .amu-textarea__inner:focus {
+  background-color: var(--amu-color-bg);
+  border-color: var(--amu-color-primary);
+  box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.2);
+}
+
+/* Disabled */
+.amu-textarea--disabled {
+  cursor: not-allowed;
+}
+
+.amu-textarea--disabled .amu-textarea__inner {
+  background-color: var(--amu-color-bg-fill);
+  color: var(--amu-color-text-disabled);
+  border-color: var(--amu-color-border);
+  cursor: not-allowed;
+}
+
+/* Status */
+.amu-textarea--status-error .amu-textarea__inner {
+  border-color: var(--amu-color-status-danger);
+}
+.amu-textarea--status-error .amu-textarea__inner:focus {
+  border-color: var(--amu-color-status-danger);
+  box-shadow: 0 0 0 2px rgba(240, 68, 56, 0.2);
+}
+
+.amu-textarea--status-success .amu-textarea__inner {
+  border-color: var(--amu-color-status-success);
+}
+.amu-textarea--status-success .amu-textarea__inner:focus {
+  border-color: var(--amu-color-status-success);
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+.amu-textarea--status-warning .amu-textarea__inner {
+  border-color: var(--amu-color-status-warning);
+}
+.amu-textarea--status-warning .amu-textarea__inner:focus {
+  border-color: var(--amu-color-status-warning);
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+}
+
+/* Word Limit */
+/* Word Limit is tricky because it's in inner-wrapper but visually inside textarea. 
+   When textarea resizes, word-limit (absolute in inner-wrapper) won't move if inner-wrapper doesn't resize.
+   But inner-wrapper is flex:1, width:100%. If textarea width > 100%, textarea overflows.
+   Since inner-wrapper is overflow: visible (default), word-limit stays at right of inner-wrapper (original width).
+   This is acceptable limitation for horizontal resize unless we change DOM structure significantly. */
+.amu-textarea__word-limit {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 12px;
+  color: var(--amu-color-text-secondary);
+  background: transparent;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.amu-textarea--has-limit .amu-textarea__inner {
+    padding-bottom: 24px;
+}
+
+.amu-textarea__inner.amu-textarea--autosize {
+    resize: none !important;
+}

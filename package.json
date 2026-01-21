@@ -374,6 +374,16 @@
       "import": "./dist/es/components/tag/index.mjs",
       "require": "./dist/cjs/components/tag/index.cjs"
     },
+    "./textarea": {
+      "types": "./dist/types/components/textarea/index.d.ts",
+      "import": "./dist/es/components/textarea/index.mjs",
+      "require": "./dist/cjs/components/textarea/index.cjs"
+    },
+    "./components/textarea": {
+      "types": "./dist/types/components/textarea/index.d.ts",
+      "import": "./dist/es/components/textarea/index.mjs",
+      "require": "./dist/cjs/components/textarea/index.cjs"
+    },
     "./tree": {
       "types": "./dist/types/components/tree/index.d.ts",
       "import": "./dist/es/components/tree/index.mjs",

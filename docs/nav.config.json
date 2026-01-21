@@ -21,6 +21,7 @@
     "table": "表格",
     "select": "选择器",
     "input": "输入框",
+    "textarea": "多行文本框",
     "switch": "开关",
     "slider": "滑块",
     "popup": "弹出层",
@@ -57,7 +58,7 @@
     },
     {
       "key": "dataEntry",
-      "items": ["form", "radio", "checkbox", "select", "input", "input-number", "switch", "date-picker", "slider", "rate"]
+      "items": ["form", "radio", "checkbox", "select", "input", "textarea", "input-number", "switch", "date-picker", "slider", "rate"]
     },
     {
       "key": "feedback",
