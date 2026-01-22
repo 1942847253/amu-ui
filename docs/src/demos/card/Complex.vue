@@ -17,18 +17,16 @@
     <div class="monitor-content">
       <div class="monitor-item">
         <div class="label">CPU Usage</div>
-        <div class="value">45%</div>
-        <div class="bar-bg"><div class="bar-fill" style="width: 45%"></div></div>
+
+        <amu-progress :percentage="45"  :stroke-width="6" />
       </div>
       <div class="monitor-item">
         <div class="label">Memory</div>
-        <div class="value">72%</div>
-        <div class="bar-bg"><div class="bar-fill warning" style="width: 72%"></div></div>
+        <amu-progress :percentage="72" color="orange" :show-text="true"  :stroke-width="6" />
       </div>
       <div class="monitor-item">
         <div class="label">Storage</div>
-        <div class="value">28%</div>
-        <div class="bar-bg"><div class="bar-fill" style="width: 28%"></div></div>
+        <amu-progress :percentage="28"  :stroke-width="6" />
       </div>
     </div>
 
@@ -40,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AmuCard, AmuButton } from 'amu-ui'
+import { AmuCard, AmuButton, AmuProgress } from 'amu-ui'
 
 const onClose = () => {
   console.log('Close clicked')
@@ -84,7 +82,6 @@ const onClose = () => {
 
 .monitor-item {
   display: grid;
-  grid-template-columns: 80px 40px 1fr;
   align-items: center;
   gap: 12px;
 }
@@ -97,22 +94,5 @@ const onClose = () => {
 .value {
   font-weight: 600;
   font-family: monospace;
-}
-
-.bar-bg {
-  height: 6px;
-  background: var(--amu-color-bg-fill);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.bar-fill {
-  height: 100%;
-  background: var(--amu-color-primary);
-  border-radius: 3px;
-}
-
-.bar-fill.warning {
-  background: var(--amu-color-status-warning);
 }
 </style>

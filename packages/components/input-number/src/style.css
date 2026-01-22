@@ -58,15 +58,13 @@
 /* Note: We target the inner input element to add padding so text doesn't overlap buttons */
 
 .amu-input-number:not(.is-controls-right) .amu-input__inner {
-    padding-left: 40px !important;
-    padding-right: 40px !important;
+    padding-left: 40px;
+    padding-right: 40px;
     text-align: center;
 }
 
 /* Controls Right */
 .amu-input-number.is-controls-right .amu-input__inner {
-    padding-right: 40px !important;
-    padding-left: 12px !important;
     text-align: left;
 }
 
@@ -118,11 +116,11 @@
     width: 24px;
 }
 .amu-input-number--small:not(.is-controls-right) .amu-input__inner {
-    padding-left: 30px !important;
-    padding-right: 30px !important;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 .amu-input-number--small.is-controls-right .amu-input__inner {
-    padding-right: 30px !important;
+    padding-right: 30px;
 }
 
 .amu-input-number--large {
@@ -134,11 +132,11 @@
     width: 40px;
 }
 .amu-input-number--large:not(.is-controls-right) .amu-input__inner {
-    padding-left: 48px !important;
-    padding-right: 48px !important;
+    padding-left: 48px;
+    padding-right: 48px;
 }
 .amu-input-number--large.is-controls-right .amu-input__inner {
-    padding-right: 48px !important;
+    padding-right: 48px;
 }
 
 /* Hide native spinners */

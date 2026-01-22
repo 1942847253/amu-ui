@@ -177,19 +177,7 @@
 }
 
 .amu-slider__input-inner {
-  width: 60px;
-  height: 32px;
-  padding: 0 8px;
-  border: 1px solid var(--amu-color-border);
-  border-radius: var(--amu-radius);
-  background-color: var(--amu-color-bg);
-  color: var(--amu-color-text);
-  font-size: 14px;
-  outline: none;
-}
-
-.amu-slider__input-inner:focus {
-  border-color: var(--amu-color-primary);
+  width: 80px;
 }
 
 /* Tooltip */

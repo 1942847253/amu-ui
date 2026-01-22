@@ -94,16 +94,16 @@
 
     <!-- Input (Single mode only) -->
     <div v-if="showInput && !range" class="amu-slider__input">
-      <input
-        type="number"
+      <AmuInputNumber
+        v-model="firstValue"
         class="amu-slider__input-inner"
-        :value="modelValue"
+        controls-position="right"
         :min="min"
         :max="max"
         :step="step"
         :disabled="disabled"
-        @input="onInput"
-        @change="onInputChange"
+        @change="onInputNumberChange"
+        @update:model-value="onInputNumberUpdate"
       />
     </div>
   </div>
@@ -113,6 +113,7 @@
 import { computed, ref, watch, onMounted, nextTick } from 'vue'
 import { sliderProps, sliderEmits } from './props'
 import { AmuPopup } from '../../popup'
+import { AmuInputNumber } from '../../input-number'
 
 defineOptions({ name: 'AmuSlider' })
 
@@ -331,27 +332,16 @@ const onRunwayClick = (e: MouseEvent) => {
 }
 
 // Input handling
-const onInput = (e: Event) => {
-  const val = parseFloat((e.target as HTMLInputElement).value)
-  if (!isNaN(val)) {
-    // Just update internal, don't clamp yet for better typing experience
-    // But for slider sync we might need to clamp or wait for change
+const onInputNumberUpdate = (val: number | undefined) => {
+  if (val !== undefined && !isNaN(val)) {
+    emit('update:modelValue', val)
   }
 }
 
-const onInputChange = (e: Event) => {
-  let val = parseFloat((e.target as HTMLInputElement).value)
-  if (isNaN(val)) return
-  
-  val = Math.max(props.min, Math.min(val, props.max))
-  val = Math.round(val / props.step) * props.step
-  
-  firstValue.value = val
-  emit('update:modelValue', val)
-  emit('change', val)
-  
-  // Force update input value if it was clamped
-  ;(e.target as HTMLInputElement).value = val.toString()
+const onInputNumberChange = (val: number | undefined) => {
+  if (val !== undefined && !isNaN(val)) {
+    emit('change', val)
+  }
 }
 
 // Keyboard accessibility
