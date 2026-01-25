@@ -2,8 +2,9 @@
   <AmuPopup
     v-model="open"
     trigger="manual"
-    placement="bottom-start"
+    placement="bottom"
     :offset="4"
+    :show-arrow="false"
     transition="amu-zoom-in-top"
     class="amu-date-picker__panel"
     role="dialog"

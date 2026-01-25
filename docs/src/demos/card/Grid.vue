@@ -1,27 +1,27 @@
 <template>
   <amu-card title="Workspace Apps" class="grid-card-demo">
     <amu-card-grid hoverable class="grid-item" style="width: 25%">
-      <div class="app-icon"><amu-icon size="24"><IconGrid /></amu-icon></div>
+      <div class="app-icon"><amu-icon :size="34"><IconGrid /></amu-icon></div>
       <div class="app-name">Analytics</div>
     </amu-card-grid>
     <amu-card-grid hoverable class="grid-item" style="width: 25%">
-      <div class="app-icon"><amu-icon size="24"><IconUser /></amu-icon></div>
+      <div class="app-icon"><amu-icon :size="34"><IconUser /></amu-icon></div>
       <div class="app-name">Users</div>
     </amu-card-grid>
     <amu-card-grid hoverable class="grid-item" style="width: 25%">
-      <div class="app-icon"><amu-icon size="24"><IconArchive /></amu-icon></div>
+      <div class="app-icon"><amu-icon :size="34"><IconArchive /></amu-icon></div>
       <div class="app-name">Inventory</div>
     </amu-card-grid>
     <amu-card-grid hoverable class="grid-item" style="width: 25%">
-      <div class="app-icon"><amu-icon size="24"><IconSettings /></amu-icon></div>
+      <div class="app-icon"><amu-icon :size="34"><IconSettings /></amu-icon></div>
       <div class="app-name">Settings</div>
     </amu-card-grid>
     <amu-card-grid hoverable class="grid-item" style="width: 25%">
-      <div class="app-icon"><amu-icon size="24"><IconBell /></amu-icon></div>
+      <div class="app-icon"><amu-icon :size="34"><IconBell /></amu-icon></div>
       <div class="app-name">Alerts</div>
     </amu-card-grid>
     <amu-card-grid hoverable class="grid-item" style="width: 25%">
-      <div class="app-icon"><amu-icon size="24"><IconFile /></amu-icon></div>
+      <div class="app-icon"><amu-icon :size="34"><IconFile /></amu-icon></div>
       <div class="app-name">Reports</div>
     </amu-card-grid>
   </amu-card>

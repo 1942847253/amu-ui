@@ -66,7 +66,7 @@ export const popupProps = {
    */
   showArrow: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   /**
    * 是否禁用。
