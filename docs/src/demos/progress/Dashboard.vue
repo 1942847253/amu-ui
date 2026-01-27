@@ -1,17 +1,16 @@
 <template>
-  <amu-space direction="vertical" alignment="center">
+  <div style="display: flex;align-items: center;flex-direction: column;width: 200px;">
     <amu-progress type="dashboard" :percentage="percentage" :color="colors" />
-    
     <amu-space>
-        <button class="amu-button" @click="decrease">-</button>
-        <button class="amu-button" @click="increase">+</button>
+      <amu-button @click="decrease">-</amu-button>
+      <amu-button @click="increase">+</amu-button>
     </amu-space>
-  </amu-space>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { AmuProgress, AmuSpace } from 'amu-ui'
+import { AmuProgress, AmuSpace, AmuButton } from 'amu-ui'
 
 const percentage = ref(10)
 const colors = [

@@ -74,6 +74,16 @@
       "import": "./dist/es/components/col/index.mjs",
       "require": "./dist/cjs/components/col/index.cjs"
     },
+    "./collapse": {
+      "types": "./dist/types/components/collapse/index.d.ts",
+      "import": "./dist/es/components/collapse/index.mjs",
+      "require": "./dist/cjs/components/collapse/index.cjs"
+    },
+    "./components/collapse": {
+      "types": "./dist/types/components/collapse/index.d.ts",
+      "import": "./dist/es/components/collapse/index.mjs",
+      "require": "./dist/cjs/components/collapse/index.cjs"
+    },
     "./config-provider": {
       "types": "./dist/types/components/config-provider/index.d.ts",
       "import": "./dist/es/components/config-provider/index.mjs",

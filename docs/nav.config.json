@@ -40,6 +40,7 @@
     "form": "表单",
     "loading": "加载中",
     "card": "卡片",
+    "collapse": "折叠面板",
     "skeleton": "骨架屏",
     "progress": "进度条"
   },
@@ -54,7 +55,7 @@
     },
     {
       "key": "dataDisplay",
-      "items": ["card", "tag", "tree", "table"]
+      "items": ["card", "tag", "tree", "table", "collapse"]
     },
     {
       "key": "dataEntry",

@@ -82,6 +82,7 @@ export const messages = {
       row: 'Grid 栅格',
       loading: 'Loading 加载中',
       card: 'Card 卡片',
+      collapse: 'Collapse 折叠面板',
       skeleton: 'Skeleton 骨架屏',
       progress: 'Progress 进度条',
     }
@@ -169,6 +170,7 @@ export const messages = {
       row: 'Grid',
       loading: 'Loading',
       card: 'Card',
+      collapse: 'Collapse',
       skeleton: 'Skeleton',
       progress: 'Progress',
     }
