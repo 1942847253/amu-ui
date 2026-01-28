@@ -403,6 +403,16 @@
       "types": "./dist/types/components/tree/index.d.ts",
       "import": "./dist/es/components/tree/index.mjs",
       "require": "./dist/cjs/components/tree/index.cjs"
+    },
+    "./upload": {
+      "types": "./dist/types/components/upload/index.d.ts",
+      "import": "./dist/es/components/upload/index.mjs",
+      "require": "./dist/cjs/components/upload/index.cjs"
+    },
+    "./components/upload": {
+      "types": "./dist/types/components/upload/index.d.ts",
+      "import": "./dist/es/components/upload/index.mjs",
+      "require": "./dist/cjs/components/upload/index.cjs"
     }
   },
   "files": [

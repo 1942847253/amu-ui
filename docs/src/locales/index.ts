@@ -85,6 +85,7 @@ export const messages = {
       collapse: 'Collapse 折叠面板',
       skeleton: 'Skeleton 骨架屏',
       progress: 'Progress 进度条',
+      upload: 'Upload 上传',
     }
   },
   'en-US': {
@@ -173,6 +174,7 @@ export const messages = {
       collapse: 'Collapse',
       skeleton: 'Skeleton',
       progress: 'Progress',
+      upload: 'Upload',
     }
   }
 } as const

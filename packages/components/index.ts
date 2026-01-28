@@ -39,6 +39,7 @@ import { AmuCard, AmuCardGrid, AmuCardMeta } from './card'
 import { AmuSkeleton, AmuSkeletonItem } from './skeleton'
 import { AmuProgress } from './progress'
 import { AmuCollapse, AmuCollapseItem } from './collapse'
+import { AmuUpload } from './upload'
 
 export { AmuRow } from './row'
 export * from './row'
@@ -57,6 +58,9 @@ export * from './progress'
 
 export { AmuCollapse, AmuCollapseItem } from './collapse'
 export * from './collapse'
+
+export { AmuUpload } from './upload'
+export * from './upload'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -214,6 +218,7 @@ const AmuUI: Plugin = {
     app.use(AmuSkeletonItem)
     app.use(AmuForm)
     app.use(AmuFormItem)
+    app.use(AmuUpload)
   },
 }
 

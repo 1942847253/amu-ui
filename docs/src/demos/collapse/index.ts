@@ -12,7 +12,7 @@ import CollapseAdvancedComp from './CollapseAdvanced.vue'
 
 export const demos: DemoItem[] = [
   {
-    key: 'basic',
+    id: 'basic',
     title: {
       'zh-CN': '基础用法',
       'en-US': 'Basic Usage',
@@ -25,7 +25,7 @@ export const demos: DemoItem[] = [
     component: CollapseBasicComp,
   },
   {
-    key: 'accordion',
+    id: 'accordion',
     title: {
       'zh-CN': '手风琴效果',
       'en-US': 'Accordion Effect',
@@ -38,7 +38,7 @@ export const demos: DemoItem[] = [
     component: CollapseAccordionComp,
   },
   {
-    key: 'nested',
+    id: 'nested',
     title: {
       'zh-CN': '嵌套面板',
       'en-US': 'Nested Panel',
@@ -51,7 +51,7 @@ export const demos: DemoItem[] = [
     component: CollapseNestedComp,
   },
   {
-    key: 'custom',
+    id: 'custom',
     title: {
       'zh-CN': '自定义标题',
       'en-US': 'Custom Title',
@@ -64,7 +64,7 @@ export const demos: DemoItem[] = [
     component: CollapseCustomComp,
   },
   {
-    key: 'advanced',
+    id: 'advanced',
     title: {
       'zh-CN': '高级用法',
       'en-US': 'Advanced Usage',

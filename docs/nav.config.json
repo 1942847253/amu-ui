@@ -42,7 +42,8 @@
     "card": "卡片",
     "collapse": "折叠面板",
     "skeleton": "骨架屏",
-    "progress": "进度条"
+    "progress": "进度条",
+    "upload": "上传"
   },
   "groups": [
     {
@@ -59,7 +60,7 @@
     },
     {
       "key": "dataEntry",
-      "items": ["form", "radio", "checkbox", "select", "input", "textarea", "input-number", "switch", "date-picker", "slider", "rate"]
+      "items": ["form", "radio", "checkbox", "select", "input", "textarea", "input-number", "switch", "date-picker", "slider", "rate", "upload"]
     },
     {
       "key": "feedback",
