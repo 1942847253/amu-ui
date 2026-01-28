@@ -1,0 +1,338 @@
+.amu-upload {
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  outline: 0;
+}
+
+.amu-upload__input {
+  display: none;
+}
+
+.amu-upload__trigger {
+  display: inline-block;
+}
+
+.amu-upload__trigger-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--amu-color-text-default);
+}
+
+.amu-upload__trigger-card.is-disabled {
+  cursor: not-allowed;
+  color: var(--amu-color-text-disabled);
+}
+
+.amu-upload__trigger-text {
+  font-size: 12px;
+}
+
+/* 拖拽区域样式 */
+.amu-upload-dragger {
+  background-color: var(--amu-color-bg-elevated);
+  border: 1px dashed var(--amu-color-border);
+  border-radius: 8px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 180px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 20px;
+  color: var(--amu-color-text-default);
+  transition: border-color 0.3s cubic-bezier(0.38, 0, 0.24, 1), background-color 0.3s cubic-bezier(0.38, 0, 0.24, 1);
+}
+
+.amu-upload-dragger:hover {
+  border-color: var(--amu-color-primary);
+  background-color: var(--amu-color-bg-fill);
+}
+
+.amu-upload-dragger.is-dragover {
+  border-color: var(--amu-color-primary);
+  background-color: var(--amu-color-bg-fill);
+}
+
+.amu-upload-dragger.is-disabled {
+  cursor: not-allowed;
+  color: var(--amu-color-text-disabled);
+  opacity: 0.6;
+}
+
+/* 列表容器 */
+.amu-upload-list {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.amu-upload-list--text,
+.amu-upload-list--picture {
+  width: 100%;
+}
+
+/* 列表项基础样式 */
+.amu-upload-list__item {
+  transition: all 0.3s cubic-bezier(0.38, 0, 0.24, 1);
+  font-size: 14px;
+  color: var(--amu-color-text-default);
+  line-height: 1.8;
+  margin-top: 8px;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 4px;
+}
+
+/* 文本列表 */
+.amu-upload-list--text .amu-upload-list__item:hover {
+  background-color: var(--amu-color-bg-fill);
+}
+
+.amu-upload-list--text .amu-upload-list__item-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  color: var(--amu-color-text-default);
+}
+
+.amu-upload-list--text .amu-upload-list__item {
+  padding: 8px 12px;
+}
+
+.amu-upload-list__item-name {
+  margin-left: 8px;
+  margin-right: auto;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.amu-upload-list__item-name:hover {
+  color: var(--amu-color-primary);
+}
+
+.amu-upload-list__item-icon {
+  color: var(--amu-color-text-disabled);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+/* 图片列表 */
+.amu-upload-list--picture .amu-upload-list__item {
+  border: 1px solid var(--amu-color-border);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+}
+
+.amu-upload-list--picture .amu-upload-list__item:hover {
+  border-color: var(--amu-color-primary);
+}
+
+.amu-upload-list--picture .amu-upload-list__item-thumbnail {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  object-fit: cover;
+  margin-right: 12px;
+  background-color: var(--amu-color-bg-fill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.amu-upload-list--picture .amu-upload-list__item-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.amu-upload-list--picture .amu-upload-list__item-info {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 8px;
+}
+
+/* 图片卡片列表 */
+.amu-upload-list--picture-card {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.amu-upload-list--picture-card .amu-upload-list__item {
+  overflow: hidden;
+  background-color: var(--amu-color-bg-elevated);
+  border: 1px dashed var(--amu-color-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 104px; /* 卡片尺寸 */
+  height: 104px;
+  margin: 0;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.amu-upload-list--picture-card .amu-upload-list__item:hover {
+  border-color: var(--amu-color-primary);
+}
+
+.amu-upload-list--picture-card .amu-upload-list__item-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.amu-upload-list--picture-card .amu-upload-list__item-thumbnail.is-placeholder {
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  color: var(--amu-color-text-disabled);
+}
+
+.amu-upload-list__item-name-card {
+  font-size: 12px;
+  color: var(--amu-color-text-default);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.amu-upload-list--picture-card .amu-upload-list__item-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 操作层 */
+.amu-upload-list--picture-card .amu-upload-list__item-actions {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  cursor: default;
+  text-align: center;
+  opacity: 0;
+  font-size: 16px;
+  transition: opacity .3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.amu-upload-list--picture-card .amu-upload-list__item-actions::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--amu-color-text);
+  opacity: 0.55;
+}
+
+.amu-upload-list--picture-card .amu-upload-list__item-actions span {
+  position: relative;
+  z-index: 1;
+  color: var(--amu-color-on-primary);
+}
+
+.amu-upload-list--picture-card .amu-upload-list__item:hover .amu-upload-list__item-actions {
+  opacity: 1;
+}
+
+.amu-upload-list--picture-card .amu-upload-list__item-actions span {
+  cursor: pointer;
+  display: inline-flex;
+}
+
+.amu-upload-list--picture-card .amu-upload-list__item-actions span:hover {
+  color: var(--amu-color-on-primary);
+}
+
+/* 状态与关闭图标 */
+.amu-upload-list__item-status-label {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.amu-upload-list__item.is-success .amu-upload-list__item-status-label {
+  display: inline-flex;
+  color: var(--amu-color-status-success);
+}
+
+.amu-upload-list__item-status-label.is-fail {
+  display: inline-flex;
+  color: var(--amu-color-status-danger);
+}
+
+.amu-upload-list__item-close {
+  cursor: pointer;
+  opacity: 0; /* 默认隐藏 */
+  color: var(--amu-color-text-disabled);
+  transition: all .2s;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.amu-upload-list__item:hover .amu-upload-list__item-close {
+  opacity: 1;
+}
+
+/* 行内操作区 */
+.amu-upload-list__item-actions-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.amu-upload-list__item-close:hover {
+  color: var(--amu-color-text-default);
+}
+
+.amu-upload-list__item--append {
+  border: 1px dashed var(--amu-color-border);
+  background-color: var(--amu-color-bg-elevated);
+}
