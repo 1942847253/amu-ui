@@ -40,6 +40,7 @@ import { AmuSkeleton, AmuSkeletonItem } from './skeleton'
 import { AmuProgress } from './progress'
 import { AmuCollapse, AmuCollapseItem } from './collapse'
 import { AmuUpload } from './upload'
+import { AmuImageViewer, AmuPreviewImage } from './image-viewer'
 
 export { AmuRow } from './row'
 export * from './row'
@@ -61,6 +62,9 @@ export * from './collapse'
 
 export { AmuUpload } from './upload'
 export * from './upload'
+
+export { AmuImageViewer, AmuPreviewImage } from './image-viewer'
+export * from './image-viewer'
 
 export { AmuButton } from './button'
 export * from './button'
@@ -219,6 +223,8 @@ const AmuUI: Plugin = {
     app.use(AmuForm)
     app.use(AmuFormItem)
     app.use(AmuUpload)
+    app.use(AmuImageViewer)
+    app.use(AmuPreviewImage)
   },
 }
 

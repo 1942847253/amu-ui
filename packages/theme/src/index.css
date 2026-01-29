@@ -9,6 +9,7 @@
   --amu-color-bg: #ffffff;
   --amu-color-bg-elevated: #ffffff;
   --amu-color-bg-fill: #F2F3F5;
+  --amu-color-bg-mask: rgba(0, 0, 0, 0.7);
 
   --amu-color-text: #1D2129;
   --amu-color-text-default: #4E5969;
@@ -48,6 +49,7 @@
   --amu-color-bg: #242424;
   --amu-color-bg-elevated: #2F2F2F;
   --amu-color-bg-fill: #373739;
+  --amu-color-bg-mask: rgba(0, 0, 0, 0.7);
 
   --amu-color-text: #F2F3F5;
   --amu-color-text-default: #C9CDD4;
@@ -84,6 +86,7 @@
     --amu-color-bg: #242424;
     --amu-color-bg-elevated: #2F2F2F;
     --amu-color-bg-fill: #373739;
+    --amu-color-bg-mask: rgba(0, 0, 0, 0.7);
 
     --amu-color-text: #F2F3F5;
     --amu-color-text-default: #C9CDD4;

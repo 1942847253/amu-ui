@@ -43,7 +43,8 @@
     "collapse": "折叠面板",
     "skeleton": "骨架屏",
     "progress": "进度条",
-    "upload": "上传"
+    "upload": "上传",
+    "image-viewer": "图片预览"
   },
   "groups": [
     {
@@ -56,7 +57,7 @@
     },
     {
       "key": "dataDisplay",
-      "items": ["card", "tag", "tree", "table", "collapse"]
+      "items": ["card", "tag", "tree", "table", "collapse", "image-viewer"]
     },
     {
       "key": "dataEntry",

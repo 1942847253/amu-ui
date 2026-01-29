@@ -86,6 +86,7 @@ export const messages = {
       skeleton: 'Skeleton 骨架屏',
       progress: 'Progress 进度条',
       upload: 'Upload 上传',
+      'image-viewer': 'ImageViewer 图片预览',
     }
   },
   'en-US': {
@@ -175,6 +176,7 @@ export const messages = {
       skeleton: 'Skeleton',
       progress: 'Progress',
       upload: 'Upload',
+      'image-viewer': 'ImageViewer',
     }
   }
 } as const

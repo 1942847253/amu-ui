@@ -154,6 +154,16 @@
       "import": "./dist/es/components/icon/index.mjs",
       "require": "./dist/cjs/components/icon/index.cjs"
     },
+    "./image-viewer": {
+      "types": "./dist/types/components/image-viewer/index.d.ts",
+      "import": "./dist/es/components/image-viewer/index.mjs",
+      "require": "./dist/cjs/components/image-viewer/index.cjs"
+    },
+    "./components/image-viewer": {
+      "types": "./dist/types/components/image-viewer/index.d.ts",
+      "import": "./dist/es/components/image-viewer/index.mjs",
+      "require": "./dist/cjs/components/image-viewer/index.cjs"
+    },
     "./input": {
       "types": "./dist/types/components/input/index.d.ts",
       "import": "./dist/es/components/input/index.mjs",
@@ -420,6 +430,7 @@
   ],
   "dependencies": {
     "@amu-ui/hooks": "workspace:*",
+    "@amu-ui/icons": "workspace:*",
     "@amu-ui/locale": "workspace:*",
     "async-validator": "^4.2.5",
     "dayjs": "^1.11.19",

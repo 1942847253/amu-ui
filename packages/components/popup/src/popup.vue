@@ -15,7 +15,7 @@
         v-if="forceRender || visible"
         v-show="visible"
         ref="popupRef"
-        class="amu-popup"
+        :class="['amu-popup', overlayClassName]"
         v-bind="$attrs"
         :style="popupStyle"
         :data-placement="currentPlacement"
