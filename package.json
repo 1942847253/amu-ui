@@ -384,6 +384,16 @@
       "import": "./dist/es/components/spinner/index.mjs",
       "require": "./dist/cjs/components/spinner/index.cjs"
     },
+    "./swiper": {
+      "types": "./dist/types/components/swiper/index.d.ts",
+      "import": "./dist/es/components/swiper/index.mjs",
+      "require": "./dist/cjs/components/swiper/index.cjs"
+    },
+    "./components/swiper": {
+      "types": "./dist/types/components/swiper/index.d.ts",
+      "import": "./dist/es/components/swiper/index.mjs",
+      "require": "./dist/cjs/components/swiper/index.cjs"
+    },
     "./switch": {
       "types": "./dist/types/components/switch/index.d.ts",
       "import": "./dist/es/components/switch/index.mjs",

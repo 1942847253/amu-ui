@@ -48,6 +48,7 @@
     "upload": "上传",
     "image-viewer": "图片预览",
     "descriptions": "描述列表",
+    "swiper": "轮播图",
     "empty": "空状态"
   },
   "groups": [
@@ -61,7 +62,7 @@
     },
     {
       "key": "dataDisplay",
-      "items": ["card", "tag", "tree", "table", "collapse", "image-viewer", "descriptions", "empty"]
+      "items": ["card", "tag", "tree", "table", "collapse", "image-viewer", "descriptions", "swiper", "empty"]
     },
     {
       "key": "dataEntry",

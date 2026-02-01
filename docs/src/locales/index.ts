@@ -90,6 +90,7 @@ export const messages = {
       upload: 'Upload 上传',
       'image-viewer': 'ImageViewer 图片预览',
       descriptions: 'Descriptions 描述列表',
+      swiper: 'Swiper 轮播图',
       empty: 'Empty 空状态',
     }
   },
@@ -184,6 +185,7 @@ export const messages = {
       upload: 'Upload',
       'image-viewer': 'ImageViewer',
       descriptions: 'Descriptions',
+      swiper: 'Swiper',
       empty: 'Empty',
     }
   }
