@@ -18,8 +18,9 @@
         <div
           ref="dialogRef"
           class="amu-dialog"
-          :class="{ 'is-draggable': draggable }"
-          :style="dialogStyle"
+          :class="[{ 'is-draggable': draggable }, dialogAttrs.className]"
+          :style="[dialogStyle, dialogAttrs.style]"
+          v-bind="dialogAttrs.rest"
           role="dialog"
           aria-modal="true"
           :aria-label="title"
@@ -32,9 +33,8 @@
             <slot name="header">
               <div class="amu-dialog-title">
                 <slot name="icon">
-                  <AmuIcon v-if="iconName" class="amu-dialog-icon" :class="[`is-${iconType}`]">
-                    <component :is="iconComponent" />
-                  </AmuIcon>
+                  <AmuTypeIcon v-if="showIcon" :type="iconVisualType"
+                    :class="['amu-dialog-icon', iconClassName]" />
                 </slot>
                 <slot name="title">{{ title }}</slot>
               </div>
@@ -106,26 +106,24 @@ if (typeof window !== 'undefined') {
 </script>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type CSSProperties, isVNode } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type CSSProperties, isVNode, useAttrs, getCurrentInstance } from 'vue'
 import { dialogProps, dialogEmits } from './props'
 import type { ButtonProps } from '../../button/src/props'
 import AmuButton from '../../button'
-import AmuIcon from '../../icon'
+import AmuIcon, { AmuTypeIcon } from '../../icon'
 import { useZIndex, useLocale } from '@amu-ui/hooks'
 
-import { 
-  IconX, 
-  IconCheck, 
-  IconAlertCircle, 
-  IconInfo 
-} from '@amu-ui/icons'
+import { IconX } from '@amu-ui/icons'
 
 defineOptions({
-  name: 'AmuDialog'
+  name: 'AmuDialog',
+  inheritAttrs: false
 })
 
 const props = defineProps(dialogProps)
 const emit = defineEmits(dialogEmits)
+const attrs = useAttrs()
+const instance = getCurrentInstance()
 
 const { t } = useLocale()
 const { nextZIndex } = useZIndex()
@@ -134,6 +132,11 @@ const visible = ref(props.modelValue)
 const currentZIndex = ref(props.zIndex || nextZIndex())
 const dialogRef = ref<HTMLElement>()
 const confirmLoading = ref(false)
+
+const dialogAttrs = computed(() => {
+  const { class: className, style, ...rest } = attrs as Record<string, unknown>
+  return { className, style, rest }
+})
 
 // 拖拽状态
 const dragX = ref(0)
@@ -219,33 +222,28 @@ const dialogStyle = computed<CSSProperties>(() => {
 // 图标逻辑
 const iconType = computed(() => {
   const name = props.icon as string
-  if (['success', 'warning', 'error', 'info', 'confirm'].includes(name)) {
+  if (['success', 'warning', 'error', 'info', 'confirm', 'help', 'loading'].includes(name)) {
     return name
   }
   if (props.type === 'feedback' && !name) return 'info'
+  if (props.type === 'confirm' && !name) return 'confirm'
   return ''
 })
 
-const iconName = computed(() => {
-  if (props.icon) return props.icon
-  if (props.type === 'feedback') return 'info'
-  return ''
+const showIcon = computed(() => {
+  const hasTypeProp = Boolean(instance?.vnode.props && Object.prototype.hasOwnProperty.call(instance.vnode.props, 'type'))
+  return Boolean(props.icon || (hasTypeProp && (props.type === 'feedback' || props.type === 'confirm')))
 })
 
-const iconComponent = computed(() => {
-  if (typeof props.icon === 'object') return props.icon
-  
-  let name = props.icon as string
-  if (!name && props.type === 'feedback') name = 'info'
+// confirm 使用 info 作为图标形态，但保留 confirm 的背景样式
+const iconVisualType = computed(() => {
+  if (iconType.value === 'confirm') return 'info'
+  return iconType.value
+})
 
-  const map: Record<string, any> = {
-    success: IconCheck,
-    warning: IconAlertCircle,
-    error: IconX,
-    info: IconInfo,
-    confirm: IconAlertCircle
-  }
-  return map[name] || null
+const iconClassName = computed(() => {
+  if (iconType.value === 'confirm') return 'is-confirm'
+  return iconType.value ? `is-${iconType.value}` : ''
 })
 
 // 按钮逻辑

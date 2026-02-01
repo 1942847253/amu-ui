@@ -140,7 +140,8 @@
 /* Hide the circle path in SVGs that have it, because we use the container as the circle */
 .amu-dialog-icon.is-warning :deep(svg circle),
 .amu-dialog-icon.is-info :deep(svg circle),
-.amu-dialog-icon.is-confirm :deep(svg circle) {
+.amu-dialog-icon.is-confirm :deep(svg circle),
+.amu-dialog-icon.is-error :deep(svg circle) {
   display: none;
 }
 
