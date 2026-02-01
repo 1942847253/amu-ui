@@ -1,0 +1,167 @@
+.amu-descriptions {
+  box-sizing: border-box;
+  font-size: var(--amu-font-size);
+  color: var(--amu-color-text-default);
+  line-height: 1.5715;
+}
+
+.amu-descriptions__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.amu-descriptions__title {
+  flex: auto;
+  overflow: hidden;
+  color: var(--amu-color-text);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.amu-descriptions__extra {
+  margin-left: auto;
+  color: var(--amu-color-text-default);
+  font-size: 14px;
+}
+
+.amu-descriptions__body {
+  background-color: var(--amu-color-bg);
+  color: var(--amu-color-text-default);
+}
+
+.amu-descriptions__table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.amu-descriptions__label,
+.amu-descriptions__content {
+  padding-bottom: 16px;
+  text-align: start;
+  font-weight: normal;
+  vertical-align: top;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.amu-descriptions__label {
+  color: var(--amu-color-text-default);
+}
+
+.amu-descriptions__content {
+  color: var(--amu-color-text-default);
+  display: table-cell;
+}
+
+.amu-descriptions__label.is-bordered-label {
+  font-weight: normal;
+}
+
+.amu-descriptions--small .amu-descriptions__label,
+.amu-descriptions--small .amu-descriptions__content {
+  padding-bottom: 8px;
+}
+
+.amu-descriptions--large .amu-descriptions__label,
+.amu-descriptions--large .amu-descriptions__content {
+  padding-bottom: 20px;
+}
+
+/* 带边框样式 */
+.amu-descriptions--bordered > .amu-descriptions__body {
+  border: 1px solid var(--amu-color-border);
+}
+
+.amu-descriptions--bordered .amu-descriptions__table {
+  border-collapse: collapse;
+}
+
+.amu-descriptions--bordered .amu-descriptions__label,
+.amu-descriptions--bordered .amu-descriptions__content {
+  padding: 16px 24px;
+  border-right: 1px solid var(--amu-color-border);
+  border-bottom: 1px solid var(--amu-color-border);
+  vertical-align: middle;
+}
+
+.amu-descriptions--bordered .amu-descriptions__label:last-child,
+.amu-descriptions--bordered .amu-descriptions__content:last-child {
+  border-right: none;
+}
+
+.amu-descriptions--bordered .amu-descriptions__row:last-child .amu-descriptions__label,
+.amu-descriptions--bordered .amu-descriptions__row:last-child .amu-descriptions__content {
+  border-bottom: none;
+}
+
+.amu-descriptions--bordered .amu-descriptions__label {
+  background-color: var(--amu-color-bg-fill);
+}
+
+/* 带边框尺寸 */
+.amu-descriptions--bordered.amu-descriptions--small .amu-descriptions__label,
+.amu-descriptions--bordered.amu-descriptions--small .amu-descriptions__content {
+  padding: 8px 16px;
+}
+
+.amu-descriptions--bordered.amu-descriptions--large .amu-descriptions__label,
+.amu-descriptions--bordered.amu-descriptions--large .amu-descriptions__content {
+  padding: 20px 32px;
+}
+
+/* 垂直布局 */
+.amu-descriptions--vertical .amu-descriptions__label {
+  padding-bottom: 8px;
+  font-weight: 600;
+}
+
+.amu-descriptions--vertical .amu-descriptions__content {
+  padding-bottom: 16px;
+}
+
+.amu-descriptions--vertical.amu-descriptions--bordered .amu-descriptions__label,
+.amu-descriptions--vertical.amu-descriptions--bordered .amu-descriptions__content {
+  padding: 16px 24px;
+}
+
+.amu-descriptions--vertical.amu-descriptions--bordered .amu-descriptions__label {
+  border-bottom: none;
+}
+
+/* 无边框横向布局结构 */
+.amu-descriptions__container {
+  display: flex;
+  align-items: center;
+}
+
+.amu-descriptions__container .amu-descriptions__label {
+    padding-bottom: 0;
+    margin-right: 8px;
+    display: inline-flex;
+}
+.amu-descriptions__container .amu-descriptions__content {
+    padding-bottom: 0;
+    color: var(--amu-color-text-default);
+}
+
+.amu-descriptions__cell {
+    padding-bottom: 16px;
+}
+
+.amu-descriptions--small .amu-descriptions__cell {
+    padding-bottom: 8px;
+}
+.amu-descriptions--large .amu-descriptions__cell {
+    padding-bottom: 24px;
+}
+
+.amu-descriptions__label.is-colon::after {
+  content: '：';
+  margin-left: 4px;
+}
