@@ -54,6 +54,16 @@
       "import": "./dist/es/components/card/index.mjs",
       "require": "./dist/cjs/components/card/index.cjs"
     },
+    "./cascader": {
+      "types": "./dist/types/components/cascader/index.d.ts",
+      "import": "./dist/es/components/cascader/index.mjs",
+      "require": "./dist/cjs/components/cascader/index.cjs"
+    },
+    "./components/cascader": {
+      "types": "./dist/types/components/cascader/index.d.ts",
+      "import": "./dist/es/components/cascader/index.mjs",
+      "require": "./dist/cjs/components/cascader/index.cjs"
+    },
     "./checkbox": {
       "types": "./dist/types/components/checkbox/index.d.ts",
       "import": "./dist/es/components/checkbox/index.mjs",

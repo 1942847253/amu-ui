@@ -9,6 +9,7 @@ import { AmuLayout, AmuHeader, AmuSider, AmuContent, AmuFooter } from './layout'
 import { AmuScrollbar } from './scrollbar'
 import { AmuRadio, AmuRadioGroup, AmuRadioButton } from './radio'
 import { AmuSelect, AmuOption } from './select'
+import { AmuCascader } from './cascader'
 import { AmuInput } from './input'
 import { AmuTextarea } from './textarea'
 import { AmuCheckbox, AmuCheckboxGroup } from './checkbox'
@@ -112,6 +113,9 @@ export * from './radio'
 export { AmuSelect, AmuOption } from './select'
 export * from './select'
 
+export { AmuCascader } from './cascader'
+export * from './cascader'
+
 export { AmuInput } from './input'
 export * from './input'
 
@@ -193,6 +197,7 @@ const AmuUI: Plugin = {
     app.use(AmuRadioButton)
     app.use(AmuSelect)
     app.use(AmuOption)
+    app.use(AmuCascader)
     app.use(AmuCheckbox)
     app.use(AmuCheckboxGroup)
     app.use(AmuSwitch)

@@ -20,6 +20,7 @@
     "checkbox": "多选框",
     "table": "表格",
     "select": "选择器",
+    "cascader": "级联选择器",
     "input": "输入框",
     "textarea": "多行文本框",
     "switch": "开关",
@@ -64,7 +65,7 @@
     },
     {
       "key": "dataEntry",
-      "items": ["form", "radio", "checkbox", "select", "input", "textarea", "input-number", "switch", "date-picker", "slider", "rate", "upload"]
+      "items": ["form", "radio", "checkbox", "select", "cascader", "input", "textarea", "input-number", "switch", "date-picker", "slider", "rate", "upload"]
     },
     {
       "key": "feedback",
