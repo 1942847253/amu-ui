@@ -404,6 +404,16 @@
       "import": "./dist/es/components/textarea/index.mjs",
       "require": "./dist/cjs/components/textarea/index.cjs"
     },
+    "./tooltip": {
+      "types": "./dist/types/components/tooltip/index.d.ts",
+      "import": "./dist/es/components/tooltip/index.mjs",
+      "require": "./dist/cjs/components/tooltip/index.cjs"
+    },
+    "./components/tooltip": {
+      "types": "./dist/types/components/tooltip/index.d.ts",
+      "import": "./dist/es/components/tooltip/index.mjs",
+      "require": "./dist/cjs/components/tooltip/index.cjs"
+    },
     "./tree": {
       "types": "./dist/types/components/tree/index.d.ts",
       "import": "./dist/es/components/tree/index.mjs",

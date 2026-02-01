@@ -25,6 +25,7 @@
     "switch": "开关",
     "slider": "滑块",
     "popup": "弹出层",
+    "tooltip": "文字提示",
     "popconfirm": "气泡确认框",
     "dialog": "对话框",
     "drawer": "抽屉",
@@ -65,7 +66,7 @@
     },
     {
       "key": "feedback",
-      "items": ["popup", "popconfirm", "dialog", "drawer", "message", "loading", "skeleton", "progress"]
+      "items": ["popup", "tooltip", "popconfirm", "dialog", "drawer", "message", "loading", "skeleton", "progress"]
     },
     {
       "key": "navigation",

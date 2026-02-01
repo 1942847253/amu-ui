@@ -1,0 +1,88 @@
+.amu-tooltip-popup.amu-popup {
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--amu-color-bg);
+  max-width: 320px;
+}
+
+.amu-tooltip-popup.amu-popup::before {
+  background: var(--amu-color-text);
+}
+
+.amu-tooltip-popup.amu-popup .amu-popup__arrow {
+  background: var(--amu-color-text);
+}
+
+/* Dark mode overrides for default tooltip to ensure high contrast */
+[data-amu-theme='dark'] .amu-tooltip-popup.amu-popup {
+  color: var(--amu-color-bg);
+}
+
+[data-amu-theme='dark'] .amu-tooltip-popup.amu-popup::before {
+  background: var(--amu-color-text);
+}
+
+[data-amu-theme='dark'] .amu-tooltip-popup.amu-popup .amu-popup__arrow {
+  background: var(--amu-color-text);
+}
+
+.amu-tooltip__content {
+  display: inline-block;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* Themes */
+.amu-tooltip-popup.amu-tooltip-popup--primary.amu-popup {
+  color: var(--amu-color-on-primary);
+}
+.amu-tooltip-popup.amu-tooltip-popup--primary.amu-popup::before {
+  background: var(--amu-color-primary);
+}
+.amu-tooltip-popup.amu-tooltip-popup--primary.amu-popup .amu-popup__arrow {
+  background: var(--amu-color-primary);
+}
+
+.amu-tooltip-popup.amu-tooltip-popup--success.amu-popup {
+  color: var(--amu-color-on-success);
+}
+.amu-tooltip-popup.amu-tooltip-popup--success.amu-popup::before {
+  background: var(--amu-color-status-success);
+}
+.amu-tooltip-popup.amu-tooltip-popup--success.amu-popup .amu-popup__arrow {
+  background: var(--amu-color-status-success);
+}
+
+.amu-tooltip-popup.amu-tooltip-popup--warning.amu-popup {
+  color: var(--amu-color-on-warning);
+}
+.amu-tooltip-popup.amu-tooltip-popup--warning.amu-popup::before {
+  background: var(--amu-color-status-warning);
+}
+.amu-tooltip-popup.amu-tooltip-popup--warning.amu-popup .amu-popup__arrow {
+  background: var(--amu-color-status-warning);
+}
+
+.amu-tooltip-popup.amu-tooltip-popup--danger.amu-popup {
+  color: var(--amu-color-on-danger);
+}
+.amu-tooltip-popup.amu-tooltip-popup--danger.amu-popup::before {
+  background: var(--amu-color-status-danger);
+}
+.amu-tooltip-popup.amu-tooltip-popup--danger.amu-popup .amu-popup__arrow {
+  background: var(--amu-color-status-danger);
+}
+
+.amu-tooltip-popup.amu-tooltip-popup--light.amu-popup {
+  color: var(--amu-color-text);
+}
+.amu-tooltip-popup.amu-tooltip-popup--light.amu-popup::before {
+  background: var(--amu-color-bg);
+  border: 1px solid var(--amu-color-border);
+}
+
+.amu-tooltip-popup.amu-tooltip-popup--light.amu-popup .amu-popup__arrow {
+  background: var(--amu-color-bg);
+  /* Use shadow to simulate border for arrow if needed, but existing shadow might be enough */
+}

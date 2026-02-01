@@ -16,6 +16,7 @@ import { AmuSwitch } from './switch'
 import { AmuDatePicker } from './date-picker'
 import { AmuSlider } from './slider'
 import { AmuPopup } from './popup'
+import { AmuTooltip } from './tooltip'
 import { AmuPopconfirm } from './popconfirm'
 import { AmuDialog, Dialog } from './dialog'
 
@@ -130,6 +131,9 @@ export * from './slider'
 export { AmuPopup } from './popup'
 export * from './popup'
 
+export { AmuTooltip } from './tooltip'
+export * from './tooltip'
+
 export { AmuPopconfirm } from './popconfirm'
 export * from './popconfirm'
 
@@ -189,6 +193,7 @@ const AmuUI: Plugin = {
     app.use(AmuDrawer)
     app.use(AmuSlider)
     app.use(AmuPopup)
+    app.use(AmuTooltip)
     app.use(AmuPopconfirm)
     app.use(AmuMessage)
     app.use(AmuTree)
