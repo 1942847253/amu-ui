@@ -28,6 +28,7 @@ import { AmuRate } from './rate'
 import { AmuInputNumber } from './input-number'
 import { AmuTree } from './tree'
 import { AmuMenu, AmuMenuItem, AmuSubMenu, AmuMenuGroup } from './menu'
+import { AmuEmpty } from './empty'
 import { AmuDropdown, AmuDropdownMenu, AmuDropdownItem } from './dropdown'
 import { AmuBreadcrumb, AmuBreadcrumbItem } from './breadcrumb'
 import { AmuTabs, AmuTabPane } from './tabs'
@@ -42,6 +43,7 @@ import { AmuProgress } from './progress'
 import { AmuCollapse, AmuCollapseItem } from './collapse'
 import { AmuUpload } from './upload'
 import { AmuImageViewer, AmuPreviewImage } from './image-viewer'
+import { AmuDescriptions, AmuDescriptionsItem } from './descriptions'
 
 export { AmuRow } from './row'
 export * from './row'
@@ -148,6 +150,9 @@ export * from './message'
 
 export * from './menu'
 
+export { AmuEmpty } from './empty'
+export * from './empty'
+
 export * from './dropdown'
 
 export { AmuBreadcrumb, AmuBreadcrumbItem } from './breadcrumb'
@@ -164,6 +169,9 @@ export * from './form'
 
 export { AmuTable, AmuTableColumn } from './table'
 export * from './table'
+
+export { AmuDescriptions, AmuDescriptionsItem } from './descriptions'
+export * from './descriptions'
 
 const AmuUI: Plugin = {
   install(app: App) {
@@ -202,6 +210,7 @@ const AmuUI: Plugin = {
     app.use(AmuRate)
     app.use(AmuInputNumber)
     app.use(AmuMenu)
+    app.use(AmuEmpty)
     app.use(AmuMenuItem)
     app.use(AmuSubMenu)
     app.use(AmuMenuGroup)
@@ -230,6 +239,8 @@ const AmuUI: Plugin = {
     app.use(AmuUpload)
     app.use(AmuImageViewer)
     app.use(AmuPreviewImage)
+    app.use(AmuDescriptions)
+    app.use(AmuDescriptionsItem)
   },
 }
 

@@ -7,6 +7,9 @@ export default {
       confirm: '确定',
       clear: '清空',
     },
+    empty: {
+      description: '暂无数据',
+    },
     imageViewer: {
       zoomIn: '放大',
       zoomOut: '缩小',

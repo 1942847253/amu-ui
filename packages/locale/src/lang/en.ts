@@ -7,6 +7,9 @@ export default {
       confirm: 'OK',
       clear: 'Clear',
     },
+    empty: {
+      description: 'No Data',
+    },
     imageViewer: {
       zoomIn: 'Zoom In',
       zoomOut: 'Zoom Out',

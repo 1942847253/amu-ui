@@ -1,0 +1,44 @@
+.amu-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 40px 0;
+  width: 100%;
+  text-align: center;
+}
+
+.amu-empty__image {
+  width: 160px;
+  height: 160px;
+}
+
+.amu-empty__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  vertical-align: top;
+}
+
+.amu-empty__image svg {
+  width: 100%;
+  height: 100%;
+  fill: var(--amu-color-bg-fill);
+  color: var(--amu-color-text-disabled);
+}
+
+.amu-empty__description {
+  margin-top: 20px;
+}
+
+.amu-empty__description p {
+  margin: 0;
+  color: var(--amu-color-text-default);
+  font-size: var(--amu-font-size);
+  line-height: 1.5;
+}
+
+.amu-empty__bottom {
+  margin-top: 20px;
+}

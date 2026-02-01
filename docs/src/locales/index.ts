@@ -88,6 +88,8 @@ export const messages = {
       progress: 'Progress 进度条',
       upload: 'Upload 上传',
       'image-viewer': 'ImageViewer 图片预览',
+      descriptions: 'Descriptions 描述列表',
+      empty: 'Empty 空状态',
     }
   },
   'en-US': {
@@ -179,6 +181,8 @@ export const messages = {
       progress: 'Progress',
       upload: 'Upload',
       'image-viewer': 'ImageViewer',
+      descriptions: 'Descriptions',
+      empty: 'Empty',
     }
   }
 } as const

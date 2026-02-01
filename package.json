@@ -104,6 +104,16 @@
       "import": "./dist/es/components/date-picker/index.mjs",
       "require": "./dist/cjs/components/date-picker/index.cjs"
     },
+    "./descriptions": {
+      "types": "./dist/types/components/descriptions/index.d.ts",
+      "import": "./dist/es/components/descriptions/index.mjs",
+      "require": "./dist/cjs/components/descriptions/index.cjs"
+    },
+    "./components/descriptions": {
+      "types": "./dist/types/components/descriptions/index.d.ts",
+      "import": "./dist/es/components/descriptions/index.mjs",
+      "require": "./dist/cjs/components/descriptions/index.cjs"
+    },
     "./dialog": {
       "types": "./dist/types/components/dialog/index.d.ts",
       "import": "./dist/es/components/dialog/index.mjs",
@@ -133,6 +143,16 @@
       "types": "./dist/types/components/dropdown/index.d.ts",
       "import": "./dist/es/components/dropdown/index.mjs",
       "require": "./dist/cjs/components/dropdown/index.cjs"
+    },
+    "./empty": {
+      "types": "./dist/types/components/empty/index.d.ts",
+      "import": "./dist/es/components/empty/index.mjs",
+      "require": "./dist/cjs/components/empty/index.cjs"
+    },
+    "./components/empty": {
+      "types": "./dist/types/components/empty/index.d.ts",
+      "import": "./dist/es/components/empty/index.mjs",
+      "require": "./dist/cjs/components/empty/index.cjs"
     },
     "./form": {
       "types": "./dist/types/components/form/index.d.ts",
