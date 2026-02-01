@@ -146,9 +146,9 @@
     </div>
   </Teleport>
 
-  <AmuDialog v-else :model-value="innerVisible" type="custom" :mask="false" :modal="false" :lock-scroll="false"
-    :draggable="true" :width="dialogWidth" :teleport-to="dialogTeleport" :z-index="zIndex"
-    @update:model-value="handleDialogVisible">
+  <AmuDialog v-else class="amu-image-viewer__dialog" :model-value="innerVisible" type="custom" :mask="false"
+    :modal="false" :lock-scroll="false" :draggable="true" :width="dialogWidth" :teleport-to="dialogTeleport"
+    :z-index="zIndex" @update:model-value="handleDialogVisible">
     <template #title>
       {{ index + 1 }}/{{ urlList.length }}
     </template>

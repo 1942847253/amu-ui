@@ -317,14 +317,14 @@
 }
 
 /* 小窗口标题栏背景 */
-.amu-dialog .amu-dialog-header {
+.amu-image-viewer__dialog .amu-dialog-header {
   background-color: var(--amu-color-bg-fill);
   padding: 8px 12px;
   display: flex;
   align-items: center;
 }
 
-.amu-dialog .amu-dialog-title {
+.amu-image-viewer__dialog .amu-dialog-title {
   width: 100%;
   text-align: center;
   justify-content: center;
