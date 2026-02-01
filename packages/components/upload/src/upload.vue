@@ -76,6 +76,7 @@ import { ref, watch, shallowRef, computed } from 'vue'
 import { uploadProps, uploadEmits } from './props'
 import { AmuButton } from 'amu-ui/button'
 import { AmuIcon } from 'amu-ui/icon'
+import { previewImage } from 'amu-ui/image-viewer'
 import { IconUploadCloud, IconPlus } from '@amu-ui/icons'
 import UploadList from './upload-list.vue'
 import UploadDragger from './upload-dragger.vue'
@@ -230,6 +231,26 @@ const handleRemove = async (file: UploadFile) => {
 const handlePreview = (file: UploadFile) => {
     if (props.disabled) return
     emit('preview', file)
+
+    if (!isPictureType.value || !file.url || !isImageFile(file)) return
+
+    const urlList = uploadFiles.value
+        .filter(item => item.url && isImageFile(item))
+        .map(item => item.url as string)
+    if (!urlList.length) return
+    const currentIndex = Math.max(0, urlList.findIndex(url => url === file.url))
+    previewImage({
+        urlList,
+        initialIndex: currentIndex
+    })
+}
+
+const isImageFile = (file: UploadFile) => {
+    if (file.raw?.type) {
+        return file.raw.type.startsWith('image/')
+    }
+    const lowerName = file.name.toLowerCase()
+    return ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.bmp', '.svg'].some(ext => lowerName.endsWith(ext))
 }
 
 const abort = (file?: UploadFile) => {

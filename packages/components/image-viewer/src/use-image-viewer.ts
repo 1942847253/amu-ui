@@ -2,7 +2,7 @@ import { computed, onMounted, onUnmounted, ref, watch, type CSSProperties, type 
 import type { ImageViewerProps, ImageViewerEmits } from './props'
 
 const MIN_SCALE = 0.2
-const MAX_SCALE = 3.0
+const MAX_SCALE = 10.0
 
 export const useImageViewer = (
   props: ImageViewerProps,
