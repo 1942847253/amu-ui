@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, onMounted, onBeforeUnmount, nextTick, CSSProperties } from 'vue'
+import { computed, ref, watch, onMounted, onBeforeUnmount, CSSProperties } from 'vue'
 import { drawerProps, drawerEmits } from './props'
 import drawerManager from './drawer-manager'
 import { useZIndex } from '@amu-ui/hooks'
@@ -95,7 +95,7 @@ const currentZIndex = ref(props.zIndex || 2000)
 const { nextZIndex } = useZIndex()
 
 // 处理 keep-alive / destroy-on-close
-const rendered = ref(false)
+const rendered = ref(!props.destroyOnClose)
 const shouldRender = computed(() => {
   // 如果处于打开状态，强制渲染
   if (visible.value) return true
@@ -134,24 +134,14 @@ watch(() => props.modelValue, (val) => {
 const internalOpen = async () => {
   rendered.value = true
   currentZIndex.value = props.zIndex ?? nextZIndex()
-  
-  // 强制重绘，等待 DOM 挂载
-  await nextTick()
-  
-  // 再次等待一帧，确保浏览器完成布局计算，避免动画第一帧出现样式错乱（如白色闪烁）
-  requestAnimationFrame(() => {
-    // 双重 rAF 确保在下一帧渲染前执行，这是处理 Vue Transition 闪烁的经典 hack
-    requestAnimationFrame(() => {
-      visible.value = true
-      drawerManager.add({
-        id: drawerId,
-        close: handleClose,
-        closeOnEsc: props.closeOnEsc,
-        modal: props.modal
-      })
-      emit('open')
-    })
+  visible.value = true
+  drawerManager.add({
+    id: drawerId,
+    close: handleClose,
+    closeOnEsc: props.closeOnEsc,
+    modal: props.modal
   })
+  emit('open')
 }
 
 const internalClose = () => {
@@ -290,7 +280,7 @@ const handleResizeStart = (e: MouseEvent) => {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--amu-color-bg-mask-weak);
   /* 并行结构下，overlay 单独处理，需要恢复 pointer-events 响应点击 */
   pointer-events: auto;
   will-change: background-color;
@@ -307,7 +297,7 @@ const handleResizeStart = (e: MouseEvent) => {
   color: var(--amu-color-text);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 16px 48px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--amu-shadow-xl);
   transition: width 0.3s, height 0.3s;
   will-change: transform;
   backface-visibility: hidden;

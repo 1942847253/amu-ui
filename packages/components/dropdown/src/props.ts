@@ -142,9 +142,30 @@ export const dropdownEmits = {
   visibleChange: (visible: boolean) => typeof visible === 'boolean',
 }
 
+export const dropdownSlots = {
+  /**
+   * @description 触发器插槽
+   * @en Trigger slot
+   */
+  default: {},
+  /**
+   * @description 下拉菜单内容插槽
+   * @en Dropdown content slot
+   */
+  dropdown: {},
+}
+
 export const dropdownMenuProps = {
   // 目前主要作为容器，可能不需要太多 Props
 } as const
+
+export const dropdownMenuSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {},
+}
 
 export const dropdownItemProps = {
   /**
@@ -219,6 +240,19 @@ export const dropdownItemEmits = {
    * @en Triggered when pointer leaves.
    */
   pointerleave: (e: PointerEvent) => e instanceof PointerEvent,
+}
+
+export const dropdownItemSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {},
+  /**
+   * @description 图标插槽
+   * @en Icon slot
+   */
+  icon: {},
 }
 
 export interface DropdownContext {

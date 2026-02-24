@@ -64,7 +64,7 @@
 
 .amu-textarea--outline .amu-textarea__inner:focus {
   border-color: var(--amu-color-primary);
-  box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.2);
+  box-shadow: var(--amu-focus-ring-primary);
 }
 
 .amu-textarea--filled .amu-textarea__inner {
@@ -80,7 +80,7 @@
 .amu-textarea--filled .amu-textarea__inner:focus {
   background-color: var(--amu-color-bg);
   border-color: var(--amu-color-primary);
-  box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.2);
+  box-shadow: var(--amu-focus-ring-primary);
 }
 
 /* Disabled */
@@ -101,7 +101,7 @@
 }
 .amu-textarea--status-error .amu-textarea__inner:focus {
   border-color: var(--amu-color-status-danger);
-  box-shadow: 0 0 0 2px rgba(240, 68, 56, 0.2);
+  box-shadow: var(--amu-focus-ring-danger);
 }
 
 .amu-textarea--status-success .amu-textarea__inner {
@@ -109,7 +109,7 @@
 }
 .amu-textarea--status-success .amu-textarea__inner:focus {
   border-color: var(--amu-color-status-success);
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+  box-shadow: var(--amu-focus-ring-success);
 }
 
 .amu-textarea--status-warning .amu-textarea__inner {
@@ -117,7 +117,7 @@
 }
 .amu-textarea--status-warning .amu-textarea__inner:focus {
   border-color: var(--amu-color-status-warning);
-  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+  box-shadow: var(--amu-focus-ring-warning);
 }
 
 /* Word Limit */

@@ -2,7 +2,11 @@ import { createVNode, render } from 'vue'
 import ImageViewer from './image-viewer.vue'
 import type { ImageViewerProps } from './props'
 
-export const previewImage = (options: Partial<ImageViewerProps> = {}) => {
+type ImageViewerServiceOptions = Partial<ImageViewerProps> & {
+  onClose?: () => void
+}
+
+export const previewImage = (options: ImageViewerServiceOptions = {}) => {
   if (typeof document === 'undefined') return
 
   const container = document.createElement('div')

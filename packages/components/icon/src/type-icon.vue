@@ -12,7 +12,7 @@
 import { computed } from 'vue'
 import AmuIcon from './icon.vue'
 import { TypeComponentsMap } from '@amu-ui/utils'
-import AmuSpinner from 'amu-ui/spinner'
+import AmuSpinner from '../../spinner'
 
 defineOptions({
     name: 'AmuTypeIcon'

@@ -39,7 +39,7 @@
 
 .amu-select.is-focused .amu-select__wrapper {
   border-color: var(--amu-color-primary);
-  box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.2);
+  box-shadow: var(--amu-focus-ring-primary);
 }
 
 .amu-select.is-disabled .amu-select__wrapper {
@@ -100,7 +100,7 @@
   background-color: var(--amu-color-bg-elevated);
   border: 1px solid var(--amu-color-border);
   border-radius: var(--amu-radius);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--amu-shadow-md);
   z-index: 1000;
   min-width: 200px;
   box-sizing: border-box;

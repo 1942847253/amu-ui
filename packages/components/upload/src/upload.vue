@@ -74,9 +74,9 @@
 <script lang="ts" setup>
 import { ref, watch, shallowRef, computed } from 'vue'
 import { uploadProps, uploadEmits } from './props'
-import { AmuButton } from 'amu-ui/button'
-import { AmuIcon } from 'amu-ui/icon'
-import { previewImage } from 'amu-ui/image-viewer'
+import { AmuButton } from '../../button'
+import { AmuIcon } from '../../icon'
+import { previewImage } from '../../image-viewer'
 import { IconUploadCloud, IconPlus } from '@amu-ui/icons'
 import UploadList from './upload-list.vue'
 import UploadDragger from './upload-dragger.vue'

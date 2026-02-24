@@ -119,7 +119,7 @@ const displayItems = computed(() => {
   if (slotItems.value.length === 0) return [] as Array<{ vnode: VNode; key: string | number }>
   const middle = slotItems.value.map((node, index) => ({
     vnode: node,
-    key: node.key ?? `item-${index}`
+    key: typeof node.key === 'string' || typeof node.key === 'number' ? node.key : `item-${index}`
   }))
   if (!shouldLoop.value) return middle
   const first = slotItems.value[0]

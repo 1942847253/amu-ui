@@ -86,8 +86,8 @@
 
 <script lang="ts" setup>
 import { PropType } from 'vue'
-import { AmuIcon } from 'amu-ui/icon'
-import { AmuProgress } from 'amu-ui/progress'
+import { AmuIcon } from '../../icon'
+import { AmuProgress } from '../../progress'
 import { 
   IconFileText, 
   IconCheck, 

@@ -34,12 +34,11 @@ describe('AmuCard', () => {
     expect(wrapper.find('.amu-card__body').isVisible()).toBe(true)
 
     // Click collapse button
-    const btn = wrapper.find('.amu-card__icon-arrow').element.parentElement
-    if (btn) {
-      await btn.click()
-      // Note: v-show just adds display:none.
-      expect(wrapper.find('.amu-card__body').isVisible()).toBe(false)
-      expect(wrapper.classes()).toContain('amu-card--collapsed')
-    }
+    const btn = wrapper.find('.amu-card__tool-btn')
+    expect(btn.exists()).toBe(true)
+    await btn.trigger('click')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.emitted('update:collapsed')?.[0]).toEqual([true])
+    expect(wrapper.classes()).toContain('amu-card--collapsed')
   })
 })

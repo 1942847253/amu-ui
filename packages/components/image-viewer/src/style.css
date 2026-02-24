@@ -91,7 +91,7 @@
   border-radius: 8px;
   background-color: var(--amu-color-bg-elevated);
   border: 1px solid var(--amu-color-border);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--amu-shadow-sm);
   color: var(--amu-image-viewer-toolbar-text);
 }
 
@@ -156,7 +156,7 @@
   border-radius: 16px;
   background-color: var(--amu-color-bg-elevated);
   border: 1px solid var(--amu-color-border);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--amu-shadow-sm);
   transition: top 0.2s ease;
 }
 

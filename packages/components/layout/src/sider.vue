@@ -3,7 +3,7 @@
     :class="[
       'amu-layout-sider',
       {
-        'amu-layout-sider--collapsed': collapsed,
+        'amu-layout-sider--collapsed': mergedCollapsed,
         'amu-layout-sider--zero-width': isZeroWidth,
         [`amu-layout-sider--${position}`]: position
       }
@@ -13,11 +13,21 @@
     <div class="amu-layout-sider__content">
       <slot />
     </div>
+    <div
+      v-if="collapsible"
+      class="amu-layout-sider__trigger"
+      role="button"
+      tabindex="0"
+      @click="handleTriggerClick"
+      @keydown.enter="handleTriggerClick"
+    >
+      <slot name="trigger">{{ mergedCollapsed ? '>' : '<' }}</slot>
+    </div>
   </aside>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { siderProps, siderEmits } from './props'
 
 defineOptions({
@@ -25,13 +35,28 @@ defineOptions({
 })
 
 const props = defineProps(siderProps)
-defineEmits(siderEmits)
+const emit = defineEmits(siderEmits)
+
+const innerCollapsed = ref(props.defaultCollapsed)
+
+watch(
+  () => props.defaultCollapsed,
+  (val) => {
+    if (props.collapsed === undefined) {
+      innerCollapsed.value = val
+    }
+  }
+)
+
+const mergedCollapsed = computed(() => {
+  return props.collapsed ?? innerCollapsed.value
+})
 
 // 计算侧边栏样式
-const isZeroWidth = computed(() => props.collapsed && Number(props.collapsedWidth) === 0)
+const isZeroWidth = computed(() => mergedCollapsed.value && Number(props.collapsedWidth) === 0)
 
 const siderStyle = computed(() => {
-  const width = props.collapsed ? props.collapsedWidth : props.width
+  const width = mergedCollapsed.value ? props.collapsedWidth : props.width
   const widthValue = typeof width === 'number' ? `${width}px` : width
   
   return {
@@ -41,4 +66,13 @@ const siderStyle = computed(() => {
     width: widthValue
   }
 })
+
+const handleTriggerClick = () => {
+  const next = !mergedCollapsed.value
+  if (props.collapsed === undefined) {
+    innerCollapsed.value = next
+  }
+  emit('update:collapsed', next)
+  emit('collapse', next)
+}
 </script>

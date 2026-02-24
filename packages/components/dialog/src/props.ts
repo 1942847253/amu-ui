@@ -228,3 +228,26 @@ export const dialogEmits = {
    */
   cancel: () => true
 }
+
+export const dialogSlots = {
+  /**
+   * @description 默认内容插槽
+   * @en Default content slot
+   */
+  default: {},
+  /**
+   * @description 标题区域插槽
+   * @en Header slot
+   */
+  header: {},
+  /**
+   * @description 底部操作区插槽
+   * @en Footer slot
+   */
+  footer: {},
+  /**
+   * @description 图标区域插槽
+   * @en Icon slot
+   */
+  icon: {},
+}

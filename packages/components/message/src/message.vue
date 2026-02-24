@@ -32,8 +32,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, isVNode, watch } from 'vue'
 import { messageProps } from './props'
-import { AmuTypeIcon } from 'amu-ui/icon'
-import AmuIcon from 'amu-ui/icon'
+import { AmuTypeIcon } from '../../icon'
+import AmuIcon from '../../icon'
 import { IconX as IconClose } from '@amu-ui/icons'
 
 defineOptions({

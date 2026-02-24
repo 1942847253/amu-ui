@@ -127,4 +127,12 @@ export const progressProps = {
 
 export const progressEmits = {}
 
+export const progressSlots = {
+  /**
+   * @description 自定义文字内容插槽
+   * @en Custom text content slot
+   */
+  default: {},
+}
+
 export type ProgressProps = ExtractPropTypes<typeof progressProps>

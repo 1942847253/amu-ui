@@ -21,16 +21,16 @@
 
 /* Shadow */
 .amu-card--shadow-always {
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: var(--amu-shadow-sm);
 }
 .amu-card--shadow-hover:hover {
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: var(--amu-shadow-sm);
 }
 
 /* Hoverable */
 .amu-card--hoverable:hover {
   border-color: transparent;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: var(--amu-shadow-sm);
   cursor: pointer;
 }
 
@@ -195,7 +195,7 @@
 .amu-card-grid:hover {
   position: relative;
   z-index: 1;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: var(--amu-shadow-sm);
 }
 
 /* Card Meta */

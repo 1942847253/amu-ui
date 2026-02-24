@@ -1,5 +1,5 @@
 import { defineComponent, Transition, computed, type CSSProperties, ref, watch } from 'vue'
-import { AmuSpinner } from 'amu-ui/spinner'
+import { AmuSpinner } from '../../spinner'
 import { loadingProps } from './props'
 import './style.css'
 

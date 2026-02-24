@@ -7,9 +7,16 @@ const isClient = typeof window !== 'undefined'
 let messageContainer: any = null
 let seed = 0
 
+const hasMountedContainer = () => {
+  return !!document.querySelector('.amu-message-container-root')
+}
+
 // 确保容器存在
 const getContainer = () => {
   if (!isClient) return null
+  if (messageContainer && !hasMountedContainer()) {
+    messageContainer = null
+  }
   
   if (!messageContainer) {
     const container = document.createElement('div')

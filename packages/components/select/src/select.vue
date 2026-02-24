@@ -106,8 +106,8 @@
 <script setup lang="ts">
 import { ref, computed, provide, watch, reactive, useSlots, nextTick, inject, shallowReactive } from 'vue'
 import { selectProps, selectEmits, selectContextKey, type SelectValue, type OptionProps, type SelectOptionProxy } from './props'
-import { AmuIcon } from 'amu-ui/icon'
-import { AmuTag } from 'amu-ui/tag'
+import { AmuIcon } from '../../icon'
+import { AmuTag } from '../../tag'
 import { AmuInput } from '../../input'
 import { AmuPopup } from '../../popup'
 import { IconChevronDown, IconX, IconSearch } from '@amu-ui/icons'

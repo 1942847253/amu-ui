@@ -71,6 +71,16 @@ export const rowProps = {
   }
 } as const
 
+export const rowEmits = {}
+
+export const rowSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {}
+}
+
 export interface RowContext {
   gutter: ComputedRef<[number, number]>
   columns: ComputedRef<number>

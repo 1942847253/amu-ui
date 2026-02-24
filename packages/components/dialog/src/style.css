@@ -6,7 +6,7 @@
   left: 0;
   z-index: 2000;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--amu-color-bg-mask-weak);
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@
   margin: 0 auto;
   background: var(--amu-color-bg-elevated);
   border-radius: var(--amu-radius);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--amu-shadow-md);
   box-sizing: border-box;
   width: 50%;
   display: flex;
@@ -115,7 +115,7 @@
 .amu-dialog-icon.is-error,
 .amu-dialog-icon.is-info,
 .amu-dialog-icon.is-confirm {
-  color: #fff !important;
+  color: var(--amu-color-on-solid) !important;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -128,7 +128,7 @@
 [data-amu-theme='dark'] .amu-dialog-icon.is-error,
 [data-amu-theme='dark'] .amu-dialog-icon.is-info,
 [data-amu-theme='dark'] .amu-dialog-icon.is-confirm {
-  color: #000 !important;
+  color: var(--amu-color-on-solid) !important;
 }
 
 .amu-dialog-icon.is-success { background-color: var(--amu-color-status-success); }
@@ -145,7 +145,7 @@
   display: none;
 }
 
-/* Ensure internal strokes are white (inherited from color: #fff) */
+/* 确保内部线条继承图标前景色 */
 .amu-dialog-icon.is-success :deep(svg polyline),
 .amu-dialog-icon.is-warning :deep(svg line),
 .amu-dialog-icon.is-error :deep(svg line),

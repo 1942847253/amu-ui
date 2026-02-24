@@ -1,8 +1,8 @@
 @import '../../icon/src/style.css';
 
 .amu-collapse {
-  border-top: 1px solid var(--amu-color-border-light, #ebeef5);
-  border-bottom: 1px solid var(--amu-color-border-light, #ebeef5);
+  border-top: 1px solid var(--amu-color-border);
+  border-bottom: 1px solid var(--amu-color-border);
 }
 
 .amu-collapse--borderless {
@@ -15,10 +15,10 @@
   align-items: center;
   height: 48px;
   line-height: 48px;
-  background-color: var(--amu-color-bg-container, #fff);
-  color: var(--amu-color-text-default, #303133);
+  background-color: var(--amu-color-bg-elevated);
+  color: var(--amu-color-text-default);
   cursor: pointer;
-  border-bottom: 1px solid var(--amu-color-border-light, #ebeef5);
+  border-bottom: 1px solid var(--amu-color-border);
   font-size: 13px;
   font-weight: 500;
   transition: border-bottom-color 0.3s;
@@ -72,7 +72,7 @@
 }
 
 .amu-collapse-item__header.is-disabled {
-  color: var(--amu-color-text-disabled, #a8abb2);
+  color: var(--amu-color-text-disabled);
   cursor: not-allowed;
 }
 
@@ -86,10 +86,10 @@
 
 .amu-collapse-item__wrap {
   will-change: height;
-  background-color: var(--amu-color-bg-container, #fff);
+  background-color: var(--amu-color-bg-elevated);
   overflow: hidden;
   box-sizing: border-box;
-  border-bottom: 1px solid var(--amu-color-border-light, #ebeef5);
+  border-bottom: 1px solid var(--amu-color-border);
   transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
@@ -102,11 +102,11 @@
 }
 
 .amu-collapse--borderless .amu-collapse-item__header {
-  border-bottom: 1px solid var(--amu-color-border-light, #ebeef5);
+  border-bottom: 1px solid var(--amu-color-border);
 }
 
 .amu-collapse--borderless .amu-collapse-item__wrap {
-  border-bottom: 1px solid var(--amu-color-border-light, #ebeef5);
+  border-bottom: 1px solid var(--amu-color-border);
 }
 
 .amu-collapse--borderless .amu-collapse-item:last-child .amu-collapse-item__header,
@@ -117,7 +117,7 @@
 .amu-collapse-item__content {
   padding-bottom: 25px;
   font-size: 13px;
-  color: var(--amu-color-text-default, #303133);
+  color: var(--amu-color-text-default);
   line-height: 1.7692307692;
   padding-left: 12px;
   padding-right: 12px;

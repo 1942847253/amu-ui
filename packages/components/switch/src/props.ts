@@ -98,5 +98,18 @@ export const switchEmits = {
   change: (value: boolean) => true
 }
 
+export const switchSlots = {
+  /**
+   * @description 打开状态内容插槽
+   * @en Checked content slot
+   */
+  checked: {},
+  /**
+   * @description 关闭状态内容插槽
+   * @en Unchecked content slot
+   */
+  unchecked: {},
+}
+
 export type SwitchProps = ExtractPropTypes<typeof switchProps>
 export type SwitchEmits = typeof switchEmits

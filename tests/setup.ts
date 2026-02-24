@@ -1,3 +1,5 @@
+import { afterEach } from 'vitest'
+
 // 测试环境基础兜底（按需补充）
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -18,3 +20,7 @@ class ResizeObserver {
 }
 
 window.ResizeObserver = ResizeObserver
+
+afterEach(() => {
+  document.body.innerHTML = ''
+})

@@ -24,6 +24,16 @@ export const layoutProps = {
   }
 }
 
+export const layoutEmits = {}
+
+export const layoutSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {}
+}
+
 /**
  * Header 组件的 Props
  * Header component props
@@ -38,6 +48,16 @@ export const headerProps = {
     type: [String, Number],
     default: undefined
   }
+}
+
+export const headerEmits = {}
+
+export const headerSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {}
 }
 
 /**
@@ -68,7 +88,23 @@ export const siderProps = {
    */
   collapsed: {
     type: Boolean,
-    default: false
+    default: undefined
+  },
+  /**
+   * 是否显示折叠触发器
+   * @en Whether to show collapse trigger
+   */
+  collapsible: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * 默认折叠状态（非受控）
+   * @en Default collapsed state (uncontrolled)
+   */
+  defaultCollapsed: {
+    type: Boolean,
+    default: false,
   },
   /**
    * 侧边栏位置
@@ -80,12 +116,36 @@ export const siderProps = {
   }
 }
 
+export const siderSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {},
+  /**
+   * @description 折叠触发器插槽
+   * @en Trigger slot
+   */
+  trigger: {}
+}
+
 /**
  * Sider 组件的 Emits
  * Sider component emits
  * @en Sider component emits
  */
-export const siderEmits = {}
+export const siderEmits = {
+  /**
+   * 折叠状态更新
+   * @en Emitted when collapsed state updates
+   */
+  'update:collapsed': (val: boolean) => typeof val === 'boolean',
+  /**
+   * 点击触发器折叠时触发
+   * @en Emitted when trigger collapse toggles
+   */
+  collapse: (val: boolean) => typeof val === 'boolean',
+}
 
 /**
  * Content 组件的 Props
@@ -93,6 +153,16 @@ export const siderEmits = {}
  * @en Content component props
  */
 export const contentProps = {}
+
+export const contentEmits = {}
+
+export const contentSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {}
+}
 
 /**
  * Footer 组件的 Props
@@ -108,6 +178,16 @@ export const footerProps = {
     type: [String, Number],
     default: undefined
   }
+}
+
+export const footerEmits = {}
+
+export const footerSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {}
 }
 
 export type LayoutProps = Readonly<typeof layoutProps>

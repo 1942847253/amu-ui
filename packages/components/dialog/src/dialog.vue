@@ -106,7 +106,7 @@ if (typeof window !== 'undefined') {
 </script>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type CSSProperties, isVNode, useAttrs, getCurrentInstance } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick, type CSSProperties, type StyleValue, isVNode, useAttrs, getCurrentInstance } from 'vue'
 import { dialogProps, dialogEmits } from './props'
 import type { ButtonProps } from '../../button/src/props'
 import AmuButton from '../../button'
@@ -133,9 +133,19 @@ const currentZIndex = ref(props.zIndex || nextZIndex())
 const dialogRef = ref<HTMLElement>()
 const confirmLoading = ref(false)
 
+type DialogAttrsResult = {
+  className: unknown
+  style: StyleValue
+  rest: Record<string, unknown>
+}
+
 const dialogAttrs = computed(() => {
   const { class: className, style, ...rest } = attrs as Record<string, unknown>
-  return { className, style, rest }
+  return {
+    className,
+    style: (style ?? undefined) as StyleValue,
+    rest,
+  } as DialogAttrsResult
 })
 
 // 拖拽状态

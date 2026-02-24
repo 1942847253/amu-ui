@@ -47,7 +47,7 @@ export default defineComponent({
         return {
           backgroundColor: props.color,
           borderColor: props.color,
-          color: '#fff'
+          color: 'var(--amu-color-on-solid)'
         }
       }
       return {}

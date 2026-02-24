@@ -123,7 +123,7 @@
 .amu-button--primary {
   background-color: var(--amu-color-primary);
   border-color: transparent;
-  color: #fff;
+  color: var(--amu-color-on-primary);
 }
 
 .amu-button--primary:not(:disabled):not(.is-disabled):hover {
@@ -202,7 +202,7 @@
 .amu-button--primary:disabled {
   background-color: var(--amu-color-primary);
   border-color: transparent;
-  color: #fff;
+  color: var(--amu-color-on-primary);
 }
 
 .amu-button--default:disabled {

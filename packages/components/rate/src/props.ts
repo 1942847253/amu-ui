@@ -167,5 +167,13 @@ export const rateEmits = {
   change: (value: number) => typeof value === 'number',
 }
 
+export const rateSlots = {
+  /**
+   * @description 自定义图标插槽
+   * @en Custom icon slot
+   */
+  character: {},
+}
+
 export type RateProps = ExtractPropTypes<typeof rateProps>
 export type RateEmits = typeof rateEmits

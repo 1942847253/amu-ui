@@ -50,6 +50,14 @@ export const collapseEmits = {
   change: (value: CollapseModelValue) => true,
 }
 
+export const collapseSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {},
+}
+
 export const collapseItemProps = {
   /**
    * @description 面板的唯一标识符
@@ -92,6 +100,24 @@ export const collapseItemProps = {
     default: 'header',
   },
 } as const
+
+export const collapseItemSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {},
+  /**
+   * @description 标题插槽
+   * @en Title slot
+   */
+  title: {},
+  /**
+   * @description 箭头图标插槽
+   * @en Arrow icon slot
+   */
+  arrow: {},
+}
 
 export type CollapseProps = ExtractPropTypes<typeof collapseProps>
 export type CollapseItemProps = ExtractPropTypes<typeof collapseItemProps>

@@ -67,7 +67,7 @@
 .amu-checkbox__icon {
   width: 75%;
   height: 75%;
-  color: #fff;
+  color: var(--amu-color-on-primary);
   opacity: 0;
   transform: scale(0);
   transition: all 0.15s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -142,7 +142,7 @@
 
 /* Focus 状态（键盘可访问性） */
 .amu-checkbox__original:focus-visible + .amu-checkbox__inner {
-  box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.2);
+  box-shadow: var(--amu-focus-ring-primary);
   outline: none;
 }
 

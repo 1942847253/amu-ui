@@ -114,7 +114,7 @@
     justify-content: center;
     z-index: 2;
     background-color: var(--amu-color-bg); /* Use bg color to overlay tabs */
-    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    box-shadow: var(--amu-shadow-popup-arrow);
     width: 20px; /* Fixed width */
     height: 100%; /* Full height of header */
 }
@@ -366,7 +366,7 @@
 }
 
 .amu-tabs__close-icon:hover {
-    background: rgba(0,0,0,0.1);
+    background: color-mix(in srgb, var(--amu-color-text) 10%, transparent);
     color: var(--amu-color-text);
 }
 

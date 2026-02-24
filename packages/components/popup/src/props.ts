@@ -187,5 +187,18 @@ export const popupEmits = {
   close: () => true,
 }
 
+export const popupSlots = {
+  /**
+   * @description 触发器插槽
+   * @en Trigger slot
+   */
+  default: {},
+  /**
+   * @description 弹层内容插槽
+   * @en Content slot
+   */
+  content: {},
+}
+
 export type PopupProps = ExtractPropTypes<typeof popupProps>
 export type PopupEmits = typeof popupEmits

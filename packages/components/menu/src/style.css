@@ -4,7 +4,7 @@
     --amu-menu-hover-bg: var(--amu-color-bg-fill);
     --amu-menu-text-color: var(--amu-color-text-default);
     --amu-menu-active-color: var(--amu-color-primary);
-    --amu-menu-active-bg: var(--amu-color-primary-light-9, #e8f3ff); /* Fallback */
+    --amu-menu-active-bg: var(--amu-color-bg-fill);
     --amu-menu-item-height: 40px;
     --amu-menu-popup-bg: var(--amu-color-bg-elevated);
 
@@ -62,12 +62,12 @@
   .amu-menu--dark,
   [data-amu-theme='dark'] .amu-menu,
   .amu-menu[data-amu-theme='dark'] {
-    --amu-menu-bg: #232324;
-    --amu-menu-hover-bg: #333335;
-    --amu-menu-text-color: #a6a6a6;
-    --amu-menu-active-color: #fff;
+    --amu-menu-bg: var(--amu-color-bg);
+    --amu-menu-hover-bg: var(--amu-color-bg-fill);
+    --amu-menu-text-color: var(--amu-color-text-default);
+    --amu-menu-active-color: var(--amu-color-on-primary);
     --amu-menu-active-bg: var(--amu-color-primary);
-    --amu-menu-popup-bg: #303030;
+    --amu-menu-popup-bg: var(--amu-color-bg-elevated);
   }
   
   /* Dark Menu Active Override (Solid Blue) */
@@ -102,7 +102,7 @@
   /* Active State (Light/Default) */
   .amu-menu-item.is-active {
     color: var(--amu-color-primary);
-    background-color: var(--amu-color-primary-light-9, #ecf2fe);
+    background-color: var(--amu-menu-active-bg);
     font-weight: 500;
   }
   
@@ -199,7 +199,7 @@
   .amu-menu-group__title {
     padding: 8px 20px;
     font-size: 12px;
-    color: var(--amu-color-text-description, #8a8a8a);
+    color: var(--amu-color-text-disabled);
     line-height: 1.5;
   }
 
@@ -247,7 +247,7 @@
   .amu-menu--collapsed .amu-menu-item.is-active,
   .amu-menu--collapsed .amu-sub-menu.is-active .amu-sub-menu__title {
     background-color: var(--amu-color-primary) !important;
-    color: #ffffff !important;
+    color: var(--amu-color-on-primary) !important;
   }
 
   .amu-menu--collapsed .amu-menu-item__icon,
@@ -285,7 +285,7 @@
     position: absolute;
     z-index: 100;
     background: var(--amu-menu-popup-bg);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: var(--amu-shadow-md);
     min-width: 160px;
     border-radius: var(--amu-radius);
     padding: 4px 0;
@@ -316,7 +316,7 @@
   /* Fix Dark Mode Border Color */
   .amu-menu--dark .amu-menu__collapse-trigger,
   [data-amu-theme='dark'] .amu-menu .amu-menu__collapse-trigger {
-      border-top-color: rgba(255, 255, 255, 0.1);
+      border-top-color: var(--amu-color-border);
   }
 
   .amu-menu__collapse-trigger:hover {
@@ -333,7 +333,7 @@
   }
 
   .amu-menu--popup.amu-menu--dark.amu-dropdown-menu {
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--amu-color-border);
       background-color: var(--amu-menu-popup-bg);
       color: var(--amu-menu-text-color);
   }

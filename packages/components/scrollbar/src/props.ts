@@ -95,4 +95,12 @@ export const scrollbarEmits = {
   scroll: ({ scrollTop, scrollLeft }: { scrollTop: number; scrollLeft: number }) =>
     typeof scrollTop === 'number' && typeof scrollLeft === 'number',
 }
+
+export const scrollbarSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {},
+}
 export type ScrollbarEmits = typeof scrollbarEmits

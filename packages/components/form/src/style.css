@@ -9,7 +9,7 @@
     vertical-align: middle;
     float: left;
     font-size: 14px;
-    color: var(--amu-color-text-default, #1d2129);
+    color: var(--amu-color-text-default);
     line-height: 32px; /* default size height */
     padding: 0 12px 0 0;
     box-sizing: border-box;
@@ -27,13 +27,13 @@
 /* Required star */
 .amu-form-item--required > .amu-form-item__label::before {
     content: '*';
-    color: var(--amu-color-danger, #f53f3f);
+    color: var(--amu-color-status-danger);
     margin-right: 4px;
 }
 
 /* Error */
 .amu-form-item__error {
-    color: var(--amu-color-danger, #f53f3f);
+    color: var(--amu-color-status-danger);
     font-size: 12px;
     line-height: 1;
     padding-top: 4px;
@@ -46,12 +46,12 @@
 .amu-form-item--error .amu-input__inner-wrapper,
 .amu-form-item--error .amu-textarea__inner-wrapper,
 .amu-form-item--error .amu-select__wrapper {
-    border-color: var(--amu-color-danger, #f53f3f) !important;
+    border-color: var(--amu-color-status-danger) !important;
 }
 
 .amu-form-item--error .amu-checkbox__inner,
 .amu-form-item--error .amu-radio__inner {
-    border-color: var(--amu-color-danger, #f53f3f) !important;
+    border-color: var(--amu-color-status-danger) !important;
 }
 
 /* Inline */
@@ -80,7 +80,7 @@
 
 /* Validation Status Styles (Optional: could add success color etc) */
 .amu-form-item--success .amu-input__inner {
-    border-color: var(--amu-color-success, #00b42a);
+    border-color: var(--amu-color-status-success);
 }
 
 /* Animation */

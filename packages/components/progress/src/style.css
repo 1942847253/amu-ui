@@ -73,7 +73,7 @@
 /* Text Inside The Bar */
 .amu-progress-bar__innerText {
   display: inline-block;
-  color: #fff;
+  color: var(--amu-color-on-solid);
   font-size: 12px;
   margin: 0 5px;
   vertical-align: middle;
@@ -176,7 +176,7 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: #fff;
+  background-color: var(--amu-color-on-solid);
   opacity: 0.3;
   border-radius: 100px;
   animation: amu-progress-active 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;

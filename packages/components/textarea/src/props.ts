@@ -158,4 +158,17 @@ export const textareaEmits = {
   blur: (e: FocusEvent) => true
 }
 
+export const textareaSlots = {
+  /**
+   * @description 前缀插槽
+   * @en Prefix slot
+   */
+  prefix: {},
+  /**
+   * @description 后缀插槽
+   * @en Suffix slot
+   */
+  suffix: {},
+}
+
 export type TextareaEmits = typeof textareaEmits

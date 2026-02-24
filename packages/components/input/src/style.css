@@ -70,7 +70,7 @@
 
 .amu-input--outline:focus-within .amu-input__inner-wrapper {
   border-color: var(--amu-color-primary);
-  box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.2);
+  box-shadow: var(--amu-focus-ring-primary);
 }
 
 /* Filled */
@@ -87,7 +87,7 @@
 .amu-input--filled:focus-within .amu-input__inner-wrapper {
   background-color: var(--amu-color-bg);
   border-color: var(--amu-color-primary);
-  box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.2);
+  box-shadow: var(--amu-focus-ring-primary);
 }
 
 /* Disabled */
@@ -128,7 +128,7 @@
 
 .amu-input--status-error:focus-within .amu-input__inner-wrapper {
   border-color: var(--amu-color-status-danger);
-  box-shadow: 0 0 0 2px rgba(245, 63, 63, 0.2);
+  box-shadow: var(--amu-focus-ring-danger);
 }
 
 .amu-input--status-warning .amu-input__inner-wrapper {
@@ -137,7 +137,7 @@
 
 .amu-input--status-warning:focus-within .amu-input__inner-wrapper {
   border-color: var(--amu-color-status-warning);
-  box-shadow: 0 0 0 2px rgba(255, 125, 0, 0.2);
+  box-shadow: var(--amu-focus-ring-warning);
 }
 
 /* Prefix & Suffix */

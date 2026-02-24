@@ -112,5 +112,13 @@ export const sliderEmits = {
   change: (val: number | number[]) => true
 }
 
+export const sliderSlots = {
+  /**
+   * @description 自定义提示内容插槽
+   * @en Tooltip content slot
+   */
+  tooltip: {}
+}
+
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
 export type SliderEmits = typeof sliderEmits

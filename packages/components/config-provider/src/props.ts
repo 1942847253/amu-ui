@@ -18,3 +18,5 @@ export const configProviderSlots = {
    */
   default: {}
 }
+
+export const configProviderEmits = {}

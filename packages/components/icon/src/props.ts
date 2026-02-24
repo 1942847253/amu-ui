@@ -57,4 +57,6 @@ export const iconSlots = {
   default: {}
 }
 
+export const iconEmits = {}
+
 export type IconProps = ExtractPropTypes<typeof iconProps>

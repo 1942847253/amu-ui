@@ -100,7 +100,7 @@ export const cascaderProps = {
    */
   checkStrictly: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   /**
    * @description 弹出层位置

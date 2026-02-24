@@ -92,7 +92,7 @@ const IconChevronRight = defineComponent({
 const IconLoading = defineComponent({
     render() {
         return h('svg', { viewBox:"0 0 1024 1024", width:"1em", height:"1em", class:"is-loading" }, [
-            h('path', { d:"M512 64c-247.4 0-448 200.6-448 448s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z", fill:"#e6e6e6" }),
+      h('path', { d:"M512 64c-247.4 0-448 200.6-448 448s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z", fill:"currentColor", opacity:"0.25" }),
             h('path', { d:"M512 140c205.4 0 372 166.6 372 372 0 205.4-166.6 372-372 372V140z", fill:"currentColor", opacity:"0.5" }) // Simplified loading
         ]);
     }

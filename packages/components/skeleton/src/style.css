@@ -8,7 +8,7 @@
   background-image: linear-gradient(
     90deg,
     transparent 25%,
-    rgba(255, 255, 255, 0.2) 37%,
+    color-mix(in srgb, var(--amu-color-on-primary) 20%, transparent) 37%,
     transparent 63%
   );
   background-size: 400% 100%;
@@ -20,7 +20,7 @@
   background-image: linear-gradient(
     90deg,
     transparent 25%,
-    rgba(255, 255, 255, 0.2) 37%,
+    color-mix(in srgb, var(--amu-color-on-primary) 20%, transparent) 37%,
     transparent 63%
   );
   background-size: 400% 100%;

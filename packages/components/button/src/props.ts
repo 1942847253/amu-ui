@@ -93,4 +93,6 @@ export const buttonSlots = {
   'loading-icon': {}
 }
 
+export const buttonEmits = {}
+
 export type ButtonProps = ExtractPropTypes<typeof buttonProps>

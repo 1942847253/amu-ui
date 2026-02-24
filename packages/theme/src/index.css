@@ -12,12 +12,44 @@
   --amu-color-bg-elevated: #ffffff;
   --amu-color-bg-fill: #F2F3F5;
   --amu-color-bg-mask: rgba(0, 0, 0, 0.7);
+  --amu-color-bg-mask-weak: rgba(0, 0, 0, 0.5);
+
+  --amu-color-bg-stripe: var(--amu-color-bg-fill);
+  --amu-color-bg-selected: color-mix(in srgb, var(--amu-color-primary) 16%, transparent);
+  --amu-color-text-placeholder: var(--amu-color-text-disabled);
+
+  --amu-focus-ring-primary: 0 0 0 2px color-mix(in srgb, var(--amu-color-primary) 20%, transparent);
+  --amu-focus-ring-danger: 0 0 0 2px color-mix(in srgb, var(--amu-color-status-danger) 20%, transparent);
+  --amu-focus-ring-warning: 0 0 0 2px color-mix(in srgb, var(--amu-color-status-warning) 20%, transparent);
+  --amu-focus-ring-success: 0 0 0 2px color-mix(in srgb, var(--amu-color-status-success) 20%, transparent);
+
+  --amu-shadow-sm: 0 2px 12px 0 color-mix(in srgb, var(--amu-color-text) 10%, transparent);
+  --amu-shadow-md: 0 4px 10px color-mix(in srgb, var(--amu-color-text) 10%, transparent);
+  --amu-shadow-lg: 0 6px 16px color-mix(in srgb, var(--amu-color-text) 12%, transparent);
+  --amu-shadow-xl: 0 16px 48px 16px color-mix(in srgb, var(--amu-color-text) 8%, transparent);
+  --amu-shadow-popup: 0 3px 6px -4px color-mix(in srgb, var(--amu-color-text) 12%, transparent),
+    0 6px 16px 0 color-mix(in srgb, var(--amu-color-text) 8%, transparent),
+    0 9px 28px 8px color-mix(in srgb, var(--amu-color-text) 5%, transparent);
+  --amu-shadow-popup-arrow: 0 0 4px color-mix(in srgb, var(--amu-color-text) 10%, transparent);
+  --amu-shadow-inset-left: inset 10px 0 10px -10px color-mix(in srgb, var(--amu-color-text) 15%, transparent);
+  --amu-shadow-inset-right: inset -10px 0 10px -10px color-mix(in srgb, var(--amu-color-text) 15%, transparent);
+
+  --amu-color-on-solid: #ffffff;
 
   --amu-color-text: #1D2129;
   --amu-color-text-default: #4E5969;
   --amu-color-text-disabled: #86909C;
+  --amu-color-text-secondary: var(--amu-color-text-default);
+  --amu-color-text-description: var(--amu-color-text-default);
 
   --amu-color-border: #E5E6EB;
+  --amu-border-color: var(--amu-color-border);
+
+  --amu-color-fill-tertiary: var(--amu-color-bg-fill);
+  --amu-color-bg-disabled: var(--amu-color-bg-fill);
+  --amu-fill-color: var(--amu-color-bg-elevated);
+  --amu-fill-color-blank: var(--amu-color-bg);
+  --amu-fill-color-light: var(--amu-color-bg-fill);
 
   --amu-color-status-warning: #F59E0B;
   --amu-color-status-warning-hover: #D97706;
@@ -35,7 +67,9 @@
   --amu-color-on-success: #ffffff;
 
   --amu-radius: 4px;
+  --amu-border-radius-base: var(--amu-radius);
   --amu-font-size: 14px;
+  --amu-font-size-base: var(--amu-font-size);
   --amu-height-md: 32px;
 }
 
@@ -54,12 +88,44 @@
   --amu-color-bg-elevated: #2F2F2F;
   --amu-color-bg-fill: #373739;
   --amu-color-bg-mask: rgba(0, 0, 0, 0.7);
+  --amu-color-bg-mask-weak: rgba(0, 0, 0, 0.5);
+
+  --amu-color-bg-stripe: color-mix(in srgb, var(--amu-color-bg) 86%, var(--amu-color-text) 14%);
+  --amu-color-bg-selected: color-mix(in srgb, var(--amu-color-primary) 24%, transparent);
+  --amu-color-text-placeholder: var(--amu-color-text-disabled);
+
+  --amu-focus-ring-primary: 0 0 0 2px color-mix(in srgb, var(--amu-color-primary) 24%, transparent);
+  --amu-focus-ring-danger: 0 0 0 2px color-mix(in srgb, var(--amu-color-status-danger) 24%, transparent);
+  --amu-focus-ring-warning: 0 0 0 2px color-mix(in srgb, var(--amu-color-status-warning) 24%, transparent);
+  --amu-focus-ring-success: 0 0 0 2px color-mix(in srgb, var(--amu-color-status-success) 24%, transparent);
+
+  --amu-shadow-sm: 0 2px 12px 0 color-mix(in srgb, var(--amu-color-bg-mask) 55%, transparent);
+  --amu-shadow-md: 0 4px 10px color-mix(in srgb, var(--amu-color-bg-mask) 58%, transparent);
+  --amu-shadow-lg: 0 6px 16px color-mix(in srgb, var(--amu-color-bg-mask) 62%, transparent);
+  --amu-shadow-xl: 0 16px 48px 16px color-mix(in srgb, var(--amu-color-bg-mask) 60%, transparent);
+  --amu-shadow-popup: 0 3px 6px -4px color-mix(in srgb, var(--amu-color-bg-mask) 60%, transparent),
+    0 6px 16px 0 color-mix(in srgb, var(--amu-color-bg-mask) 56%, transparent),
+    0 9px 28px 8px color-mix(in srgb, var(--amu-color-bg-mask) 52%, transparent);
+  --amu-shadow-popup-arrow: 0 0 4px color-mix(in srgb, var(--amu-color-bg-mask) 55%, transparent);
+  --amu-shadow-inset-left: inset 10px 0 10px -10px color-mix(in srgb, var(--amu-color-bg-mask) 55%, transparent);
+  --amu-shadow-inset-right: inset -10px 0 10px -10px color-mix(in srgb, var(--amu-color-bg-mask) 55%, transparent);
+
+  --amu-color-on-solid: #000000;
 
   --amu-color-text: #F2F3F5;
   --amu-color-text-default: #C9CDD4;
   --amu-color-text-disabled: #86909C;
+  --amu-color-text-secondary: var(--amu-color-text-default);
+  --amu-color-text-description: var(--amu-color-text-default);
 
   --amu-color-border: #484848;
+  --amu-border-color: var(--amu-color-border);
+
+  --amu-color-fill-tertiary: var(--amu-color-bg-fill);
+  --amu-color-bg-disabled: var(--amu-color-bg-fill);
+  --amu-fill-color: var(--amu-color-bg-elevated);
+  --amu-fill-color-blank: var(--amu-color-bg);
+  --amu-fill-color-light: var(--amu-color-bg-fill);
 
   --amu-color-status-warning: #F59E0B;
   --amu-color-status-warning-hover: #D97706;
@@ -75,6 +141,12 @@
   --amu-color-status-success-hover: #16A34A;
   --amu-color-status-success-active: #0F9D58;
   --amu-color-on-success: #ffffff;
+
+  --amu-radius: 4px;
+  --amu-border-radius-base: var(--amu-radius);
+  --amu-font-size: 14px;
+  --amu-font-size-base: var(--amu-font-size);
+  --amu-height-md: 32px;
 }
 
 /* 自动暗黑：未显式设置 data-amu-theme 时，跟随系统 */
@@ -93,12 +165,44 @@
     --amu-color-bg-elevated: #2F2F2F;
     --amu-color-bg-fill: #373739;
     --amu-color-bg-mask: rgba(0, 0, 0, 0.7);
+    --amu-color-bg-mask-weak: rgba(0, 0, 0, 0.5);
+
+    --amu-color-bg-stripe: color-mix(in srgb, var(--amu-color-bg) 86%, var(--amu-color-text) 14%);
+    --amu-color-bg-selected: color-mix(in srgb, var(--amu-color-primary) 24%, transparent);
+    --amu-color-text-placeholder: var(--amu-color-text-disabled);
+
+    --amu-focus-ring-primary: 0 0 0 2px color-mix(in srgb, var(--amu-color-primary) 24%, transparent);
+    --amu-focus-ring-danger: 0 0 0 2px color-mix(in srgb, var(--amu-color-status-danger) 24%, transparent);
+    --amu-focus-ring-warning: 0 0 0 2px color-mix(in srgb, var(--amu-color-status-warning) 24%, transparent);
+    --amu-focus-ring-success: 0 0 0 2px color-mix(in srgb, var(--amu-color-status-success) 24%, transparent);
+
+    --amu-shadow-sm: 0 2px 12px 0 color-mix(in srgb, var(--amu-color-bg-mask) 55%, transparent);
+    --amu-shadow-md: 0 4px 10px color-mix(in srgb, var(--amu-color-bg-mask) 58%, transparent);
+    --amu-shadow-lg: 0 6px 16px color-mix(in srgb, var(--amu-color-bg-mask) 62%, transparent);
+    --amu-shadow-xl: 0 16px 48px 16px color-mix(in srgb, var(--amu-color-bg-mask) 60%, transparent);
+    --amu-shadow-popup: 0 3px 6px -4px color-mix(in srgb, var(--amu-color-bg-mask) 60%, transparent),
+      0 6px 16px 0 color-mix(in srgb, var(--amu-color-bg-mask) 56%, transparent),
+      0 9px 28px 8px color-mix(in srgb, var(--amu-color-bg-mask) 52%, transparent);
+    --amu-shadow-popup-arrow: 0 0 4px color-mix(in srgb, var(--amu-color-bg-mask) 55%, transparent);
+    --amu-shadow-inset-left: inset 10px 0 10px -10px color-mix(in srgb, var(--amu-color-bg-mask) 55%, transparent);
+    --amu-shadow-inset-right: inset -10px 0 10px -10px color-mix(in srgb, var(--amu-color-bg-mask) 55%, transparent);
+
+    --amu-color-on-solid: #000000;
 
     --amu-color-text: #F2F3F5;
     --amu-color-text-default: #C9CDD4;
     --amu-color-text-disabled: #86909C;
+    --amu-color-text-secondary: var(--amu-color-text-default);
+    --amu-color-text-description: var(--amu-color-text-default);
 
     --amu-color-border: #484848;
+    --amu-border-color: var(--amu-color-border);
+
+    --amu-color-fill-tertiary: var(--amu-color-bg-fill);
+    --amu-color-bg-disabled: var(--amu-color-bg-fill);
+    --amu-fill-color: var(--amu-color-bg-elevated);
+    --amu-fill-color-blank: var(--amu-color-bg);
+    --amu-fill-color-light: var(--amu-color-bg-fill);
 
     --amu-color-status-warning: #F59E0B;
     --amu-color-status-warning-hover: #D97706;
@@ -114,5 +218,11 @@
     --amu-color-status-success-hover: #16A34A;
     --amu-color-status-success-active: #0F9D58;
     --amu-color-on-success: #ffffff;
+
+    --amu-radius: 4px;
+    --amu-border-radius-base: var(--amu-radius);
+    --amu-font-size: 14px;
+    --amu-font-size-base: var(--amu-font-size);
+    --amu-height-md: 32px;
   }
 }

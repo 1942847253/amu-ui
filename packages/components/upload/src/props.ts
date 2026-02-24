@@ -241,4 +241,22 @@ export const uploadEmits = {
   exceed: (files: File[], uploadFiles: UploadFile[]) => true,
 }
 
+export const uploadSlots = {
+  /**
+   * @description 默认触发区域插槽
+   * @en Default trigger slot
+   */
+  default: {},
+  /**
+   * @description 文件列表提示插槽
+   * @en Tip slot
+   */
+  tip: {},
+  /**
+   * @description 文件项自定义插槽
+   * @en File item slot
+   */
+  file: {},
+}
+
 export type UploadProps = ExtractPropTypes<typeof uploadProps>

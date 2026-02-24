@@ -1,10 +1,10 @@
 :root {
-  --amu-message-bg-color: var(--amu-color-bg-elevated, #ffffff);
-  --amu-message-border-color: var(--amu-color-border, #ebeef5);
+  --amu-message-bg-color: var(--amu-color-bg-elevated);
+  --amu-message-border-color: var(--amu-color-border);
   --amu-message-padding: 12px 19px;
   --amu-message-close-size: 16px;
-  --amu-message-close-icon-color: var(--amu-color-text-disabled, #a8abb2);
-  --amu-message-close-hover-color: var(--amu-color-text-default, #909399);
+  --amu-message-close-icon-color: var(--amu-color-text-disabled);
+  --amu-message-close-hover-color: var(--amu-color-text-default);
 }
 
 .amu-message {
@@ -27,7 +27,7 @@
   display: flex;
   align-items: center;
   /* 增强阴影 */
-  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--amu-shadow-popup);
   overflow: hidden;
   margin-bottom: 16px; 
   pointer-events: auto;
@@ -113,33 +113,33 @@
 }
 
 .amu-message--success {
-  --amu-message-type-color: #52c41a;
-  --amu-message-text-color: var(--amu-color-text, #1D2129);
+  --amu-message-type-color: var(--amu-color-status-success);
+  --amu-message-text-color: var(--amu-color-text);
 }
 
 .amu-message--warning {
-  --amu-message-type-color: #faad14;
-  --amu-message-text-color: var(--amu-color-text, #1D2129);
+  --amu-message-type-color: var(--amu-color-status-warning);
+  --amu-message-text-color: var(--amu-color-text);
 }
 
 .amu-message--info {
-  --amu-message-type-color: #1890ff;
-  --amu-message-text-color: var(--amu-color-text, #1D2129);
+  --amu-message-type-color: var(--amu-color-primary);
+  --amu-message-text-color: var(--amu-color-text);
 }
 
 .amu-message--error {
-  --amu-message-type-color: #ff4d4f;
-  --amu-message-text-color: var(--amu-color-text, #1D2129);
+  --amu-message-type-color: var(--amu-color-status-danger);
+  --amu-message-text-color: var(--amu-color-text);
 }
 
 .amu-message--help {
-  --amu-message-type-color: #2f54eb;
-  --amu-message-text-color: var(--amu-color-text, #1D2129);
+  --amu-message-type-color: var(--amu-color-primary);
+  --amu-message-text-color: var(--amu-color-text);
 }
 
 .amu-message--loading {
-  --amu-message-type-color: #1890ff; /* Loading use standard blue */
-  --amu-message-text-color: var(--amu-color-text, #1D2129);
+  --amu-message-type-color: var(--amu-color-primary);
+  --amu-message-text-color: var(--amu-color-text);
 }
 
 .amu-message p {
@@ -176,13 +176,13 @@
 .amu-message__icon line,
 .amu-message__icon polyline,
 .amu-message__icon path {
-  stroke: #fff;
+  stroke: var(--amu-color-on-primary);
 }
 
 /* Success icon (IconCheck) special handling: solid background circle */
 .amu-message--success .amu-message__icon {
   background-color: var(--amu-message-type-color);
-  color: #fff; /* Make stroke white */
+  color: var(--amu-color-on-success);
   border-radius: 50%;
   padding: 3px; 
   box-sizing: border-box;

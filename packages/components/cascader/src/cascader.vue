@@ -146,7 +146,6 @@ import { AmuIcon } from '../../icon'
 import { AmuTag } from '../../tag'
 import { AmuCheckbox } from '../../checkbox'
 import { IconChevronDown, IconChevronRight, IconX } from '@amu-ui/icons'
-import { useHover } from '@amu-ui/hooks'
 import { formContextKey } from '../../form/src/constants'
 
 defineOptions({
@@ -160,7 +159,6 @@ const formContext = inject(formContextKey, undefined)
 
 const cascaderRef = ref<HTMLElement>()
 const visible = ref(false)
-const { hovered } = useHover(cascaderRef)
 
 const cascaderSize = computed(() => props.size || formContext?.props.size || 'medium')
 const cascaderDisabled = computed(() => props.disabled || formContext?.props.disabled || false)
@@ -217,7 +215,7 @@ const displayLabel = computed(() => {
 
 const showPlaceholder = computed(() => !displayLabel.value)
 const showClear = computed(() => {
-  if (!props.clearable || cascaderDisabled.value || !hovered.value) return false
+  if (!props.clearable || cascaderDisabled.value) return false
   return props.multiple ? multipleValues.value.length > 0 : singleValue.value.length > 0
 })
 
@@ -265,10 +263,14 @@ const handleOptionClick = (option: CascaderOption, level: number) => {
   setActivePath(option, level)
   const leaf = isOptionLeaf(option)
   if (props.multiple) {
-    if (leaf || props.checkStrictly) selectOption(option, level)
+    if (!props.checkStrictly && !leaf) {
+      toggleMultipleSelection(option, level)
+      return
+    }
+    if (leaf) selectOption(option, level)
     return
   }
-  if (leaf || props.checkStrictly) selectOption(option, level)
+  if (leaf) selectOption(option, level)
 }
 
 const handleOptionCheckbox = (option: CascaderOption, level: number) => {

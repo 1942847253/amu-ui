@@ -486,8 +486,7 @@ defineExpose({
   position: absolute;
   inset: 0;
   border-radius: var(--amu-radius);
-  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
-    0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--amu-shadow-popup);
   z-index: -3;
 }
 
@@ -514,7 +513,7 @@ defineExpose({
   background: var(--amu-color-bg-elevated);
   transform: rotate(45deg);
   z-index: -2; /* Between Shadow and Background */
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--amu-shadow-popup-arrow);
 }
 
 /* Top placements */

@@ -115,7 +115,7 @@ const handleReset = () => {
 .amu-table-filter__content {
   background: var(--amu-color-bg);
   min-width: 120px;
-  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+  box-shadow: var(--amu-shadow-sm);
   border-radius: 4px;
   font-size: 14px;
 }
@@ -159,7 +159,7 @@ const handleReset = () => {
   background: var(--amu-color-primary);
   border: none;
   border-radius: 2px;
-  color: #fff;
+  color: var(--amu-color-on-primary);
   cursor: pointer;
   font-size: 13px;
   padding: 2px 8px;

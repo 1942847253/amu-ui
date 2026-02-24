@@ -129,3 +129,13 @@ export const colProps = {
     type: [Number, String] as PropType<number | string>
   }
 } as const
+
+export const colEmits = {}
+
+export const colSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {}
+}

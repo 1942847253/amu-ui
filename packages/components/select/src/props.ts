@@ -110,6 +110,24 @@ export const selectEmits = {
   blur: (e: FocusEvent) => true,
 }
 
+export const selectSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {},
+  /**
+   * @description 前缀插槽
+   * @en Prefix slot
+   */
+  prefix: {},
+  /**
+   * @description 空状态插槽
+   * @en Empty slot
+   */
+  empty: {},
+}
+
 export const optionProps = {
   /**
    * @description 选项的值
@@ -133,6 +151,16 @@ export const optionProps = {
    */
   disabled: Boolean,
 } as const
+
+export const optionEmits = {}
+
+export const optionSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {},
+}
 
 export type OptionProps = ExtractPropTypes<typeof optionProps>
 

@@ -148,4 +148,12 @@ export const paginationEmits = {
   'pageSizeChange': (pageSize: number) => typeof pageSize === 'number'
 }
 
+export const paginationSlots = {
+  /**
+   * @description 总数展示插槽
+   * @en Total display slot
+   */
+  total: {},
+}
+
 export type PaginationEmits = typeof paginationEmits

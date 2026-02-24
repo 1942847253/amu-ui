@@ -1,8 +1,9 @@
 :root {
   --amu-switch-on-color: var(--amu-color-primary);
-  --amu-switch-off-color: var(--amu-color-neutral-fill-3, #c9cdd4);
-  --amu-switch-disabled-color: var(--amu-color-neutral-fill-2, #f2f3f5);
-  --amu-switch-text-color: #fff;
+  --amu-switch-off-color: var(--amu-color-bg-fill);
+  --amu-switch-disabled-color: var(--amu-color-bg-fill);
+  --amu-switch-text-color: var(--amu-color-on-primary);
+  --amu-switch-action-color: var(--amu-color-on-primary);
 }
 
 .amu-switch {
@@ -48,7 +49,7 @@
   transition: all .3s;
   width: 20px;
   height: 20px;
-  background-color: #fff;
+  background-color: var(--amu-switch-action-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,7 +70,7 @@
   content: '';
   position: absolute;
   inset: 0.15em;
-  background-color: #fff;
+  background-color: var(--amu-switch-action-color);
   border-radius: 50%;
 }
 
@@ -87,7 +88,7 @@
 
 .amu-switch__inner {
   height: 100%;
-  color: #fff;
+  color: var(--amu-switch-text-color);
   font-size: 12px;
   display: flex;
   align-items: center;

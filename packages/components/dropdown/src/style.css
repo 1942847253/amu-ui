@@ -22,13 +22,13 @@
   list-style: none;
   background-color: var(--amu-color-bg-elevated);
   border-radius: var(--amu-radius, 4px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--amu-shadow-sm);
   min-width: 120px;
   outline: none;
 }
 
 [data-amu-theme='dark'] .amu-dropdown-menu {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--amu-shadow-sm);
   border: 1px solid var(--amu-color-border);
 }
 

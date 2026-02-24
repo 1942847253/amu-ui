@@ -70,6 +70,14 @@ export const radioEmits = {
   change: (val: RadioValueType) => true,
 }
 
+export const radioSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {},
+}
+
 export const radioGroupProps = {
   /**
    * @description 绑定值
@@ -133,6 +141,14 @@ export const radioGroupEmits = {
   change: (val: RadioValueType) => true,
 }
 
+export const radioGroupSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {},
+}
+
 export const radioButtonProps = {
   /**
    * @description Radio 的 value
@@ -164,5 +180,26 @@ export const radioButtonProps = {
     default: '',
   },
 } as const
+
+export const radioButtonEmits = {
+  /**
+   * @description 绑定值变化时触发
+   * @en Triggers when the binding value changes
+   */
+  'update:modelValue': (val: RadioValueType) => true,
+  /**
+   * @description 绑定值变化时触发
+   * @en Triggers when the binding value changes
+   */
+  change: (val: RadioValueType) => true,
+}
+
+export const radioButtonSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {},
+}
 
 export type RadioButtonProps = ExtractPropTypes<typeof radioButtonProps>

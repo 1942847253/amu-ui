@@ -53,5 +53,5 @@
 }
 
 .amu-popconfirm__icon :deep(svg line) {
-  stroke: #fff;
+  stroke: var(--amu-color-on-solid);
 }

@@ -35,7 +35,7 @@
               class="amu-card__tool-btn"
               @click="toggleCollapse"
             >
-              <amu-icon class="amu-card__icon-arrow" :class="{ 'is-rotated': isCollapsed }">
+              <amu-icon class="amu-card__icon-arrow" :class="{ 'is-rotated': isCollapsed }" @click.stop="toggleCollapse">
                 <IconChevronDown />
               </amu-icon>
             </button>
@@ -134,6 +134,13 @@ const hasTools = computed(() => props.collapsible || props.maximizable || props.
 const toggleCollapse = () => {
   const newVal = !isCollapsed.value
   isCollapsed.value = newVal
+  if (cardRef.value) {
+    cardRef.value.classList.toggle('amu-card--collapsed', newVal)
+    const body = cardRef.value.querySelector('.amu-card__body') as HTMLElement | null
+    if (body) {
+      body.style.display = newVal ? 'none' : ''
+    }
+  }
   emit('update:collapsed', newVal)
 }
 

@@ -1,4 +1,8 @@
 .amu-slider {
+  --amu-slider-thumb-color: var(--amu-color-on-primary);
+}
+
+.amu-slider {
   display: flex;
   align-items: center;
   width: 100%;
@@ -72,7 +76,7 @@
   width: 12px;
   height: 12px;
   border: 2px solid var(--amu-color-primary);
-  background-color: #ffffff;
+  background-color: var(--amu-slider-thumb-color);
   border-radius: 50%;
   transition: transform 0.2s;
 }

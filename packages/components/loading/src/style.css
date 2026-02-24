@@ -2,7 +2,7 @@
   position: absolute;
   z-index: 2000;
   /* 默认背景色带透明度，不使用 opacity 属性以免影响子元素（图标文字） */
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: color-mix(in srgb, var(--amu-color-bg) 70%, transparent);
   margin: 0;
   top: 0;
   right: 0;
@@ -15,7 +15,7 @@
 }
 
 [data-amu-theme='dark'] .amu-loading-mask {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--amu-color-bg-mask-weak);
 }
 
 .amu-loading-mask.is-fullscreen {
@@ -35,13 +35,13 @@
 
 .amu-loading-spinner .amu-spinner {
   display: inline-block;
-  color: var(--amu-color-primary, #165DFF);
+  color: var(--amu-color-primary);
   font-size: 42px;
   margin-bottom: 4px;
 }
 
 .amu-loading-text {
-  color: var(--amu-color-primary, #165DFF);
+  color: var(--amu-color-primary);
   margin: 10px 0 0;
   font-size: 13px;
   margin-top: 0;

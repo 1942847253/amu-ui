@@ -76,7 +76,7 @@ const barStyle = computed(() => {
   }
   const color = getCurrentColor(props.percentage, props.color)
   if (color) {
-    style.background = color
+    style.backgroundColor = color
   }
   return style
 })

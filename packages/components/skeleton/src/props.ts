@@ -53,3 +53,18 @@ export type SkeletonItemProps = ExtractPropTypes<typeof skeletonItemProps>
 
 export const skeletonEmits = {}
 export const skeletonItemEmits = {}
+
+export const skeletonSlots = {
+  /**
+   * @description 骨架模板插槽
+   * @en Template slot
+   */
+  template: {},
+  /**
+   * @description 加载完成内容插槽
+   * @en Default slot
+   */
+  default: {},
+}
+
+export const skeletonItemSlots = {}

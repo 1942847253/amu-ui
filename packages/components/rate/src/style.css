@@ -1,8 +1,8 @@
 .amu-rate {
-  --amu-rate-void-color: var(--amu-color-bg-fill, #F2F3F5);
-  --amu-rate-fill-color: var(--amu-color-status-warning, #F59E0B);
-  --amu-rate-disabled-void-color: var(--amu-color-bg-fill, #F2F3F5);
-  --amu-rate-text-color: var(--amu-color-text-default, #4E5969);
+  --amu-rate-void-color: var(--amu-color-bg-fill);
+  --amu-rate-fill-color: var(--amu-color-status-warning);
+  --amu-rate-disabled-void-color: var(--amu-color-bg-fill);
+  --amu-rate-text-color: var(--amu-color-text-default);
   --amu-rate-icon-margin: 6px;
   --amu-rate-font-size: 14px;
 

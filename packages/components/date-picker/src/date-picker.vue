@@ -829,7 +829,8 @@ function buildCells(month: Dayjs) {
   if (isRange.value) {
     start = rangeDraft.start
     end = rangeDraft.end
-    if (isSelecting.value && hoverDate.value && start) {
+    const shouldPreview = isSelecting.value || (!!rangeDraft.start && !!rangeDraft.end && !!hoverDate.value)
+    if (shouldPreview && hoverDate.value && start) {
        end = hoverDate.value
     }
     if (start && end && start.isAfter(end)) {
@@ -852,10 +853,7 @@ function buildCells(month: Dayjs) {
     let rangeEnd = false
     
     if (!disabled) {
-      // In range mode, do not highlight outside cells
-      if (isRange.value && outside) {
-        // skip
-      } else if (isRange.value && start) {
+      if (isRange.value && start) {
         if (end) {
            rangeStart = d.isSame(start, 'day')
            rangeEnd = d.isSame(end, 'day')
@@ -963,6 +961,19 @@ function onSelectCell(d: Dayjs, panel?: 'left' | 'right') {
 
   if (isRange.value) {
     if (!isSelecting.value) {
+      if (rangeDraft.start && rangeDraft.end) {
+        if (d.isBefore(rangeDraft.start, 'day')) {
+          rangeDraft.start = d
+          rangeDraft.end = null
+          isSelecting.value = true
+          rangeActivePart.value = 'end'
+        } else {
+          rangeDraft.end = d
+          rangeActivePart.value = 'end'
+          if (!needsConfirm.value) confirmValue()
+        }
+        return
+      }
       rangeDraft.start = d
       rangeDraft.end = null
       isSelecting.value = true
@@ -984,7 +995,8 @@ function onSelectCell(d: Dayjs, panel?: 'left' | 'right') {
 }
 
 function onHoverCell(d: Dayjs, _outside?: boolean, _disabled?: boolean) {
-  if (isRange.value && isSelecting.value && !isDisabledDate(d) && !_disabled) {
+  const canPreviewWithSelectedRange = isRange.value && !!rangeDraft.start && !!rangeDraft.end
+  if (isRange.value && (isSelecting.value || canPreviewWithSelectedRange) && !isDisabledDate(d) && !_disabled) {
     hoverDate.value = d
   }
 }

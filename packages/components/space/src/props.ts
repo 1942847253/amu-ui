@@ -35,3 +35,13 @@ export const spaceProps = {
     default: false,
   },
 } as const
+
+export const spaceEmits = {}
+
+export const spaceSlots = {
+  /**
+   * @description 默认插槽
+   * @en Default slot
+   */
+  default: {},
+}

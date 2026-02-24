@@ -49,11 +49,11 @@
 
 /* Debug */
 .amu-row--debug {
-  outline: 1px dashed rgba(255, 0, 0, 0.5);
+  outline: 1px dashed color-mix(in srgb, var(--amu-color-status-danger) 50%, transparent);
 }
 .amu-row--debug > * {
-  outline: 1px dashed rgba(0, 0, 255, 0.5);
-  background: rgba(0, 0, 255, 0.1);
+  outline: 1px dashed color-mix(in srgb, var(--amu-color-primary) 50%, transparent);
+  background: color-mix(in srgb, var(--amu-color-primary) 10%, transparent);
 }
 
 /* Dense */

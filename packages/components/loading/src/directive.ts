@@ -4,7 +4,7 @@ import type { LoadingInstance, LoadingComponentPublicInstance } from './types'
 
 const INSTANCE_KEY = Symbol('AmuLoading')
 
-interface ElementWithLoading extends HTMLElement {
+export interface ElementWithLoading extends HTMLElement {
   [INSTANCE_KEY]?: LoadingInstance
 }
 

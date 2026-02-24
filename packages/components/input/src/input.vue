@@ -79,7 +79,7 @@
 import { ref, computed, watch, nextTick, onMounted, inject } from 'vue'
 import { IconEye, IconEyeOff, IconX } from '@amu-ui/icons'
 import { inputProps, inputEmits } from './props'
-import { AmuIcon } from 'amu-ui'
+import { AmuIcon } from '../../icon'
 import { AmuTag } from '../../tag'
 import { formContextKey, formItemContextKey } from '../../form/src/constants'
 

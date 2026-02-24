@@ -137,7 +137,7 @@
   border: 1px solid var(--amu-color-border);
   border-radius: var(--amu-radius);
   box-sizing: border-box;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--amu-shadow-lg);
 }
 
 .amu-date-picker__panel-inner {

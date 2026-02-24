@@ -18,7 +18,7 @@
     @click="handleClick"
     @animationend="handleAnimationEnd"
   >
-    <span class="amu-button__loading-icon">
+    <span class="amu-button__loading-icon amu-button__spinner">
       <slot name="loading-icon">
         <AmuSpinner />
       </slot>
@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import { ref, nextTick, inject, computed } from "vue";
 import { buttonProps } from "./props";
-import { AmuSpinner } from "amu-ui/spinner";
+import { AmuSpinner } from "../../spinner";
 import { formContextKey } from "../../form/src/constants";
 
 defineOptions({
