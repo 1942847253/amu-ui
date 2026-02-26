@@ -1,3 +1,5 @@
+/** @jsx h */
+
 import { defineComponent, h, inject } from 'vue'
 import { TABLE_INJECTION_KEY } from '../store'
 import { AmuCheckbox } from '../../../checkbox' // Correct path to checkbox component

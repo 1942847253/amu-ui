@@ -1,4 +1,8 @@
+/** @jsx h */
+/** @jsxFrag Fragment */
+
 import { defineComponent, h, inject, ref } from 'vue'
+import { Fragment } from 'vue'
 import { TABLE_INJECTION_KEY } from '../store'
 import { AmuCheckbox } from '../../../checkbox' // Correct path to checkbox component
 import FilterPanel from './filter-panel.vue'

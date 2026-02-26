@@ -202,13 +202,23 @@ onMounted(() => {
     })
 })
 
-// Watch data/columns changes to re-calc scroll state
+const columnsSignature = computed(() => {
+  return (store.fullRenderColumns.value as any[])
+    .map((column) => {
+      return `${column.id || ''}:${column.width || ''}:${column.minWidth || ''}:${column.renderLeft || ''}:${column.renderRight || ''}`
+    })
+    .join('|')
+})
+
+const tableDataSignature = computed(() => {
+  return `${store.tableData.value.length}`
+})
+
 watch(
-    [store.tableData, store.fullRenderColumns], 
-    () => {
-       nextTick(() => updateScrollState())
-    },
-    { deep: true } // Columns array structure might change deeply? fullRenderColumns is computed ref
+  [tableDataSignature, columnsSignature],
+  () => {
+    nextTick(() => updateScrollState())
+  }
 )
 
 

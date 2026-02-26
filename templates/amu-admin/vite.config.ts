@@ -1,0 +1,43 @@
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import { resolve } from 'node:path'
+
+export default defineConfig({
+  plugins: [vue()],
+  esbuild: {
+    jsxFactory: 'h',
+    jsxFragment: 'Fragment'
+  },
+  resolve: {
+    alias: [
+      {
+        find: /^amu-ui$/,
+        replacement: resolve(__dirname, '../../packages/components/index.ts')
+      },
+      {
+        find: /^amu-ui\/theme$/,
+        replacement: resolve(__dirname, '../../packages/theme/index.ts')
+      },
+      {
+        find: /^amu-ui\/(.*)$/,
+        replacement: resolve(__dirname, '../../packages/components/$1/index.ts')
+      },
+      {
+        find: '@amu-ui/hooks',
+        replacement: resolve(__dirname, '../../packages/hooks/index.ts')
+      },
+      {
+        find: '@amu-ui/locale',
+        replacement: resolve(__dirname, '../../packages/locale/index.ts')
+      },
+      {
+        find: '@amu-ui/icons',
+        replacement: resolve(__dirname, '../../packages/icons/src/index.ts')
+      },
+      {
+        find: '@amu-ui/utils',
+        replacement: resolve(__dirname, '../../packages/utils/index.ts')
+      }
+    ]
+  }
+})

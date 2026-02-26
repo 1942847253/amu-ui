@@ -1,8 +1,25 @@
 import { ref, computed, watch, unref } from 'vue'
 import type { TableColumn, TableProps } from '../props'
 
+const cloneColumnsTree = (columns: TableColumn[]): TableColumn[] => {
+  return columns.map((column) => ({
+    ...column,
+    children: column.children ? cloneColumnsTree(column.children) : undefined
+  }))
+}
+
 export function useColumns(props: TableProps) {
   const _columns = ref<TableColumn[]>([])
+
+  const hasColumnId = (columns: TableColumn[], id: string): boolean => {
+    for (const column of columns) {
+      if (column.id === id) return true
+      if (column.children?.length && hasColumnId(column.children, id)) {
+        return true
+      }
+    }
+    return false
+  }
   
   // 扁平化列（处理多级表头时，body 只需要渲染最底层列）
   const flatColumns = computed(() => {
@@ -77,20 +94,23 @@ export function useColumns(props: TableProps) {
 
     const result = [
       ...finalLeft,
-      ...mid,
+      ...mid.map((col) => ({ ...col })),
       ...finalRight
     ]
 
-    // 标记最后一个 Fluid 列 (没有固定 width 的列)
-    // 从后往前找
-    for (let i = result.length - 1; i >= 0; i--) {
-      if (!result[i].width) {
-        (result[i] as any).isLastFluid = true
-        break
+    const lastFluidIndex = (() => {
+      for (let i = result.length - 1; i >= 0; i--) {
+        if (!result[i].width) {
+          return i
+        }
       }
-    }
+      return -1
+    })()
 
-    return result
+    return result.map((column, index) => ({
+      ...column,
+      isLastFluid: index === lastFluidIndex
+    }))
   })
 
   // 缓存样式的 Map (用于从 Leaf 节点反推 Group 节点样式)
@@ -153,6 +173,7 @@ export function useColumns(props: TableProps) {
   }
 
   const convertToRows = (originColumns: TableColumn[]) => {
+    const columns = cloneColumnsTree(originColumns)
     let maxLevel = 1
     
     // 1. Calculate Level & MaxLevel & ColSpan
@@ -178,7 +199,7 @@ export function useColumns(props: TableProps) {
       }
     }
 
-    originColumns.forEach((col) => {
+    columns.forEach((col) => {
       col.level = 1 // Init root level
       traverse(col)
     })
@@ -202,7 +223,7 @@ export function useColumns(props: TableProps) {
       return result
     }
 
-    const allColumns = getAllColumns(originColumns)
+    const allColumns = getAllColumns(columns)
     
     allColumns.forEach((column) => {
       if (column.children && column.children.length > 0) {
@@ -222,7 +243,7 @@ export function useColumns(props: TableProps) {
            markRightEdge(last.children)
        }
     }
-    markRightEdge(originColumns)
+    markRightEdge(columns)
 
     return rows
   }
@@ -278,6 +299,8 @@ export function useColumns(props: TableProps) {
   })
 
   const setColumns = (cols: TableColumn[]) => {
+    const normalizedColumns = cloneColumnsTree(cols)
+
     // Default width for selection
     const normalize = (columns: TableColumn[]) => {
       columns.forEach((col) => {
@@ -289,8 +312,8 @@ export function useColumns(props: TableProps) {
         }
       })
     }
-    normalize(cols)
-    _columns.value = cols
+    normalize(normalizedColumns)
+    _columns.value = normalizedColumns
   }
 
   // 初始化时如果 props.columns 存在，则使用它
@@ -309,6 +332,10 @@ export function useColumns(props: TableProps) {
     // 确保有 ID
     if (!column.id) {
         column.id = `amu-col-${seed++}`
+    }
+
+    if (hasColumnId(_columns.value, column.id)) {
+      return
     }
 
     if ((column.type === 'selection' || column.type === 'expand') && !column.width) {
