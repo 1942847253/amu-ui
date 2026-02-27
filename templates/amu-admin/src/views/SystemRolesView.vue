@@ -1,19 +1,30 @@
 <template>
-  <AmuCard>
-    <template #title>角色管理</template>
+  <div class="page-container">
+    <AmuCard class="page-card">
+      <template #title>角色管理</template>
+      <template #extra>
+        <AmuButton type="primary">新建角色</AmuButton>
+      </template>
 
-    <AmuTable :data="tableData" border>
-      <AmuTableColumn prop="name" label="角色名称" />
-      <AmuTableColumn prop="code" label="角色编码" />
-      <AmuTableColumn prop="members" label="成员数量" />
-      <AmuTableColumn prop="updatedAt" label="更新时间" />
-    </AmuTable>
-  </AmuCard>
+      <AmuTable :data="tableData" border>
+        <AmuTableColumn prop="name" label="角色名称" />
+        <AmuTableColumn prop="code" label="角色编码">
+          <template #default="{ row }">
+            <AmuTag type="info">{{ row.code }}</AmuTag>
+          </template>
+        </AmuTableColumn>
+        <AmuTableColumn prop="members" label="成员数量" />
+        <AmuTableColumn prop="updatedAt" label="更新时间" />
+      </AmuTable>
+    </AmuCard>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { AmuButton } from 'amu-ui/button'
 import { AmuCard } from 'amu-ui/card'
 import { AmuTable, AmuTableColumn } from 'amu-ui/table'
+import { AmuTag } from 'amu-ui/tag'
 
 interface RoleRow {
   name: string

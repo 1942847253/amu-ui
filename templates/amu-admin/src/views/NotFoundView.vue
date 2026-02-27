@@ -16,8 +16,10 @@ const router = useRouter()
 <style scoped>
 .not-found {
   min-height: 60vh;
-  display: grid;
-  place-items: center;
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
 }
 </style>

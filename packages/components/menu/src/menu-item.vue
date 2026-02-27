@@ -49,7 +49,7 @@ const itemStyle = computed(() => {
   const isCollapsed = rootMenu.isCollapsed.value
   
   if ((mode === 'vertical' || mode === 'inline') && !isCollapsed) {
-    return { paddingLeft: `${20 * level}px` }
+    return { paddingLeft: `${16 + (level - 1) * 24}px` }
   }
   return {}
 })

@@ -6,6 +6,7 @@
     --amu-menu-active-color: var(--amu-color-primary);
     --amu-menu-active-bg: var(--amu-color-bg-fill);
     --amu-menu-item-height: 40px;
+    --amu-menu-item-gap-y: 2px;
     --amu-menu-popup-bg: var(--amu-color-bg-elevated);
 
     position: relative;
@@ -23,7 +24,7 @@
     display: flex;
     align-items: center;
     padding: 0 20px;
-    height: var(--amu-menu-item-height);
+    height: 60px;
     overflow: hidden;
     white-space: nowrap;
     box-sizing: border-box;
@@ -73,37 +74,64 @@
   /* Dark Menu Active Override (Solid Blue) */
   .amu-menu--dark .amu-menu-item.is-active,
   [data-amu-theme='dark'] .amu-menu .amu-menu-item.is-active {
-    background-color: var(--amu-menu-active-bg);
     color: var(--amu-menu-active-color);
+  }
+
+  .amu-menu--dark .amu-menu-item.is-active::before,
+  [data-amu-theme='dark'] .amu-menu .amu-menu-item.is-active::before {
+    background-color: var(--amu-menu-active-bg);
   }
 
   /* Menu Item */
   .amu-menu-item {
     display: flex;
     align-items: center;
-    height: var(--amu-menu-item-height);
+    height: calc(var(--amu-menu-item-height) + var(--amu-menu-item-gap-y) * 2);
     line-height: var(--amu-menu-item-height);
-    padding: 0 16px;
-    margin: 0 8px; /* Inset style */
+    padding: var(--amu-menu-item-gap-y) 16px;
+    margin: 0 8px; /* 仅保留左右外边距，避免收起/展开抖动 */
     border-radius: var(--amu-radius); /* Rounded corners */
     cursor: pointer;
-    transition: color 0.2s, background-color 0.2s;
+    transition: color 0.2s;
     position: relative;
     white-space: nowrap;
     box-sizing: border-box;
     color: var(--amu-menu-text-color);
   }
 
-  .amu-menu-item:hover,
-  .amu-sub-menu__title:hover {
+  .amu-menu-item::before,
+  .amu-sub-menu__title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--amu-menu-item-gap-y);
+    bottom: var(--amu-menu-item-gap-y);
+    border-radius: inherit;
+    background-color: transparent;
+    transition: background-color 0.2s;
+    pointer-events: none;
+  }
+
+  .amu-menu-item > *,
+  .amu-sub-menu__title > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .amu-menu-item:hover::before,
+  .amu-sub-menu__title:hover::before {
     background-color: var(--amu-menu-hover-bg);
   }
 
   /* Active State (Light/Default) */
   .amu-menu-item.is-active {
     color: var(--amu-color-primary);
-    background-color: var(--amu-menu-active-bg);
     font-weight: 500;
+  }
+
+  .amu-menu-item.is-active::before {
+    background-color: var(--amu-menu-active-bg);
   }
   
   /* Horizontal Mode Styles Update: Button style instead of underline */
@@ -118,17 +146,29 @@
   }
   
   .amu-menu--horizontal > .amu-menu-item.is-active {
-    background-color: var(--amu-menu-active-bg);
     color: var(--amu-menu-active-color);
     border-bottom: none;
+  }
+
+  .amu-menu--horizontal > .amu-menu-item::before,
+  .amu-menu--horizontal > .amu-sub-menu .amu-sub-menu__title::before {
+    top: 0;
+    bottom: 0;
+  }
+
+  .amu-menu--horizontal > .amu-menu-item.is-active::before {
+    background-color: var(--amu-menu-active-bg);
   }
   
   /* Horizontal Sub Menu Title Active */
   .amu-menu--horizontal > .amu-sub-menu.is-active .amu-sub-menu__title {
      color: var(--amu-menu-active-color);
-     background-color: var(--amu-menu-active-bg);
      border-radius: var(--amu-radius);
   }
+
+    .amu-menu--horizontal > .amu-sub-menu.is-active .amu-sub-menu__title::before {
+      background-color: var(--amu-menu-active-bg);
+    }
   
   .amu-menu--horizontal > .amu-sub-menu {
       margin: 0 4px;
@@ -144,6 +184,11 @@
     opacity: 0.5;
     cursor: not-allowed;
     background: none !important;
+  }
+
+  .amu-menu-item.is-disabled::before,
+  .amu-sub-menu.is-disabled .amu-sub-menu__title::before {
+    background-color: transparent !important;
   }
 
   /* Sub Menu */
@@ -164,13 +209,13 @@
   .amu-sub-menu__title {
     display: flex;
     align-items: center;
-    height: var(--amu-menu-item-height);
+    height: calc(var(--amu-menu-item-height) + var(--amu-menu-item-gap-y) * 2);
     line-height: var(--amu-menu-item-height);
-    padding: 0 16px;
-    margin: 0 8px; /* Inset style */
+    padding: var(--amu-menu-item-gap-y) 16px;
+    margin: 0 8px; /* 仅保留左右外边距，避免收起/展开抖动 */
     border-radius: var(--amu-radius);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: color 0.2s;
     position: relative;
     white-space: nowrap;
     box-sizing: border-box;
@@ -210,9 +255,9 @@
     align-items: center;
     justify-content: center;
     margin-right: 8px;
-    width: 24px; /* Fix icon slot width */
-    height: 24px;
-    font-size: 18px; /* Standard icon size */
+    width: 20px; /* Fix icon slot width */
+    height: 20px;
+    font-size: 16px; /* Standard icon size */
     text-align: center;
     fill: currentColor;
     flex-shrink: 0;
@@ -234,11 +279,11 @@
 
   .amu-menu--collapsed .amu-menu-item,
   .amu-menu--collapsed .amu-sub-menu__title {
-    padding: 0;
-    margin: 4px auto; /* Center the item block horizontally */
+    padding: var(--amu-menu-item-gap-y) 0;
+    margin: 0 auto; /* 居中且避免收起/展开时 margin 造成抖动 */
     width: 44px;      /* Make it a square/rounded block */
-    height: 40px;
-    line-height: 40px;
+    height: calc(var(--amu-menu-item-height) + var(--amu-menu-item-gap-y) * 2);
+    line-height: var(--amu-menu-item-height);
     border-radius: var(--amu-radius);
     justify-content: center; /* Center icons flexually */
   }
@@ -246,8 +291,12 @@
   /* Collapsed Active State: Solid Block Style (Like Ant Design) */
   .amu-menu--collapsed .amu-menu-item.is-active,
   .amu-menu--collapsed .amu-sub-menu.is-active .amu-sub-menu__title {
-    background-color: var(--amu-color-primary) !important;
     color: var(--amu-color-on-primary) !important;
+  }
+
+  .amu-menu--collapsed .amu-menu-item.is-active::before,
+  .amu-menu--collapsed .amu-sub-menu.is-active .amu-sub-menu__title::before {
+    background-color: var(--amu-color-primary) !important;
   }
 
   .amu-menu--collapsed .amu-menu-item__icon,
@@ -340,9 +389,9 @@
 
   .amu-menu--popup .amu-menu-item,
   .amu-menu--popup .amu-sub-menu__title {
-      margin: 0 6px; /* Inset style for popup items */
+      margin: 0 6px; /* 使用内边距提供上下间距，避免高度动画抖动 */
       border-radius: var(--amu-radius);
-      padding: 0 12px;
+      padding: var(--amu-menu-item-gap-y) 12px;
   }
   
   .amu-menu--popup.amu-menu--dark .amu-menu-item,

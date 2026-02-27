@@ -15,8 +15,8 @@ body,
 }
 
 body {
-  background: var(--amu-color-bg);
-  color: var(--amu-color-text);
+  background: var(--amu-color-bg-fill);
+  color: var(--amu-color-text-default);
 }
 
 a {
@@ -28,4 +28,28 @@ a {
   background: var(--amu-color-bg-elevated);
   border: 1px solid var(--amu-color-border);
   border-radius: var(--amu-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: box-shadow 0.2s;
+}
+
+.page-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+}
+
+.page-container .page-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container .page-card :deep(.amu-card__body) {
+  flex: 1;
+  overflow: auto;
 }

@@ -1,61 +1,66 @@
 <template>
-  <AmuCard>
-    <template #title>鉴权链路自测</template>
-    <template #extra>
-      <AmuTag type="warning">仅建议开发环境使用</AmuTag>
-    </template>
+  <div class="page-container">
+    <AmuCard class="page-card">
+      <template #title>鉴权链路自测</template>
+      <template #extra>
+        <AmuTag type="warning">仅建议开发环境使用</AmuTag>
+      </template>
 
-    <AmuSpace direction="vertical" size="large" style="width: 100%">
-      <AmuDescriptions :column="1" border>
-        <AmuDescriptionsItem label="当前用户">{{ authStore.user?.username || '-' }}</AmuDescriptionsItem>
-        <AmuDescriptionsItem label="当前角色">{{ authStore.user?.role || '-' }}</AmuDescriptionsItem>
-        <AmuDescriptionsItem label="accessToken">{{ authStore.token || '-' }}</AmuDescriptionsItem>
-        <AmuDescriptionsItem label="refreshToken">{{ authStore.refreshTokenValue || '-' }}</AmuDescriptionsItem>
-        <AmuDescriptionsItem label="access 剩余秒数">{{ accessRemainSeconds }}</AmuDescriptionsItem>
-        <AmuDescriptionsItem label="模拟延迟(ms)">{{ mockStore.delayMs }}</AmuDescriptionsItem>
-        <AmuDescriptionsItem label="故障模式">{{ mockStore.faultMode }}</AmuDescriptionsItem>
-      </AmuDescriptions>
+      <AmuSpace direction="vertical" size="large" style="width: 100%">
+        <AmuDescriptions :column="1" border>
+          <AmuDescriptionsItem label="当前用户">{{ authStore.user?.username || '-' }}</AmuDescriptionsItem>
+          <AmuDescriptionsItem label="当前角色">{{ authStore.user?.role || '-' }}</AmuDescriptionsItem>
+          <AmuDescriptionsItem label="accessToken">{{ authStore.token || '-' }}</AmuDescriptionsItem>
+          <AmuDescriptionsItem label="refreshToken">{{ authStore.refreshTokenValue || '-' }}</AmuDescriptionsItem>
+          <AmuDescriptionsItem label="access 剩余秒数">{{ accessRemainSeconds }}</AmuDescriptionsItem>
+          <AmuDescriptionsItem label="模拟延迟(ms)">{{ mockStore.delayMs }}</AmuDescriptionsItem>
+          <AmuDescriptionsItem label="故障模式">{{ mockStore.faultMode }}</AmuDescriptionsItem>
+        </AmuDescriptions>
 
-      <AmuSpace wrap>
-        <AmuButton :type="mockStore.delayMs === 50 ? 'primary' : 'default'" @click="mockStore.setDelay(50)">延迟 50ms</AmuButton>
-        <AmuButton :type="mockStore.delayMs === 800 ? 'primary' : 'default'" @click="mockStore.setDelay(800)">延迟 800ms</AmuButton>
-        <AmuButton :type="mockStore.delayMs === 2000 ? 'primary' : 'default'" @click="mockStore.setDelay(2000)">延迟 2000ms</AmuButton>
+        <AmuSpace wrap>
+          <AmuButton :type="mockStore.delayMs === 50 ? 'primary' : 'default'" @click="mockStore.setDelay(50)">延迟 50ms</AmuButton>
+          <AmuButton :type="mockStore.delayMs === 800 ? 'primary' : 'default'" @click="mockStore.setDelay(800)">延迟 800ms</AmuButton>
+          <AmuButton :type="mockStore.delayMs === 2000 ? 'primary' : 'default'" @click="mockStore.setDelay(2000)">延迟 2000ms</AmuButton>
+        </AmuSpace>
+
+        <AmuSpace wrap>
+          <AmuButton :type="mockStore.faultMode === 'none' ? 'primary' : 'default'" @click="mockStore.setFaultMode('none')">无故障</AmuButton>
+          <AmuButton :type="mockStore.faultMode === 'timeout' ? 'primary' : 'default'" @click="mockStore.setFaultMode('timeout')">模拟超时</AmuButton>
+          <AmuButton :type="mockStore.faultMode === 'http500' ? 'primary' : 'default'" @click="mockStore.setFaultMode('http500')">模拟 500</AmuButton>
+          <AmuButton :type="mockStore.faultMode === 'bizError' ? 'primary' : 'default'" @click="mockStore.setFaultMode('bizError')">模拟业务异常</AmuButton>
+          <AmuButton @click="resetFaultSettings">恢复默认</AmuButton>
+        </AmuSpace>
+
+        <AmuSpace wrap>
+          <AmuButton :type="httpDebugEnabled ? 'primary' : 'default'" @click="toggleHttpDebug">
+            {{ httpDebugEnabled ? '关闭 HTTP 调试日志' : '开启 HTTP 调试日志' }}
+          </AmuButton>
+        </AmuSpace>
+
+        <AmuSpace wrap>
+          <AmuButton @click="expireAccessToken">使 accessToken 立即过期</AmuButton>
+          <AmuButton @click="expireRefreshToken">使 refreshToken 立即过期</AmuButton>
+          <AmuButton type="primary" @click="restoreTokenPair">恢复有效 token 对</AmuButton>
+        </AmuSpace>
+
+        <AmuSpace wrap>
+          <AmuButton type="primary" @click="requestOnce">发起单次业务请求</AmuButton>
+          <AmuButton type="primary" @click="requestConcurrent">发起 5 个并发请求</AmuButton>
+          <AmuButton @click="requestCancelable">发起可取消请求</AmuButton>
+          <AmuButton @click="cancelPending">取消可取消请求</AmuButton>
+          <AmuButton type="primary" :loading="scriptRunning" @click="runScriptedReplay">一键脚本化回放</AmuButton>
+        </AmuSpace>
+
+        <AmuCard>
+          <template #title>执行日志</template>
+          <template #extra>
+            <AmuButton size="small" @click="logs = []">清空日志</AmuButton>
+          </template>
+          <div class="debug-log">{{ logs.join('\n') || '暂无日志' }}</div>
+        </AmuCard>
       </AmuSpace>
-
-      <AmuSpace wrap>
-        <AmuButton :type="mockStore.faultMode === 'none' ? 'primary' : 'default'" @click="mockStore.setFaultMode('none')">无故障</AmuButton>
-        <AmuButton :type="mockStore.faultMode === 'timeout' ? 'primary' : 'default'" @click="mockStore.setFaultMode('timeout')">模拟超时</AmuButton>
-        <AmuButton :type="mockStore.faultMode === 'http500' ? 'primary' : 'default'" @click="mockStore.setFaultMode('http500')">模拟 500</AmuButton>
-        <AmuButton :type="mockStore.faultMode === 'bizError' ? 'primary' : 'default'" @click="mockStore.setFaultMode('bizError')">模拟业务异常</AmuButton>
-        <AmuButton @click="resetFaultSettings">恢复默认</AmuButton>
-      </AmuSpace>
-
-      <AmuSpace wrap>
-        <AmuButton :type="httpDebugEnabled ? 'primary' : 'default'" @click="toggleHttpDebug">
-          {{ httpDebugEnabled ? '关闭 HTTP 调试日志' : '开启 HTTP 调试日志' }}
-        </AmuButton>
-      </AmuSpace>
-
-      <AmuSpace wrap>
-        <AmuButton @click="expireAccessToken">使 accessToken 立即过期</AmuButton>
-        <AmuButton @click="expireRefreshToken">使 refreshToken 立即过期</AmuButton>
-        <AmuButton type="primary" @click="restoreTokenPair">恢复有效 token 对</AmuButton>
-      </AmuSpace>
-
-      <AmuSpace wrap>
-        <AmuButton type="primary" @click="requestOnce">发起单次业务请求</AmuButton>
-        <AmuButton type="primary" @click="requestConcurrent">发起 5 个并发请求</AmuButton>
-        <AmuButton @click="requestCancelable">发起可取消请求</AmuButton>
-        <AmuButton @click="cancelPending">取消可取消请求</AmuButton>
-        <AmuButton type="primary" :loading="scriptRunning" @click="runScriptedReplay">一键脚本化回放</AmuButton>
-      </AmuSpace>
-
-      <AmuCard>
-        <template #title>执行日志</template>
-        <div class="debug-log">{{ logs.join('\n') || '暂无日志' }}</div>
-      </AmuCard>
-    </AmuSpace>
-  </AmuCard>
+    </AmuCard>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -214,12 +219,14 @@ const runScriptedReplay = async () => {
 <style scoped>
 .debug-log {
   white-space: pre-wrap;
-  max-height: 260px;
+  max-height: 400px;
   overflow: auto;
-  padding: 12px;
+  padding: 16px;
   background: var(--amu-color-bg-fill);
   border-radius: var(--amu-radius);
   font-size: 13px;
   line-height: 1.6;
+  font-family: monospace;
+  border: 1px solid var(--amu-color-border);
 }
 </style>

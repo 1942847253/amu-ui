@@ -56,7 +56,7 @@
       <div
         class="amu-sub-menu__title"
         @click="handleTitleClick"
-        :style="{ paddingLeft: `${level * 20}px` }"
+        :style="{ paddingLeft: `${16 + (level - 1) * 24}px` }"
       >
         <div v-if="$slots.icon" class="amu-sub-menu__icon">
           <slot name="icon" />

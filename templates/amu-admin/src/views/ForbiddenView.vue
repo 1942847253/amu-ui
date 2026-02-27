@@ -19,13 +19,15 @@ const router = useRouter()
 <style scoped>
 .forbidden-page {
   min-height: 60vh;
-  display: grid;
-  place-items: center;
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
 }
 
 .forbidden-page__actions {
   display: flex;
-  gap: 10px;
+  gap: 16px;
 }
 </style>

@@ -48,9 +48,31 @@ const handleLogin = () => {
   display: grid;
   place-items: center;
   background: var(--amu-color-bg-fill);
+  background-image: radial-gradient(var(--amu-color-border) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
 .login-card {
-  width: 360px;
+  width: 400px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  border: none;
+}
+
+.login-card :deep(.amu-card__header) {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 24px 24px 16px;
+  border-bottom: none;
+}
+
+.login-card :deep(.amu-card__body) {
+  padding: 0 24px 32px;
+}
+
+.login-card :deep(.amu-button) {
+  margin-top: 16px;
+  height: 40px;
+  font-size: 16px;
 }
 </style>

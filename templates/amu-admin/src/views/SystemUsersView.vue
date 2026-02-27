@@ -1,19 +1,29 @@
 <template>
-  <AmuCard>
-    <template #title>用户管理</template>
-    <template #extra>
-      <AmuSpace>
-        <AmuInput v-model="keyword" placeholder="搜索姓名" clearable />
-        <AmuButton v-permission="'system:user:view'" type="primary">新建用户</AmuButton>
-      </AmuSpace>
-    </template>
-    <AmuTable :data="tableData" border stripe>
-      <AmuTableColumn prop="name" label="姓名" />
-      <AmuTableColumn prop="role" label="角色" />
-      <AmuTableColumn prop="status" label="状态" />
-      <AmuTableColumn prop="createdAt" label="创建时间" />
-    </AmuTable>
-  </AmuCard>
+  <div class="page-container">
+    <AmuCard class="page-card">
+      <template #title>用户管理</template>
+      <template #extra>
+        <AmuSpace>
+          <AmuInput v-model="keyword" placeholder="搜索姓名" clearable />
+          <AmuButton v-permission="'system:user:view'" type="primary">新建用户</AmuButton>
+        </AmuSpace>
+      </template>
+      <AmuTable :data="tableData" border stripe>
+        <AmuTableColumn prop="name" label="姓名" />
+        <AmuTableColumn prop="role" label="角色">
+          <template #default="{ row }">
+            <AmuTag :type="row.role === '管理员' ? 'primary' : 'default'">{{ row.role }}</AmuTag>
+          </template>
+        </AmuTableColumn>
+        <AmuTableColumn prop="status" label="状态">
+          <template #default="{ row }">
+            <AmuTag :type="row.status === '启用' ? 'success' : 'danger'">{{ row.status }}</AmuTag>
+          </template>
+        </AmuTableColumn>
+        <AmuTableColumn prop="createdAt" label="创建时间" />
+      </AmuTable>
+    </AmuCard>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -22,6 +32,7 @@ import { AmuCard } from 'amu-ui/card'
 import { AmuInput } from 'amu-ui/input'
 import { AmuSpace } from 'amu-ui/space'
 import { AmuTable, AmuTableColumn } from 'amu-ui/table'
+import { AmuTag } from 'amu-ui/tag'
 import { computed, ref } from 'vue'
 
 interface UserRow {

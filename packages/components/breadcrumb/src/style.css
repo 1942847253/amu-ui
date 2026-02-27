@@ -49,6 +49,10 @@
   font-weight: 400;
 }
 
+.amu-breadcrumb-item:last-child .amu-breadcrumb-item__separator {
+  display: none;
+}
+
 .amu-breadcrumb-item__icon {
   margin-right: 4px;
   vertical-align: top;
