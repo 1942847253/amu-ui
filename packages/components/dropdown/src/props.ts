@@ -152,7 +152,7 @@ export const dropdownSlots = {
    * @description 下拉菜单内容插槽
    * @en Dropdown content slot
    */
-  dropdown: {},
+  overlay: {},
 }
 
 export const dropdownMenuProps = {

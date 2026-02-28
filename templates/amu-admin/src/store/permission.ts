@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
 import { defineStore } from 'pinia'
 import type { RouteRecordRaw } from 'vue-router'
 import { asyncRoutes } from '../router/routes'
@@ -50,7 +50,7 @@ const toMenuNodes = (routes: RouteRecordRaw[], parentPath = ''): MenuNode[] => {
 }
 
 export const usePermissionStore = defineStore('permission', () => {
-  const routeRecords = ref<RouteRecordRaw[]>([])
+  const routeRecords = shallowRef<RouteRecordRaw[]>([])
   const routeInjected = ref(false)
 
   const authStore = useAuthStore()

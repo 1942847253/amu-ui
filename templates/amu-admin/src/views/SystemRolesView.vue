@@ -10,7 +10,7 @@
         <AmuTableColumn prop="name" label="角色名称" />
         <AmuTableColumn prop="code" label="角色编码">
           <template #default="{ row }">
-            <AmuTag type="info">{{ row.code }}</AmuTag>
+            <AmuTag type="primary">{{ row.code }}</AmuTag>
           </template>
         </AmuTableColumn>
         <AmuTableColumn prop="members" label="成员数量" />

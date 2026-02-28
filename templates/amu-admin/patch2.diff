@@ -1,0 +1,29 @@
+diff --git a/templates/amu-admin/src/layouts/AdminLayout.vue b/templates/amu-admin/src/layouts/AdminLayout.vue
+--- a/templates/amu-admin/src/layouts/AdminLayout.vue
++++ b/templates/amu-admin/src/layouts/AdminLayout.vue
+@@ -190,11 +190,13 @@
+         </div>
+ 
+-        <AmuScrollbar class="admin-layout__scrollbar" view-class="admin-layout__view">
+-          <RouterView v-slot="{ Component, route: currentRoute }">
+-            <Transition name="fade-transform" mode="out-in">
+-              <KeepAlive :include="aliveCacheNames">
+-                <component :is="Component" :key="\\::\\" />
+-              </KeepAlive>
+-            </Transition>
+-          </RouterView>
+-        </AmuScrollbar>
++        <div class="admin-layout__scrollbar">
++          <AmuScrollbar>
++            <div class="admin-layout__view">
++              <RouterView v-slot="{ Component, route: currentRoute }">
++                <Transition name="fade-transform" mode="out-in">
++                  <KeepAlive :include="aliveCacheNames">
++                    <component :is="Component" :key="\\::\\" />
++                  </KeepAlive>
++                </Transition>
++              </RouterView>
++            </div>
++          </AmuScrollbar>
++        </div>
+       </section>

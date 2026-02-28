@@ -1,4 +1,4 @@
-import { h } from 'vue'
+import { h, markRaw } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { RouterView } from 'vue-router'
 
@@ -10,7 +10,7 @@ export type AppRouteMeta = {
   keepAlive?: boolean
 }
 
-const RouteView = { render: () => h(RouterView) }
+const RouteView = markRaw({ render: () => h(RouterView) })
 
 export const staticRoutes: RouteRecordRaw[] = [
   {
@@ -29,13 +29,19 @@ export const staticRoutes: RouteRecordRaw[] = [
     path: '/',
     name: 'Root',
     component: () => import('../layouts/AdminLayout.vue'),
-    meta: { title: '工作台' },
-    redirect: '/dashboard',
+    meta: { title: '视图' },
+    redirect: '/workplace',
     children: []
   }
 ]
 
 export const asyncRoutes: RouteRecordRaw[] = [
+  {
+    path: '/workplace',
+    name: 'Workplace',
+    component: () => import('../views/WorkplaceView.vue'),
+    meta: { title: '工作台', requiresAuth: true, menu: true, keepAlive: true } satisfies AppRouteMeta
+  },
   {
     path: '/dashboard',
     name: 'Dashboard',

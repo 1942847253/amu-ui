@@ -41,6 +41,53 @@ export const useTabsStore = defineStore('tabs', () => {
     visitedTabs.value = visitedTabs.value.filter((tab) => tab.path !== path)
   }
 
+  const removeLeft = (path: string) => {
+    const currentIndex = visitedTabs.value.findIndex((tab) => tab.path === path)
+    if (currentIndex === -1) return
+    visitedTabs.value = visitedTabs.value.filter((tab, index) => {
+      if (index >= currentIndex) return true
+      return !tab.closable
+    })
+  }
+
+  const removeRight = (path: string) => {
+    const currentIndex = visitedTabs.value.findIndex((tab) => tab.path === path)
+    if (currentIndex === -1) return
+    visitedTabs.value = visitedTabs.value.filter((tab, index) => {
+      if (index <= currentIndex) return true
+      return !tab.closable
+    })
+  }
+
+  const removeOthers = (path: string) => {
+    visitedTabs.value = visitedTabs.value.filter((tab) => {
+      if (tab.path === path) return true
+      return !tab.closable
+    })
+  }
+
+  const removeAll = () => {
+    visitedTabs.value = visitedTabs.value.filter((tab) => !tab.closable)
+  }
+
+  const togglePin = (path: string) => {
+    const tab = visitedTabs.value.find((t) => t.path === path)
+    if (tab && tab.path !== '/dashboard') {
+      tab.closable = !tab.closable
+    }
+  }
+
+  const moveTab = (fromPath: string, toPath: string) => {
+    if (fromPath === toPath) return
+
+    const fromIndex = visitedTabs.value.findIndex((tab) => tab.path === fromPath)
+    const toIndex = visitedTabs.value.findIndex((tab) => tab.path === toPath)
+    if (fromIndex === -1 || toIndex === -1) return
+
+    const [movingTab] = visitedTabs.value.splice(fromIndex, 1)
+    visitedTabs.value.splice(toIndex, 0, movingTab)
+  }
+
   const reset = () => {
     visitedTabs.value = [DEFAULT_TAB]
   }
@@ -50,6 +97,12 @@ export const useTabsStore = defineStore('tabs', () => {
     cacheNames,
     upsertTab,
     removeTab,
+    removeLeft,
+    removeRight,
+    removeOthers,
+    removeAll,
+    togglePin,
+    moveTab,
     reset
   }
 })

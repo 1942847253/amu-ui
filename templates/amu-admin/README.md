@@ -53,6 +53,13 @@ pnpm --filter amu-admin-template build
 - 接入日志埋点、异常上报与可观测性
 - 增加 E2E 与视觉回归测试
 
+## 图标规范
+
+- 统一使用 `@amu-ui/icons` 提供的图标组件，不再手写 SVG 路径或 `h('svg')`。
+- 页面内图标统一使用 `AmuIcon` 包裹，推荐写法：`<AmuIcon><IconSearch /></AmuIcon>`。
+- 菜单、面包屑等动态图标场景，先通过函数返回 `IconXxx`，再使用：`<AmuIcon><component :is="iconComp" /></AmuIcon>`。
+- 禁止直接使用裸 `<component :is="IconXxx" />` 作为最终写法（需加 `AmuIcon` 外壳以保持样式一致）。
+
 ## 鉴权时序图
 
 ```mermaid
