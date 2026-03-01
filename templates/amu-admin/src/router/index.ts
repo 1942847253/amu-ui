@@ -3,11 +3,31 @@ import type { RouteLocationNormalized } from 'vue-router'
 import { staticRoutes } from './routes'
 import { useAuthStore } from '../store/auth'
 import { usePermissionStore } from '../store/permission'
+import { useAppStore } from '../store/app'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: staticRoutes
 })
+
+const titleMapEn: Record<string, string> = {
+  登录: 'Login',
+  无权限: 'Forbidden',
+  视图: 'View',
+  工作台: 'Workplace',
+  仪表盘: 'Dashboard',
+  系统管理: 'System',
+  用户管理: 'Users',
+  角色管理: 'Roles',
+  鉴权自测: 'Auth Debug',
+  页面不存在: 'Not Found'
+}
+
+const getLocalizedTitle = (title: unknown, language: 'zh-CN' | 'en-US') => {
+  const nextTitle = typeof title === 'string' && title.trim() ? title.trim() : 'amu-admin'
+  if (language === 'zh-CN') return nextTitle
+  return titleMapEn[nextTitle] || nextTitle
+}
 
 const ensureDynamicRoutes = (permissionStore: ReturnType<typeof usePermissionStore>) => {
   if (permissionStore.routeInjected) return
@@ -85,6 +105,8 @@ const resolvePermissionRedirect = (to: RouteLocationNormalized) => {
 }
 
 router.beforeEach((to) => {
+  window.dispatchEvent(new CustomEvent('amu-admin:route-start', { detail: { to: to.fullPath } }))
+
   sanitizeSessionState()
 
   const preInjectionAuthRedirect = resolvePreInjectionAuthRedirect(to)
@@ -111,7 +133,15 @@ router.beforeEach((to) => {
 })
 
 router.afterEach((to) => {
-  const title = to.meta.title || 'amu-admin'
+  window.dispatchEvent(new CustomEvent('amu-admin:route-end', { detail: { to: to.fullPath } }))
+
+  const appStore = useAppStore()
+  if (!appStore.dynamicTitle) {
+    document.title = 'amu-admin'
+    return
+  }
+
+  const title = getLocalizedTitle(to.meta.title, appStore.language)
   document.title = `${title} - amu-admin`
 })
 

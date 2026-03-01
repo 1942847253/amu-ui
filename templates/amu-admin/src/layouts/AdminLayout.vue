@@ -1,33 +1,25 @@
 <template>
-  <div
-    class="admin-layout"
-    :class="{ 'admin-layout--content-fullscreen': isContentFullscreen }"
-    :data-amu-theme="appStore.isDark ? 'dark' : undefined"
-    :style="layoutStyle"
-  >
-    <div
-      v-if="isRefreshing"
-      class="admin-layout__top-progress"
-      :style="{ width: `${refreshProgress}%` }"
-    ></div>
-    <aside class="admin-layout__aside" :class="{ 'is-collapsed': appStore.sidebarCollapsed }">
-      <AmuMenu
-        mode="vertical"
-        trigger="click"
-        :show-collapse-button="false"
-        :collapsed="appStore.sidebarCollapsed"
-        @update:collapsed="handleCollapsedChange"
-        :selected-keys="[activeKey]"
-        :open-keys="openKeys"
-        @update:open-keys="handleOpenKeysChange"
-        @select="handleMenuSelect"
-      >
+  <div class="admin-layout" :class="{
+    'admin-layout--content-fullscreen': isContentFullscreen,
+    'admin-layout--sidebar-dark': appStore.sidebarDark,
+    'admin-layout--sidebar-child-dark': appStore.sidebarChildDark,
+    'admin-layout--header-dark': appStore.headerDark,
+    'admin-layout--content-only': !appStore.showSidebar || appStore.layoutMode === 'content-only',
+    'admin-layout--fixed-content': appStore.contentWidth === 'fixed'
+  }" :data-amu-theme="appStore.isDark ? 'dark' : undefined" :style="layoutStyle">
+    <div v-if="shouldShowTopProgress" class="admin-layout__top-progress" :style="{ width: `${topProgress}%` }"></div>
+    <aside v-if="appStore.showSidebar && appStore.layoutMode !== 'content-only'" class="admin-layout__aside"
+      :class="{ 'is-collapsed': effectiveSidebarCollapsed }" @mouseenter="handleAsideMouseEnter"
+      @mouseleave="handleAsideMouseLeave">
+      <AmuMenu mode="vertical" trigger="click" :show-collapse-button="false" :collapsed="effectiveSidebarCollapsed"
+        @update:collapsed="handleCollapsedChange" :selected-keys="[activeKey]" :open-keys="openKeys"
+        @update:open-keys="handleOpenKeysChange" @select="handleMenuSelect">
         <template #logo>
           <div class="admin-layout__logo">
             <div class="admin-layout__logo-mark">
-             A
+              A
             </div>
-            <span v-show="!appStore.sidebarCollapsed" class="admin-layout__logo-text">Amu Admin</span>
+            <span v-show="!effectiveSidebarCollapsed" class="admin-layout__logo-text">Amu Admin</span>
           </div>
         </template>
 
@@ -44,7 +36,7 @@
                   <component :is="resolveMenuIcon(child.key)" />
                 </AmuIcon>
               </template>
-              {{ child.title }}
+              {{ translateRouteTitle(child.title) }}
             </AmuMenuItem>
           </AmuSubMenu>
           <AmuMenuItem v-else :index="item.key">
@@ -53,7 +45,7 @@
                 <component :is="resolveMenuIcon(item.key)" />
               </AmuIcon>
             </template>
-            {{ item.title }}
+            {{ translateRouteTitle(item.title) }}
           </AmuMenuItem>
         </template>
 
@@ -63,7 +55,15 @@
     <main class="admin-layout__main">
       <header class="admin-layout__header">
         <div class="admin-layout__header-left">
-          <div class="admin-layout__header-icon" @click="appStore.sidebarCollapsed = !appStore.sidebarCollapsed">
+          <div v-if="appStore.layoutMode === 'horizontal'" class="admin-layout__header-logo">
+            <div class="admin-layout__logo-mark">
+              A
+            </div>
+            <span class="admin-layout__header-logo-text">amu-admin</span>
+          </div>
+
+          <div v-if="shouldShowMenuToggle && appStore.layoutMode !== 'horizontal'" class="admin-layout__header-icon"
+            @click="appStore.sidebarCollapsed = !appStore.sidebarCollapsed">
             <AmuIcon>
               <IconMenu />
             </AmuIcon>
@@ -73,47 +73,75 @@
               <IconRefreshCw />
             </AmuIcon>
           </div>
-          <AmuBreadcrumb separator=">">
+
+          <AmuMenu v-if="appStore.layoutMode === 'horizontal'" mode="horizontal" class="admin-layout__horizontal-menu"
+            :active-name="route.path" @select="handleMenuSelect">
+            <template v-for="item in permissionStore.menuTree" :key="item.key">
+              <AmuSubMenu v-if="item.children?.length" :index="item.key" :title="translateRouteTitle(item.title)">
+                <template #icon>
+                  <AmuIcon>
+                    <component :is="resolveMenuIcon(item.key)" />
+                  </AmuIcon>
+                </template>
+                <AmuMenuItem v-for="child in item.children" :key="child.key" :index="child.key">
+                  <template #icon>
+                    <AmuIcon>
+                      <component :is="resolveMenuIcon(child.key)" />
+                    </AmuIcon>
+                  </template>
+                  {{ translateRouteTitle(child.title) }}
+                </AmuMenuItem>
+              </AmuSubMenu>
+              <AmuMenuItem v-else :index="item.key">
+                <template #icon>
+                  <AmuIcon>
+                    <component :is="resolveMenuIcon(item.key)" />
+                  </AmuIcon>
+                </template>
+                {{ translateRouteTitle(item.title) }}
+              </AmuMenuItem>
+            </template>
+          </AmuMenu>
+
+          <AmuBreadcrumb v-else separator=">">
             <AmuBreadcrumbItem v-for="crumb in breadcrumbs" :key="crumb.path">
-              <div
-                class="admin-layout__breadcrumb-item"
+              <div class="admin-layout__breadcrumb-item"
                 :class="{ 'admin-layout__breadcrumb-item--clickable': isBreadcrumbClickable(crumb.path) }"
-                @click="handleBreadcrumbClick(crumb.path)"
-              >
+                @click="handleBreadcrumbClick(crumb.path)">
                 <AmuIcon v-if="resolveMenuIcon(crumb.path)" :size="20">
                   <component :is="resolveMenuIcon(crumb.path)" />
                 </AmuIcon>
-                {{ crumb.title }}
+                {{ translateRouteTitle(crumb.title) }}
               </div>
             </AmuBreadcrumbItem>
           </AmuBreadcrumb>
         </div>
 
         <div class="admin-layout__actions">
-          <div class="admin-layout__search">
+          <div class="admin-layout__search" @click="handleGlobalSearch">
             <AmuIcon class="admin-layout__search-icon">
               <IconSearch />
             </AmuIcon>
-            <span class="admin-layout__search-text">搜索</span>
-            <span class="admin-layout__search-shortcut">Ctrl K</span>
+            <span class="admin-layout__search-text">{{ tx('搜索', 'Search') }}</span>
+            <span v-if="shouldShowSearchShortcutTip" class="admin-layout__search-shortcut">Ctrl K</span>
           </div>
-          
-          <div class="admin-layout__header-icon">
+
+          <div class="admin-layout__header-icon" @click="openSettingsDrawer">
             <AmuIcon>
               <IconSettings />
             </AmuIcon>
           </div>
-          <div class="admin-layout__header-icon" @click="appStore.isDark = !appStore.isDark">
+          <div class="admin-layout__header-icon" @click="handleToggleDark">
             <AmuIcon>
               <component :is="appStore.isDark ? IconSun : IconMoon" />
             </AmuIcon>
           </div>
-          <div class="admin-layout__header-icon">
+          <div class="admin-layout__header-icon" @click="toggleLanguage">
             <AmuIcon>
               <IconGlobe />
             </AmuIcon>
           </div>
-          <div class="admin-layout__header-icon">
+          <div class="admin-layout__header-icon" @click="handleLockScreen">
             <AmuIcon>
               <IconClock />
             </AmuIcon>
@@ -129,9 +157,10 @@
             </AmuIcon>
             <span class="admin-layout__badge admin-layout__badge--blue"></span>
           </div>
-          
+
           <div class="admin-layout__user-avatar" @click="handleLogout">
-            <img src="https://api.dicebear.com/7.x/micah/svg?seed=Felix" alt="avatar" class="admin-layout__avatar-img" />
+            <img src="https://api.dicebear.com/7.x/micah/svg?seed=Felix" alt="avatar"
+              class="admin-layout__avatar-img" />
             <span class="admin-layout__badge admin-layout__badge--green"></span>
           </div>
         </div>
@@ -139,24 +168,14 @@
 
       <section class="admin-layout__content">
         <div class="admin-layout__tabs-bar">
-          <Draggable
-            v-model="draggableTabs"
-            item-key="path"
-            class="admin-layout__tabs"
-            :animation="200"
-            ghost-class="admin-layout__tab-ghost"
-            chosen-class="admin-layout__tab-chosen"
-            drag-class="admin-layout__tab-drag"
-          >
+          <Draggable v-model="draggableTabs" item-key="path" class="admin-layout__tabs" :animation="200"
+            ghost-class="admin-layout__tab-ghost" chosen-class="admin-layout__tab-chosen"
+            drag-class="admin-layout__tab-drag">
             <template #item="{ element: tab }">
               <div class="admin-layout__tab-item">
-                <AmuTag
-                  :type="tab.path === activeKey ? 'primary' : 'default'"
-                  :closable="tab.closable"
-                  @click="router.push(tab.path)"
-                  @close="handleCloseTab(tab.path)"
-                >
-                  {{ tab.title }}
+                <AmuTag :type="tab.path === activeKey ? 'primary' : 'default'" :closable="tab.closable"
+                  @click="router.push(tab.path)" @close="handleCloseTab(tab.path)">
+                  {{ translateRouteTitle(tab.title) }}
                 </AmuTag>
               </div>
             </template>
@@ -165,47 +184,53 @@
           <div class="admin-layout__tabs-extra">
             <AmuDropdown trigger="click" placement="bottom-end" @select="handleCurrentTabCommand">
               <div class="admin-layout__tabs-extra-btn">
-                <AmuIcon><IconChevronDown /></AmuIcon>
+                <AmuIcon>
+                  <IconChevronDown />
+                </AmuIcon>
               </div>
               <template #overlay>
                 <AmuDropdownMenu>
                   <AmuDropdownItem command="close-current" :icon="IconX" :disabled="!canCloseCurrentTab">
-                    关闭
+                    {{ tx('关闭', 'Close') }}
                   </AmuDropdownItem>
                   <AmuDropdownItem command="pin" :icon="IconMapPin" :disabled="isDashboardTab">
-                    {{ isCurrentTabPinned ? '取消固定' : '固定' }}
+                    {{ isCurrentTabPinned ? tx('取消固定', 'Unpin') : tx('固定', 'Pin') }}
                   </AmuDropdownItem>
                   <AmuDropdownItem command="maximize" :icon="isContentFullscreen ? IconMinimize : IconMaximize">
-                    {{ isContentFullscreen ? '还原' : '最大化' }}
+                    {{ isContentFullscreen ? tx('还原', 'Restore') : tx('最大化', 'Maximize') }}
                   </AmuDropdownItem>
                   <AmuDropdownItem command="reload" :icon="IconRefreshCw">
-                    重新加载
+                    {{ tx('重新加载', 'Reload') }}
                   </AmuDropdownItem>
                   <AmuDropdownItem command="new-window" :icon="IconExternalLink">
-                    在新窗口打开
+                    {{ tx('在新窗口打开', 'Open in new window') }}
                   </AmuDropdownItem>
 
                   <AmuDropdownItem divided command="close-left" :icon="IconArrowLeft" :disabled="!hasClosableLeftTabs">
-                    关闭左侧标签页
+                    {{ tx('关闭左侧标签页', 'Close left tabs') }}
                   </AmuDropdownItem>
                   <AmuDropdownItem command="close-right" :icon="IconArrowRight" :disabled="!hasClosableRightTabs">
-                    关闭右侧标签页
+                    {{ tx('关闭右侧标签页', 'Close right tabs') }}
                   </AmuDropdownItem>
 
                   <AmuDropdownItem divided command="close-others" :icon="IconXCircle" :disabled="!hasClosableOtherTabs">
-                    关闭其它标签页
+                    {{ tx('关闭其它标签页', 'Close other tabs') }}
                   </AmuDropdownItem>
                   <AmuDropdownItem command="close-all" :icon="IconRepeat" :disabled="!hasClosableTabs">
-                    关闭全部标签页
+                    {{ tx('关闭全部标签页', 'Close all tabs') }}
                   </AmuDropdownItem>
                 </AmuDropdownMenu>
               </template>
             </AmuDropdown>
-                  <div class="admin-layout__tabs-extra-btn" @click="handleRefresh">
-              <AmuIcon><IconRefreshCw /></AmuIcon>
+            <div class="admin-layout__tabs-extra-btn" @click="handleRefresh">
+              <AmuIcon>
+                <IconRefreshCw />
+              </AmuIcon>
             </div>
-            <div class="admin-layout__tabs-extra-btn" @click="toggleFullscreen">
-              <AmuIcon><component :is="isContentFullscreen ? IconMinimize : IconMaximize" /></AmuIcon>
+            <div v-if="appStore.showPinButton" class="admin-layout__tabs-extra-btn" @click="toggleFullscreen">
+              <AmuIcon>
+                <component :is="isContentFullscreen ? IconMinimize : IconMaximize" />
+              </AmuIcon>
             </div>
           </div>
         </div>
@@ -213,7 +238,7 @@
         <AmuScrollbar class="admin-layout__scrollbar">
           <div class="admin-layout__view">
             <RouterView v-slot="{ Component, route: currentRoute }">
-              <Transition name="fade-transform" mode="out-in">
+              <Transition :name="viewTransitionName" mode="out-in">
                 <KeepAlive :include="aliveCacheNames">
                   <component :is="Component" :key="`${currentRoute.fullPath}::${refreshViewKey}`" />
                 </KeepAlive>
@@ -223,18 +248,337 @@
         </AmuScrollbar>
       </section>
     </main>
+
+    <AmuLoading 
+      :visible="appStore.pageLoading && isRouteLoading"
+      :text="tx('页面加载中...', 'Loading page...')"
+      fullscreen
+      background="rgba(17, 24, 39, 0.1)"
+    />
+
+    <div v-if="appStore.watermark" class="admin-layout__watermark" :style="watermarkStyle"></div>
+
+    <div v-if="isScreenLocked" class="admin-layout__lock-screen">
+      <div class="admin-layout__lock-card">
+        <div class="admin-layout__lock-title">{{ tx('屏幕已锁定', 'Screen Locked') }}</div>
+        <div class="admin-layout__lock-time">{{ lockTimeText }}</div>
+        <div class="admin-layout__lock-user">{{ authStore.user?.username || tx('访客', 'Guest') }}</div>
+        <AmuButton type="primary" block @click="handleUnlockScreen">{{ tx('解锁', 'Unlock') }}</AmuButton>
+      </div>
+    </div>
+
+    <AmuDrawer v-model="settingsDrawerVisible" placement="right" size="340px">
+      <template #title>
+        <div class="admin-settings__header-wrap">
+          <AmuIcon size="18" color="var(--amu-color-primary)">
+            <IconSettings />
+          </AmuIcon>
+          <span class="admin-settings__header-title">{{ tx('偏好配置中心', 'Preference Center') }}</span>
+        </div>
+      </template>
+
+      <div class="admin-settings">
+        <AmuTabs v-model="settingsTab" class="admin-settings__tabs">
+          <AmuTabPane name="appearance" :title="tx('外观', 'Appearance')">
+            <div class="admin-settings__section">
+              <div class="admin-settings__label">{{ tx('色彩模式', 'Color Mode') }}</div>
+              <div class="admin-settings__chip-group">
+                <button class="admin-chip" :class="{ 'is-active': appStore.themeMode === 'light' }"
+                  @click="appStore.themeMode = 'light'">
+                  <AmuIcon>
+                    <IconSun />
+                  </AmuIcon> {{ tx('浅色', 'Light') }}
+                </button>
+                <button class="admin-chip" :class="{ 'is-active': appStore.themeMode === 'dark' }"
+                  @click="appStore.themeMode = 'dark'">
+                  <AmuIcon>
+                    <IconMoon />
+                  </AmuIcon> {{ tx('深色', 'Dark') }}
+                </button>
+                <button class="admin-chip" :class="{ 'is-active': appStore.themeMode === 'system' }"
+                  @click="appStore.themeMode = 'system'">
+                  <AmuIcon>
+                    <IconMonitor />
+                  </AmuIcon> {{ tx('跟随系统', 'System') }}
+                </button>
+              </div>
+
+              <div class="admin-settings__switch-list">
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('深色侧边栏', 'Dark sidebar') }} <AmuIcon size="14" class="hint-icon">
+                      <IconHelpCircle />
+                    </AmuIcon></span>
+                  <AmuSwitch v-model="appStore.sidebarDark" />
+                </div>
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('深色侧边栏子栏', 'Dark sidebar submenu') }} <AmuIcon size="14" class="hint-icon">
+                      <IconHelpCircle />
+                    </AmuIcon></span>
+                  <AmuSwitch v-model="appStore.sidebarChildDark" />
+                </div>
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('深色顶栏', 'Dark header') }}</span>
+                  <AmuSwitch v-model="appStore.headerDark" />
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-settings__section">
+              <div class="admin-settings__label">{{ tx('主色调与视觉', 'Accent Color') }}</div>
+              <div class="admin-settings__color-dots">
+                <div v-for="item in colorPresetsList" :key="item.zh" class="admin-settings__color-dot-wrap"
+                  :class="{ 'is-active': appStore.primaryColor === item.color }" :title="tx(item.zh, item.en)"
+                  @click="item.color && selectPrimaryColor(item.color)">
+                  <div class="admin-settings__color-dot" :style="{ backgroundColor: item.color || 'transparent' }">
+                    <AmuIcon v-if="!item.color" size="14" color="var(--amu-color-text-secondary)">
+                      <IconSettings />
+                    </AmuIcon>
+                    <AmuIcon v-if="appStore.primaryColor === item.color && item.color" size="12" color="#fff">
+                      <IconCheck />
+                    </AmuIcon>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-settings__section">
+              <div class="admin-settings__label">{{ tx('控件圆角', 'Border Radius') }}</div>
+              <div class="admin-settings__radius-list">
+                <button v-for="radius in radiusPresets" :key="radius" class="admin-settings__radius-item" type="button"
+                  :class="{ 'is-active': appStore.radiusScale === radius }"
+                  :style="{ borderRadius: `${radius * 12 + 2}px` }" @click="setRadiusScale(radius)">
+                  <span class="radius-val" :style="{ transform: `scale(${1 - radius * 0.1})` }"></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="admin-settings__section">
+              <div class="admin-settings__label">{{ tx('界面字号', 'Font Scale') }}</div>
+              <div class="admin-settings__font-group">
+                <div class="admin-settings__font-preview" :style="{ fontSize: `${appStore.fontSize}px` }">Aa</div>
+                <div class="admin-settings__font-ctrl">
+                  <button type="button" class="admin-settings__step-btn" @click="handleDecreaseFontSize">
+                    <AmuIcon>
+                      <IconMinus />
+                    </AmuIcon>
+                  </button>
+                  <div class="admin-settings__font-val">{{ appStore.fontSize }}</div>
+                  <button type="button" class="admin-settings__step-btn" @click="handleIncreaseFontSize">
+                    <AmuIcon>
+                      <IconPlus />
+                    </AmuIcon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </AmuTabPane>
+
+          <AmuTabPane name="layout" :title="tx('布局', 'Layout')">
+            <div class="admin-settings__section">
+              <div class="admin-settings__label">{{ tx('布局视图', 'Layout Mode') }}</div>
+              <div class="admin-settings__layout-list">
+                <div v-for="item in layoutOptions" :key="item.key" class="admin-settings__layout-item"
+                  :class="{ 'is-active': appStore.layoutMode === item.key }" @click="appStore.layoutMode = item.key"
+                  :title="getLayoutOptionDesc(item.key)">
+                  <div class="admin-settings__layout-skeleton" :class="`is-${item.key}`">
+                    <div class="skeleton-header"></div>
+                    <div class="skeleton-sidebar"></div>
+                    <div class="skeleton-main"></div>
+                  </div>
+                  <div class="admin-settings__layout-title">{{ getLayoutOptionTitle(item.key) }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-settings__section">
+              <div class="admin-settings__label">{{ tx('内容宽度', 'Content Width') }}</div>
+              <div class="admin-settings__chip-group">
+                <button class="admin-chip" :class="{ 'is-active': appStore.contentWidth === 'fluid' }"
+                  @click="appStore.contentWidth = 'fluid'">
+                  <AmuIcon>
+                    <IconMaximize />
+                  </AmuIcon> {{ tx('流式', 'Fluid') }}
+                </button>
+                <button class="admin-chip" :class="{ 'is-active': appStore.contentWidth === 'fixed' }"
+                  @click="appStore.contentWidth = 'fixed'">
+                  <AmuIcon>
+                    <IconMinimize />
+                  </AmuIcon> {{ tx('定宽', 'Fixed') }}
+                </button>
+              </div>
+            </div>
+
+            <div class="admin-settings__section">
+              <div class="admin-settings__label">{{ tx('侧边栏体验', 'Sidebar Behavior') }}</div>
+              <div class="admin-settings__switch-list">
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('显示侧边栏', 'Show sidebar') }}</span>
+                  <AmuSwitch v-model="appStore.showSidebar" />
+                </div>
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('侧边栏手风琴', 'Sidebar accordion') }}</span>
+                  <AmuSwitch v-model="appStore.sidebarAccordion" />
+                </div>
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('折叠菜单', 'Collapse menu') }}</span>
+                  <AmuSwitch v-model="appStore.collapseMenu" />
+                </div>
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('鼠标悬停展开', 'Expand on hover') }}</span>
+                  <AmuSwitch v-model="appStore.sidebarFixedWhenHover" :disabled="!appStore.collapseMenu" />
+                </div>
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('折叠显示菜单名', 'Show name when collapsed') }}</span>
+                  <AmuSwitch v-model="appStore.showMixedChildMenu" :disabled="!appStore.collapseMenu" />
+                </div>
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('自动激活子菜单', 'Auto activate submenu') }}</span>
+                  <AmuSwitch v-model="appStore.autoActivateFirstMenu" />
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-settings__section">
+              <div class="admin-settings__label">{{ tx('辅助按钮', 'Affordance Buttons') }}</div>
+              <div class="admin-settings__chip-group">
+                <button type="button" class="admin-chip" :class="{ 'is-active': appStore.showCollapseButton }"
+                  @click="appStore.showCollapseButton = !appStore.showCollapseButton">
+                  <AmuIcon>
+                    <IconMenu />
+                  </AmuIcon>
+                  {{ tx('折叠/展开', 'Collapse') }}
+                </button>
+                <button type="button" class="admin-chip" :class="{ 'is-active': appStore.showPinButton }"
+                  @click="appStore.showPinButton = !appStore.showPinButton">
+                  <AmuIcon>
+                    <IconMapPin />
+                  </AmuIcon>
+                  {{ tx('固定', 'Pin') }}
+                </button>
+              </div>
+            </div>
+          </AmuTabPane>
+
+          <AmuTabPane name="shortcuts" :title="tx('快捷键', 'Shortcuts')">
+            <div class="admin-settings__section">
+              <div class="admin-settings__switch-list">
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('启用快捷键', 'Enable shortcuts') }}</span>
+                  <AmuSwitch v-model="appStore.enableShortcut" />
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-settings__section" :class="{ 'is-disabled': !appStore.enableShortcut }">
+              <div class="admin-settings__switch-list">
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('全局搜索', 'Global search') }} <em>Ctrl K</em></span>
+                  <AmuSwitch v-model="appStore.enableSearchShortcut" :disabled="!appStore.enableShortcut" />
+                </div>
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('退出登录', 'Logout') }} <em>Alt Q</em></span>
+                  <AmuSwitch v-model="appStore.enableLogoutShortcut" :disabled="!appStore.enableShortcut" />
+                </div>
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('锁定屏幕', 'Lock screen') }} <em>Alt L</em></span>
+                  <AmuSwitch v-model="appStore.enableLockShortcut" :disabled="!appStore.enableShortcut" />
+                </div>
+              </div>
+            </div>
+          </AmuTabPane>
+
+          <AmuTabPane name="common" :title="tx('通用', 'Common')">
+            <div class="admin-settings__section">
+              <div class="admin-settings__label">{{ tx('语言系统', 'Language') }}</div>
+              <AmuSelect v-model="appStore.language" style="width: 100%">
+                <AmuOption :label="tx('简体中文 (zh-CN)', 'Chinese (Simplified)')" value="zh-CN" />
+                <AmuOption :label="tx('English (en-US)', 'English (US)')" value="en-US" />
+              </AmuSelect>
+            </div>
+
+            <div class="admin-settings__section">
+              <div class="admin-settings__label">{{ tx('辅助系统', 'Utilities') }}</div>
+              <div class="admin-settings__switch-list">
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('动态标题', 'Dynamic title') }}</span>
+                  <AmuSwitch v-model="appStore.dynamicTitle" />
+                </div>
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('水印', 'Watermark') }}</span>
+                  <AmuSwitch v-model="appStore.watermark" />
+                </div>
+                <div class="admin-settings__switch-item">
+                  <span>{{ tx('定时检查更新', 'Auto check updates') }}</span>
+                  <AmuSwitch v-model="appStore.autoCheckUpdates" />
+                </div>
+              </div>
+              <div class="admin-settings__hint" v-if="appStore.autoCheckUpdates">{{ updateStatusText }}</div>
+            </div>
+
+            <div class="admin-settings__section">
+              <div class="admin-settings__label">{{ tx('过渡动画', 'Animations') }}</div>
+              <div class="admin-settings__switch-list">
+                <div class="admin-settings__switch-item admin-settings__switch-item--compact">
+                  <span>{{ tx('加载进度条', 'Route progress bar') }}</span>
+                  <AmuSwitch v-model="appStore.pageTransitionProgress" />
+                </div>
+                <div class="admin-settings__switch-item admin-settings__switch-item--compact">
+                  <span>{{ tx('页面切换 Loading', 'Route loading') }}</span>
+                  <AmuSwitch v-model="appStore.pageLoading" />
+                </div>
+                <div class="admin-settings__switch-item admin-settings__switch-item--compact">
+                  <span>{{ tx('页面切换动画', 'Route transition') }}</span>
+                  <AmuSwitch v-model="appStore.pageTransition" />
+                </div>
+              </div>
+
+              <div class="admin-settings__switch-item admin-settings__switch-item--compact"
+                :class="{ 'is-disabled': !appStore.pageTransition }" style="margin-top: 12px;">
+                <span>{{ tx('动画特效', 'Transition preset') }}</span>
+                <AmuSelect v-model="appStore.transitionPreset" style="width: 140px;"
+                  :disabled="!appStore.pageTransition">
+                  <AmuOption v-for="item in transitionOptions" :key="item.key"
+                    :label="getTransitionOptionTitle(item.key)" :value="item.key" />
+                </AmuSelect>
+              </div>
+            </div>
+          </AmuTabPane>
+        </AmuTabs>
+
+        <div class="admin-settings__footer">
+          <button type="button" class="admin-btn-action is-primary" @click="handleCopyPreferences">
+            <AmuIcon>
+              <IconCopy />
+            </AmuIcon>
+            {{ tx('序列化配置', 'Serialize Settings') }}
+          </button>
+          <button type="button" class="admin-btn-action is-danger" @click="handleResetAndLogout">
+            <AmuIcon>
+              <IconRefreshCw />
+            </AmuIcon>
+            {{ tx('恢复默认值', 'Restore Defaults') }}
+          </button>
+          <span v-if="copyFeedback" class="admin-settings__feedback">{{ copyFeedback }}</span>
+        </div>
+      </div>
+    </AmuDrawer>
   </div>
 </template>
 
 <script setup lang="ts">
 import { AmuBreadcrumb, AmuBreadcrumbItem } from 'amu-ui/breadcrumb'
-import { AmuButton } from 'amu-ui/button'
 import { AmuMenu, AmuMenuItem, AmuSubMenu } from 'amu-ui/menu'
 import { AmuScrollbar } from 'amu-ui/scrollbar'
-import { AmuSwitch } from 'amu-ui/switch'
 import { AmuTag } from 'amu-ui/tag'
 import { AmuIcon } from 'amu-ui/icon'
 import { AmuDropdown, AmuDropdownMenu, AmuDropdownItem } from 'amu-ui/dropdown'
+import { AmuDrawer } from 'amu-ui/drawer'
+import { AmuTabs, AmuTabPane } from 'amu-ui/tabs'
+import { AmuSwitch } from 'amu-ui/switch'
+import { AmuRadioGroup, AmuRadioButton } from 'amu-ui/radio'
+import { AmuSelect, AmuOption } from 'amu-ui/select'
+import { AmuButton } from 'amu-ui/button'
+import { AmuLoading } from 'amu-ui/loading'
 import {
   IconMenu,
   IconRefreshCw,
@@ -247,13 +591,14 @@ import {
   IconMaximize,
   IconMinimize,
   IconBell,
-  IconGrid,
   IconFolder,
   IconUser,
   IconUsers,
   IconShield,
   IconBarChart,
   IconMonitor,
+  IconMinus,
+  IconPlus,
   IconX,
   IconMapPin,
   IconExternalLink,
@@ -261,17 +606,25 @@ import {
   IconArrowRight,
   IconXCircle,
   IconRepeat,
-  IconChevronDown
+  IconChevronDown,
+  IconCheck,
+  IconHelpCircle,
+  IconCopy
 } from '@amu-ui/icons'
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type Component } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Draggable from 'vuedraggable'
 import { useAuthStore } from '../store/auth'
 import { useAppStore } from '../store/app'
+import type { LayoutMode, TransitionPreset } from '../store/app'
 import { usePermissionStore } from '../store/permission'
+import type { MenuNode } from '../store/permission'
 import { useTabsStore } from '../store/tabs'
 
 let refreshProgressTimer: number | null = null
+let routeProgressTimer: number | null = null
+let lockClockTimer: number | null = null
+let autoCheckUpdateTimer: number | null = null
 
 const route = useRoute()
 const router = useRouter()
@@ -283,21 +636,383 @@ const tabsStore = useTabsStore()
 const isRefreshing = ref(false)
 const isContentFullscreen = ref(false)
 const refreshProgress = ref(0)
+const routeProgress = ref(0)
+const isRouteLoading = ref(false)
 const refreshViewKey = ref(0)
 const refreshingCacheName = ref<string | null>(null)
+const isAsideHoverExpanded = ref(false)
+const isScreenLocked = ref(false)
+const lockTimeText = ref('')
+const updateStatus = ref<'idle' | 'checking' | 'latest' | 'available' | 'failed'>('idle')
+const latestVersion = ref('')
+const updateError = ref('')
+const lastCheckedAt = ref<number | null>(null)
+const settingsDrawerVisible = ref(false)
+const settingsTab = ref<'appearance' | 'layout' | 'shortcuts' | 'common'>('appearance')
+const copyFeedback = ref('')
+
+const colorPresetsList = [
+  { color: '#1677ff', zh: '默认', en: 'Default' },
+  { color: '#722ed1', zh: '紫罗兰', en: 'Violet' },
+  { color: '#eb2f96', zh: '樱花粉', en: 'Pink' },
+  { color: '#fadb14', zh: '柠檬黄', en: 'Yellow' },
+  { color: '#13c2c2', zh: '天蓝色', en: 'Sky Blue' },
+  { color: '#52c41a', zh: '浅绿色', en: 'Green' },
+  { color: '#595959', zh: '锌色灰', en: 'Zinc' },
+  { color: '#009688', zh: '深绿色', en: 'Teal' },
+  { color: '#0050b3', zh: '深蓝色', en: 'Dark Blue' },
+  { color: '#fa8c16', zh: '橙黄色', en: 'Orange' },
+  { color: '#f5222d', zh: '玫瑰红', en: 'Rose' },
+  { color: '#434343', zh: '中性色', en: 'Neutral' },
+  { color: '#262626', zh: '石板灰', en: 'Slate' },
+  { color: '#1f1f1f', zh: '中灰色', en: 'Mid Gray' },
+  { color: '', zh: '自定义', en: 'Custom' }
+]
+
+const radiusPresets = [0, 0.25, 0.5, 0.75, 1]
+
+const layoutOptions: Array<{ key: LayoutMode }> = [
+  { key: 'vertical' },
+  { key: 'horizontal' },
+  { key: 'content-only' }
+]
+
+const transitionOptions: Array<{ key: TransitionPreset }> = [
+  { key: 'fade' },
+  { key: 'slide' },
+  { key: 'zoom' },
+  { key: 'none' }
+]
+
+const APP_VERSION = '0.1.0'
+
+const tx = (zh: string, en: string) => {
+  return appStore.language === 'en-US' ? en : zh
+}
+
+const getLayoutOptionTitle = (key: LayoutMode) => {
+  if (key === 'vertical') return tx('垂直', 'Vertical')
+  if (key === 'double-column') return tx('双列', 'Double Column')
+  if (key === 'horizontal') return tx('水平', 'Horizontal')
+  if (key === 'mixed-nav') return tx('侧边导航', 'Mixed Nav')
+  if (key === 'mixed-column') return tx('混合双列', 'Mixed Column')
+  return tx('内容全屏', 'Content Only')
+}
+
+const getLayoutOptionDesc = (key: LayoutMode) => {
+  if (key === 'vertical') return tx('经典左侧导航', 'Classic left sidebar')
+  if (key === 'double-column') return tx('双列组合布局', 'Two-column mixed layout')
+  if (key === 'horizontal') return tx('顶部菜单布局', 'Top menu layout')
+  if (key === 'mixed-nav') return tx('侧边 + 顶部', 'Sidebar + top navigation')
+  if (key === 'mixed-column') return tx('双列混合布局', 'Mixed double-column layout')
+  return tx('隐藏侧栏区域', 'Hide sidebar region')
+}
+
+const getTransitionOptionTitle = (key: TransitionPreset) => {
+  if (key === 'fade') return tx('淡入', 'Fade')
+  if (key === 'slide') return tx('滑动', 'Slide')
+  if (key === 'zoom') return tx('缩放', 'Zoom')
+  return tx('无动画', 'None')
+}
 
 const layoutStyle = computed(() => {
+  const shouldShowAside = appStore.showSidebar && !['content-only', 'horizontal'].includes(appStore.layoutMode) && !isContentFullscreen.value
+  const asideWidth = shouldShowAside ? (effectiveSidebarCollapsed.value ? '72px' : '240px') : '0px'
   return {
-    '--admin-aside-width': appStore.sidebarCollapsed ? '72px' : '240px'
+    '--admin-aside-width': asideWidth,
+    '--admin-primary-color': appStore.primaryColor,
+    '--admin-font-size': `${appStore.fontSize}px`,
+    '--admin-radius-scale': String(appStore.radiusScale),
+    '--admin-content-max-width': appStore.contentWidth === 'fixed' ? '1200px' : '100%'
   }
 })
 
+const effectiveSidebarCollapsed = computed(() => {
+  if (!appStore.collapseMenu) return false
+  if (isAsideHoverExpanded.value && appStore.sidebarFixedWhenHover) return false
+  if (appStore.showMixedChildMenu) return false
+  return appStore.sidebarCollapsed
+})
+
+const topProgress = computed(() => {
+  return Math.max(refreshProgress.value, routeProgress.value)
+})
+
+const shouldShowTopProgress = computed(() => {
+  return topProgress.value > 0
+})
+
+const watermarkStyle = computed(() => {
+  const title = appStore.language === 'en-US' ? 'AMU ADMIN' : '阿木后台'
+  const stamp = new Date().toLocaleDateString()
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='220' height='140'><g transform='rotate(-18 110 70)'><text x='18' y='68' fill='rgba(120,120,120,0.14)' font-size='16' font-family='sans-serif'>${title}</text><text x='18' y='96' fill='rgba(120,120,120,0.11)' font-size='12' font-family='sans-serif'>${stamp}</text></g></svg>`
+  return {
+    backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svg)}")`
+  }
+})
+
+const shouldShowMenuToggle = computed(() => {
+  return appStore.collapseMenu && appStore.showCollapseButton && appStore.showSidebar && appStore.layoutMode !== 'content-only'
+})
+
+const shouldShowSearchShortcutTip = computed(() => {
+  return appStore.enableShortcut && appStore.enableSearchShortcut
+})
+
+const updateLockTime = () => {
+  const now = new Date()
+  const hour = String(now.getHours()).padStart(2, '0')
+  const minute = String(now.getMinutes()).padStart(2, '0')
+  const second = String(now.getSeconds()).padStart(2, '0')
+  lockTimeText.value = `${hour}:${minute}:${second}`
+}
+
+const findFirstLeafPath = (nodes: MenuNode[]): string | null => {
+  for (const node of nodes) {
+    if (node.children?.length) {
+      const childPath = findFirstLeafPath(node.children)
+      if (childPath) return childPath
+      continue
+    }
+    return node.key
+  }
+  return null
+}
+
+const flattenMenuNodes = (nodes: MenuNode[]): MenuNode[] => {
+  return nodes.flatMap((node) => {
+    if (!node.children?.length) return [node]
+    return flattenMenuNodes(node.children)
+  })
+}
+
+const selectPrimaryColor = (color: string) => {
+  appStore.primaryColor = color
+}
+
+const setRadiusScale = (radius: number) => {
+  appStore.radiusScale = radius
+}
+
+const handleDecreaseFontSize = () => {
+  appStore.fontSize = Math.max(12, appStore.fontSize - 1)
+}
+
+const handleIncreaseFontSize = () => {
+  appStore.fontSize = Math.min(20, appStore.fontSize + 1)
+}
+
+const openSettingsDrawer = () => {
+  settingsDrawerVisible.value = true
+}
+
+const handleToggleDark = () => {
+  appStore.toggleDark()
+}
+
+const toggleLanguage = () => {
+  appStore.language = appStore.language === 'zh-CN' ? 'en-US' : 'zh-CN'
+}
+
+const routeTitleEnMap: Record<string, string> = {
+  登录: 'Login',
+  无权限: 'Forbidden',
+  视图: 'View',
+  工作台: 'Workplace',
+  仪表盘: 'Dashboard',
+  系统管理: 'System',
+  用户管理: 'Users',
+  角色管理: 'Roles',
+  鉴权自测: 'Auth Debug',
+  页面不存在: 'Not Found'
+}
+
+const translateRouteTitle = (title: string) => {
+  if (appStore.language === 'zh-CN') return title
+  return routeTitleEnMap[title] || title
+}
+
+const formatVersionTime = (time: number) => {
+  const date = new Date(time)
+  const hour = String(date.getHours()).padStart(2, '0')
+  const minute = String(date.getMinutes()).padStart(2, '0')
+  return `${hour}:${minute}`
+}
+
+const compareVersions = (currentVersion: string, targetVersion: string) => {
+  const current = currentVersion.split('.').map((item) => Number(item) || 0)
+  const target = targetVersion.split('.').map((item) => Number(item) || 0)
+  const maxLen = Math.max(current.length, target.length)
+
+  for (let index = 0; index < maxLen; index += 1) {
+    const cur = current[index] || 0
+    const tar = target[index] || 0
+    if (tar > cur) return 1
+    if (tar < cur) return -1
+  }
+
+  return 0
+}
+
+const updateStatusText = computed(() => {
+  if (updateStatus.value === 'checking') {
+    return tx('正在检查更新...', 'Checking updates...')
+  }
+
+  if (updateStatus.value === 'available') {
+    const checked = lastCheckedAt.value ? formatVersionTime(lastCheckedAt.value) : '--:--'
+    return tx(`发现新版本 ${latestVersion.value}（${checked}）`, `New version ${latestVersion.value} found (${checked})`)
+  }
+
+  if (updateStatus.value === 'latest') {
+    const checked = lastCheckedAt.value ? formatVersionTime(lastCheckedAt.value) : '--:--'
+    return tx(`已是最新版本（${checked}）`, `Already latest (${checked})`)
+  }
+
+  if (updateStatus.value === 'failed') {
+    return tx(`检查失败：${updateError.value || '网络异常'}`, `Check failed: ${updateError.value || 'network error'}`)
+  }
+
+  return tx('开启后将自动检查更新', 'Enable to check updates automatically')
+})
+
+const syncDocumentTitle = () => {
+  if (!appStore.dynamicTitle) {
+    document.title = 'amu-admin'
+    return
+  }
+
+  const rawTitle = typeof route.meta.title === 'string' ? route.meta.title : 'amu-admin'
+  const localizedTitle = appStore.language === 'en-US' ? (routeTitleEnMap[rawTitle] || rawTitle) : rawTitle
+  document.title = `${localizedTitle} - amu-admin`
+}
+
+const handleCopyPreferences = async () => {
+  const text = JSON.stringify(appStore.preferenceSnapshot, null, 2)
+  try {
+    await navigator.clipboard.writeText(text)
+    copyFeedback.value = tx('已复制偏好设置', 'Preferences copied')
+  } catch {
+    copyFeedback.value = tx('复制失败，请检查浏览器权限', 'Copy failed, please check browser permission')
+  }
+
+  window.setTimeout(() => {
+    copyFeedback.value = ''
+  }, 1800)
+}
+
+const clearAutoCheckUpdateTimer = () => {
+  if (autoCheckUpdateTimer === null) return
+  window.clearInterval(autoCheckUpdateTimer)
+  autoCheckUpdateTimer = null
+}
+
+const checkForUpdates = async () => {
+  updateStatus.value = 'checking'
+  updateError.value = ''
+
+  try {
+    const response = await fetch(`/version.json?t=${Date.now()}`)
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`)
+    }
+
+    const payload = (await response.json()) as { version?: unknown }
+    const nextVersion = typeof payload.version === 'string' ? payload.version : APP_VERSION
+    lastCheckedAt.value = Date.now()
+
+    if (compareVersions(APP_VERSION, nextVersion) > 0) {
+      updateStatus.value = 'available'
+      latestVersion.value = nextVersion
+      return
+    }
+
+    if (compareVersions(APP_VERSION, nextVersion) < 0) {
+      updateStatus.value = 'latest'
+      latestVersion.value = APP_VERSION
+      return
+    }
+
+    updateStatus.value = 'latest'
+    latestVersion.value = nextVersion
+  } catch (error) {
+    updateStatus.value = 'failed'
+    updateError.value = error instanceof Error ? error.message : 'unknown'
+  }
+}
+
+const startAutoCheckUpdates = () => {
+  clearAutoCheckUpdateTimer()
+  void checkForUpdates()
+  autoCheckUpdateTimer = window.setInterval(() => {
+    void checkForUpdates()
+  }, 3 * 60 * 1000)
+}
+
+const handleResetAndLogout = () => {
+  appStore.resetPreferences()
+  appStore.clearPreferenceStorage()
+  handleLogout()
+}
+
+const handleAsideMouseEnter = () => {
+  if (!appStore.sidebarFixedWhenHover) return
+  if (!appStore.sidebarCollapsed || !appStore.collapseMenu) return
+  isAsideHoverExpanded.value = true
+}
+
+const handleAsideMouseLeave = () => {
+  if (!appStore.sidebarFixedWhenHover) return
+  isAsideHoverExpanded.value = false
+}
+
+const handleGlobalSearch = () => {
+  const keyword = window.prompt(tx('请输入页面关键字', 'Please input page keyword'))
+  if (!keyword) return
+
+  const normalized = keyword.trim().toLowerCase()
+  if (!normalized) return
+
+  const candidates = flattenMenuNodes(permissionStore.menuTree)
+  const target = candidates.find((item) => {
+    const titleMatched = item.title.toLowerCase().includes(normalized)
+    const pathMatched = item.key.toLowerCase().includes(normalized)
+    return titleMatched || pathMatched
+  })
+
+  if (!target) {
+    window.alert(tx('未找到匹配页面', 'No page matched'))
+    return
+  }
+
+  router.push(target.key)
+}
+
+const handleLockScreen = () => {
+  isScreenLocked.value = true
+  updateLockTime()
+  if (lockClockTimer !== null) window.clearInterval(lockClockTimer)
+  lockClockTimer = window.setInterval(updateLockTime, 1000)
+}
+
+const handleUnlockScreen = () => {
+  isScreenLocked.value = false
+  if (lockClockTimer === null) return
+  window.clearInterval(lockClockTimer)
+  lockClockTimer = null
+}
+
+const menuIconMap: Record<string, Component> = {
+  '/workplace': IconMonitor,
+  '/dashboard': IconBarChart,
+  '/system': IconFolder,
+  '/system/users': IconUser,
+  '/system/roles': IconUsers,
+  '/system/auth-debug': IconShield
+}
+
 const resolveMenuIcon = (key: string) => {
-    if (key === '/workplace') return IconMonitor
-  if (key === '/system') return IconFolder
-  if (key === '/system/users') return IconUser
-  if (key === '/system/roles') return IconUsers
-  if (key === '/system/auth-debug') return IconShield
+  if (key in menuIconMap) return menuIconMap[key]
   if (key.includes('analysis')) return IconBarChart
   return IconFolder
 }
@@ -331,6 +1046,30 @@ watch(
       closable: route.path !== '/dashboard',
       keepAlive: Boolean(route.meta.keepAlive)
     })
+  },
+  { immediate: true }
+)
+
+watch(
+  [() => route.fullPath, () => appStore.dynamicTitle, () => appStore.language],
+  () => {
+    syncDocumentTitle()
+  },
+  { immediate: true }
+)
+
+watch(
+  () => appStore.autoCheckUpdates,
+  (enabled) => {
+    if (!enabled) {
+      clearAutoCheckUpdateTimer()
+      if (updateStatus.value === 'checking') {
+        updateStatus.value = 'idle'
+      }
+      return
+    }
+
+    startAutoCheckUpdates()
   },
   { immediate: true }
 )
@@ -388,12 +1127,41 @@ const draggableTabs = computed({
   }
 })
 
+const viewTransitionName = computed(() => {
+  if (!appStore.pageTransition || appStore.transitionPreset === 'none') return ''
+  if (appStore.transitionPreset === 'fade') return 'fade-transition'
+  if (appStore.transitionPreset === 'zoom') return 'zoom-transition'
+  return 'fade-transform'
+})
+
 const handleOpenKeysChange = (keys: string[]) => {
+  if (appStore.sidebarAccordion && keys.length > 1) {
+    openKeys.value = [keys[keys.length - 1]]
+    return
+  }
   openKeys.value = keys
 }
 
 const handleMenuSelect = (key: string) => {
+  const selectedNode = flattenMenuNodes(permissionStore.menuTree).find((item) => item.key === key)
+  if (appStore.autoActivateFirstMenu && !selectedNode) {
+    const selectedGroup = permissionStore.menuTree.find((item) => item.key === key)
+    if (selectedGroup?.children?.length) {
+      const firstLeaf = findFirstLeafPath(selectedGroup.children)
+      if (firstLeaf) {
+        router.push(firstLeaf)
+        if (appStore.sidebarTriggerByMenu && appStore.collapseMenu) {
+          appStore.sidebarCollapsed = true
+        }
+        return
+      }
+    }
+  }
+
   router.push(key)
+  if (appStore.sidebarTriggerByMenu && appStore.collapseMenu) {
+    appStore.sidebarCollapsed = true
+  }
 }
 
 const resolveBreadcrumbTargetPath = (path: string) => {
@@ -517,6 +1285,113 @@ const handleRefresh = async () => {
   await finishRefreshProgress()
 }
 
+const clearRouteProgressTimer = () => {
+  if (routeProgressTimer === null) return
+  window.clearInterval(routeProgressTimer)
+  routeProgressTimer = null
+}
+
+const startRouteProgress = () => {
+  if (!appStore.pageTransitionProgress) return
+  clearRouteProgressTimer()
+  routeProgress.value = 8
+  routeProgressTimer = window.setInterval(() => {
+    if (routeProgress.value >= 88) return
+    const step = routeProgress.value < 50 ? 8 : 3
+    routeProgress.value = Math.min(88, routeProgress.value + step)
+  }, 90)
+}
+
+const finishRouteProgress = async () => {
+  if (!appStore.pageTransitionProgress) {
+    routeProgress.value = 0
+    return
+  }
+
+  clearRouteProgressTimer()
+  routeProgress.value = 100
+  await new Promise((resolve) => setTimeout(resolve, 150))
+  routeProgress.value = 0
+}
+
+const handleRouteStart = () => {
+  if (route.path === '/login') return
+  if (appStore.pageLoading) {
+    isRouteLoading.value = true
+  }
+  startRouteProgress()
+}
+
+const handleRouteEnd = async () => {
+  await finishRouteProgress()
+  if (!appStore.pageLoading) {
+    isRouteLoading.value = false
+    return
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, 120))
+  isRouteLoading.value = false
+}
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (isScreenLocked.value) {
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      handleUnlockScreen()
+    }
+    return
+  }
+
+  if (!appStore.enableShortcut) return
+  if (route.path === '/login') return
+
+  const key = event.key.toLowerCase()
+  if (event.ctrlKey && key === 'k' && appStore.enableSearchShortcut) {
+    event.preventDefault()
+    handleGlobalSearch()
+    return
+  }
+
+  if (event.altKey && key === 'q' && appStore.enableLogoutShortcut) {
+    event.preventDefault()
+    handleLogout()
+    return
+  }
+
+  if (event.altKey && key === 'l' && appStore.enableLockShortcut) {
+    event.preventDefault()
+    handleLockScreen()
+  }
+}
+
+const routeStartListener = () => {
+  handleRouteStart()
+}
+
+const routeEndListener = () => {
+  void handleRouteEnd()
+}
+
+onMounted(() => {
+  window.addEventListener('amu-admin:route-start', routeStartListener)
+  window.addEventListener('amu-admin:route-end', routeEndListener)
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onBeforeUnmount(() => {
+  clearRefreshProgressTimer()
+  clearRouteProgressTimer()
+  clearAutoCheckUpdateTimer()
+  if (lockClockTimer !== null) {
+    window.clearInterval(lockClockTimer)
+    lockClockTimer = null
+  }
+
+  window.removeEventListener('amu-admin:route-start', routeStartListener)
+  window.removeEventListener('amu-admin:route-end', routeEndListener)
+  window.removeEventListener('keydown', handleKeydown)
+})
+
 const toggleFullscreen = () => {
   isContentFullscreen.value = !isContentFullscreen.value
 }
@@ -531,12 +1406,19 @@ const handleLogout = () => {
 
 <style scoped>
 .admin-layout {
+  --amu-color-primary: var(--admin-primary-color);
+  --amu-radius: calc(8px * var(--admin-radius-scale));
   height: 100vh;
   display: grid;
   grid-template-columns: var(--admin-aside-width) 1fr;
   background: var(--amu-color-bg-fill);
   transition: grid-template-columns 0.24s ease;
   overflow: hidden;
+  font-size: var(--admin-font-size);
+}
+
+.admin-layout--content-only {
+  grid-template-columns: 0 1fr;
 }
 
 .admin-layout--content-fullscreen {
@@ -604,6 +1486,42 @@ const handleLogout = () => {
   transition: opacity 0.2s ease, transform 0.24s ease, border-color 0.2s ease;
 }
 
+.admin-layout--sidebar-dark .admin-layout__aside {
+  background: #0f172a;
+  border-right-color: rgba(255, 255, 255, 0.08);
+}
+
+.admin-layout--sidebar-dark .admin-layout__logo-text,
+.admin-layout--sidebar-dark .admin-layout__aside :deep(.amu-menu-item),
+.admin-layout--sidebar-dark .admin-layout__aside :deep(.amu-sub-menu__title) {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.admin-layout--sidebar-child-dark .admin-layout__aside :deep(.amu-menu) {
+  background-color: var(--amu-color-bg-page);
+}
+
+.admin-layout--sidebar-child-dark.admin-layout--sidebar-dark .admin-layout__aside :deep(.amu-menu) {
+  background-color: #1f1f1f;
+}
+
+.admin-layout--header-dark .admin-layout__header,
+.admin-layout--header-dark .admin-layout__tabs-bar {
+  background: #111827;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.admin-layout--header-dark .admin-layout__header-icon,
+.admin-layout--header-dark .admin-layout__search-text,
+.admin-layout--header-dark .admin-layout__search-icon,
+.admin-layout--header-dark .admin-layout__search-shortcut {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.admin-layout--header-dark .admin-layout__search {
+  background: rgba(255, 255, 255, 0.08);
+}
+
 .admin-layout__aside :deep(.amu-menu--vertical) {
   width: 100%;
   height: 100%;
@@ -661,6 +1579,36 @@ const handleLogout = () => {
   pointer-events: none;
 }
 
+.admin-layout__header-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  padding-left: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--amu-color-text-primary);
+  white-space: nowrap;
+  
+}
+
+.admin-layout__header-logo-img {
+  width: 28px;
+  height: 28px;
+}
+
+.admin-layout__horizontal-menu {
+  flex: 1;
+  border-bottom: none !important;
+  margin-left: 0px !important;
+  height: 100%;
+}
+
+.admin-layout__horizontal-menu :deep(.amu-menu) {
+  border-bottom: none;
+  height: 100%;
+}
+
 .admin-layout__main {
   grid-column: 2;
   grid-row: 1;
@@ -694,6 +1642,7 @@ const handleLogout = () => {
 
 .admin-layout__header-left {
   min-width: 0;
+  flex: 1;
 }
 
 .admin-layout__header-icon {
@@ -730,11 +1679,11 @@ const handleLogout = () => {
 }
 
 .admin-layout__badge--blue {
-  background-color: #1677ff;
+  background-color: var(--amu-color-primary);
 }
 
 .admin-layout__badge--green {
-  background-color: #52c41a;
+  background-color: #22c55e;
   top: auto;
   bottom: 0;
   right: 0;
@@ -878,6 +1827,7 @@ const handleLogout = () => {
   overflow-x: auto;
   scrollbar-width: none;
 }
+
 .admin-layout__tabs::-webkit-scrollbar {
   display: none;
 }
@@ -967,10 +1917,681 @@ const handleLogout = () => {
   position: relative;
 }
 
+.admin-layout__watermark {
+  position: fixed;
+  inset: 0;
+  z-index: 1090;
+  pointer-events: none;
+  background-repeat: repeat;
+}
+
+.admin-layout__lock-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  background: rgba(15, 23, 42, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.admin-layout__lock-card {
+  width: min(320px, 88vw);
+  border-radius: 10px;
+  border: 1px solid var(--amu-color-border-light);
+  background: var(--amu-color-bg-elevated);
+  padding: 20px;
+  display: grid;
+  gap: 10px;
+}
+
+.admin-layout__lock-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--amu-color-text-default);
+}
+
+.admin-layout__lock-time {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--amu-color-primary);
+}
+
+.admin-layout__lock-user {
+  font-size: 13px;
+  color: var(--amu-color-text-secondary);
+}
+
+.admin-layout--fixed-content .admin-layout__view {
+  width: 100%;
+  max-width: var(--admin-content-max-width);
+  margin: 0 auto;
+}
+
+.admin-settings {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  margin: -20px;
+  background-color: var(--amu-color-bg-page);
+}
+
+.admin-settings__header-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.admin-settings__header-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--amu-color-text-primary);
+}
+
+.admin-settings__tabs {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom styled tabs as floating tags */
+.admin-settings__tabs :deep(.amu-tabs__header) {
+  background-color: var(--amu-color-bg-overlay);
+  padding: 16px 16px 0;
+  border-bottom: 2px solid var(--amu-color-border-light);
+  margin-bottom: 0;
+}
+
+.admin-settings__tabs :deep(.amu-tabs__content) {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.admin-settings__tabs :deep(.amu-tabs__nav-wrap) {
+  margin-bottom: -2px;
+}
+
+.admin-settings__tabs :deep(.amu-tabs__nav) {
+  display: flex;
+}
+
+.admin-settings__tabs :deep(.amu-tabs__active-bar) {
+  height: 2px;
+  border-radius: 2px;
+}
+
+.admin-settings__tabs :deep(.amu-tab-item) {
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+  padding: 0;
+  height: 36px;
+  color: var(--amu-color-text-secondary);
+  transition: all 0.3s;
+  font-size: 14px;
+}
+
+.admin-settings__tabs :deep(.amu-tab-item.is-active) {
+  color: var(--amu-color-primary);
+  font-weight: 600;
+}
+
+.admin-settings__tabs :deep(.amu-tabs__content) {
+  max-height: calc(100vh - 160px);
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.admin-settings__section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background-color: var(--amu-color-bg-overlay);
+  border-radius: var(--amu-radius-large);
+  border: 1px solid var(--amu-color-border-light);
+  margin-bottom: 16px;
+}
+
+.admin-settings__section:last-child {
+  margin-bottom: 0;
+}
+
+.admin-settings__section.is-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.admin-settings__label {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--amu-color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-settings__chip-group {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.admin-chip {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  border: 1px solid var(--amu-color-border);
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--amu-color-text-secondary);
+  transition: all 0.2s;
+  font-size: 13px;
+}
+
+.admin-chip:hover {
+  border-color: var(--amu-color-primary-light);
+  color: var(--amu-color-primary);
+}
+
+.admin-chip.is-active {
+  background-color: var(--amu-color-primary);
+  border-color: var(--amu-color-primary);
+  color: #fff;
+  font-weight: 500;
+}
+
+.admin-settings__switch-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-settings__switch-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--amu-color-text-secondary);
+  font-size: 13px;
+}
+
+.admin-settings__switch-item span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hint-icon {
+  color: var(--amu-color-text-placeholder);
+  cursor: help;
+}
+
+.admin-settings__switch-item em {
+  font-style: normal;
+  font-size: 12px;
+  color: var(--amu-color-text-tertiary);
+  margin-left: 8px;
+  background: var(--amu-color-bg-fill);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--amu-color-border-light);
+}
+
+.admin-settings__switch-item--compact {
+  min-height: 28px;
+}
+
+.admin-settings__color-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.admin-settings__color-dot-wrap {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  box-shadow: 0 0 0 1px var(--amu-color-border-light);
+}
+
+.admin-settings__color-dot-wrap:hover {
+  transform: scale(1.1);
+}
+
+.admin-settings__color-dot-wrap.is-active {
+  box-shadow: 0 0 0 2px var(--amu-color-primary) !important;
+}
+
+.admin-settings__color-dot {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.admin-settings__radius-list {
+  display: flex;
+  gap: 12px;
+}
+
+.admin-settings__radius-item {
+  flex: 1;
+  height: 32px;
+  cursor: pointer;
+  border: 1px solid var(--amu-color-border-light);
+  background: var(--amu-color-bg-base);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-settings__radius-item:hover {
+  border-color: var(--amu-color-primary-light);
+  background: var(--amu-color-primary-light-9);
+}
+
+.admin-settings__radius-item.is-active {
+  border-color: var(--amu-color-primary);
+  background-color: var(--amu-color-primary-light-9);
+}
+
+.radius-val {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  border: 2px solid var(--amu-color-text-secondary);
+  border-radius: inherit;
+  /* will be overridden by item radius inherently or conceptually */
+}
+
+.admin-settings__radius-item.is-active .radius-val {
+  border-color: var(--amu-color-primary);
+  background: var(--amu-color-primary);
+}
+
+.admin-settings__font-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-settings__font-preview {
+  width: 48px;
+  text-align: center;
+  color: var(--amu-color-text-primary);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.admin-settings__font-ctrl {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--amu-color-border-light);
+  border-radius: 20px;
+  padding: 0;
+  height: 36px;
+  overflow: hidden;
+}
+
+.admin-settings__step-btn {
+  width: 40px;
+  height: 100%;
+  border: none;
+  background: var(--amu-color-bg-fill);
+  cursor: pointer;
+  color: var(--amu-color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.admin-settings__step-btn:hover {
+  color: var(--amu-color-primary);
+  background-color: var(--amu-color-primary-light-9);
+}
+
+.admin-settings__font-val {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  color: var(--amu-color-text-primary);
+  font-weight: 500;
+}
+
+.admin-settings__layout-item {
+  border: 1px solid var(--amu-color-border-light);
+  background: var(--amu-color-bg-elevated);
+  transition: all 0.2s;
+}
+
+.admin-settings__layout-item.is-active {
+  border-color: var(--amu-color-primary);
+  color: var(--amu-color-primary);
+}
+
+.admin-settings__layout-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.admin-settings__layout-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.admin-settings__layout-item:hover {
+  border-color: var(--amu-color-primary-light);
+}
+
+.admin-settings__layout-skeleton {
+  width: 100%;
+  height: 48px;
+  background-color: var(--amu-color-bg-fill);
+  border-radius: 4px;
+  border: 1px solid var(--amu-color-border-light);
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-settings__layout-skeleton .skeleton-header {
+  position: absolute;
+  background-color: var(--amu-color-bg-elevated);
+}
+
+.admin-settings__layout-skeleton .skeleton-sidebar {
+  position: absolute;
+  background-color: var(--amu-color-bg-overlay);
+}
+
+.admin-settings__layout-skeleton .skeleton-main {
+  position: absolute;
+  background-color: var(--amu-color-bg-page);
+  border-radius: 2px;
+}
+
+/* Vertical layout skeleton */
+.admin-settings__layout-skeleton.is-vertical .skeleton-header {
+  top: 0;
+  left: 20%;
+  right: 0;
+  height: 12px;
+}
+
+.admin-settings__layout-skeleton.is-vertical .skeleton-sidebar {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 20%;
+  z-index: 1;
+}
+
+.admin-settings__layout-skeleton.is-vertical .skeleton-main {
+  top: 16px;
+  left: 25%;
+  right: 4px;
+  bottom: 4px;
+}
+
+/* Horizontal layout skeleton */
+.admin-settings__layout-skeleton.is-horizontal .skeleton-header {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12px;
+}
+
+.admin-settings__layout-skeleton.is-horizontal .skeleton-sidebar {
+  display: none;
+}
+
+.admin-settings__layout-skeleton.is-horizontal .skeleton-main {
+  top: 16px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+}
+
+/* Mixed-nav skeleton */
+.admin-settings__layout-skeleton.is-mixed-nav .skeleton-header {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12px;
+  z-index: 1;
+}
+
+.admin-settings__layout-skeleton.is-mixed-nav .skeleton-sidebar {
+  top: 12px;
+  left: 0;
+  bottom: 0;
+  width: 20%;
+}
+
+.admin-settings__layout-skeleton.is-mixed-nav .skeleton-main {
+  top: 16px;
+  left: 25%;
+  right: 4px;
+  bottom: 4px;
+}
+
+/* Mixed-column skeleton */
+.admin-settings__layout-skeleton.is-mixed-column .skeleton-header {
+  top: 0;
+  left: 10%;
+  right: 0;
+  height: 12px;
+}
+
+.admin-settings__layout-skeleton.is-mixed-column .skeleton-sidebar {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 10%;
+  z-index: 1;
+  border-right: 1px solid var(--amu-color-border-light);
+}
+
+.admin-settings__layout-skeleton.is-mixed-column::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  bottom: 0;
+  width: 15%;
+  background: var(--amu-color-bg-overlay);
+}
+
+.admin-settings__layout-skeleton.is-mixed-column .skeleton-main {
+  top: 16px;
+  left: 30%;
+  right: 4px;
+  bottom: 4px;
+}
+
+/* Double-column skeleton */
+.admin-settings__layout-skeleton.is-double-column .skeleton-header {
+  top: 0;
+  left: 25%;
+  right: 0;
+  height: 12px;
+}
+
+.admin-settings__layout-skeleton.is-double-column .skeleton-sidebar {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 10%;
+  z-index: 2;
+}
+
+.admin-settings__layout-skeleton.is-double-column::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  bottom: 0;
+  width: 15%;
+  background: var(--amu-color-bg-overlay);
+  z-index: 1;
+}
+
+.admin-settings__layout-skeleton.is-double-column .skeleton-main {
+  top: 16px;
+  left: 30%;
+  right: 4px;
+  bottom: 4px;
+}
+
+/* Content-only skeleton */
+.admin-settings__layout-skeleton.is-content-only .skeleton-header {
+  display: none;
+}
+
+.admin-settings__layout-skeleton.is-content-only .skeleton-sidebar {
+  display: none;
+}
+
+.admin-settings__layout-skeleton.is-content-only .skeleton-main {
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+}
+
+.admin-settings__layout-item.is-active .admin-settings__layout-skeleton {
+  border-color: var(--amu-color-primary);
+}
+
+.admin-settings__layout-item.is-active .admin-settings__layout-skeleton .skeleton-main {
+  background-color: var(--amu-color-primary-light-8);
+}
+
+.admin-settings__layout-title {
+  font-size: 12px;
+  color: var(--amu-color-text-regular);
+}
+
+.admin-settings__layout-item.is-active .admin-settings__layout-title {
+  color: var(--amu-color-primary);
+  font-weight: 500;
+}
+
+.admin-settings__footer {
+  margin-top: auto;
+  padding: 16px;
+  background-color: var(--amu-color-bg-overlay);
+  border-top: 1px solid var(--amu-color-border-light);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.admin-btn-action {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.admin-btn-action.is-primary {
+  background: var(--amu-color-primary);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(var(--amu-color-primary-rgb), 0.3);
+}
+
+.admin-btn-action.is-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.admin-btn-action.is-danger {
+  background: var(--amu-color-danger-light-9);
+  color: var(--amu-color-danger);
+  border-color: var(--amu-color-danger-light-5);
+}
+
+.admin-btn-action.is-danger:hover {
+  background: var(--amu-color-danger);
+  color: #fff;
+}
+
+.admin-settings__feedback {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--amu-color-success);
+}
+
+.admin-settings__hint {
+  margin: -4px 0 12px;
+  font-size: 12px;
+  color: var(--amu-color-text-tertiary);
+}
+
 /* 页面切换动画 */
 :deep(.fade-transform-leave-active),
 :deep(.fade-transform-enter-active) {
   transition: all 0.4s;
+}
+
+:deep(.fade-transition-leave-active),
+:deep(.fade-transition-enter-active) {
+  transition: opacity 0.24s ease;
+}
+
+:deep(.fade-transition-enter-from),
+:deep(.fade-transition-leave-to) {
+  opacity: 0;
+}
+
+:deep(.zoom-transition-leave-active),
+:deep(.zoom-transition-enter-active) {
+  transition: all 0.24s ease;
+}
+
+:deep(.zoom-transition-enter-from),
+:deep(.zoom-transition-leave-to) {
+  opacity: 0;
+  transform: scale(0.96);
 }
 
 :deep(.fade-transform-enter-from) {
@@ -992,5 +2613,4 @@ const handleLogout = () => {
     transform: rotate(360deg);
   }
 }
-
 </style>
