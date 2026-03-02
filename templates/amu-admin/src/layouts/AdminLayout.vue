@@ -1,17 +1,17 @@
 <template>
   <div class="admin-layout" :class="{
     'admin-layout--content-fullscreen': isContentFullscreen,
-    'admin-layout--sidebar-dark': appStore.sidebarDark,
-    'admin-layout--sidebar-child-dark': appStore.sidebarChildDark,
-    'admin-layout--header-dark': appStore.headerDark,
+    'admin-layout--sidebar-dark': appStore.isDark ? false : appStore.sidebarDark,
+    'admin-layout--sidebar-child-dark': appStore.isDark ? false : appStore.sidebarChildDark,
+    'admin-layout--header-dark': appStore.isDark ? false : appStore.headerDark,
     'admin-layout--content-only': !appStore.showSidebar || appStore.layoutMode === 'content-only',
     'admin-layout--fixed-content': appStore.contentWidth === 'fixed'
   }" :data-amu-theme="appStore.isDark ? 'dark' : undefined" :style="layoutStyle">
     <div v-if="shouldShowTopProgress" class="admin-layout__top-progress" :style="{ width: `${topProgress}%` }"></div>
     <aside v-if="appStore.showSidebar && appStore.layoutMode !== 'content-only'" class="admin-layout__aside"
       :class="{ 'is-collapsed': effectiveSidebarCollapsed }" @mouseenter="handleAsideMouseEnter"
-      @mouseleave="handleAsideMouseLeave">
-      <AmuMenu mode="vertical" trigger="click" :show-collapse-button="false" :collapsed="effectiveSidebarCollapsed"
+      @mouseleave="handleAsideMouseLeave" :data-amu-theme="(appStore.isDark || appStore.sidebarDark) ? 'dark' : undefined">
+      <AmuMenu mode="vertical" :theme="(appStore.isDark || appStore.sidebarDark) ? 'dark' : 'light'" trigger="click" :show-collapse-button="false" :collapsed="effectiveSidebarCollapsed"
         @update:collapsed="handleCollapsedChange" :selected-keys="[activeKey]" :open-keys="openKeys"
         @update:open-keys="handleOpenKeysChange" @select="handleMenuSelect">
         <template #logo>
@@ -53,7 +53,7 @@
     </aside>
 
     <main class="admin-layout__main">
-      <header class="admin-layout__header">
+      <header class="admin-layout__header" :data-amu-theme="(appStore.isDark || appStore.headerDark) ? 'dark' : undefined">
         <div class="admin-layout__header-left">
           <div v-if="appStore.layoutMode === 'horizontal'" class="admin-layout__header-logo">
             <div class="admin-layout__logo-mark">
@@ -167,7 +167,7 @@
       </header>
 
       <section class="admin-layout__content">
-        <div class="admin-layout__tabs-bar">
+        <div class="admin-layout__tabs-bar" :data-amu-theme="(appStore.isDark || appStore.headerDark) ? 'dark' : undefined">
           <Draggable v-model="draggableTabs" item-key="path" class="admin-layout__tabs" :animation="200"
             ghost-class="admin-layout__tab-ghost" chosen-class="admin-layout__tab-chosen"
             drag-class="admin-layout__tab-drag">
@@ -562,6 +562,66 @@
         </div>
       </div>
     </AmuDrawer>
+
+    <AmuDialog
+      v-model="searchVisible"
+      :width="600"
+      type="custom"
+      :class="'admin-search-dialog'"
+    >
+      <template #header>
+        <span style="display: none;"></span>
+      </template>
+      <div class="admin-search">
+        <div class="admin-search__input-wrapper">
+          <AmuInput
+            ref="searchInputRef"
+            v-model="searchKeyword"
+            :placeholder="tx('搜索页面...', 'Search pages...')"
+            clearable
+            size="large"
+            @keydown="handleSearchKeydown"
+          >
+            <template #prefix>
+              <AmuIcon><IconSearch /></AmuIcon>
+            </template>
+          </AmuInput>
+        </div>
+        <div class="admin-search__result">
+          <AmuScrollbar height="340px">
+            <template v-if="searchResult.length > 0">
+              <div
+                v-for="(item, index) in searchResult"
+                :key="item.key"
+                class="admin-search__item"
+                :class="{ 'is-active': index === searchSelectedIndex }"
+                @click="handleSearchSelect(item)"
+                @mouseenter="searchSelectedIndex = index"
+              >
+                <div class="admin-search__item-icon">
+                  <AmuIcon><IconFolder /></AmuIcon>
+                </div>
+                <div class="admin-search__item-info">
+                  <div class="admin-search__item-title">{{ item.title }}</div>
+                  <div class="admin-search__item-path">{{ item.key }}</div>
+                </div>
+                <div class="admin-search__item-enter">
+                  <AmuIcon><IconArrowRight /></AmuIcon>
+                </div>
+              </div>
+            </template>
+            <div v-else-if="searchKeyword.trim()" class="admin-search__empty">
+              <AmuIcon style="font-size: 48px; color: var(--amu-color-text-tertiary); margin-bottom: 16px"><IconSearch /></AmuIcon>
+              <div>{{ tx('暂无匹配结果', 'No matching results') }}</div>
+            </div>
+            <div v-else class="admin-search__empty">
+              <AmuIcon style="font-size: 48px; color: var(--amu-color-text-tertiary); margin-bottom: 16px"><IconSearch /></AmuIcon>
+              <div>{{ tx('输入页面名称或路径进行搜索', 'Enter page name or path to search') }}</div>
+            </div>
+          </AmuScrollbar>
+        </div>
+      </div>
+    </AmuDialog>
   </div>
 </template>
 
@@ -578,6 +638,8 @@ import { AmuSwitch } from 'amu-ui/switch'
 import { AmuRadioGroup, AmuRadioButton } from 'amu-ui/radio'
 import { AmuSelect, AmuOption } from 'amu-ui/select'
 import { AmuButton } from 'amu-ui/button'
+import { AmuDialog } from 'amu-ui/dialog'
+import { AmuInput } from 'amu-ui/input'
 import { AmuLoading } from 'amu-ui/loading'
 import {
   IconMenu,
@@ -966,26 +1028,67 @@ const handleAsideMouseLeave = () => {
   isAsideHoverExpanded.value = false
 }
 
-const handleGlobalSearch = () => {
-  const keyword = window.prompt(tx('请输入页面关键字', 'Please input page keyword'))
-  if (!keyword) return
+const searchVisible = ref(false)
+const searchKeyword = ref('')
+const searchSelectedIndex = ref(0)
+const searchInputRef = ref<any>(null)
 
-  const normalized = keyword.trim().toLowerCase()
-  if (!normalized) return
-
+const searchResult = computed(() => {
+  if (!searchKeyword.value.trim()) return []
+  const normalized = searchKeyword.value.trim().toLowerCase()
   const candidates = flattenMenuNodes(permissionStore.menuTree)
-  const target = candidates.find((item) => {
+  return candidates.filter((item) => {
     const titleMatched = item.title.toLowerCase().includes(normalized)
     const pathMatched = item.key.toLowerCase().includes(normalized)
     return titleMatched || pathMatched
   })
+})
 
-  if (!target) {
-    window.alert(tx('未找到匹配页面', 'No page matched'))
-    return
+watch(searchKeyword, () => {
+  searchSelectedIndex.value = 0
+})
+
+const handleSearchSelect = (item: any) => {
+  router.push(item.key)
+  searchVisible.value = false
+}
+
+const handleSearchKeydown = (e: KeyboardEvent) => {
+  if (e.key === 'ArrowDown') {
+    e.preventDefault()
+    if (searchSelectedIndex.value < searchResult.value.length - 1) {
+      searchSelectedIndex.value++
+    } else {
+      searchSelectedIndex.value = 0
+    }
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault()
+    if (searchSelectedIndex.value > 0) {
+      searchSelectedIndex.value--
+    } else {
+      searchSelectedIndex.value = searchResult.value.length - 1
+    }
+  } else if (e.key === 'Enter') {
+    e.preventDefault()
+    if (searchResult.value.length > 0) {
+      handleSearchSelect(searchResult.value[searchSelectedIndex.value])
+    }
   }
+}
 
-  router.push(target.key)
+const handleGlobalSearch = () => {
+  searchVisible.value = true
+  searchKeyword.value = ''
+  searchSelectedIndex.value = 0
+  nextTick(() => {
+    setTimeout(() => {
+      searchInputRef.value?.focus?.()
+      const inputEl = document.querySelector('.admin-search-dialog .amu-input__inner') as HTMLInputElement
+      if (inputEl) {
+        inputEl.focus()
+      }
+    }, 100)
+  })
 }
 
 const handleLockScreen = () => {
@@ -1491,6 +1594,11 @@ const handleLogout = () => {
   border-right-color: rgba(255, 255, 255, 0.08);
 }
 
+.admin-layout--sidebar-dark .admin-layout__aside :deep(.amu-menu) {
+  background-color: transparent;
+  --amu-menu-hover-bg: rgba(255, 255, 255, 0.08); /* 适配深色侧边栏的 hover 颜色 */
+}
+
 .admin-layout--sidebar-dark .admin-layout__logo-text,
 .admin-layout--sidebar-dark .admin-layout__aside :deep(.amu-menu-item),
 .admin-layout--sidebar-dark .admin-layout__aside :deep(.amu-sub-menu__title) {
@@ -1511,11 +1619,27 @@ const handleLogout = () => {
   border-color: rgba(255, 255, 255, 0.08);
 }
 
+.admin-layout--header-dark .admin-layout__header :deep(.amu-menu) {
+  background-color: transparent;
+  --amu-menu-hover-bg: rgba(255, 255, 255, 0.08);
+}
+
 .admin-layout--header-dark .admin-layout__header-icon,
 .admin-layout--header-dark .admin-layout__search-text,
 .admin-layout--header-dark .admin-layout__search-icon,
-.admin-layout--header-dark .admin-layout__search-shortcut {
+.admin-layout--header-dark .admin-layout__search-shortcut,
+.admin-layout--header-dark .admin-layout__tabs-extra-btn {
   color: rgba(255, 255, 255, 0.82);
+}
+
+.admin-layout--header-dark .admin-layout__tabs-extra-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08); /* 适配深色顶栏的hover色 */
+}
+
+/* 适配深色顶栏下的标签颜色：使用半透明叠加使其融入深蓝色背景，避免默认的黑灰色突兀 */
+.admin-layout--header-dark .admin-layout__tabs :deep(.amu-tag--default) {
+  --amu-tag-bg-color: rgba(255, 255, 255, 0.08);
+  --amu-tag-text-color: rgba(255, 255, 255, 0.82);
 }
 
 .admin-layout--header-dark .admin-layout__search {
@@ -2204,22 +2328,26 @@ const handleLogout = () => {
 }
 
 .admin-settings__radius-item:hover {
-  border-color: var(--amu-color-primary-light);
-  background: var(--amu-color-primary-light-9);
+  border-color: var(--amu-color-primary);
+  background: var(--amu-color-bg-fill);
 }
 
 .admin-settings__radius-item.is-active {
   border-color: var(--amu-color-primary);
-  background-color: var(--amu-color-primary-light-9);
+  background: var(--amu-color-bg-selected);
 }
 
 .radius-val {
   width: 14px;
   height: 14px;
   display: inline-block;
-  border: 2px solid var(--amu-color-text-secondary);
+  border: 2px solid var(--amu-color-text-description);
   border-radius: inherit;
-  /* will be overridden by item radius inherently or conceptually */
+  transition: all 0.2s;
+}
+
+.admin-settings__radius-item:hover .radius-val {
+  border-color: var(--amu-color-primary);
 }
 
 .admin-settings__radius-item.is-active .radius-val {
@@ -2257,7 +2385,7 @@ const handleLogout = () => {
   width: 40px;
   height: 100%;
   border: none;
-  background: var(--amu-color-bg-fill);
+  background: transparent;
   cursor: pointer;
   color: var(--amu-color-text-secondary);
   display: flex;
@@ -2269,7 +2397,7 @@ const handleLogout = () => {
 
 .admin-settings__step-btn:hover {
   color: var(--amu-color-primary);
-  background-color: var(--amu-color-primary-light-9);
+  background-color: var(--amu-color-bg-fill);
 }
 
 .admin-settings__font-val {
@@ -2613,4 +2741,126 @@ const handleLogout = () => {
     transform: rotate(360deg);
   }
 }
+
+.admin-search {
+  display: flex;
+  flex-direction: column;
+}
+.admin-search__input-wrapper {
+  padding: 16px;
+  border-bottom: 1px solid var(--amu-color-border-light);
+}
+.admin-search__input-wrapper .amu-input {
+  --amu-input-border-color: transparent;
+  --amu-input-hover-border-color: transparent;
+  --amu-input-focus-border-color: transparent;
+  --amu-input-bg-color: var(--amu-color-bg-fill);
+  border-radius: 8px;
+  font-size: 16px;
+}
+.admin-search__input-wrapper .amu-input__inner {
+  height: 48px;
+  padding-left: 12px;
+}
+
+.admin-search__result {
+  padding: 8px;
+  background: var(--amu-color-bg-elevated);
+}
+
+.admin-search__item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--amu-color-text);
+}
+
+.admin-search__item:hover,
+.admin-search__item.is-active {
+  background: var(--amu-color-bg-fill);
+  color: var(--amu-color-primary);
+}
+
+[data-amu-theme='dark'] .admin-search__item:hover,
+[data-amu-theme='dark'] .admin-search__item.is-active {
+  background: var(--amu-color-bg-selected);
+}
+
+.admin-search__item-icon {
+  font-size: 20px;
+  color: var(--amu-color-text-tertiary);
+  transition: color 0.2s;
+}
+
+.admin-search__item.is-active .admin-search__item-icon {
+  color: var(--amu-color-primary);
+}
+
+.admin-search__item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-search__item-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: inherit;
+}
+
+.admin-search__item-path {
+  font-size: 12px;
+  color: var(--amu-color-text-tertiary);
+  transition: color 0.2s;
+}
+
+.admin-search__item.is-active .admin-search__item-path {
+  color: inherit;
+  opacity: 0.8;
+}
+
+.admin-search__item-enter {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 0.2s;
+  font-size: 20px;
+  color: var(--amu-color-primary);
+}
+
+.admin-search__item.is-active .admin-search__item-enter {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.admin-search__empty {
+  height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--amu-color-text-secondary);
+  font-size: 14px;
+}
 </style>
+
+<style>
+/* Global Search Dialog Styles */
+.admin-search-dialog .amu-dialog {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--amu-color-bg-elevated);
+  box-shadow: var(--amu-shadow-xl);
+}
+.admin-search-dialog .amu-dialog-header {
+  display: none !important;
+}
+.admin-search-dialog .amu-dialog-body {
+  padding: 0;
+}
+</style>
+

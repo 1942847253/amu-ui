@@ -53,7 +53,7 @@ const DEFAULT_PREFERENCES: AppPreferences = {
   headerDark: false,
   primaryColor: '#1677ff',
   radiusScale: 0.5,
-  fontSize: 16,
+  fontSize: 14,
   layoutMode: 'vertical',
   contentWidth: 'fluid',
   showSidebar: true,
