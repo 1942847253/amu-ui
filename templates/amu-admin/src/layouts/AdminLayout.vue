@@ -151,18 +151,93 @@
               <component :is="isContentFullscreen ? IconMinimize : IconMaximize" />
             </AmuIcon>
           </div>
-          <div class="admin-layout__header-icon admin-layout__header-icon--badge">
-            <AmuIcon>
-              <IconBell />
-            </AmuIcon>
-            <span class="admin-layout__badge admin-layout__badge--blue"></span>
-          </div>
+          <AmuDropdown trigger="click" placement="bottom-end" overlay-class-name="admin-notification-dropdown">
+            <template #trigger>
+              <div class="admin-layout__header-icon admin-layout__header-icon--badge">
+                <AmuIcon>
+                  <IconBell />
+                </AmuIcon>
+                <span class="admin-layout__badge admin-layout__badge--blue" v-if="unreadNotificationsCount > 0"></span>
+              </div>
+            </template>
+            <template #overlay>
+              <div class="admin-notification">
+                <div class="admin-notification__header">
+                  <span class="admin-notification__title">{{ tx('通知', 'Notification') }}</span>
+                  <AmuIcon class="admin-notification__envelope"><IconMail /></AmuIcon>
+                </div>
+                <div class="admin-notification__list">
+                  <AmuScrollbar height="320px">
+                    <div v-for="item in notificationOptions" :key="item.id" class="admin-notification__item" :class="{ 'is-read': item.isRead }">
+                      <div class="admin-notification__avatar" :style="{ background: item.bgColor }">
+                        {{ item.avatarText }}
+                      </div>
+                      <div class="admin-notification__content">
+                        <div class="admin-notification__item-title">{{ item.title }}</div>
+                        <div class="admin-notification__item-desc">{{ item.desc }}</div>
+                        <div class="admin-notification__item-time">{{ item.time }}</div>
+                      </div>
+                      <div class="admin-notification__action">
+                        <AmuIcon v-if="item.actionType === 'close' && !item.isRead" class="action-icon close-icon" @click.stop="handleNotificationAction(item)">
+                          <IconXCircle />
+                        </AmuIcon>
+                        <AmuIcon v-else-if="item.actionType === 'check' && !item.isRead" class="action-icon check-icon" @click.stop="handleNotificationAction(item)">
+                          <IconCheck />
+                        </AmuIcon>
+                        <span v-else class="admin-notification__dot"></span>
+                      </div>
+                    </div>
+                    <div v-if="notificationOptions.every(item => item.isRead)" class="admin-notification__empty">
+                      {{ tx('暂无新通知', 'No new notifications') }}
+                    </div>
+                  </AmuScrollbar>
+                </div>
+                <div class="admin-notification__footer">
+                  <AmuButton type="text" @click="clearNotifications">{{ tx('清空', 'Clear') }}</AmuButton>
+                  <AmuButton type="primary">{{ tx('查看所有消息', 'View All Messages') }}</AmuButton>
+                </div>
+              </div>
+            </template>
+          </AmuDropdown>
 
-          <div class="admin-layout__user-avatar" @click="handleLogout">
-            <img src="https://api.dicebear.com/7.x/micah/svg?seed=Felix" alt="avatar"
-              class="admin-layout__avatar-img" />
-            <span class="admin-layout__badge admin-layout__badge--green"></span>
-          </div>
+          <AmuDropdown trigger="click" placement="bottom-end" overlay-class-name="admin-user-dropdown-panel">
+            <template #trigger>
+              <div class="admin-layout__user-avatar">
+                <img src="https://api.dicebear.com/7.x/micah/svg?seed=Felix" alt="avatar"
+                  class="admin-layout__avatar-img" />
+                <span class="admin-layout__badge admin-layout__badge--green"></span>
+              </div>
+            </template>
+            <template #overlay>
+              <div class="admin-user-menu">
+                <div class="admin-user-menu__header">
+                  <div class="admin-user-menu__avatar-wrap">
+                    <img src="https://api.dicebear.com/7.x/micah/svg?seed=Felix" alt="avatar" class="admin-user-menu__avatar" />
+                    <span class="admin-user-menu__status"></span>
+                  </div>
+                  <div class="admin-user-menu__info">
+                    <div class="admin-user-menu__name">
+                      {{ authStore.user?.username || tx('管理员', 'Admin') }}
+                      <span class="admin-user-menu__tag">Pro</span>
+                    </div>
+                    <div class="admin-user-menu__email">admin@amu-ui.net</div>
+                  </div>
+                </div>
+                <AmuDropdownMenu>
+                  <AmuDropdownItem :icon="IconUser" @click="router.push('/profile')">{{ tx('个人中心', 'Personal Center') }}</AmuDropdownItem>
+                  <AmuDropdownItem :icon="IconBook">{{ tx('开发文档', 'Documentation') }}</AmuDropdownItem>
+                  <AmuDropdownItem :icon="IconGithub">{{ tx('代码仓库', 'GitHub Repo') }}</AmuDropdownItem>
+                  <AmuDropdownItem :icon="IconHelpCircle">{{ tx('帮助与反馈', 'Help & Support') }}</AmuDropdownItem>
+                  <AmuDropdownItem divided :icon="IconLock" @click="handleLockScreen" shortcut="Alt L">
+                    {{ tx('锁定屏幕', 'Lock Screen') }}
+                  </AmuDropdownItem>
+                  <AmuDropdownItem :icon="IconLogOut" @click="handleLogout" shortcut="Alt Q">
+                    {{ tx('退出系统', 'Log Out') }}
+                  </AmuDropdownItem>
+                </AmuDropdownMenu>
+              </div>
+            </template>
+          </AmuDropdown>
         </div>
       </header>
 
@@ -671,7 +746,12 @@ import {
   IconChevronDown,
   IconCheck,
   IconHelpCircle,
-  IconCopy
+  IconCopy,
+  IconMail,
+  IconBook,
+  IconGithub,
+  IconLock,
+  IconLogOut
 } from '@amu-ui/icons'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type Component } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -704,6 +784,61 @@ const refreshViewKey = ref(0)
 const refreshingCacheName = ref<string | null>(null)
 const isAsideHoverExpanded = ref(false)
 const isScreenLocked = ref(false)
+
+const notificationOptions = ref([
+  {
+    id: 1,
+    bgColor: 'linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)',
+    avatarText: 'Sys',
+    title: '系统安全运行报告',
+    desc: '系统已经连续无故障运行超过 30 天，各项指标正常。',
+    time: '10分钟前',
+    actionType: 'close',
+    isRead: false
+  },
+  {
+    id: 2,
+    bgColor: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)',
+    avatarText: '审',
+    title: '有新的费用报销单待审批',
+    desc: '研发部李四提交了差旅费报销单件，请及时处理以免逾期。',
+    time: '45分钟前',
+    actionType: 'check',
+    isRead: false
+  },
+  {
+    id: 3,
+    bgColor: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+    avatarText: '群',
+    title: '后台管理系统更新公告',
+    desc: 'v2.1.0 版本已成功发布，新增了图表大屏和主题切换功能。',
+    time: '2小时前',
+    actionType: 'check',
+    isRead: false
+  },
+  {
+    id: 4,
+    bgColor: 'linear-gradient(135deg, #ec4899 0%, #e11d48 100%)',
+    avatarText: '安',
+    title: '异地登录拦截提醒',
+    desc: '检测到您的账号存在异常登录尝试，已自动开启安全保护。',
+    time: '昨天',
+    actionType: 'check',
+    isRead: false
+  }
+])
+
+const unreadNotificationsCount = computed(() => {
+  return notificationOptions.value.filter(item => !item.isRead).length
+})
+
+const handleNotificationAction = (item: any) => {
+  item.isRead = true
+}
+
+const clearNotifications = () => {
+  notificationOptions.value.forEach(item => item.isRead = true)
+}
 const lockTimeText = ref('')
 const updateStatus = ref<'idle' | 'checking' | 'latest' | 'available' | 'failed'>('idle')
 const latestVersion = ref('')
@@ -886,6 +1021,7 @@ const routeTitleEnMap: Record<string, string> = {
   用户管理: 'Users',
   角色管理: 'Roles',
   鉴权自测: 'Auth Debug',
+  个人中心: 'Personal Center',
   页面不存在: 'Not Found'
 }
 
@@ -2861,6 +2997,260 @@ const handleLogout = () => {
 }
 .admin-search-dialog .amu-dialog-body {
   padding: 0;
+}
+
+/* Notification Dropdown Styles */
+.admin-notification-dropdown {
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--amu-color-border-light);
+  background: var(--amu-color-bg-elevated);
+}
+
+.admin-notification {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-notification__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--amu-color-border-light);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--amu-color-text-primary);
+}
+
+.admin-notification__envelope {
+  color: var(--amu-color-text-secondary);
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.admin-notification__envelope:hover {
+  color: var(--amu-color-primary);
+}
+
+.admin-notification__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-notification__empty {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--amu-color-text-secondary);
+  font-size: 14px;
+}
+
+.admin-notification__item {
+  display: flex;
+  padding: 16px;
+  border-bottom: 1px solid var(--amu-color-border-light);
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.admin-notification__item:hover {
+  background-color: var(--amu-color-bg-fill);
+}
+
+.admin-notification__item.is-read {
+  opacity: 0.6;
+}
+
+.admin-notification__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.admin-notification__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-notification__item-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--amu-color-text-primary);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-notification__item-desc {
+  font-size: 13px;
+  color: var(--amu-color-text-secondary);
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.admin-notification__item-time {
+  font-size: 12px;
+  color: var(--amu-color-text-secondary);
+}
+
+.admin-notification__action {
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 2px;
+}
+
+.action-icon {
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 2px;
+  transition: all 0.2s;
+}
+
+.close-icon {
+  color: var(--amu-color-status-danger);
+}
+.close-icon:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.check-icon {
+  color: var(--amu-color-text-primary);
+}
+.check-icon:hover {
+  background-color: var(--amu-color-bg-fill);
+}
+
+.admin-notification__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--amu-color-primary);
+  margin-top: 6px;
+}
+
+.admin-notification__item.is-read .admin-notification__dot {
+  background-color: transparent;
+}
+
+.admin-notification__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-top: 1px solid var(--amu-color-border-light);
+  background-color: var(--amu-color-bg-fill);
+}
+
+/* User Dropdown Styles */
+.admin-user-dropdown-panel {
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 200px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.admin-user-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-user-menu__header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--amu-color-border-light);
+  background-color: var(--amu-color-bg-base);
+}
+
+.admin-user-menu__avatar-wrap {
+  position: relative;
+  margin-right: 12px;
+}
+
+.admin-user-menu__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--amu-color-bg-fill);
+  object-fit: cover;
+  border: 1px solid var(--amu-color-border-light);
+}
+
+.admin-user-menu__status {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--amu-color-status-success);
+  border: 2px solid var(--amu-color-bg-elevated);
+}
+
+.admin-user-menu__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.admin-user-menu__name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--amu-color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.admin-user-menu__tag {
+  font-size: 12px;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: normal;
+  transform: scale(0.9);
+}
+
+.admin-user-menu__email {
+  font-size: 12px;
+  color: var(--amu-color-text-secondary);
+  line-height: 1.2;
+}
+
+.admin-user-dropdown-panel .amu-dropdown-menu {
+  padding: 4px 0;
+}
+
+/* Custom override for inner drop items for a compact vibe */
+.admin-user-dropdown-panel .amu-dropdown-item {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+.admin-user-dropdown-panel .amu-dropdown-item__icon {
+  font-size: 16px;
+  margin-right: 10px;
 }
 </style>
 

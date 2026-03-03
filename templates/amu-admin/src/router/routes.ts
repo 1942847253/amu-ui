@@ -49,6 +49,12 @@ export const asyncRoutes: RouteRecordRaw[] = [
     meta: { title: '仪表盘', requiresAuth: true, menu: true, keepAlive: true } satisfies AppRouteMeta
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('../views/ProfileView.vue'),
+    meta: { title: '个人中心', requiresAuth: true, menu: false, keepAlive: true } satisfies AppRouteMeta
+  },
+  {
     path: '/system',
     name: 'System',
     component: RouteView,

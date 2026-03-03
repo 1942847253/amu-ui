@@ -20,6 +20,7 @@ const titleMapEn: Record<string, string> = {
   用户管理: 'Users',
   角色管理: 'Roles',
   鉴权自测: 'Auth Debug',
+  个人中心: 'Personal Center',
   页面不存在: 'Not Found'
 }
 
