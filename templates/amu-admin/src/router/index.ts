@@ -105,6 +105,30 @@ const resolvePermissionRedirect = (to: RouteLocationNormalized) => {
   return null
 }
 
+const resolveFirstLeafPath = (key: string) => {
+  const permissionStore = usePermissionStore()
+  const root = permissionStore.menuTree.find((item) => item.key === key)
+  if (!root?.children?.length) return ''
+
+  const queue = [...root.children]
+  while (queue.length > 0) {
+    const current = queue.shift()
+    if (!current) continue
+    if (!current.children?.length) return current.key
+    queue.unshift(...current.children)
+  }
+
+  return ''
+}
+
+const resolveParentRouteRedirect = (to: RouteLocationNormalized) => {
+  const firstLeaf = resolveFirstLeafPath(to.path)
+  if (!firstLeaf || firstLeaf === to.path) {
+    return null
+  }
+  return { path: firstLeaf, replace: true }
+}
+
 router.beforeEach((to) => {
   window.dispatchEvent(new CustomEvent('amu-admin:route-start', { detail: { to: to.fullPath } }))
 
@@ -128,6 +152,11 @@ router.beforeEach((to) => {
   const permissionRedirect = resolvePermissionRedirect(to)
   if (permissionRedirect) {
     return permissionRedirect
+  }
+
+  const parentRouteRedirect = resolveParentRouteRedirect(to)
+  if (parentRouteRedirect) {
+    return parentRouteRedirect
   }
 
   return true

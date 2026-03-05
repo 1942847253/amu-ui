@@ -48,13 +48,18 @@ const syncDocumentStyles = () => {
   // Create RGB values for shadow and rgba
   const [r, g, b] = hexToRgb(primary)
   root.style.setProperty('--amu-color-primary-rgb', `${r}, ${g}, ${b}`)
+  
+  // Theme Mode
+  if (appStore.isDark) {
+    root.setAttribute('data-amu-theme', 'dark')
+  } else {
+    root.removeAttribute('data-amu-theme')
+  }
 }
 
 watch(
-  () => [appStore.primaryColor, appStore.radiusScale, appStore.fontSize],
-  () => {
-    syncDocumentStyles()
-  },
+  () => [appStore.primaryColor, appStore.radiusScale, appStore.fontSize, appStore.isDark],
+  syncDocumentStyles,
   { deep: true }
 )
 </script>

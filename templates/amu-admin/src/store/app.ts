@@ -24,9 +24,7 @@ export interface AppPreferences {
   contentWidth: ContentWidthMode
   showSidebar: boolean
   sidebarAccordion: boolean
-  sidebarTriggerByMenu: boolean
   collapseMenu: boolean
-  sidebarFixedWhenHover: boolean
   showMixedChildMenu: boolean
   autoActivateFirstMenu: boolean
   showCollapseButton: boolean
@@ -58,9 +56,7 @@ const DEFAULT_PREFERENCES: AppPreferences = {
   contentWidth: 'fluid',
   showSidebar: true,
   sidebarAccordion: true,
-  sidebarTriggerByMenu: true,
-  collapseMenu: false,
-  sidebarFixedWhenHover: true,
+  collapseMenu: true,
   showMixedChildMenu: false,
   autoActivateFirstMenu: false,
   showCollapseButton: true,
@@ -120,9 +116,7 @@ const readPreferences = (): AppPreferences => {
     if (CONTENT_WIDTH_MODES.includes(parsed.contentWidth as ContentWidthMode)) next.contentWidth = parsed.contentWidth as ContentWidthMode
     if (typeof parsed.showSidebar === 'boolean') next.showSidebar = parsed.showSidebar
     if (typeof parsed.sidebarAccordion === 'boolean') next.sidebarAccordion = parsed.sidebarAccordion
-    if (typeof parsed.sidebarTriggerByMenu === 'boolean') next.sidebarTriggerByMenu = parsed.sidebarTriggerByMenu
     if (typeof parsed.collapseMenu === 'boolean') next.collapseMenu = parsed.collapseMenu
-    if (typeof parsed.sidebarFixedWhenHover === 'boolean') next.sidebarFixedWhenHover = parsed.sidebarFixedWhenHover
     if (typeof parsed.showMixedChildMenu === 'boolean') next.showMixedChildMenu = parsed.showMixedChildMenu
     if (typeof parsed.autoActivateFirstMenu === 'boolean') next.autoActivateFirstMenu = parsed.autoActivateFirstMenu
     if (typeof parsed.showCollapseButton === 'boolean') next.showCollapseButton = parsed.showCollapseButton
@@ -170,9 +164,7 @@ export const useAppStore = defineStore('app', () => {
   const contentWidth = ref<ContentWidthMode>(initialPreferences.contentWidth)
   const showSidebar = ref(initialPreferences.showSidebar)
   const sidebarAccordion = ref(initialPreferences.sidebarAccordion)
-  const sidebarTriggerByMenu = ref(initialPreferences.sidebarTriggerByMenu)
   const collapseMenu = ref(initialPreferences.collapseMenu)
-  const sidebarFixedWhenHover = ref(initialPreferences.sidebarFixedWhenHover)
   const showMixedChildMenu = ref(initialPreferences.showMixedChildMenu)
   const autoActivateFirstMenu = ref(initialPreferences.autoActivateFirstMenu)
   const showCollapseButton = ref(initialPreferences.showCollapseButton)
@@ -204,9 +196,7 @@ export const useAppStore = defineStore('app', () => {
       contentWidth: contentWidth.value,
       showSidebar: showSidebar.value,
       sidebarAccordion: sidebarAccordion.value,
-      sidebarTriggerByMenu: sidebarTriggerByMenu.value,
       collapseMenu: collapseMenu.value,
-      sidebarFixedWhenHover: sidebarFixedWhenHover.value,
       showMixedChildMenu: showMixedChildMenu.value,
       autoActivateFirstMenu: autoActivateFirstMenu.value,
       showCollapseButton: showCollapseButton.value,
@@ -254,9 +244,7 @@ export const useAppStore = defineStore('app', () => {
     contentWidth.value = DEFAULT_PREFERENCES.contentWidth
     showSidebar.value = DEFAULT_PREFERENCES.showSidebar
     sidebarAccordion.value = DEFAULT_PREFERENCES.sidebarAccordion
-    sidebarTriggerByMenu.value = DEFAULT_PREFERENCES.sidebarTriggerByMenu
     collapseMenu.value = DEFAULT_PREFERENCES.collapseMenu
-    sidebarFixedWhenHover.value = DEFAULT_PREFERENCES.sidebarFixedWhenHover
     showMixedChildMenu.value = DEFAULT_PREFERENCES.showMixedChildMenu
     autoActivateFirstMenu.value = DEFAULT_PREFERENCES.autoActivateFirstMenu
     showCollapseButton.value = DEFAULT_PREFERENCES.showCollapseButton
@@ -293,9 +281,7 @@ export const useAppStore = defineStore('app', () => {
       contentWidth,
       showSidebar,
       sidebarAccordion,
-      sidebarTriggerByMenu,
       collapseMenu,
-      sidebarFixedWhenHover,
       showMixedChildMenu,
       autoActivateFirstMenu,
       showCollapseButton,
@@ -348,9 +334,7 @@ export const useAppStore = defineStore('app', () => {
     contentWidth,
     showSidebar,
     sidebarAccordion,
-    sidebarTriggerByMenu,
     collapseMenu,
-    sidebarFixedWhenHover,
     showMixedChildMenu,
     autoActivateFirstMenu,
     showCollapseButton,

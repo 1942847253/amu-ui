@@ -5,6 +5,13 @@ import { resolve } from 'node:path'
 
 export default defineConfig({
   plugins: [vue(), vueJsx()],
+  css: {
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true
+      }
+    }
+  },
   resolve: {
     alias: [
       {
