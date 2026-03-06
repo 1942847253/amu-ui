@@ -1,101 +1,14 @@
 import { AmuMessage } from 'amu-ui/message'
 import router from '../router'
 import { useAuthStore } from '../store/auth'
-import { useMockStore } from '../store/mock'
 import { usePermissionStore } from '../store/permission'
 import { useTabsStore } from '../store/tabs'
 import { createHttpTraceId, debugHttp } from '../utils/http-debug'
-import { createTokenPair, parseAccessToken, parseRefreshToken } from '../utils/token'
-import type { TokenPair } from '../utils/token'
-import type { ApiResponse, HttpResponseLike, RequestConfig, ResolvedRequestConfig } from '../utils/request'
+import type { AuthSessionPayload } from '../types/auth'
+import type { RequestConfig } from '../utils/request'
 import { HttpClient, HttpError, RequestCanceledError } from '../utils/request'
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-const normalizePath = (url: string) => {
-  return url.replace(/^https?:\/\/[^/]+/, '')
-}
-
-const mockAdapter = async (config: ResolvedRequestConfig): Promise<HttpResponseLike> => {
-  const mockStore = useMockStore()
-  await delay(mockStore.delayMs)
-
-  const pathname = normalizePath(config.url)
-  const authHeader = config.headers.Authorization
-  const accessToken = typeof authHeader === 'string' ? authHeader.replace(/^Bearer\s+/, '') : ''
-
-  let payload: ApiResponse<unknown>
-
-  if (pathname !== '/api/auth/refresh') {
-    if (mockStore.faultMode === 'timeout') {
-      throw new HttpError('模拟超时：请求超过预期时间', 408)
-    }
-    if (mockStore.faultMode === 'http500') {
-      return {
-        status: 500,
-        json: async <T>() => ({ code: 500, message: '模拟服务端异常', data: null }) as T
-      }
-    }
-    if (mockStore.faultMode === 'bizError') {
-      return {
-        status: 200,
-        json: async <T>() => ({ code: 50011, message: '模拟业务异常', data: null }) as T
-      }
-    }
-  }
-
-  if (pathname === '/api/auth/refresh') {
-    const refreshToken = config.headers['X-Refresh-Token']
-    const parsedRefreshToken = typeof refreshToken === 'string' ? parseRefreshToken(refreshToken) : null
-
-    if (!parsedRefreshToken || parsedRefreshToken.expiresAt <= Date.now()) {
-      payload = {
-        code: 40102,
-        message: 'refreshToken 已失效',
-        data: null
-      }
-    } else {
-      payload = {
-        code: 0,
-        message: 'ok',
-        data: createTokenPair(parsedRefreshToken.role)
-      }
-    }
-  } else if (pathname === '/api/dashboard/overview') {
-    const parsedAccessToken = parseAccessToken(accessToken)
-
-    if (!parsedAccessToken || parsedAccessToken.expiresAt <= Date.now()) {
-      payload = {
-        code: 40101,
-        message: 'accessToken 已过期',
-        data: null
-      }
-    } else {
-      payload = {
-        code: 0,
-        message: 'ok',
-        data: {
-          visits: 12480,
-          pendingTickets: 86,
-          newUsers: 1024
-        }
-      }
-    }
-  } else {
-    payload = {
-      code: 40401,
-      message: '接口不存在',
-      data: null
-    }
-  }
-
-  return {
-    status: 200,
-    json: async <T>() => payload as T
-  }
-}
-
-export const httpClient = new HttpClient(mockAdapter, {
+export const httpClient = new HttpClient(undefined, {
   40101: '登录态失效，正在尝试刷新凭证',
   40102: '刷新凭证失效，请重新登录',
   40401: '接口未定义，请检查路由映射',
@@ -112,21 +25,24 @@ const refreshAccessToken = async (): Promise<string> => {
     debugHttp('开始刷新 accessToken', { traceId: refreshTraceId })
 
     refreshingPromise = httpClient
-      .post<TokenPair>({
+      .post<AuthSessionPayload>({
         url: '/api/auth/refresh',
         requestKey: 'auth-refresh-token',
         headers: {
-          'X-Skip-Refresh': '1',
-          'X-Refresh-Token': authStore.refreshTokenValue || ''
+          'X-Skip-Refresh': '1'
+        },
+        data: {
+          refreshToken: authStore.refreshTokenValue || ''
         },
         retry: 0,
         silentCancel: true
       })
       .then((result) => {
-        authStore.applyRefreshResult(result.accessToken, result.refreshToken, result.expiresAt)
+        const expiresAt = Date.now() + result.expiresIn * 1000
+        authStore.applyRefreshResult(result.accessToken, result.refreshToken, expiresAt)
         debugHttp('刷新 accessToken 成功', {
           traceId: refreshTraceId,
-          expiresAt: result.expiresAt,
+          expiresAt,
           durationMs: Date.now() - refreshStartedAt
         })
         return result.accessToken
@@ -188,7 +104,7 @@ const isAuthError = (error: unknown) => {
 const fallbackToLogin = async () => {
   debugHttp('触发回退登录流程', undefined, 'warn')
   const authStore = useAuthStore()
-  authStore.logout()
+  await authStore.logout()
   usePermissionStore().reset()
   useTabsStore().reset()
   await router.replace('/login')
@@ -253,6 +169,18 @@ export const requestPost = <T = unknown>(config: Omit<RequestConfig, 'method'> &
   const { silentError = false, ...rest } = config
   const requestLabel = `POST:${rest.requestKey || rest.url}`
   return requestWithRetry(() => httpClient.post<T>(rest), true, silentError, requestLabel)
+}
+
+export const requestPut = <T = unknown>(config: Omit<RequestConfig, 'method'> & { silentError?: boolean }) => {
+  const { silentError = false, ...rest } = config
+  const requestLabel = `PUT:${rest.requestKey || rest.url}`
+  return requestWithRetry(() => httpClient.put<T>(rest), true, silentError, requestLabel)
+}
+
+export const requestDelete = <T = unknown>(config: Omit<RequestConfig, 'method'> & { silentError?: boolean }) => {
+  const { silentError = false, ...rest } = config
+  const requestLabel = `DELETE:${rest.requestKey || rest.url}`
+  return requestWithRetry(() => httpClient.delete<T>(rest), true, silentError, requestLabel)
 }
 
 export const cancelRequest = (requestKey: string) => {

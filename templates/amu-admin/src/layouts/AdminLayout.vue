@@ -284,11 +284,11 @@ const handleUnlockScreen = () => {
   lockClockTimer = null
 }
 
-const handleLogout = () => {
-  authStore.logout()
+const handleLogout = async () => {
+  await authStore.logout(true)
   permissionStore.reset()
   tabsStore.reset()
-  router.replace('/login')
+  await router.replace('/login')
 }
 
 const handleRouteStart = () => {

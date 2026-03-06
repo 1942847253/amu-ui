@@ -13,23 +13,9 @@
           <AmuDescriptionsItem label="accessToken">{{ authStore.token || '-' }}</AmuDescriptionsItem>
           <AmuDescriptionsItem label="refreshToken">{{ authStore.refreshTokenValue || '-' }}</AmuDescriptionsItem>
           <AmuDescriptionsItem label="access 剩余秒数">{{ accessRemainSeconds }}</AmuDescriptionsItem>
-          <AmuDescriptionsItem label="模拟延迟(ms)">{{ mockStore.delayMs }}</AmuDescriptionsItem>
-          <AmuDescriptionsItem label="故障模式">{{ mockStore.faultMode }}</AmuDescriptionsItem>
+          <AmuDescriptionsItem label="当前权限数">{{ authStore.permissions.length }}</AmuDescriptionsItem>
+          <AmuDescriptionsItem label="菜单节点数">{{ authStore.menus.length }}</AmuDescriptionsItem>
         </AmuDescriptions>
-
-        <AmuSpace wrap>
-          <AmuButton :type="mockStore.delayMs === 50 ? 'primary' : 'default'" @click="mockStore.setDelay(50)">延迟 50ms</AmuButton>
-          <AmuButton :type="mockStore.delayMs === 800 ? 'primary' : 'default'" @click="mockStore.setDelay(800)">延迟 800ms</AmuButton>
-          <AmuButton :type="mockStore.delayMs === 2000 ? 'primary' : 'default'" @click="mockStore.setDelay(2000)">延迟 2000ms</AmuButton>
-        </AmuSpace>
-
-        <AmuSpace wrap>
-          <AmuButton :type="mockStore.faultMode === 'none' ? 'primary' : 'default'" @click="mockStore.setFaultMode('none')">无故障</AmuButton>
-          <AmuButton :type="mockStore.faultMode === 'timeout' ? 'primary' : 'default'" @click="mockStore.setFaultMode('timeout')">模拟超时</AmuButton>
-          <AmuButton :type="mockStore.faultMode === 'http500' ? 'primary' : 'default'" @click="mockStore.setFaultMode('http500')">模拟 500</AmuButton>
-          <AmuButton :type="mockStore.faultMode === 'bizError' ? 'primary' : 'default'" @click="mockStore.setFaultMode('bizError')">模拟业务异常</AmuButton>
-          <AmuButton @click="resetFaultSettings">恢复默认</AmuButton>
-        </AmuSpace>
 
         <AmuSpace wrap>
           <AmuButton :type="httpDebugEnabled ? 'primary' : 'default'" @click="toggleHttpDebug">
@@ -38,9 +24,9 @@
         </AmuSpace>
 
         <AmuSpace wrap>
-          <AmuButton @click="expireAccessToken">使 accessToken 立即过期</AmuButton>
-          <AmuButton @click="expireRefreshToken">使 refreshToken 立即过期</AmuButton>
-          <AmuButton type="primary" @click="restoreTokenPair">恢复有效 token 对</AmuButton>
+          <AmuButton @click="invalidateAccessToken">写入无效 accessToken</AmuButton>
+          <AmuButton @click="invalidateRefreshToken">写入无效 refreshToken</AmuButton>
+          <AmuButton type="primary" @click="restoreProfile">重新拉取当前会话</AmuButton>
         </AmuSpace>
 
         <AmuSpace wrap>
@@ -71,19 +57,18 @@ import { computed, ref } from 'vue'
 import { AmuSpace } from 'amu-ui/space'
 import { AmuTag } from 'amu-ui/tag'
 import { AmuMessage } from 'amu-ui/message'
+import { loginByPassword } from '../api/auth'
 import { fetchDashboardOverview } from '../api/dashboard'
 import { cancelRequest, requestGet } from '../api/http'
 import { useAuthStore } from '../store/auth'
-import { useMockStore } from '../store/mock'
 import { isHttpDebugEnabled, setHttpDebugEnabled } from '../utils/http-debug'
-import { createAccessToken, createRefreshToken, createTokenPair } from '../utils/token'
+import { DEMO_ACCOUNTS } from '../config/app'
 
 defineOptions({
   name: 'SystemAuthDebug'
 })
 
 const authStore = useAuthStore()
-const mockStore = useMockStore()
 const logs = ref<string[]>([])
 const scriptRunning = ref(false)
 const httpDebugEnabled = ref(isHttpDebugEnabled())
@@ -102,31 +87,24 @@ const accessRemainSeconds = computed(() => {
   return String(Math.max(remain, 0))
 })
 
-const resolveRole = () => authStore.user?.role ?? 'operator'
-
-const createValidPair = () => {
-  const role = resolveRole()
-  return createTokenPair(role)
+const invalidateAccessToken = () => {
+  authStore.setToken('invalid-access-token', Date.now() + 10 * 60 * 1000)
+  appendLog('已写入无效 accessToken')
 }
 
-const expireAccessToken = () => {
-  const role = resolveRole()
-  const expiresAt = Date.now() - 1000
-  authStore.setToken(createAccessToken(role, expiresAt), expiresAt)
-  appendLog('已将 accessToken 设为过期')
+const invalidateRefreshToken = () => {
+  authStore.setRefreshToken('invalid-refresh-token')
+  appendLog('已写入无效 refreshToken')
 }
 
-const expireRefreshToken = () => {
-  const role = resolveRole()
-  authStore.setRefreshToken(createRefreshToken(role, Date.now() - 1000))
-  appendLog('已将 refreshToken 设为过期')
-}
-
-const restoreTokenPair = () => {
-  const next = createValidPair()
-  authStore.setAuthTokens(next.accessToken, next.refreshToken, next.expiresAt)
-  appendLog('已恢复有效 token 对')
-  AmuMessage.success({ message: 'token 已恢复为有效状态' })
+const restoreProfile = async () => {
+  try {
+    await authStore.fetchProfile()
+    appendLog('已重新拉取当前会话资料')
+    AmuMessage.success({ message: '会话信息已刷新' })
+  } catch (error) {
+    appendLog(`拉取会话失败：${(error as Error).message}`)
+  }
 }
 
 const requestOnce = async () => {
@@ -173,11 +151,6 @@ const cancelPending = () => {
   appendLog('已触发取消 debug-cancel 请求')
 }
 
-const resetFaultSettings = () => {
-  mockStore.reset()
-  appendLog('已恢复默认网络与故障配置')
-}
-
 const toggleHttpDebug = () => {
   httpDebugEnabled.value = !httpDebugEnabled.value
   setHttpDebugEnabled(httpDebugEnabled.value)
@@ -188,25 +161,33 @@ const runScriptedReplay = async () => {
   if (scriptRunning.value) return
 
   scriptRunning.value = true
-  appendLog('开始脚本化回放：恢复 token 与网络配置')
+  appendLog('开始脚本化回放：使用真实后端验证刷新链路')
 
   try {
-    mockStore.reset()
-    restoreTokenPair()
+    const preferredAccount = DEMO_ACCOUNTS.find((account) => account.username === (authStore.user?.username || '')) || DEMO_ACCOUNTS[0]
+    const nextSession = await loginByPassword(preferredAccount.username, preferredAccount.password)
+    authStore.applySession({
+      accessToken: nextSession.accessToken,
+      refreshToken: nextSession.refreshToken,
+      expiresAt: Date.now() + nextSession.expiresIn * 1000,
+      currentUser: nextSession.currentUser,
+      menus: nextSession.menus
+    })
+    appendLog(`已使用账号 ${preferredAccount.username} 重建有效会话`)
     await sleep(150)
 
     appendLog('步骤1：正常请求，预期成功')
     await requestOnce()
     await sleep(150)
 
-    appendLog('步骤2：令 accessToken 过期，触发刷新后重放')
-    expireAccessToken()
+    appendLog('步骤2：写入无效 accessToken，触发刷新后重放')
+    invalidateAccessToken()
     await requestOnce()
     await sleep(150)
 
     appendLog('步骤3：令 refreshToken + accessToken 同时失效，预期回退登录')
-    expireRefreshToken()
-    expireAccessToken()
+    invalidateRefreshToken()
+    invalidateAccessToken()
     await requestOnce()
   } catch (error) {
     appendLog(`脚本化回放结束（捕获异常）：${(error as Error).message}`)

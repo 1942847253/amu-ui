@@ -43,5 +43,27 @@ export default defineConfig({
         replacement: resolve(__dirname, '../../packages/utils/index.ts')
       }
     ]
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      }
+    }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('echarts')) return 'vendor-echarts'
+            if (id.includes('vue')) return 'vendor-vue'
+            if (id.includes('pinia') || id.includes('vue-router')) return 'vendor-app'
+          }
+          return undefined
+        }
+      }
+    }
   }
 })

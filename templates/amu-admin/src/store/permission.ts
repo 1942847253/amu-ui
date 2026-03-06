@@ -1,14 +1,11 @@
 import { computed, ref, shallowRef } from 'vue'
 import { defineStore } from 'pinia'
 import type { RouteRecordRaw } from 'vue-router'
+import type { MenuNode as AuthMenuNode } from '../types/auth'
 import { asyncRoutes } from '../router/routes'
 import { useAuthStore } from './auth'
 
-export interface MenuNode {
-  key: string
-  title: string
-  children?: MenuNode[]
-}
+export interface MenuNode extends AuthMenuNode {}
 
 const filterRoutesByPermission = (routes: RouteRecordRaw[], hasPermission: (value?: string | string[]) => boolean): RouteRecordRaw[] => {
   const result: RouteRecordRaw[] = []
@@ -51,25 +48,65 @@ const toMenuNodes = (routes: RouteRecordRaw[], parentPath = ''): MenuNode[] => {
 
 export const usePermissionStore = defineStore('permission', () => {
   const routeRecords = shallowRef<RouteRecordRaw[]>([])
+  const menuRecords = shallowRef<MenuNode[]>([])
   const routeInjected = ref(false)
+
+  const availableRouteKeys = (routes: RouteRecordRaw[]) => {
+    const keys = new Set<string>()
+    const walk = (routeList: RouteRecordRaw[], parentPath = '') => {
+      routeList.forEach((route) => {
+        const currentPath = route.path.startsWith('/')
+          ? route.path
+          : `${parentPath}/${route.path}`.replace(/\/+/g, '/')
+        keys.add(currentPath)
+        if (route.children?.length) {
+          walk(route.children, currentPath)
+        }
+      })
+    }
+
+    walk(routes)
+    return keys
+  }
+
+  const filterMenuByRoutes = (menuList: MenuNode[], routeKeys: Set<string>): MenuNode[] => {
+    return menuList.reduce<MenuNode[]>((result, menu) => {
+      const children = menu.children ? filterMenuByRoutes(menu.children, routeKeys) : undefined
+      if (!routeKeys.has(menu.key) && (!children || children.length === 0)) {
+        return result
+      }
+
+      result.push({
+        ...menu,
+        children: children && children.length > 0 ? children : undefined
+      })
+      return result
+    }, [])
+  }
 
   const authStore = useAuthStore()
 
   const generateRoutes = () => {
     routeRecords.value = filterRoutesByPermission(asyncRoutes, authStore.hasPermission)
+    const routeKeys = availableRouteKeys(routeRecords.value)
+    menuRecords.value = authStore.menus.length > 0
+      ? filterMenuByRoutes(authStore.menus, routeKeys)
+      : toMenuNodes(routeRecords.value)
     routeInjected.value = true
     return routeRecords.value
   }
 
   const reset = () => {
     routeRecords.value = []
+    menuRecords.value = []
     routeInjected.value = false
   }
 
-  const menuTree = computed(() => toMenuNodes(routeRecords.value))
+  const menuTree = computed(() => menuRecords.value)
 
   return {
     routeRecords,
+    menuRecords,
     routeInjected,
     menuTree,
     generateRoutes,

@@ -142,7 +142,7 @@
         <template #trigger>
           <div class="admin-layout__user">
             <div class="admin-layout__user-avatar-trigger">
-              <img src="https://api.dicebear.com/7.x/bottts/svg?seed=admin" alt="avatar" />
+              <img :src="userAvatar" :alt="userDisplayName" />
               <div class="admin-layout__user-status-dot"></div>
             </div>
           </div>
@@ -150,14 +150,15 @@
         <template #overlay>
           <AmuDropdownMenu class="admin-layout__user-dropdown">
             <div class="admin-layout__user-info">
-              <img src="https://api.dicebear.com/7.x/bottts/svg?seed=admin" alt="avatar"
+              <img :src="userAvatar" :alt="userDisplayName"
                 class="admin-layout__user-info-avatar" />
               <div class="admin-layout__user-info-text">
                 <div class="admin-layout__user-info-name">
-                  {{ authStore.user?.username || 'Admin' }}
+                  {{ userDisplayName }}
                   <span class="admin-layout__user-tag">Pro</span>
                 </div>
-                <div class="admin-layout__user-info-email">admin@amu-ui.com</div>
+                <div class="admin-layout__user-info-email">{{ authStore.user?.email || 'admin@amu-ui.com' }}</div>
+                <div class="admin-layout__user-info-email">{{ userRoleLabel }} · {{ authStore.user?.department || APP_META.name }}</div>
               </div>
             </div>
 
@@ -360,10 +361,12 @@ import {
   IconCommand,
   IconX
 } from '@amu-ui/icons'
+import { APP_META, ROLE_LABELS } from '../../config/app'
 import { useAppStore } from '../../store/app'
 import { useAuthStore } from '../../store/auth'
 import { usePermissionStore, type MenuNode } from '../../store/permission'
 import { useTabsStore } from '../../store/tabs'
+import { createAvatarDataUri } from '../../utils/avatar'
 import { readStorageJson, removeStorage, writeStorage } from '../../utils/storage'
 import { useLayout } from '../composables/useLayout'
 import LayoutSettingsDrawer from './LayoutSettingsDrawer.vue'
@@ -485,6 +488,21 @@ const searchHistory = ref<SearchItem[]>(
 
 const unreadNotificationsCount = computed(() => {
   return notificationOptions.value.filter((item) => !item.isRead).length
+})
+
+const userDisplayName = computed(() => {
+  return authStore.user?.displayName || authStore.user?.username || 'Admin'
+})
+
+const userRoleLabel = computed(() => {
+  const role = authStore.user?.role
+  return role ? ROLE_LABELS[role].en : 'Administrator'
+})
+
+const userAvatar = computed(() => {
+  const label = userDisplayName.value
+  const seed = authStore.user?.avatarSeed || authStore.user?.username || 'admin'
+  return createAvatarDataUri(seed, label)
 })
 
 const filteredNotifications = computed(() => {
@@ -754,13 +772,13 @@ const openGithub = () => {
   window.open('https://github.com/amu-ui/amu-ui', '_blank')
 }
 
-const handleLogout = () => {
-  authStore.logout()
+const handleLogout = async () => {
+  await authStore.logout(true)
   permissionStore.reset()
   tabsStore.reset()
   searchHistory.value = []
   removeStorage(SEARCH_HISTORY_KEY)
-  router.replace('/login')
+  await router.replace('/login')
 }
 
 onMounted(() => {
@@ -1115,6 +1133,7 @@ const tx = (zh: string, en: string) => (appStore.language === 'zh-CN' ? zh : en)
   line-height: 1.5;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   overflow: hidden;
 }

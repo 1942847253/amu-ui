@@ -3,6 +3,7 @@ import type { Component } from 'vue'
 import {
   IconBarChart,
   IconFolder,
+  IconLock,
   IconUser,
   IconUsers,
   IconShield,
@@ -18,7 +19,11 @@ export function useLayout() {
     '/system': IconFolder,
     '/system/users': IconUser,
     '/system/roles': IconUsers,
-    '/system/auth-debug': IconShield
+    '/system/permissions': IconLock,
+    '/system/auth-debug': IconShield,
+    '/security': IconShield,
+    '/security/policy-matrix': IconShield,
+    '/security/audit-logs': IconShield
   }
 
   const resolveMenuIcon = (key: string) => {
@@ -34,9 +39,13 @@ export function useLayout() {
     工作台: 'Workplace',
     仪表盘: 'Dashboard',
     系统管理: 'System',
+    安全中心: 'Security',
     用户管理: 'Users',
     角色管理: 'Roles',
+    权限点管理: 'Permissions',
     鉴权自测: 'Auth Debug',
+    策略矩阵: 'Policy Matrix',
+    审计日志: 'Audit Logs',
     个人中心: 'Personal Center',
     页面不存在: 'Not Found'
   }

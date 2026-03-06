@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserStatus {
+  ACTIVE
+  LOCKED
+}
+
+enum DataScope {
+  ALL
+  DEPARTMENT
+  DEPARTMENT_AND_CHILDREN
+  SELF
+  CUSTOM
+}
+
+model Department {
+  id        String       @id @db.VarChar(64)
+  name      String       @db.VarChar(128)
+  parentId  String?      @db.VarChar(64)
+  parent    Department?  @relation("DepartmentChildren", fields: [parentId], references: [id], onDelete: SetNull)
+  children  Department[] @relation("DepartmentChildren")
+  users     User[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@map("departments")
+}
+
+model Permission {
+  code                String                 @id @db.VarChar(128)
+  name                String                 @db.VarChar(128)
+  module              String                 @db.VarChar(64)
+  apiScopes           Json
+  rolePermissions     RolePermission[]
+  userDirectPermissions UserDirectPermission[]
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+
+  @@map("permissions")
+}
+
+model Role {
+  id              String           @id @db.VarChar(64)
+  code            String           @unique @db.VarChar(128)
+  name            String           @db.VarChar(128)
+  description     String           @db.VarChar(255)
+  dataScope       DataScope
+  userRoles       UserRole[]
+  rolePermissions RolePermission[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@map("roles")
+}
+
+model User {
+  id                String                 @id @db.VarChar(64)
+  username          String                 @unique @db.VarChar(64)
+  displayName       String                 @db.VarChar(128)
+  email             String                 @unique @db.VarChar(191)
+  departmentId      String                 @db.VarChar(64)
+  title             String                 @db.VarChar(128)
+  status            UserStatus
+  passwordHash      String                 @db.VarChar(255)
+  department        Department             @relation(fields: [departmentId], references: [id], onDelete: Restrict)
+  userRoles         UserRole[]
+  directPermissions UserDirectPermission[]
+  sessions          AuthSession[]
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+
+  @@map("users")
+}
+
+model UserRole {
+  userId    String   @db.VarChar(64)
+  roleId    String   @db.VarChar(64)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model RolePermission {
+  roleId         String      @db.VarChar(64)
+  permissionCode String      @db.VarChar(128)
+  role           Role        @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission     Permission  @relation(fields: [permissionCode], references: [code], onDelete: Cascade)
+  createdAt      DateTime    @default(now())
+
+  @@id([roleId, permissionCode])
+  @@map("role_permissions")
+}
+
+model UserDirectPermission {
+  userId         String      @db.VarChar(64)
+  permissionCode String      @db.VarChar(128)
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permission     Permission  @relation(fields: [permissionCode], references: [code], onDelete: Cascade)
+  createdAt      DateTime    @default(now())
+
+  @@id([userId, permissionCode])
+  @@map("user_direct_permissions")
+}
+
+model Menu {
+  id              String   @id @db.VarChar(64)
+  key             String   @unique @db.VarChar(191)
+  title           String   @db.VarChar(128)
+  icon            String   @db.VarChar(128)
+  permissionCodes Json?
+  parentId        String?  @db.VarChar(64)
+  sortOrder       Int      @default(0)
+  parent          Menu?    @relation("MenuChildren", fields: [parentId], references: [id], onDelete: SetNull)
+  children        Menu[]   @relation("MenuChildren")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("menus")
+}
+
+model AuditLog {
+  id        String   @id @db.VarChar(64)
+  operator  String   @db.VarChar(64)
+  action    String   @db.VarChar(255)
+  resource  String   @db.VarChar(255)
+  result    String   @db.VarChar(32)
+  createdAt DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+model AuthSession {
+  id             String   @id @db.VarChar(64)
+  userId         String   @db.VarChar(64)
+  refreshTokenId String   @db.VarChar(64)
+  expiresAt      DateTime
+  createdAt      DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("auth_sessions")
+}

@@ -5,6 +5,7 @@
 ## 已内置能力
 
 - RBAC 权限模型（角色 + 权限点）
+- 真实后端对接（默认消费 `templates/amu-admin-server`）
 - 动态路由注入（按权限过滤菜单与页面）
 - 路由守卫（登录态校验 + 页面权限校验）
 - 指令级权限控制（`v-permission`）
@@ -22,18 +23,33 @@
 - `admin / 123456`：超级管理员（全部权限）
 - `operator / 123456`：运营角色（用户管理）
 - `audit / 123456`：审计角色（仅仪表盘）
+- `security / 123456`：安全角色（策略矩阵、审计日志、鉴权调试）
 
 ## 鉴权自测页
 
 - 菜单路径：`系统管理 / 鉴权自测`
 - 可验证场景：
-	- 手动使 `accessToken` 过期并观察自动刷新
-	- 手动使 `refreshToken` 过期并观察回退登录
+	- 写入无效 `accessToken` 并观察自动刷新
+	- 写入无效 `refreshToken` 并观察回退登录
 	- 并发请求下刷新队列行为
 	- 可取消请求行为
-	- 网络延迟切换（50ms / 800ms / 2000ms）
-	- 故障注入（超时 / HTTP 500 / 业务异常）
 	- 一键脚本化回放（完整演示刷新成功与刷新失败回登录）
+
+## 联调启动
+
+先启动真实后端：
+
+```bash
+pnpm --filter amu-admin-server start:dev
+```
+
+再启动前端模板：
+
+```bash
+pnpm --filter amu-admin-template dev
+```
+
+前端开发环境已默认代理 `/api` 到 `http://localhost:3000`。
 
 ## 开发
 
@@ -47,11 +63,17 @@ pnpm --filter amu-admin-template dev
 pnpm --filter amu-admin-template build
 ```
 
+## 测试
+
+```bash
+pnpm --filter amu-admin-template test
+```
+
 ## 后续增强建议
 
-- 接入真实鉴权 API 与 Token 刷新机制
 - 接入日志埋点、异常上报与可观测性
 - 增加 E2E 与视觉回归测试
+- 增加用户、角色、权限点的新增/编辑/分配工作流
 
 ## 图标规范
 

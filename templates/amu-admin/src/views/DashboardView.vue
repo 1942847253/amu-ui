@@ -61,10 +61,15 @@ import {
   IconDownload,
   IconPieChart
 } from '@amu-ui/icons'
-import * as echarts from 'echarts'
+import { LineChart, PieChart, RadarChart } from 'echarts/charts'
+import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components'
+import { graphic, init, use, type ECharts } from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
 import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import { fetchDashboardOverview } from '../api/dashboard'
 import { cancelRequest } from '../api/http'
+
+use([LineChart, PieChart, RadarChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer])
 
 defineOptions({
   name: 'Dashboard'
@@ -145,14 +150,14 @@ const doughnutChartRef = ref<HTMLDivElement | null>(null)
 const pieChartRef = ref<HTMLDivElement | null>(null)
 
 // Chart Instances
-const trendChart = shallowRef<echarts.ECharts | null>(null)
-const radarChart = shallowRef<echarts.ECharts | null>(null)
-const doughnutChart = shallowRef<echarts.ECharts | null>(null)
-const pieChart = shallowRef<echarts.ECharts | null>(null)
+const trendChart = shallowRef<ECharts | null>(null)
+const radarChart = shallowRef<ECharts | null>(null)
+const doughnutChart = shallowRef<ECharts | null>(null)
+const pieChart = shallowRef<ECharts | null>(null)
 
 const initTrendChart = () => {
   if (!trendChartRef.value) return
-  const chart = echarts.init(trendChartRef.value)
+  const chart = init(trendChartRef.value)
   trendChart.value = chart
 
   chart.setOption({
@@ -179,7 +184,7 @@ const initTrendChart = () => {
         symbolSize: 6,
         itemStyle: { color: '#2580ef' },
         areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          color: new graphic.LinearGradient(0, 0, 0, 1, [
             { offset: 0, color: 'rgba(37, 128, 239, 0.4)' },
             { offset: 1, color: 'rgba(37, 128, 239, 0.05)' }
           ])
@@ -194,7 +199,7 @@ const initTrendChart = () => {
         symbolSize: 6,
         itemStyle: { color: '#0fb388' },
         areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          color: new graphic.LinearGradient(0, 0, 0, 1, [
             { offset: 0, color: 'rgba(15, 179, 136, 0.5)' },
             { offset: 1, color: 'rgba(15, 179, 136, 0.05)' }
           ])
@@ -207,7 +212,7 @@ const initTrendChart = () => {
 
 const initRadarChart = () => {
   if (!radarChartRef.value) return
-  const chart = echarts.init(radarChartRef.value)
+  const chart = init(radarChartRef.value)
   radarChart.value = chart
 
   chart.setOption({
@@ -254,7 +259,7 @@ const initRadarChart = () => {
 
 const initDoughnutChart = () => {
   if (!doughnutChartRef.value) return
-  const chart = echarts.init(doughnutChartRef.value)
+  const chart = init(doughnutChartRef.value)
   doughnutChart.value = chart
 
   chart.setOption({
@@ -289,7 +294,7 @@ const initDoughnutChart = () => {
 
 const initPieChart = () => {
   if (!pieChartRef.value) return
-  const chart = echarts.init(pieChartRef.value)
+  const chart = init(pieChartRef.value)
   pieChart.value = chart
 
   chart.setOption({

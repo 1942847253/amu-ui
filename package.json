@@ -511,6 +511,10 @@
   },
   "scripts": {
     "dev": "pnpm --filter playground dev",
+    "admin-server:start": "pnpm --dir templates/amu-admin-server run start:one-click",
+    "admin-server:start:detached": "pnpm --dir templates/amu-admin-server run start:one-click:detached",
+    "admin-server:stop": "pnpm --dir templates/amu-admin-server run stop:one-click",
+    "admin-server:logs": "pnpm --dir templates/amu-admin-server run logs:docker",
     "docs:dev": "pnpm --filter docs dev",
     "docs:build": "pnpm --filter docs build",
     "docs:preview": "pnpm --filter docs preview",

@@ -19,6 +19,7 @@ const titleMapEn: Record<string, string> = {
   系统管理: 'System',
   用户管理: 'Users',
   角色管理: 'Roles',
+  权限点管理: 'Permissions',
   鉴权自测: 'Auth Debug',
   个人中心: 'Personal Center',
   页面不存在: 'Not Found'
@@ -43,7 +44,7 @@ const ensureDynamicRoutes = (permissionStore: ReturnType<typeof usePermissionSto
   })
 }
 
-const sanitizeSessionState = () => {
+const sanitizeSessionState = async () => {
   const authStore = useAuthStore()
   const permissionStore = usePermissionStore()
 
@@ -52,8 +53,12 @@ const sanitizeSessionState = () => {
     return
   }
 
-  authStore.logout()
-  permissionStore.reset()
+  try {
+    await authStore.hydrateSession()
+  } catch {
+    await authStore.logout()
+    permissionStore.reset()
+  }
 }
 
 const resolvePreInjectionAuthRedirect = (to: RouteLocationNormalized) => {
@@ -129,10 +134,10 @@ const resolveParentRouteRedirect = (to: RouteLocationNormalized) => {
   return { path: firstLeaf, replace: true }
 }
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
   window.dispatchEvent(new CustomEvent('amu-admin:route-start', { detail: { to: to.fullPath } }))
 
-  sanitizeSessionState()
+  await sanitizeSessionState()
 
   const preInjectionAuthRedirect = resolvePreInjectionAuthRedirect(to)
   if (preInjectionAuthRedirect) {

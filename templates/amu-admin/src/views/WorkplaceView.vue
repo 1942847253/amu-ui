@@ -4,9 +4,9 @@
     <AmuCard class="workplace-banner" :body-style="{ padding: '24px' }">
       <div class="banner-content">
         <div class="banner-left">
-          <img src="https://api.dicebear.com/7.x/micah/svg?seed=Amu" alt="avatar" class="banner-avatar" />
+          <img :src="currentUserAvatar" :alt="currentUserName" class="banner-avatar" />
           <div class="banner-info">
-            <div class="banner-title">早安，AmuAdmin，又是活力满满的一天！</div>
+            <div class="banner-title">早安，{{ currentUserName }}，又是活力满满的一天！</div>
             <div class="banner-desc">今日晴朗，气温 18 - 26，适合编写优质的代码！</div>
           </div>
         </div>
@@ -58,7 +58,7 @@
         <AmuCard title="动态与事件" class="main-card activities-card">
           <div class="activity-list">
             <div class="activity-item" v-for="act in activities" :key="act.id">
-              <img :src="`https://api.dicebear.com/7.x/micah/svg?seed=${act.avatar}`" alt="user" class="activity-avatar" />
+              <img :src="resolveActivityAvatar(act.avatar, act.user)" :alt="act.user" class="activity-avatar" />
               <div class="activity-content">
                 <div class="activity-text">
                   <span class="activity-user">{{ act.user }}</span>
@@ -102,7 +102,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AmuCard } from 'amu-ui/card'
 import { AmuRow } from 'amu-ui/row'
 import { AmuCol } from 'amu-ui/col'
@@ -121,10 +121,27 @@ import {
   IconShield,
   IconBarChart
 } from '@amu-ui/icons'
+import { useAuthStore } from '../store/auth'
+import { createAvatarDataUri } from '../utils/avatar'
 
 defineOptions({
   name: 'WorkplaceView'
 })
+
+const authStore = useAuthStore()
+
+const currentUserName = computed(() => {
+  return authStore.user?.displayName || authStore.user?.username || 'Amu Admin'
+})
+
+const currentUserAvatar = computed(() => {
+  const seed = authStore.user?.avatarSeed || authStore.user?.username || 'amu-admin'
+  return createAvatarDataUri(seed, currentUserName.value)
+})
+
+const resolveActivityAvatar = (seed: string, label: string) => {
+  return createAvatarDataUri(seed, label)
+}
 
 const projects = ref([
   { id: 1, name: 'AmuUI Components', desc: '一套基于 Vue 3 打造的企业级组件库。', group: '架构组', date: '2026-02-28', icon: IconLayers, color: '#1890ff' },

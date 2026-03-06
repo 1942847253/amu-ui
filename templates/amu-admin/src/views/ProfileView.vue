@@ -7,22 +7,22 @@
         <AmuCard class="profile-side-card" :bordered="false" shadow="never">
           <div class="profile-user">
             <div class="profile-avatar-box">
-              <img src="https://api.dicebear.com/7.x/micah/svg?seed=Felix" class="profile-avatar-img" alt="avatar" />
+              <img :src="profileAvatar" class="profile-avatar-img" :alt="profileName" />
               <div class="avatar-edit-mask">
                 <AmuIcon><IconCamera /></AmuIcon>
               </div>
             </div>
-            <div class="profile-name">Amu Admin</div>
-            <div class="profile-role">超级管理员</div>
+            <div class="profile-name">{{ profileName }}</div>
+            <div class="profile-role">{{ profileRole }}</div>
             
             <div class="profile-meta">
               <div class="meta-item">
                 <AmuIcon><IconMapPin /></AmuIcon>
-                <span>技术部 - 架构组</span>
+                <span>{{ profileDepartment }}</span>
               </div>
               <div class="meta-item">
                 <AmuIcon><IconMail /></AmuIcon>
-                <span>admin@amu-ui.net</span>
+                <span>{{ profileEmail }}</span>
               </div>
             </div>
           </div>
@@ -254,12 +254,38 @@ import {
   IconLink,
   IconBell
 } from '@amu-ui/icons'
+import { ROLE_LABELS } from '../config/app'
+import { useAuthStore } from '../store/auth'
+import { createAvatarDataUri } from '../utils/avatar'
 
 defineOptions({ name: 'ProfileView' })
 
+const authStore = useAuthStore()
 const activeTab = ref('basic')
 const tagsInputVisible = ref(false)
 const currentTags = reactive(['吃饭', '睡觉', '打豆豆', '宅', '湖南人', 'node开发'])
+
+const profileName = computed(() => {
+  return authStore.user?.displayName || authStore.user?.username || 'Amu Admin'
+})
+
+const profileEmail = computed(() => {
+  return authStore.user?.email || 'admin@amu-ui.com'
+})
+
+const profileDepartment = computed(() => {
+  return authStore.user?.department || '平台架构中心'
+})
+
+const profileRole = computed(() => {
+  const role = authStore.user?.role
+  return role ? ROLE_LABELS[role].zh : '超级管理员'
+})
+
+const profileAvatar = computed(() => {
+  const seed = authStore.user?.avatarSeed || authStore.user?.username || 'profile'
+  return createAvatarDataUri(seed, profileName.value)
+})
 
 const menuItems = [
   { key: 'basic', label: '基本设置', icon: IconUser },
@@ -273,8 +299,8 @@ const currentTitle = computed(() => {
 })
 
 const form = reactive({
-  email: '1942847253@qq.com',
-  nickname: 'Amu',
+  email: profileEmail.value,
+  nickname: profileName.value,
   bio: '一个真正的鳗',
   country: 'China',
   province: 'Shanghai',

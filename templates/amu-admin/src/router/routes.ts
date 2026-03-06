@@ -64,19 +64,45 @@ export const asyncRoutes: RouteRecordRaw[] = [
         path: 'users',
         name: 'SystemUsers',
         component: () => import('../views/SystemUsersView.vue'),
-        meta: { title: '用户管理', requiresAuth: true, permission: 'system:user:view', menu: true, keepAlive: true } satisfies AppRouteMeta
+        meta: { title: '用户管理', requiresAuth: true, permission: 'system:user:read', menu: true, keepAlive: true } satisfies AppRouteMeta
       },
       {
         path: 'roles',
         name: 'SystemRoles',
         component: () => import('../views/SystemRolesView.vue'),
-        meta: { title: '角色管理', requiresAuth: true, permission: 'system:role:view', menu: true, keepAlive: true } satisfies AppRouteMeta
+        meta: { title: '角色管理', requiresAuth: true, permission: 'system:role:read', menu: true, keepAlive: true } satisfies AppRouteMeta
+      },
+      {
+        path: 'permissions',
+        name: 'SystemPermissions',
+        component: () => import('../views/SystemPermissionsView.vue'),
+        meta: { title: '权限点管理', requiresAuth: true, permission: 'system:permission:read', menu: true, keepAlive: true } satisfies AppRouteMeta
       },
       {
         path: 'auth-debug',
         name: 'SystemAuthDebug',
         component: () => import('../views/SystemAuthDebugView.vue'),
         meta: { title: '鉴权自测', requiresAuth: true, permission: 'system:auth:debug', menu: true } satisfies AppRouteMeta
+      }
+    ]
+  },
+  {
+    path: '/security',
+    name: 'Security',
+    component: RouteView,
+    meta: { title: '安全中心', requiresAuth: true, menu: true } satisfies AppRouteMeta,
+    children: [
+      {
+        path: 'policy-matrix',
+        name: 'SecurityPolicyMatrix',
+        component: () => import('../views/SecurityPolicyMatrixView.vue'),
+        meta: { title: '策略矩阵', requiresAuth: true, permission: 'security:policy:read', menu: true, keepAlive: true } satisfies AppRouteMeta
+      },
+      {
+        path: 'audit-logs',
+        name: 'SecurityAuditLogs',
+        component: () => import('../views/SecurityAuditLogsView.vue'),
+        meta: { title: '审计日志', requiresAuth: true, permission: 'audit:log:read', menu: true, keepAlive: true } satisfies AppRouteMeta
       }
     ]
   },

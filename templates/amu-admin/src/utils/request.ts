@@ -69,7 +69,13 @@ const buildUrl = (url: string, params: ResolvedRequestConfig['params']) => {
     search.append(key, String(value))
   })
   const query = search.toString()
-  return query ? `${url}${url.includes('?') ? '&' : '?'}${query}` : url
+  const nextUrl = query ? `${url}${url.includes('?') ? '&' : '?'}${query}` : url
+  if (/^https?:\/\//.test(nextUrl)) return nextUrl
+
+  const fallbackOrigin = typeof window !== 'undefined' && window.location?.origin
+    ? window.location.origin
+    : 'http://localhost'
+  return new URL(nextUrl, fallbackOrigin).toString()
 }
 
 const defaultAdapter: HttpAdapter = async (config) => {

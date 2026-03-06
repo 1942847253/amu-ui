@@ -99,19 +99,30 @@
             登 录
           </AmuButton>
 
-          <div class="other-login">
-            <div class="divider">其他登录方式</div>
-            <div class="icon-group">
-              <button class="icon-btn" title="手机登录">📱</button>
-              <button class="icon-btn" title="微信登录">💬</button>
-              <button class="icon-btn" title="Github">🐱</button>
-            </div>
+          <div class="demo-accounts">
+            <div class="divider">演示账号</div>
+            <button
+              v-for="account in demoAccounts"
+              :key="account.username"
+              type="button"
+              class="demo-account"
+              @click="applyDemoAccount(account.username, account.password)"
+            >
+              <div class="demo-account__meta">
+                <span class="demo-account__name">{{ account.displayName }}</span>
+                <span class="demo-account__role">{{ account.roleLabel }}</span>
+              </div>
+              <div class="demo-account__credential">
+                <span>{{ account.username }}</span>
+                <span>{{ account.password }}</span>
+              </div>
+            </button>
           </div>
         </AmuForm>
       </div>
 
       <div class="copyright">
-        Copyright © 2024 Amu UI Team. All Rights Reserved.
+        {{ APP_META.copyright }}
       </div>
     </div>
   </div>
@@ -121,8 +132,10 @@
 import { AmuButton } from 'amu-ui/button'
 import { AmuForm, AmuFormItem } from 'amu-ui/form'
 import { AmuInput } from 'amu-ui/input'
-import { ref } from 'vue'
+import { AmuMessage } from 'amu-ui/message'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { APP_META, DEMO_ACCOUNTS, ROLE_LABELS } from '../config/app'
 import { useAuthStore } from '../store/auth'
 import { usePermissionStore } from '../store/permission'
 
@@ -135,19 +148,34 @@ const router = useRouter()
 const authStore = useAuthStore()
 const permissionStore = usePermissionStore()
 
+const demoAccounts = computed(() => {
+  return DEMO_ACCOUNTS.map((account) => ({
+    ...account,
+    roleLabel: ROLE_LABELS[account.role].zh
+  }))
+})
+
+const applyDemoAccount = (nextUsername: string, nextPassword: string) => {
+  username.value = nextUsername
+  password.value = nextPassword
+}
+
 const handleLogin = async () => {
-  if (!username.value || !password.value) return
+  if (!username.value || !password.value) {
+    AmuMessage.warning({ message: '请输入完整的账号和密码' })
+    return
+  }
   
   loading.value = true
   try {
-    // 模拟网络请求延迟
-    await new Promise(resolve => setTimeout(resolve, 800))
-    const ok = authStore.login(username.value, password.value)
-    if (!ok) return
+    await authStore.login(username.value, password.value)
     
     permissionStore.reset()
     const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/dashboard'
-    router.replace(redirect)
+    await router.replace(redirect)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : '登录失败，请稍后重试'
+    AmuMessage.error({ message })
   } finally {
     loading.value = false
   }
@@ -221,7 +249,7 @@ const handleLogin = async () => {
 .logo-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, var(--amu-color-primary) 0%, #2b32b2 100%);
+  background: linear-gradient(135deg, var(--amu-color-primary) 0%, var(--amu-color-primary-dark) 100%);
   color: #fff;
   border-radius: 8px;
   display: grid;
@@ -341,9 +369,8 @@ const handleLogin = async () => {
   box-shadow: 0 4px 12px rgba(var(--amu-color-primary-rgb), 0.2);
 }
 
-.other-login {
+.demo-accounts {
   margin-top: 40px;
-  text-align: center;
 }
 
 .divider {
@@ -384,30 +411,45 @@ const handleLogin = async () => {
 .other-login .divider::after { margin-left: 12px; }
 
 
-.icon-group {
+.demo-account {
+  width: 100%;
   display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.icon-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  margin-top: 12px;
   border: 1px solid var(--amu-color-border);
   background: var(--amu-color-bg-container);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  transition: all 0.3s;
+  border-radius: 12px;
+  transition: all 0.2s ease;
 }
 
-.icon-btn:hover {
-  background: var(--amu-color-bg-container-hover);
+.demo-account:hover {
+  background: var(--amu-color-bg-fill);
   border-color: var(--amu-color-primary);
   transform: translateY(-2px);
+}
+
+.demo-account__meta,
+.demo-account__credential {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.demo-account__name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--amu-color-text-default);
+}
+
+.demo-account__role,
+.demo-account__credential {
+  font-size: 12px;
+  color: var(--amu-color-text-secondary);
 }
 
 .copyright {
