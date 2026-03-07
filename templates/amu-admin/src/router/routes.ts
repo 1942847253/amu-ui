@@ -67,16 +67,28 @@ export const asyncRoutes: RouteRecordRaw[] = [
         meta: { title: '用户管理', requiresAuth: true, permission: 'system:user:read', menu: true, keepAlive: true } satisfies AppRouteMeta
       },
       {
+        path: 'departments',
+        name: 'SystemDepartments',
+        component: () => import('../views/SystemDepartmentsView.vue'),
+        meta: { title: '部门管理', requiresAuth: true, permission: 'system:department:read', menu: true, keepAlive: true } satisfies AppRouteMeta
+      },
+      {
         path: 'roles',
         name: 'SystemRoles',
         component: () => import('../views/SystemRolesView.vue'),
         meta: { title: '角色管理', requiresAuth: true, permission: 'system:role:read', menu: true, keepAlive: true } satisfies AppRouteMeta
       },
       {
+        path: 'menus',
+        name: 'SystemMenus',
+        component: () => import('../views/SystemMenusView.vue'),
+        meta: { title: '菜单管理', requiresAuth: true, permission: 'system:menu:read', menu: true, keepAlive: true } satisfies AppRouteMeta
+      },
+      {
         path: 'permissions',
         name: 'SystemPermissions',
         component: () => import('../views/SystemPermissionsView.vue'),
-        meta: { title: '权限点管理', requiresAuth: true, permission: 'system:permission:read', menu: true, keepAlive: true } satisfies AppRouteMeta
+        meta: { title: '访问权限管理', requiresAuth: true, permission: 'system:permission:read', menu: true, keepAlive: true } satisfies AppRouteMeta
       },
       {
         path: 'auth-debug',

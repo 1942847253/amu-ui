@@ -111,6 +111,9 @@ const flattenMenus = () => {
     key: string
     title: string
     icon: string
+    menuType: string
+    componentPath: string | null
+    status: string
     parentId: string | null
     sortOrder: number
     permissionCodes: string[]
@@ -124,6 +127,9 @@ const flattenMenus = () => {
         key: item.key,
         title: item.title,
         icon: item.icon,
+        menuType: item.menuType || (item.children?.length ? 'DIRECTORY' : 'MENU'),
+        componentPath: item.componentPath || null,
+        status: item.status || 'ACTIVE',
         parentId,
         sortOrder: index,
         permissionCodes: Array.isArray(item.permission) ? item.permission : item.permission ? [item.permission] : []
@@ -213,6 +219,9 @@ async function main() {
         key: menu.key,
         title: menu.title,
         icon: menu.icon,
+        menuType: menu.menuType,
+        componentPath: menu.componentPath,
+        status: menu.status,
         parentId: menu.parentId,
         sortOrder: menu.sortOrder,
         permissionCodes: menu.permissionCodes

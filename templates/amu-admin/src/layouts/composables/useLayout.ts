@@ -1,5 +1,6 @@
 import { useAppStore } from '../../store/app'
 import type { Component } from 'vue'
+import * as AmuIcons from '@amu-ui/icons'
 import {
   IconBarChart,
   IconFolder,
@@ -26,7 +27,13 @@ export function useLayout() {
     '/security/audit-logs': IconShield
   }
 
-  const resolveMenuIcon = (key: string) => {
+  const resolveMenuIcon = (key: string, iconName?: string) => {
+    if (iconName) {
+      const resolved = (AmuIcons as Record<string, unknown>)[iconName]
+      if (typeof resolved === 'object' || typeof resolved === 'function') {
+        return resolved as Component
+      }
+    }
     if (key in menuIconMap) return menuIconMap[key]
     if (key.includes('analysis')) return IconBarChart
     return IconFolder
@@ -42,7 +49,7 @@ export function useLayout() {
     安全中心: 'Security',
     用户管理: 'Users',
     角色管理: 'Roles',
-    权限点管理: 'Permissions',
+    访问权限管理: 'Permissions',
     鉴权自测: 'Auth Debug',
     策略矩阵: 'Policy Matrix',
     审计日志: 'Audit Logs',

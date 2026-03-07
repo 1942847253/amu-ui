@@ -12,7 +12,24 @@ export interface MenuRecord {
   title: string
   icon: string
   permission?: string | string[]
+  menuType?: 'DIRECTORY' | 'MENU'
+  componentPath?: string
+  status?: 'ACTIVE' | 'DISABLED'
   children?: MenuRecord[]
+}
+
+export interface MenuCatalogRecord {
+  id: string
+  key: string
+  title: string
+  icon: string
+  parentId?: string
+  sortOrder: number
+  permissionCodes: string[]
+  menuType: 'DIRECTORY' | 'MENU'
+  componentPath?: string
+  status: 'ACTIVE' | 'DISABLED'
+  children?: MenuCatalogRecord[]
 }
 
 export interface DepartmentRecord {

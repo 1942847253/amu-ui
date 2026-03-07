@@ -35,6 +35,26 @@ export interface AccessDepartmentRow {
   parentId?: string
 }
 
+export interface UpsertDepartmentPayload {
+  id: string
+  name: string
+  parentId?: string
+}
+
+export interface AccessMenuRow {
+  id: string
+  key: string
+  title: string
+  icon: string
+  parentId?: string
+  sortOrder: number
+  permissionCodes: string[]
+  menuType: 'DIRECTORY' | 'MENU'
+  componentPath?: string
+  status: 'ACTIVE' | 'DISABLED'
+  children?: AccessMenuRow[]
+}
+
 export interface UpsertUserPayload {
   username: string
   displayName: string
@@ -62,6 +82,18 @@ export interface UpsertPermissionPayload {
   apiScopes: string[]
 }
 
+export interface UpsertMenuPayload {
+  key: string
+  title: string
+  icon: string
+  parentId?: string
+  sortOrder: number
+  permissionCodes: string[]
+  menuType: 'DIRECTORY' | 'MENU'
+  componentPath?: string
+  status: 'ACTIVE' | 'DISABLED'
+}
+
 export interface PasswordResetResult {
   userId: string
   temporaryPassword: string
@@ -87,6 +119,10 @@ export interface AuditLogRow {
   createdAt: string
 }
 
+export interface RequestBehaviorOptions {
+  silentError?: boolean
+}
+
 export const fetchMenus = () => {
   return requestGet<MenuNode[]>({
     url: '/api/access-control/menus',
@@ -95,11 +131,12 @@ export const fetchMenus = () => {
   })
 }
 
-export const fetchUsers = () => {
+export const fetchUsers = (options: RequestBehaviorOptions = {}) => {
   return requestGet<AccessUserRow[]>({
     url: '/api/access-control/users',
     requestKey: 'access-control-users',
-    retry: 0
+    retry: 0,
+    silentError: options.silentError
   })
 }
 
@@ -146,11 +183,12 @@ export const deleteUser = (id: string) => {
   })
 }
 
-export const fetchRoles = () => {
+export const fetchRoles = (options: RequestBehaviorOptions = {}) => {
   return requestGet<AccessRoleRow[]>({
     url: '/api/access-control/roles',
     requestKey: 'access-control-roles',
-    retry: 0
+    retry: 0,
+    silentError: options.silentError
   })
 }
 
@@ -180,10 +218,46 @@ export const deleteRole = (id: string) => {
   })
 }
 
-export const fetchPermissions = () => {
+export const fetchPermissions = (options: RequestBehaviorOptions = {}) => {
   return requestGet<AccessPermissionRow[]>({
     url: '/api/access-control/permissions',
     requestKey: 'access-control-permissions',
+    retry: 0,
+    silentError: options.silentError
+  })
+}
+
+export const fetchMenuCatalog = (options: RequestBehaviorOptions = {}) => {
+  return requestGet<AccessMenuRow[]>({
+    url: '/api/access-control/menu-catalog',
+    requestKey: 'access-control-menu-catalog',
+    retry: 0,
+    silentError: options.silentError
+  })
+}
+
+export const createMenu = (payload: UpsertMenuPayload) => {
+  return requestPost<AccessMenuRow>({
+    url: '/api/access-control/menu-catalog',
+    requestKey: 'access-control-menu-create',
+    data: payload,
+    retry: 0
+  })
+}
+
+export const updateMenu = (id: string, payload: UpsertMenuPayload) => {
+  return requestPut<AccessMenuRow>({
+    url: `/api/access-control/menu-catalog/${id}`,
+    requestKey: `access-control-menu-update-${id}`,
+    data: payload,
+    retry: 0
+  })
+}
+
+export const deleteMenu = (id: string) => {
+  return requestDelete<{ success: boolean }>({
+    url: `/api/access-control/menu-catalog/${id}`,
+    requestKey: `access-control-menu-delete-${id}`,
     retry: 0
   })
 }
@@ -214,10 +288,46 @@ export const deletePermission = (code: string) => {
   })
 }
 
-export const fetchDepartments = () => {
+export const fetchDepartments = (options: RequestBehaviorOptions = {}) => {
   return requestGet<AccessDepartmentRow[]>({
     url: '/api/access-control/departments',
     requestKey: 'access-control-departments',
+    retry: 0,
+    silentError: options.silentError
+  })
+}
+
+export const fetchDepartmentCatalog = (options: RequestBehaviorOptions = {}) => {
+  return requestGet<AccessDepartmentRow[]>({
+    url: '/api/access-control/department-catalog',
+    requestKey: 'access-control-department-catalog',
+    retry: 0,
+    silentError: options.silentError
+  })
+}
+
+export const createDepartment = (payload: UpsertDepartmentPayload) => {
+  return requestPost<AccessDepartmentRow>({
+    url: '/api/access-control/department-catalog',
+    requestKey: 'access-control-department-create',
+    data: payload,
+    retry: 0
+  })
+}
+
+export const updateDepartment = (id: string, payload: UpsertDepartmentPayload) => {
+  return requestPut<AccessDepartmentRow>({
+    url: `/api/access-control/department-catalog/${id}`,
+    requestKey: `access-control-department-update-${id}`,
+    data: payload,
+    retry: 0
+  })
+}
+
+export const deleteDepartment = (id: string) => {
+  return requestDelete<{ success: boolean }>({
+    url: `/api/access-control/department-catalog/${id}`,
+    requestKey: `access-control-department-delete-${id}`,
     retry: 0
   })
 }

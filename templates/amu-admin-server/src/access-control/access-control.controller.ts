@@ -3,6 +3,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { RequirePermissions } from '../common/decorators/permissions.decorator'
 import type { AuthenticatedRequest } from '../common/interfaces/authenticated-request'
 import { AccessControlService } from './access-control.service'
+import { UpsertDepartmentDto } from './dto/upsert-department.dto'
+import { UpsertMenuDto } from './dto/upsert-menu.dto'
 import { UpsertPermissionDto } from './dto/upsert-permission.dto'
 import { UpsertRoleDto } from './dto/upsert-role.dto'
 import { SetUserStatusDto } from './dto/set-user-status.dto'
@@ -29,6 +31,30 @@ export class AccessControlController {
     return this.accessControlService.filterMenus(request.authUser!.permissions)
   }
 
+  @RequirePermissions('system:menu:read')
+  @Get('menu-catalog')
+  async getMenuCatalog() {
+    return this.accessControlService.getMenuCatalog()
+  }
+
+  @RequirePermissions('system:menu:write')
+  @Post('menu-catalog')
+  createMenu(@Body() body: UpsertMenuDto, @Req() request: AuthenticatedRequest) {
+    return this.accessControlService.createMenu(body, request.authUser?.username || 'system')
+  }
+
+  @RequirePermissions('system:menu:write')
+  @Put('menu-catalog/:id')
+  updateMenu(@Param('id') id: string, @Body() body: UpsertMenuDto, @Req() request: AuthenticatedRequest) {
+    return this.accessControlService.updateMenu(id, body, request.authUser?.username || 'system')
+  }
+
+  @RequirePermissions('system:menu:write')
+  @Delete('menu-catalog/:id')
+  removeMenu(@Param('id') id: string, @Req() request: AuthenticatedRequest) {
+    return this.accessControlService.removeMenu(id, request.authUser?.username || 'system')
+  }
+
   @RequirePermissions('system:user:read')
   @Get('users')
   async getUsers() {
@@ -39,6 +65,30 @@ export class AccessControlController {
   @Get('departments')
   async getDepartments() {
     return this.accessControlService.getDepartmentCatalog()
+  }
+
+  @RequirePermissions('system:department:read')
+  @Get('department-catalog')
+  async getDepartmentCatalog() {
+    return this.accessControlService.getDepartmentCatalog()
+  }
+
+  @RequirePermissions('system:department:write')
+  @Post('department-catalog')
+  createDepartment(@Body() body: UpsertDepartmentDto, @Req() request: AuthenticatedRequest) {
+    return this.accessControlService.createDepartment(body, request.authUser?.username || 'system')
+  }
+
+  @RequirePermissions('system:department:write')
+  @Put('department-catalog/:id')
+  updateDepartment(@Param('id') id: string, @Body() body: UpsertDepartmentDto, @Req() request: AuthenticatedRequest) {
+    return this.accessControlService.updateDepartment(id, body, request.authUser?.username || 'system')
+  }
+
+  @RequirePermissions('system:department:write')
+  @Delete('department-catalog/:id')
+  removeDepartment(@Param('id') id: string, @Req() request: AuthenticatedRequest) {
+    return this.accessControlService.removeDepartment(id, request.authUser?.username || 'system')
   }
 
   @RequirePermissions('system:user:write')

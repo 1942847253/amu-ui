@@ -14,13 +14,13 @@
                 <AmuSubMenu v-if="item.children?.length" :index="item.key" :title="translateRouteTitle(item.title)">
                     <template #icon>
                         <AmuIcon>
-                            <component :is="resolveMenuIcon(item.key)" />
+                            <component :is="resolveMenuIcon(item.key, item.icon)" />
                         </AmuIcon>
                     </template>
                     <AmuMenuItem v-for="child in item.children" :key="child.key" :index="child.key">
                         <template #icon>
                             <AmuIcon>
-                                <component :is="resolveMenuIcon(child.key)" />
+                                <component :is="resolveMenuIcon(child.key, child.icon)" />
                             </AmuIcon>
                         </template>
                         {{ translateRouteTitle(child.title) }}
@@ -30,7 +30,7 @@
                 <AmuMenuItem v-else :index="item.key">
                     <template #icon>
                         <AmuIcon>
-                            <component :is="resolveMenuIcon(item.key)" />
+                            <component :is="resolveMenuIcon(item.key, item.icon)" />
                         </AmuIcon>
                     </template>
                     {{ translateRouteTitle(item.title) }}

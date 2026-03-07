@@ -14,7 +14,7 @@
         >
           <template #icon>
             <AmuIcon>
-              <component :is="resolveMenuIcon(item.key)" />
+              <component :is="resolveMenuIcon(item.key, item.icon)" />
             </AmuIcon>
           </template>
           <AmuMenuItem
@@ -24,7 +24,7 @@
           >
             <template #icon>
               <AmuIcon>
-                <component :is="resolveMenuIcon(child.key)" />
+                <component :is="resolveMenuIcon(child.key, child.icon)" />
               </AmuIcon>
             </template>
             {{ translateRouteTitle(child.title) }}
@@ -34,7 +34,7 @@
         <AmuMenuItem v-else :index="item.key">
           <template #icon>
             <AmuIcon>
-              <component :is="resolveMenuIcon(item.key)" />
+              <component :is="resolveMenuIcon(item.key, item.icon)" />
             </AmuIcon>
           </template>
           {{ translateRouteTitle(item.title) }}

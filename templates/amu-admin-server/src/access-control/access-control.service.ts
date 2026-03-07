@@ -1,7 +1,9 @@
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { compare, hashSync } from 'bcryptjs'
 import { PrismaService } from '../database/prisma.service'
-import type { AuthorizedUserContext, DataScope, DepartmentRecord, MenuRecord, PermissionRecord, RoleRecord, UserRecord } from './access-control.types'
+import type { AuthorizedUserContext, DataScope, DepartmentRecord, MenuCatalogRecord, MenuRecord, PermissionRecord, RoleRecord, UserRecord } from './access-control.types'
+import type { UpsertDepartmentDto } from './dto/upsert-department.dto'
+import type { UpsertMenuDto } from './dto/upsert-menu.dto'
 import type { UpsertPermissionDto } from './dto/upsert-permission.dto'
 import type { UpsertRoleDto } from './dto/upsert-role.dto'
 import type { UpsertUserDto } from './dto/upsert-user.dto'
@@ -53,6 +55,14 @@ export class AccessControlService {
     }
   }
 
+  private mapDepartmentRecord(department: any): DepartmentRecord {
+    return {
+      id: department.id,
+      name: department.name,
+      parentId: department.parentId ?? undefined
+    }
+  }
+
   private resolvePermissionCodesFromRecords(directPermissionCodes: string[], roles: RoleRecord[]) {
     const permissionSet = new Set<string>(directPermissionCodes)
     roles.forEach((role) => {
@@ -88,6 +98,33 @@ export class AccessControlService {
     }
   }
 
+  private async ensureDepartmentParentExists(parentId: string, client: any = this.prisma) {
+    const parent = await client.department.findUnique({ where: { id: parentId } })
+    if (!parent) {
+      throw new BadRequestException('父级部门不存在')
+    }
+  }
+
+  private async ensureDepartmentParentValid(departmentId: string | undefined, parentId: string | undefined, client: any = this.prisma) {
+    if (!parentId) return
+
+    await this.ensureDepartmentParentExists(parentId, client)
+    if (!departmentId) return
+    if (departmentId === parentId) {
+      throw new BadRequestException('父级部门不能选择自身')
+    }
+
+    let current = await client.department.findUnique({ where: { id: parentId }, select: { id: true, parentId: true } })
+    while (current) {
+      if (current.parentId === departmentId) {
+        throw new BadRequestException('父级部门不能选择当前部门的下级节点')
+      }
+      current = current.parentId
+        ? await client.department.findUnique({ where: { id: current.parentId }, select: { id: true, parentId: true } })
+        : null
+    }
+  }
+
   private async getRoleEntitiesByCodes(roleCodes: string[], client: any = this.prisma) {
     if (roleCodes.length === 0) return []
     const roles = await client.role.findMany({ where: { code: { in: roleCodes } } })
@@ -105,7 +142,7 @@ export class AccessControlService {
     if (permissions.length !== permissionCodes.length) {
       const existingCodes = new Set(permissions.map((permission: any) => permission.code))
       const missingCodes = permissionCodes.filter((code) => !existingCodes.has(code))
-      throw new BadRequestException(`权限点不存在: ${missingCodes.join(', ')}`)
+      throw new BadRequestException(`访问权限不存在: ${missingCodes.join(', ')}`)
     }
     return permissions
   }
@@ -122,26 +159,32 @@ export class AccessControlService {
     })
   }
 
-  private async buildMenuTree() {
-    const menuRows = await this.db.menu.findMany({
+  private async buildMenuCatalogTree(client: any = this.db): Promise<MenuCatalogRecord[]> {
+    const menuRows = await client.menu.findMany({
       orderBy: [{ sortOrder: 'asc' }, { key: 'asc' }]
     })
 
-    const nodes = new Map<string, MenuRecord & { id: string; parentId?: string | null }>()
+    const nodes = new Map<string, MenuCatalogRecord & { parentId?: string | null }>()
     menuRows.forEach((row: any) => {
-      const permissionCodes = this.parseStringArray(row.permissionCodes)
+      if (row.status !== 'ACTIVE') {
+        return
+      }
       nodes.set(row.id, {
         id: row.id,
         key: row.key,
         title: row.title,
         icon: row.icon,
         parentId: row.parentId,
-        permission: permissionCodes.length === 0 ? undefined : permissionCodes.length === 1 ? permissionCodes[0] : permissionCodes,
+        sortOrder: row.sortOrder ?? 0,
+        permissionCodes: this.parseStringArray(row.permissionCodes),
+        menuType: row.menuType === 'DIRECTORY' ? 'DIRECTORY' : 'MENU',
+        componentPath: row.componentPath ?? undefined,
+        status: row.status === 'DISABLED' ? 'DISABLED' : 'ACTIVE',
         children: []
       })
     })
 
-    const roots: Array<MenuRecord & { id: string; parentId?: string | null }> = []
+    const roots: Array<MenuCatalogRecord & { parentId?: string | null }> = []
     nodes.forEach((node) => {
       if (!node.parentId) {
         roots.push(node)
@@ -151,19 +194,68 @@ export class AccessControlService {
       const parent = nodes.get(node.parentId)
       if (parent) {
         parent.children = parent.children ?? []
-        parent.children.push(node)
+        parent.children.push(node as MenuCatalogRecord)
       }
     })
 
-    const strip = (node: MenuRecord & { id: string; parentId?: string | null }): MenuRecord => ({
+    return roots
+  }
+
+  private async buildMenuTree() {
+    const roots = await this.buildMenuCatalogTree()
+
+    const strip = (node: MenuCatalogRecord): MenuRecord => ({
       key: node.key,
       title: node.title,
       icon: node.icon,
-      permission: node.permission,
-      children: node.children?.length ? node.children.map((child) => strip(child as MenuRecord & { id: string; parentId?: string | null })) : undefined
+      permission: node.permissionCodes.length === 0 ? undefined : node.permissionCodes.length === 1 ? node.permissionCodes[0] : node.permissionCodes,
+      children: node.children?.length ? node.children.map((child) => strip(child)) : undefined
     })
 
     return roots.map((node) => strip(node))
+  }
+
+  private async ensureMenuParentExists(parentId: string, client: any = this.prisma) {
+    const parent = await client.menu.findUnique({ where: { id: parentId } })
+    if (!parent) {
+      throw new BadRequestException('父级菜单不存在')
+    }
+  }
+
+  private async ensureMenuParentValid(menuId: string | undefined, parentId: string | undefined, client: any = this.prisma) {
+    if (!parentId) return
+
+    await this.ensureMenuParentExists(parentId, client)
+    if (!menuId) return
+    if (menuId === parentId) {
+      throw new BadRequestException('父级菜单不能选择自身')
+    }
+
+    let current = await client.menu.findUnique({ where: { id: parentId }, select: { id: true, parentId: true } })
+    while (current) {
+      if (current.parentId === menuId) {
+        throw new BadRequestException('父级菜单不能选择当前菜单的下级节点')
+      }
+      current = current.parentId
+        ? await client.menu.findUnique({ where: { id: current.parentId }, select: { id: true, parentId: true } })
+        : null
+    }
+  }
+
+  private mapMenuCatalogRecord(menu: any): MenuCatalogRecord {
+    return {
+      id: menu.id,
+      key: menu.key,
+      title: menu.title,
+      icon: menu.icon,
+      parentId: menu.parentId ?? undefined,
+      sortOrder: menu.sortOrder ?? 0,
+      permissionCodes: this.parseStringArray(menu.permissionCodes),
+      menuType: menu.menuType === 'DIRECTORY' ? 'DIRECTORY' : 'MENU',
+      componentPath: menu.componentPath ?? undefined,
+      status: menu.status === 'DISABLED' ? 'DISABLED' : 'ACTIVE',
+      children: menu.children?.length ? menu.children.map((child: any) => this.mapMenuCatalogRecord(child)) : undefined
+    }
   }
 
   private async loadUserAuthRecord(userId: string) {
@@ -341,11 +433,85 @@ export class AccessControlService {
       orderBy: [{ name: 'asc' }]
     })
 
-    return departments.map((department: any) => ({
-      id: department.id,
-      name: department.name,
-      parentId: department.parentId ?? undefined
-    }))
+    return departments.map((department: any) => this.mapDepartmentRecord(department))
+  }
+
+  async createDepartment(payload: UpsertDepartmentDto, operator = 'system') {
+    const id = payload.id.trim()
+    const duplicateDepartment = await this.db.department.findUnique({ where: { id } })
+    if (duplicateDepartment) {
+      throw new BadRequestException('部门编码已存在')
+    }
+
+    return this.db.$transaction(async (tx: any) => {
+      const parentId = payload.parentId?.trim() || undefined
+      await this.ensureDepartmentParentValid(undefined, parentId, tx)
+
+      const department = await tx.department.create({
+        data: {
+          id,
+          name: payload.name.trim(),
+          parentId: parentId ?? null
+        }
+      })
+
+      await this.writeAuditLog(operator, '创建部门', `department:${id}`, tx)
+      return this.mapDepartmentRecord(department)
+    })
+  }
+
+  async updateDepartment(departmentId: string, payload: UpsertDepartmentDto, operator = 'system') {
+    const currentDepartment = await this.db.department.findUnique({ where: { id: departmentId } })
+    if (!currentDepartment) {
+      throw new NotFoundException('部门不存在')
+    }
+
+    const nextId = payload.id.trim()
+    if (nextId !== departmentId) {
+      throw new BadRequestException('部门编码创建后不可修改')
+    }
+
+    return this.db.$transaction(async (tx: any) => {
+      const parentId = payload.parentId?.trim() || undefined
+      await this.ensureDepartmentParentValid(departmentId, parentId, tx)
+
+      const department = await tx.department.update({
+        where: { id: departmentId },
+        data: {
+          name: payload.name.trim(),
+          parentId: parentId ?? null
+        }
+      })
+
+      await this.writeAuditLog(operator, '更新部门', `department:${departmentId}`, tx)
+      return this.mapDepartmentRecord(department)
+    })
+  }
+
+  async removeDepartment(departmentId: string, operator = 'system') {
+    const currentDepartment = await this.db.department.findUnique({ where: { id: departmentId } })
+    if (!currentDepartment) {
+      throw new NotFoundException('部门不存在')
+    }
+
+    const [childCount, userCount] = await Promise.all([
+      this.db.department.count({ where: { parentId: departmentId } }),
+      this.db.user.count({ where: { departmentId } })
+    ])
+
+    if (childCount > 0) {
+      throw new BadRequestException('请先删除下级部门')
+    }
+    if (userCount > 0) {
+      throw new BadRequestException('部门下仍有用户，无法删除')
+    }
+
+    await this.db.$transaction(async (tx: any) => {
+      await tx.department.delete({ where: { id: departmentId } })
+      await this.writeAuditLog(operator, '删除部门', `department:${departmentId}`, tx)
+    })
+
+    return { success: true }
   }
 
   async createUser(payload: UpsertUserDto, operator = 'system') {
@@ -711,7 +877,7 @@ export class AccessControlService {
         }
       })
 
-      await this.writeAuditLog(operator, '创建权限点', `permission:${code}`, tx)
+      await this.writeAuditLog(operator, '创建访问权限', `permission:${code}`, tx)
       return this.mapPermissionRecord(permission)
     })
   }
@@ -719,7 +885,7 @@ export class AccessControlService {
   async updatePermission(previousCode: string, payload: UpsertPermissionDto, operator = 'system') {
     const currentPermission = await this.db.permission.findUnique({ where: { code: previousCode } })
     if (!currentPermission) {
-      throw new NotFoundException('权限点不存在')
+      throw new NotFoundException('访问权限不存在')
     }
 
     const nextCode = payload.code.trim()
@@ -742,7 +908,7 @@ export class AccessControlService {
             apiScopes
           }
         })
-        await this.writeAuditLog(operator, '更新权限点', `permission:${nextCode}`, tx)
+        await this.writeAuditLog(operator, '更新访问权限', `permission:${nextCode}`, tx)
         return this.mapPermissionRecord(permission)
       }
 
@@ -787,7 +953,7 @@ export class AccessControlService {
       }
 
       await tx.permission.delete({ where: { code: previousCode } })
-      await this.writeAuditLog(operator, '更新权限点', `permission:${nextCode}`, tx)
+      await this.writeAuditLog(operator, '更新访问权限', `permission:${nextCode}`, tx)
 
       const permission = await tx.permission.findUnique({ where: { code: nextCode } })
       return this.mapPermissionRecord(permission)
@@ -797,7 +963,7 @@ export class AccessControlService {
   async removePermission(code: string, operator = 'system') {
     const currentPermission = await this.db.permission.findUnique({ where: { code } })
     if (!currentPermission) {
-      throw new NotFoundException('权限点不存在')
+      throw new NotFoundException('访问权限不存在')
     }
 
     const [roleCount, userCount, menus] = await Promise.all([
@@ -808,12 +974,12 @@ export class AccessControlService {
 
     const usedByMenu = menus.some((menu: any) => this.parseStringArray(menu.permissionCodes).includes(code))
     if (roleCount > 0 || userCount > 0 || usedByMenu) {
-      throw new BadRequestException('权限点仍被角色、用户或菜单引用，无法删除')
+      throw new BadRequestException('访问权限仍被角色、用户或菜单引用，无法删除')
     }
 
     await this.db.$transaction(async (tx: any) => {
       await tx.permission.delete({ where: { code } })
-      await this.writeAuditLog(operator, '删除权限点', `permission:${code}`, tx)
+      await this.writeAuditLog(operator, '删除访问权限', `permission:${code}`, tx)
     })
 
     return { success: true }
@@ -856,6 +1022,106 @@ export class AccessControlService {
     return this.db.auditLog.findMany({
       orderBy: [{ createdAt: 'desc' }]
     })
+  }
+
+  async getMenuCatalog() {
+    return this.buildMenuCatalogTree()
+  }
+
+  async createMenu(payload: UpsertMenuDto, operator = 'system') {
+    const key = payload.key.trim()
+    const duplicateMenu = await this.db.menu.findUnique({ where: { key } })
+    if (duplicateMenu) {
+      throw new BadRequestException('菜单路由已存在')
+    }
+
+    return this.db.$transaction(async (tx: any) => {
+      const parentId = payload.parentId?.trim() || undefined
+      await this.ensureMenuParentValid(undefined, parentId, tx)
+      await this.getPermissionEntitiesByCodes(payload.permissionCodes, tx)
+
+      const id = `menu-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`
+      const menu = await tx.menu.create({
+        data: {
+          id,
+          key,
+          title: payload.title.trim(),
+          icon: payload.icon.trim(),
+          menuType: payload.menuType,
+          componentPath: payload.componentPath?.trim() || null,
+          status: payload.status,
+          parentId: parentId ?? null,
+          sortOrder: payload.sortOrder,
+          permissionCodes: payload.permissionCodes
+        },
+        include: { children: true }
+      })
+
+      await this.writeAuditLog(operator, '创建菜单', `menu:${key}`, tx)
+      return this.mapMenuCatalogRecord(menu)
+    })
+  }
+
+  async updateMenu(menuId: string, payload: UpsertMenuDto, operator = 'system') {
+    const currentMenu = await this.db.menu.findUnique({ where: { id: menuId } })
+    if (!currentMenu) {
+      throw new NotFoundException('菜单不存在')
+    }
+
+    const key = payload.key.trim()
+    const duplicateMenu = await this.db.menu.findFirst({
+      where: {
+        id: { not: menuId },
+        key
+      }
+    })
+    if (duplicateMenu) {
+      throw new BadRequestException('菜单路由已存在')
+    }
+
+    return this.db.$transaction(async (tx: any) => {
+      const parentId = payload.parentId?.trim() || undefined
+      await this.ensureMenuParentValid(menuId, parentId, tx)
+      await this.getPermissionEntitiesByCodes(payload.permissionCodes, tx)
+
+      const menu = await tx.menu.update({
+        where: { id: menuId },
+        data: {
+          key,
+          title: payload.title.trim(),
+          icon: payload.icon.trim(),
+          menuType: payload.menuType,
+          componentPath: payload.componentPath?.trim() || null,
+          status: payload.status,
+          parentId: parentId ?? null,
+          sortOrder: payload.sortOrder,
+          permissionCodes: payload.permissionCodes
+        },
+        include: { children: true }
+      })
+
+      await this.writeAuditLog(operator, '更新菜单', `menu:${key}`, tx)
+      return this.mapMenuCatalogRecord(menu)
+    })
+  }
+
+  async removeMenu(menuId: string, operator = 'system') {
+    const currentMenu = await this.db.menu.findUnique({ where: { id: menuId } })
+    if (!currentMenu) {
+      throw new NotFoundException('菜单不存在')
+    }
+
+    const childCount = await this.db.menu.count({ where: { parentId: menuId } })
+    if (childCount > 0) {
+      throw new BadRequestException('请先删除下级菜单')
+    }
+
+    await this.db.$transaction(async (tx: any) => {
+      await tx.menu.delete({ where: { id: menuId } })
+      await this.writeAuditLog(operator, '删除菜单', `menu:${currentMenu.key}`, tx)
+    })
+
+    return { success: true }
   }
 
   async getDepartmentPath(departmentId: string) {

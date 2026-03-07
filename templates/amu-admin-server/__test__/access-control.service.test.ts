@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { AccessControlService } from '../src/access-control/access-control.service'
+import { rolesSeed } from '../src/access-control/access-control.seed'
 
 describe('access control service', () => {
   const service = new AccessControlService({} as never)
@@ -47,5 +48,24 @@ describe('access control service', () => {
       { id: 'r3', code: 'c3', name: 'n3', description: 'd3', dataScope: 'DEPARTMENT', permissionCodes: [] },
       { id: 'r4', code: 'c4', name: 'n4', description: 'd4', dataScope: 'DEPARTMENT_AND_CHILDREN', permissionCodes: [] }
     ])).toBe('DEPARTMENT_AND_CHILDREN')
+  })
+
+  it('运营负责人默认包含查看访问权限的权限', () => {
+    const operatorRole = rolesSeed.find((role) => role.code === 'operations_manager')
+
+    expect(operatorRole?.permissionCodes).toContain('system:permission:read')
+  })
+
+  it('运营负责人默认包含查看菜单的权限', () => {
+    const operatorRole = rolesSeed.find((role) => role.code === 'operations_manager')
+
+    expect(operatorRole?.permissionCodes).toContain('system:menu:read')
+  })
+
+  it('运营负责人默认包含部门管理权限', () => {
+    const operatorRole = rolesSeed.find((role) => role.code === 'operations_manager')
+
+    expect(operatorRole?.permissionCodes).toContain('system:department:read')
+    expect(operatorRole?.permissionCodes).toContain('system:department:write')
   })
 })

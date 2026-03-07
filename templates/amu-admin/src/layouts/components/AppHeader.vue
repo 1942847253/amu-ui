@@ -221,7 +221,7 @@
                 @click="handleSearchSelect(item.key)" @mouseenter="searchSelectedIndex = getFlatIndex('title', index)">
                 <div class="admin-search__item-icon">
                   <AmuIcon :size="18">
-                    <component :is="resolveMenuIcon(item.key) || IconFileText" />
+                    <component :is="resolveMenuIcon(item.key, item.icon) || IconFileText" />
                   </AmuIcon>
                 </div>
                 <div class="admin-search__item-content">
@@ -242,7 +242,7 @@
                 @click="handleSearchSelect(item.key)" @mouseenter="searchSelectedIndex = getFlatIndex('path', index)">
                 <div class="admin-search__item-icon">
                   <AmuIcon size="16">
-                    <component :is="resolveMenuIcon(item.key) || IconFileText" />
+                    <component :is="resolveMenuIcon(item.key, item.icon) || IconFileText" />
                   </AmuIcon>
                 </div>
                 <div class="admin-search__item-content">
@@ -270,7 +270,7 @@
                 @mouseenter="searchSelectedIndex = index">
                 <div class="admin-search__item-icon">
                   <AmuIcon :size="16">
-                    <component :is="resolveMenuIcon(item.key) || IconFileText" />
+                    <component :is="resolveMenuIcon(item.key, item.icon) || IconFileText" />
                   </AmuIcon>
                 </div>
                 <div class="admin-search__item-content">
@@ -410,6 +410,7 @@ type NotificationItem = {
 type SearchItem = {
   key: string
   title: string
+  icon?: string
   visitedAt: number
 }
 
@@ -424,11 +425,12 @@ const isSearchHistoryItemArray = (value: unknown): value is SearchItem[] => {
   return Array.isArray(value)
     && value.every((item) => {
       if (!item || typeof item !== 'object') return false
-      const candidate = item as { key?: unknown; title?: unknown; visitedAt?: unknown }
+      const candidate = item as { key?: unknown; title?: unknown; icon?: unknown; visitedAt?: unknown }
       const hasValidVisitedAt = typeof candidate.visitedAt === 'undefined'
         || (typeof candidate.visitedAt === 'number' && Number.isFinite(candidate.visitedAt))
       return typeof candidate.key === 'string'
         && typeof candidate.title === 'string'
+        && (typeof candidate.icon === 'undefined' || typeof candidate.icon === 'string')
         && hasValidVisitedAt
     })
 }

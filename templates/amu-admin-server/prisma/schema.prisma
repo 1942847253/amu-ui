@@ -117,6 +117,9 @@ model Menu {
   key             String   @unique @db.VarChar(191)
   title           String   @db.VarChar(128)
   icon            String   @db.VarChar(128)
+  menuType        String   @default("MENU") @db.VarChar(32)
+  componentPath   String?  @db.VarChar(191)
+  status          String   @default("ACTIVE") @db.VarChar(32)
   permissionCodes Json?
   parentId        String?  @db.VarChar(64)
   sortOrder       Int      @default(0)

@@ -144,11 +144,6 @@ export const useAuthStore = defineStore('auth', () => {
       return
     }
 
-    if (user.value && permissions.value.length > 0) {
-      hydrated.value = true
-      return
-    }
-
     try {
       await fetchProfile()
     } catch {

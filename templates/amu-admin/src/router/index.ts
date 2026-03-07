@@ -19,7 +19,7 @@ const titleMapEn: Record<string, string> = {
   系统管理: 'System',
   用户管理: 'Users',
   角色管理: 'Roles',
-  权限点管理: 'Permissions',
+  访问权限管理: 'Permissions',
   鉴权自测: 'Auth Debug',
   个人中心: 'Personal Center',
   页面不存在: 'Not Found'
