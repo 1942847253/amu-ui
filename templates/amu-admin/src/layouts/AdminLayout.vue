@@ -49,12 +49,6 @@
       </AmuContent>
     </AmuLayout>
 
-    <AmuLoading
-      :visible="appStore.pageLoading && isRouteLoading"
-      :text="tx('页面加载中...', 'Loading page...')"
-      fullscreen
-    />
-
     <div v-if="appStore.watermark" class="admin-layout__watermark" :style="watermarkStyle"></div>
 
     <div v-if="isScreenLocked" class="admin-layout__lock-screen">
@@ -72,7 +66,6 @@
 import { ref, nextTick, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { AmuLayout, AmuSider, AmuHeader, AmuContent } from 'amu-ui/layout'
-import { AmuLoading } from 'amu-ui/loading'
 import { AmuButton } from 'amu-ui/button'
 import { useAppStore } from '../store/app'
 import { useAuthStore } from '../store/auth'
@@ -99,7 +92,6 @@ const isRefreshing = ref(false)
 const refreshViewKey = ref(0)
 const refreshProgress = ref(0)
 const routeProgress = ref(0)
-const isRouteLoading = ref(false)
 const isScreenLocked = ref(false)
 const lockTimeText = ref('')
 let refreshProgressTimer: number | null = null
@@ -293,9 +285,6 @@ const handleLogout = async () => {
 
 const handleRouteStart = () => {
   if (route.path === '/login') return
-  if (appStore.pageLoading) {
-    isRouteLoading.value = true
-  }
   if (appStore.pageTransitionProgress) {
     startRouteProgress()
   }
@@ -305,7 +294,6 @@ const handleRouteEnd = async () => {
   if (appStore.pageTransitionProgress) {
     await finishRouteProgress()
   }
-  isRouteLoading.value = false
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
@@ -407,7 +395,7 @@ onBeforeUnmount(() => {
   flex-direction: column;
   min-width: 0;
   min-height: 0;
-  background: var(--amu-color-bg-base);
+  background: var(--amu-color-bg-fill);
 }
 
 .admin-layout__header-wrapper {
@@ -428,6 +416,14 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   background: var(--amu-color-bg-fill);
+}
+
+[data-amu-theme='dark'] .admin-layout__main {
+  background: var(--amu-color-bg);
+}
+
+[data-amu-theme='dark'] .admin-layout__content-wrapper {
+  background: var(--amu-color-bg);
 }
 
 .admin-layout__watermark {

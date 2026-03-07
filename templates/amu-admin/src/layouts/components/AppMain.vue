@@ -55,6 +55,10 @@ const transitionName = computed(() => {
   box-sizing: border-box;
 }
 
+[data-amu-theme='dark'] .app-main {
+  background-color: var(--amu-color-bg);
+}
+
 :deep(.amu-scrollbar) {
   height: 100%;
 }

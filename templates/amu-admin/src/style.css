@@ -20,6 +20,10 @@ body {
   color: var(--amu-color-text-default);
 }
 
+[data-amu-theme='dark'] body {
+  background: var(--amu-color-bg);
+}
+
 a {
   color: inherit;
   text-decoration: none;

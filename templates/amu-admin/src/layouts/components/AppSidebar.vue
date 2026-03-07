@@ -1,5 +1,5 @@
 <template>
-    <div class="app-sidebar-content">
+    <div class="app-sidebar-content" :data-amu-theme="sidebarTheme">
         <div class="admin-layout__logo">
             <div class="admin-layout__logo-mark">A</div>
             <span v-show="!collapsed" class="admin-layout__logo-text">Amu Admin</span>
@@ -67,6 +67,13 @@ const route = useRoute()
 const permissionStore = usePermissionStore()
 const appStore = useAppStore()
 const { resolveMenuIcon, translateRouteTitle } = useLayout()
+
+const sidebarTheme = computed(() => {
+    if (appStore.isDark || appStore.sidebarDark || appStore.sidebarChildDark) {
+        return 'dark'
+    }
+    return undefined
+})
 
 const activeKey = computed(() => route.path)
 const openKeys = ref<string[]>([])
@@ -163,6 +170,7 @@ const handleMenuSelect = (key: string) => {
     display: flex;
     flex-direction: column;
     min-height: 0;
+    background: var(--amu-color-bg);
 }
 
 .app-sidebar-content__menu {
@@ -199,7 +207,7 @@ const handleMenuSelect = (key: string) => {
     height: 35px;
     border-radius: 6px;
     background: var(--amu-color-primary);
-    color: var(--amu-color-on-solid);
+    color: var(--amu-color-on-primary);
     display: flex;
     align-items: center;
     justify-content: center;

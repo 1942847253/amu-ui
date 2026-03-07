@@ -1,11 +1,15 @@
 <template>
   <div class="app-mixed-sidebar">
-    <div v-if="!compactPrimary" class="app-mixed-sidebar__primary">
+    <div
+      v-if="!compactPrimary"
+      class="app-mixed-sidebar__primary"
+      :data-amu-theme="primarySidebarTheme"
+    >
       <div class="app-mixed-sidebar__logo">A</div>
       <AmuMenu
         class="app-mixed-sidebar__primary-menu"
         mode="vertical"
-        :theme="menuTheme"
+        :theme="primaryMenuTheme"
         :show-collapse-button="false"
         :selected-keys="[activeRootKey]"
         @select="handleRootSelect"
@@ -20,12 +24,16 @@
       </AmuMenu>
     </div>
 
-    <div v-if="showSecondary" class="app-mixed-sidebar__secondary">
+    <div
+      v-if="showSecondary"
+      class="app-mixed-sidebar__secondary"
+      :data-amu-theme="secondarySidebarTheme"
+    >
       <div class="app-mixed-sidebar__title">{{ activeRootTitle }}</div>
       <AmuMenu
         class="app-mixed-sidebar__secondary-menu"
         mode="vertical"
-        :theme="menuTheme"
+        :theme="secondaryMenuTheme"
         :show-collapse-button="false"
         :selected-keys="[activeLeafKey]"
         :open-keys="openKeys"
@@ -105,8 +113,30 @@ const { resolveMenuIcon, translateRouteTitle } = useLayout()
 const activeRootKey = ref('')
 const openKeys = ref<string[]>([])
 
-const menuTheme = computed(() => {
-  return appStore.isDark || appStore.sidebarDark || appStore.sidebarChildDark ? 'dark' : 'light'
+const primarySidebarTheme = computed(() => {
+  if (appStore.isDark || appStore.sidebarDark) {
+    return 'dark'
+  }
+  return undefined
+})
+
+const secondarySidebarTheme = computed(() => {
+  if (
+    appStore.isDark
+    || appStore.sidebarChildDark
+    || (appStore.layoutMode === 'mixed-nav' && appStore.sidebarDark)
+  ) {
+    return 'dark'
+  }
+  return undefined
+})
+
+const primaryMenuTheme = computed(() => {
+  return primarySidebarTheme.value === 'dark' ? 'dark' : 'light'
+})
+
+const secondaryMenuTheme = computed(() => {
+  return secondarySidebarTheme.value === 'dark' ? 'dark' : 'light'
 })
 
 const findRootByPath = (path: string) => {
@@ -221,7 +251,7 @@ const handleOpenKeysChange = (keys: string[]) => {
 .app-mixed-sidebar__primary {
   width: 64px;
   border-right: 1px solid var(--amu-color-border);
-  background: var(--amu-color-bg-elevated);
+  background: var(--amu-color-bg);
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -229,7 +259,7 @@ const handleOpenKeysChange = (keys: string[]) => {
 
 .app-mixed-sidebar__secondary {
   width: 216px;
-  background: var(--amu-color-bg-elevated);
+  background: var(--amu-color-bg);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -242,7 +272,7 @@ const handleOpenKeysChange = (keys: string[]) => {
   margin: 16px auto;
   border-radius: 6px;
   background: var(--amu-color-primary);
-  color: var(--amu-color-on-solid);
+  color: var(--amu-color-on-primary);
   display: flex;
   align-items: center;
   justify-content: center;
