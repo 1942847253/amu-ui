@@ -121,6 +121,7 @@ import {
   IconShield,
   IconBarChart
 } from '@amu-ui/icons'
+import { APP_META } from '../config/app'
 import { useAuthStore } from '../store/auth'
 import { createAvatarDataUri } from '../utils/avatar'
 
@@ -131,7 +132,7 @@ defineOptions({
 const authStore = useAuthStore()
 
 const currentUserName = computed(() => {
-  return authStore.user?.displayName || authStore.user?.username || 'Amu Admin'
+  return authStore.user?.displayName || authStore.user?.username || APP_META.name
 })
 
 const currentUserAvatar = computed(() => {

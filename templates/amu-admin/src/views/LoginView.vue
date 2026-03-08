@@ -80,8 +80,8 @@
     </div>
 
     <div class="logo-area">
-      <div class="logo-icon">A</div>
-      <h1 class="logo-text">Amu Admin</h1>
+      <div class="logo-icon">{{ logoMark }}</div>
+      <h1 class="logo-text">{{ APP_META.name }}</h1>
     </div>
 
     <!-- 左侧品牌展示区 -->
@@ -242,6 +242,7 @@ const loginLayout = ref<LoginLayoutMode>(
 )
 
 const colorPresets = ['#1677ff', '#0ea5e9', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6']
+const logoMark = computed(() => APP_META.shortName.slice(0, 1).toUpperCase() || 'A')
 
 const tx = (zh: string, en: string) => {
   return appStore.language === 'zh-CN' ? zh : en

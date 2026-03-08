@@ -5,7 +5,7 @@
 ## 0. 启动与准备
 
 - [ ] 在 `templates/amu-admin` 目录执行：`pnpm dev`
-- [ ] 访问本地地址（默认 `http://localhost:5174`）
+- [ ] 访问本地地址（默认 `http://localhost:5174`，如已配置 `VITE_DEV_PORT` 则按实际端口访问）
 - [ ] 登录默认账号：
   - 管理员：`admin / 123456`
   - 操作员：`operator / 123456`

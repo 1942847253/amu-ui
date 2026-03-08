@@ -771,7 +771,8 @@ const toggleFullscreen = () => {
 }
 
 const openGithub = () => {
-  window.open('https://github.com/amu-ui/amu-ui', '_blank')
+  if (!APP_META.repositoryUrl) return
+  window.open(APP_META.repositoryUrl, '_blank')
 }
 
 const handleLogout = async () => {

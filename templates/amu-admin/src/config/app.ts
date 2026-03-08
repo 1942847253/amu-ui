@@ -1,16 +1,21 @@
 import type { UserProfile, UserRole } from '../types/auth'
 
+const resolveEnvText = (value: string | undefined, fallback: string) => {
+  const nextValue = value?.trim()
+  return nextValue ? nextValue : fallback
+}
+
 export interface DemoAccountRecord extends UserProfile {
   password: string
 }
 
 export const APP_META = {
-  name: 'Amu Admin',
-  shortName: 'AM',
-  title: '企业级后台管理系统模板',
-  description: '面向大型业务系统的前端基础底座，内置权限、路由、主题、标签页与请求链路最佳实践。',
-  copyright: 'Copyright © 2026 Amu UI Team. All Rights Reserved.',
-  repositoryUrl: 'https://github.com/Amu-UI/amu-ui'
+  name: resolveEnvText(import.meta.env.VITE_APP_NAME, 'Amu Admin'),
+  shortName: resolveEnvText(import.meta.env.VITE_APP_SHORT_NAME, 'AM'),
+  title: resolveEnvText(import.meta.env.VITE_APP_TITLE, '企业级后台管理系统模板'),
+  description: resolveEnvText(import.meta.env.VITE_APP_DESCRIPTION, '面向大型业务系统的前端基础底座，内置权限、路由、主题、标签页与请求链路最佳实践。'),
+  copyright: resolveEnvText(import.meta.env.VITE_APP_COPYRIGHT, 'Copyright © 2026 Amu UI Team.'),
+  repositoryUrl: resolveEnvText(import.meta.env.VITE_APP_REPOSITORY_URL, 'https://github.com/Amu-UI/amu-ui')
 } as const
 
 export const DEMO_ACCOUNTS: DemoAccountRecord[] = [

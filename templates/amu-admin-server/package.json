@@ -2,6 +2,7 @@
   "name": "amu-admin-server",
   "private": true,
   "version": "0.1.0",
+  "license": "MIT",
   "description": "NestJS backend template for amu-admin with enterprise-grade RBAC and token lifecycle.",
   "scripts": {
     "install:mirror": "pnpm --dir ../../ install --filter amu-admin-server... --registry https://registry.npmmirror.com --fetch-retries 5 --fetch-timeout 120000",

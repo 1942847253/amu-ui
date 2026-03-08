@@ -1,8 +1,8 @@
 <template>
     <div class="app-sidebar-content" :data-amu-theme="sidebarTheme">
         <div class="admin-layout__logo">
-            <div class="admin-layout__logo-mark">A</div>
-            <span v-show="!collapsed" class="admin-layout__logo-text">Amu Admin</span>
+            <div class="admin-layout__logo-mark">{{ logoMark }}</div>
+            <span v-show="!collapsed" class="admin-layout__logo-text">{{ APP_META.name }}</span>
         </div>
 
         <AmuMenu class="app-sidebar-content__menu" mode="vertical"
@@ -49,6 +49,7 @@ import {
     AmuSubMenu,
 } from 'amu-ui/menu'
 import { AmuIcon } from 'amu-ui/icon'
+import { APP_META } from '../../config/app'
 import { usePermissionStore } from '../../store/permission'
 import { useAppStore } from '../../store/app'
 import { useLayout } from '../composables/useLayout'
@@ -67,6 +68,7 @@ const route = useRoute()
 const permissionStore = usePermissionStore()
 const appStore = useAppStore()
 const { resolveMenuIcon, translateRouteTitle } = useLayout()
+const logoMark = computed(() => APP_META.shortName.slice(0, 1).toUpperCase() || 'A')
 
 const sidebarTheme = computed(() => {
     if (appStore.isDark || appStore.sidebarDark || appStore.sidebarChildDark) {

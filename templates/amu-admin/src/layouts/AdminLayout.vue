@@ -71,6 +71,7 @@ import { useAppStore } from '../store/app'
 import { useAuthStore } from '../store/auth'
 import { usePermissionStore } from '../store/permission'
 import { useTabsStore } from '../store/tabs'
+import { APP_META } from '../config/app'
 import AppSidebar from './components/AppSidebar.vue'
 import AppHeader from './components/AppHeader.vue'
 import TagsView from './components/TagsView.vue'
@@ -164,7 +165,9 @@ const shouldShowTopProgress = computed(() => {
 })
 
 const watermarkStyle = computed(() => {
-  const title = appStore.language === 'en-US' ? 'AMU ADMIN' : '阿木后台'
+  const title = appStore.language === 'en-US'
+    ? APP_META.name.toUpperCase()
+    : APP_META.name
   const stamp = new Date().toLocaleDateString()
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='220' height='140'><g transform='rotate(-18 110 70)'><text x='18' y='68' fill='var(--amu-color-text-disabled)' font-size='16' font-family='sans-serif'>${title}</text><text x='18' y='96' fill='var(--amu-color-text-disabled)' font-size='12' font-family='sans-serif'>${stamp}</text></g></svg>`
   return {

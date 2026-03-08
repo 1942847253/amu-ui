@@ -1,6 +1,7 @@
 {
   "name": "amu-ui",
-  "version": "2.0.9",
+  "version": "2.1.0",
+  "license": "MIT",
   "sideEffects": [
     "**/*.css"
   ],
@@ -518,7 +519,7 @@
     "docs:dev": "pnpm --filter docs dev",
     "docs:build": "pnpm --filter docs build",
     "docs:preview": "pnpm --filter docs preview",
-    "build": "pnpm --filter @amu-ui/icons build && pnpm run gen:exports && pnpm run build:lib",
+    "build": "pnpm --filter @amu-ui/icons build && pnpm --filter @amu-ui/hooks build && pnpm --filter @amu-ui/locale build && pnpm run gen:exports && pnpm run build:lib",
     "build:lib": "vite build",
     "type:check": "vue-tsc -p tsconfig.build.json --noEmit",
     "gen:exports": "node scripts/gen-exports.js",
