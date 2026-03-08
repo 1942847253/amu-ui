@@ -45,7 +45,7 @@
 - `@amu-ui/locale`: `0.1.0`
 - `@amu-ui/hooks`: `0.1.0`
 - `@amu-ui/icons`: `0.2.0`
-- `amu-ui`: `2.1.0`
+- `amu-ui`: `2.1.2`
 
 建议：
 
@@ -132,6 +132,15 @@ pnpm --filter amu-admin-template build
 - `packages/hooks/package.json` 中对 `@amu-ui/locale` 的依赖
 - `templates/amu-admin/package.json` 中对 `amu-ui`、`@amu-ui/icons` 的依赖
 
+额外必须检查：
+
+- **对外发布的包清单里不能出现 `workspace:*`**。这项不能只看仓库源码里的 `package.json`，还要在发包后用 `npm view` 再确认一次 registry 上的最终 manifest。
+- 至少确认以下结果：
+	- `npm view amu-ui dependencies --json`
+	- `npm view @amu-ui/hooks dependencies --json`
+	- `npm view @amu-ui/icons dependencies --json`
+- 如果 registry 上的主包依赖仍然是 `workspace:*`，仓库外 `pnpm install` 会直接失败。
+
 如果你打算让模板立刻切到新版本，请在发包完成后同步更新：
 
 - `templates/amu-admin/package.json`
@@ -183,6 +192,31 @@ pnpm install
 pnpm --filter amu-admin-template build
 ```
 
+如果你要验证“模板是否真的可以脱离 monorepo 使用”，这一步还不够。
+
+### 1.1 仓库外真实验证
+
+必须额外做一次**仓库外**验证，而不是只在当前 workspace 内验证：
+
+1. 把 `templates/amu-admin` 复制到一个不包含 `packages/*` 的临时目录
+2. 复制时排除 `node_modules`、`dist`、`.git`
+3. 在临时目录执行：
+
+```bash
+pnpm install
+pnpm build
+pnpm test
+```
+
+这一步可以直接暴露出以下问题：
+
+- 已发布主包依赖里残留 `workspace:*`
+- 模板 `vite.config.ts` 默认强制走 workspace alias，导致仓库外构建时去找不存在的 `../../packages/*`
+- 模板 `vitest.config.ts` 仍强依赖 workspace alias
+- 包模式测试时外部依赖中的 CSS 没有被 Vite 内联处理，导致测试在 Node 侧直接报错
+
+只有这一步也通过，才能说明 `amu-admin-template` 在 npm 生态下真正可用。
+
 ### 2. 更新模板依赖范围
 
 把 `templates/amu-admin/package.json` 中的：
@@ -209,11 +243,17 @@ pnpm --filter amu-admin-template build
 - 直接写一个最小 Vite + Vue 页面
 - 验证按需引入和类型提示都正常
 
+建议再补一条严格检查：
+
+- 如果这轮修改涉及类型声明生成，至少做一次 `skipLibCheck=false` 的外部消费验证，避免出现“模板能用，但严格 TS 消费者会因为库声明报错”的情况。
+
 ## 最终发布判断标准
 
 满足以下条件再认为这轮发包完成：
 
 1. npm 上的 `amu-ui`、`@amu-ui/icons`、`@amu-ui/hooks`、`@amu-ui/locale` 都是本轮新版本
-2. `amu-admin-template` 在源码模式和包模式下都能构建
-3. 模板不再因为“已发布包太旧”而依赖额外兜底说明
-4. README 中的依赖版本与 npm 实际版本一致
+2. `npm view amu-ui dependencies --json` 等 registry 元数据中，不再出现 `workspace:*`
+3. `amu-admin-template` 在源码模式和包模式下都能构建
+4. `amu-admin-template` 在仓库外纯 npm 环境下可以完成 `install`、`build`、`test`
+5. 模板不再因为“已发布包太旧”或“默认强依赖 workspace alias”而依赖额外兜底说明
+6. README 中的依赖版本与 npm 实际版本一致
