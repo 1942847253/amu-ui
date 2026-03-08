@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -36,15 +37,23 @@ const createWorkspaceAliases = () => {
   ]
 }
 
+const workspaceEntry = resolve(__dirname, '../../packages/components/index.ts')
+const useWorkspaceSource = existsSync(workspaceEntry)
+
 export default defineConfig({
   plugins: [vue(), vueJsx()],
   resolve: {
-    alias: createWorkspaceAliases()
+    alias: useWorkspaceSource ? createWorkspaceAliases() : []
   },
   test: {
     environment: 'jsdom',
     globals: true,
     include: ['__test__/**/*.test.ts'],
-    setupFiles: ['./tests/setup.ts']
+    setupFiles: ['./tests/setup.ts'],
+    server: {
+      deps: {
+        inline: ['amu-ui', '@amu-ui/icons']
+      }
+    }
   }
 })

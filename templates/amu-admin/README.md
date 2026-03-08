@@ -35,7 +35,7 @@
 
 - `VITE_DEV_PORT`：前端 dev server 端口，默认 `5174`
 - `VITE_API_PROXY_TARGET`：本地开发时 `/api` 代理目标，默认 `http://localhost:3000`
-- `VITE_USE_WORKSPACE_SOURCE`：是否直接使用当前 monorepo 中的 `amu-ui` 与 `@amu-ui/icons` 源码，默认 `true`
+- `VITE_USE_WORKSPACE_SOURCE`：是否直接使用当前 monorepo 中的 `amu-ui` 与 `@amu-ui/icons` 源码；未显式配置时会自动探测当前目录是否存在 workspace 源码
 - `VITE_APP_NAME`、`VITE_APP_SHORT_NAME`：应用名称与简写
 - `VITE_APP_TITLE`、`VITE_APP_DESCRIPTION`：登录页和品牌展示文案的基础元信息
 - `VITE_APP_COPYRIGHT`、`VITE_APP_REPOSITORY_URL`：页脚版权与仓库地址
@@ -44,8 +44,11 @@
 
 模板现在支持两种前端依赖解析模式：
 
-- 源码模式：`VITE_USE_WORKSPACE_SOURCE=true`
+- 自动模式：不设置 `VITE_USE_WORKSPACE_SOURCE`
 	- 默认模式
+	- 如果当前目录附近存在 `../../packages/components/index.ts` 等 workspace 源码入口，则自动走源码模式
+	- 如果当前模板已经脱离 monorepo，则自动回退到包模式
+- 源码模式：`VITE_USE_WORKSPACE_SOURCE=true`
 	- Vite 会直接 alias 到当前仓库 `packages/*` 源码
 	- 适合在本 monorepo 内开发组件库与后台模板联调
 - 包模式：`VITE_USE_WORKSPACE_SOURCE=false`

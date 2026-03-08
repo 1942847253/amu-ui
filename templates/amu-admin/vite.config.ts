@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const parsePort = (value: string | undefined, fallback: number) => {
@@ -20,7 +21,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname, '')
   const devPort = parsePort(env.VITE_DEV_PORT, 5174)
   const apiProxyTarget = env.VITE_API_PROXY_TARGET?.trim() || 'http://localhost:3000'
-  const useWorkspaceSource = parseBoolean(env.VITE_USE_WORKSPACE_SOURCE, true)
+  const workspaceEntry = resolve(__dirname, '../../packages/components/index.ts')
+  const useWorkspaceSource = parseBoolean(env.VITE_USE_WORKSPACE_SOURCE, existsSync(workspaceEntry))
   const workspaceAliases = [
     {
       find: /^amu-ui$/,
