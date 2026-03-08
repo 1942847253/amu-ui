@@ -1,6 +1,6 @@
 {
   "name": "amu-ui",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "license": "MIT",
   "sideEffects": [
     "**/*.css"
@@ -480,9 +480,9 @@
     "dist"
   ],
   "dependencies": {
-    "@amu-ui/hooks": "workspace:*",
-    "@amu-ui/icons": "workspace:*",
-    "@amu-ui/locale": "workspace:*",
+    "@amu-ui/hooks": "^0.1.0",
+    "@amu-ui/icons": "^0.2.0",
+    "@amu-ui/locale": "^0.1.0",
     "async-validator": "^4.2.5",
     "dayjs": "^1.11.19",
     "lodash-es": "^4.17.22",
