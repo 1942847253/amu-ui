@@ -5,54 +5,40 @@
             <span v-show="!collapsed" class="admin-layout__logo-text">{{ APP_META.name }}</span>
         </div>
 
-        <AmuMenu class="app-sidebar-content__menu" mode="vertical"
+        <AmuMenu
+            class="app-sidebar-content__menu"
+            mode="vertical"
             :theme="appStore.isDark || appStore.sidebarDark || appStore.sidebarChildDark ? 'dark' : 'light'"
-            trigger="click" :show-collapse-button="false" :collapsed="collapsed"
-            @update:collapsed="handleCollapsedChange" :selected-keys="[activeKey]" :open-keys="openKeys"
-            @update:open-keys="handleOpenKeysChange" @select="handleMenuSelect">
-            <template v-for="item in permissionStore.menuTree" :key="item.key">
-                <AmuSubMenu v-if="item.children?.length" :index="item.key" :title="translateRouteTitle(item.title)">
-                    <template #icon>
-                        <AmuIcon>
-                            <component :is="resolveMenuIcon(item.key, item.icon)" />
-                        </AmuIcon>
-                    </template>
-                    <AmuMenuItem v-for="child in item.children" :key="child.key" :index="child.key">
-                        <template #icon>
-                            <AmuIcon>
-                                <component :is="resolveMenuIcon(child.key, child.icon)" />
-                            </AmuIcon>
-                        </template>
-                        {{ translateRouteTitle(child.title) }}
-                    </AmuMenuItem>
-                </AmuSubMenu>
-
-                <AmuMenuItem v-else :index="item.key">
-                    <template #icon>
-                        <AmuIcon>
-                            <component :is="resolveMenuIcon(item.key, item.icon)" />
-                        </AmuIcon>
-                    </template>
-                    {{ translateRouteTitle(item.title) }}
-                </AmuMenuItem>
-            </template>
+            trigger="click"
+            :show-collapse-button="false"
+            :collapsed="collapsed"
+            :selected-keys="[activeKey]"
+            :open-keys="openKeys"
+            @update:collapsed="handleCollapsedChange"
+            @update:open-keys="handleOpenKeysChange"
+            @select="handleMenuSelect"
+        >
+            <MenuTreeNode
+                v-for="item in permissionStore.menuTree"
+                :key="item.key"
+                :node="item"
+                :translate-title="translateRouteTitle"
+                :resolve-icon="resolveMenuIcon"
+            />
         </AmuMenu>
     </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import {
-    AmuMenu,
-    AmuMenuItem,
-    AmuSubMenu,
-} from 'amu-ui/menu'
-import { AmuIcon } from 'amu-ui/icon'
+import { useRoute, useRouter } from 'vue-router'
+import { AmuMenu } from 'amu-ui/menu'
 import { APP_META } from '../../config/app'
 import { usePermissionStore } from '../../store/permission'
 import { useAppStore } from '../../store/app'
+import { collectAncestorKeys, containsMenuKey, findMenuNode, normalizeAccordionKeys, resolveFirstLeafKey } from '../../utils/menu-tree'
 import { useLayout } from '../composables/useLayout'
+import MenuTreeNode from './MenuTreeNode.vue'
 
 const props = defineProps<{
     collapsed?: boolean
@@ -68,8 +54,8 @@ const route = useRoute()
 const permissionStore = usePermissionStore()
 const appStore = useAppStore()
 const { resolveMenuIcon, translateRouteTitle } = useLayout()
-const logoMark = computed(() => APP_META.shortName.slice(0, 1).toUpperCase() || 'A')
 
+const logoMark = computed(() => APP_META.shortName.slice(0, 1).toUpperCase() || 'A')
 const sidebarTheme = computed(() => {
     if (appStore.isDark || appStore.sidebarDark || appStore.sidebarChildDark) {
         return 'dark'
@@ -83,15 +69,13 @@ const openKeys = ref<string[]>([])
 watch(
     () => route.path,
     (path) => {
-        const segments = path.split('/').filter(Boolean)
-        if (segments.length > 1) {
-            openKeys.value = [`/${segments[0]}`]
+        const ancestors = collectAncestorKeys(permissionStore.menuTree, path)
+        if (ancestors.length > 0) {
+            openKeys.value = ancestors
             return
         }
 
-        const firstGroup = permissionStore.menuTree.find(
-            (item) => item.children?.length
-        )
+        const firstGroup = permissionStore.menuTree.find((item) => item.children?.length)
         openKeys.value = firstGroup ? [firstGroup.key] : []
     },
     { immediate: true }
@@ -115,11 +99,8 @@ watch(
     () => [permissionStore.menuTree, appStore.autoActivateFirstMenu, route.path] as const,
     () => {
         if (!appStore.autoActivateFirstMenu) return
-        const hasMatched = permissionStore.menuTree.some((item) => {
-            if (item.key === route.path) return true
-            return item.children?.some((child) => child.key === route.path)
-        })
-        if (hasMatched) return
+        if (containsMenuKey(permissionStore.menuTree, route.path)) return
+
         const firstLeaf = resolveFirstLeafPath()
         if (firstLeaf) {
             router.replace(firstLeaf)
@@ -128,40 +109,30 @@ watch(
     { immediate: true }
 )
 
-const handleCollapsedChange = (val: boolean) => {
-    emit('update:collapsed', val)
+const handleCollapsedChange = (value: boolean) => {
+    emit('update:collapsed', value)
 }
 
 const handleOpenKeysChange = (keys: string[]) => {
     if (appStore.sidebarAccordion && keys.length > 1) {
-        openKeys.value = [keys[keys.length - 1]]
+        openKeys.value = normalizeAccordionKeys(keys)
         return
     }
+
     openKeys.value = keys
 }
 
 const resolveFirstLeafByKey = (key: string) => {
-    const root = permissionStore.menuTree.find((item) => item.key === key)
-    if (!root?.children?.length) return ''
-
-    const queue = [...root.children]
-    while (queue.length > 0) {
-        const current = queue.shift()
-        if (!current) continue
-        if (!current.children?.length) return current.key
-        queue.unshift(...current.children)
-    }
-
-    return ''
+    return resolveFirstLeafKey(findMenuNode(permissionStore.menuTree, key))
 }
 
 const handleMenuSelect = (key: string) => {
-    if (key.startsWith('/')) {
-        const firstLeaf = resolveFirstLeafByKey(key)
-        router.push(firstLeaf || key)
-        if (!props.collapsed) {
-            emit('menu-select')
-        }
+    if (!key.startsWith('/')) return
+
+    const firstLeaf = resolveFirstLeafByKey(key)
+    router.push(firstLeaf || key)
+    if (!props.collapsed) {
+        emit('menu-select')
     }
 }
 </script>
@@ -181,7 +152,7 @@ const handleMenuSelect = (key: string) => {
 }
 
 :deep(.amu-menu--vertical, .amu-menu--inline) {
-   border-right: none !important;
+    border-right: none !important;
 }
 
 :deep(.amu-menu--inline) {

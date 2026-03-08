@@ -4,6 +4,7 @@ import { staticRoutes } from './routes'
 import { useAuthStore } from '../store/auth'
 import { usePermissionStore } from '../store/permission'
 import { useAppStore } from '../store/app'
+import { findMenuNode, resolveFirstLeafKey } from '../utils/menu-tree'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -16,11 +17,48 @@ const titleMapEn: Record<string, string> = {
   视图: 'View',
   工作台: 'Workplace',
   仪表盘: 'Dashboard',
+  示例: 'Examples',
+  表单: 'Forms',
+  基础表单: 'Basic Form',
+  查询表单: 'Search Form',
+  表单校验: 'Form Validation',
+  动态表单: 'Dynamic Form',
+  自定义布局: 'Custom Layout',
+  按钮: 'Buttons',
+  基础按钮: 'Basic Buttons',
+  按钮组合: 'Button Groups',
+  按钮状态: 'Button States',
+  表格: 'Tables',
+  基础表格: 'Basic Table',
+  分页表格: 'Pagination Table',
+  状态表格: 'State Table',
+  空态与加载: 'Empty And Loading',
+  数据展示: 'Data Display',
+  文本省略: 'Text Ellipsis',
+  详情页: 'Detail Page',
+  统计概览: 'Statistics Overview',
+  导航示例: 'Navigation',
+  面包屑: 'Breadcrumb',
+  标签页: 'Tabs',
+  下拉菜单: 'Dropdown',
+  弹窗反馈: 'Feedback Overlays',
+  对话框: 'Dialog',
+  二次确认: 'Confirmation',
+  抽屉: 'Drawer',
+  加载反馈: 'Loading Feedback',
+  按钮加载: 'Button Loading',
+  区域加载: 'Area Loading',
+  全屏加载: 'Fullscreen Loading',
   系统管理: 'System',
   用户管理: 'Users',
+  部门管理: 'Departments',
   角色管理: 'Roles',
+  菜单管理: 'Menus',
   访问权限管理: 'Permissions',
   鉴权自测: 'Auth Debug',
+  安全中心: 'Security',
+  策略矩阵: 'Policy Matrix',
+  审计日志: 'Audit Logs',
   个人中心: 'Personal Center',
   页面不存在: 'Not Found'
 }
@@ -112,18 +150,7 @@ const resolvePermissionRedirect = (to: RouteLocationNormalized) => {
 
 const resolveFirstLeafPath = (key: string) => {
   const permissionStore = usePermissionStore()
-  const root = permissionStore.menuTree.find((item) => item.key === key)
-  if (!root?.children?.length) return ''
-
-  const queue = [...root.children]
-  while (queue.length > 0) {
-    const current = queue.shift()
-    if (!current) continue
-    if (!current.children?.length) return current.key
-    queue.unshift(...current.children)
-  }
-
-  return ''
+  return resolveFirstLeafKey(findMenuNode(permissionStore.menuTree, key))
 }
 
 const resolveParentRouteRedirect = (to: RouteLocationNormalized) => {

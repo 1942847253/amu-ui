@@ -6,40 +6,13 @@
       :selected-keys="[selectedKey]"
       @select="handleMenuSelect"
     >
-      <template v-for="item in permissionStore.menuTree" :key="item.key">
-        <AmuSubMenu
-          v-if="item.children?.length"
-          :index="item.key"
-          :title="translateRouteTitle(item.title)"
-        >
-          <template #icon>
-            <AmuIcon>
-              <component :is="resolveMenuIcon(item.key, item.icon)" />
-            </AmuIcon>
-          </template>
-          <AmuMenuItem
-            v-for="child in item.children"
-            :key="child.key"
-            :index="child.key"
-          >
-            <template #icon>
-              <AmuIcon>
-                <component :is="resolveMenuIcon(child.key, child.icon)" />
-              </AmuIcon>
-            </template>
-            {{ translateRouteTitle(child.title) }}
-          </AmuMenuItem>
-        </AmuSubMenu>
-
-        <AmuMenuItem v-else :index="item.key">
-          <template #icon>
-            <AmuIcon>
-              <component :is="resolveMenuIcon(item.key, item.icon)" />
-            </AmuIcon>
-          </template>
-          {{ translateRouteTitle(item.title) }}
-        </AmuMenuItem>
-      </template>
+      <MenuTreeNode
+        v-for="item in permissionStore.menuTree"
+        :key="item.key"
+        :node="item"
+        :translate-title="translateRouteTitle"
+        :resolve-icon="resolveMenuIcon"
+      />
     </AmuMenu>
   </div>
 </template>
@@ -49,13 +22,12 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   AmuMenu,
-  AmuMenuItem,
-  AmuSubMenu,
 } from 'amu-ui/menu'
-import { AmuIcon } from 'amu-ui/icon'
 import { usePermissionStore } from '../../store/permission'
 import { useAppStore } from '../../store/app'
 import { useLayout } from '../composables/useLayout'
+import MenuTreeNode from './MenuTreeNode.vue'
+import { findMenuNode, findRootMenuByKey, resolveFirstLeafKey } from '../../utils/menu-tree'
 
 const props = withDefaults(defineProps<{
   mixedNav?: boolean
@@ -83,26 +55,11 @@ const selectedKey = computed(() => {
 })
 
 const resolveFirstLeafPath = (key: string) => {
-  const root = permissionStore.menuTree.find((item) => item.key === key)
-  if (!root) return ''
-  if (!root.children?.length) return root.key
-
-  const queue = [...root.children]
-  while (queue.length > 0) {
-    const current = queue.shift()
-    if (!current) continue
-    if (!current.children?.length) return current.key
-    queue.unshift(...current.children)
-  }
-  return root.key
+  return resolveFirstLeafKey(findMenuNode(permissionStore.menuTree, key))
 }
 
 const findRootKey = (key: string) => {
-  for (const root of permissionStore.menuTree) {
-    if (root.key === key) return root.key
-    if (root.children?.some((child) => child.key === key)) return root.key
-  }
-  return ''
+  return findRootMenuByKey(permissionStore.menuTree, key)?.key || ''
 }
 
 const handleMenuSelect = (key: string) => {

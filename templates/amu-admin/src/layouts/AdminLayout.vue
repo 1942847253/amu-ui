@@ -78,6 +78,7 @@ import TagsView from './components/TagsView.vue'
 import AppMain from './components/AppMain.vue'
 import AppTopMenu from './components/AppTopMenu.vue'
 import AppMixedSidebar from './components/AppMixedSidebar.vue'
+import { findRootMenuByKey } from '../utils/menu-tree'
 
 defineOptions({
   name: 'AdminLayout'
@@ -142,10 +143,7 @@ const siderWidth = computed(() => {
 })
 
 const resolveRootByPath = (path: string) => {
-  return permissionStore.menuTree.find((item) => {
-    if (item.key === path) return true
-    return item.children?.some((child) => child.key === path)
-  })
+  return findRootMenuByKey(permissionStore.menuTree, path)
 }
 
 const layoutStyle = computed(() => {

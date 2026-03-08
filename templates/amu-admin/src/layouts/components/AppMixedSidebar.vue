@@ -40,40 +40,13 @@
         @update:open-keys="handleOpenKeysChange"
         @select="handleLeafSelect"
       >
-        <template v-for="item in secondaryMenu" :key="item.key">
-          <AmuSubMenu
-            v-if="item.children?.length"
-            :index="item.key"
-            :title="translateRouteTitle(item.title)"
-          >
-            <template #icon>
-              <AmuIcon>
-                <component :is="resolveMenuIcon(item.key, item.icon)" />
-              </AmuIcon>
-            </template>
-            <AmuMenuItem
-              v-for="child in item.children"
-              :key="child.key"
-              :index="child.key"
-            >
-              <template #icon>
-                <AmuIcon>
-                  <component :is="resolveMenuIcon(child.key, child.icon)" />
-                </AmuIcon>
-              </template>
-              {{ translateRouteTitle(child.title) }}
-            </AmuMenuItem>
-          </AmuSubMenu>
-
-          <AmuMenuItem v-else :index="item.key">
-            <template #icon>
-              <AmuIcon>
-                <component :is="resolveMenuIcon(item.key, item.icon)" />
-              </AmuIcon>
-            </template>
-            {{ translateRouteTitle(item.title) }}
-          </AmuMenuItem>
-        </template>
+        <MenuTreeNode
+          v-for="item in secondaryMenu"
+          :key="item.key"
+          :node="item"
+          :translate-title="translateRouteTitle"
+          :resolve-icon="resolveMenuIcon"
+        />
       </AmuMenu>
     </div>
   </div>
@@ -85,12 +58,13 @@ import { useRoute, useRouter } from 'vue-router'
 import {
   AmuMenu,
   AmuMenuItem,
-  AmuSubMenu,
 } from 'amu-ui/menu'
 import { AmuIcon } from 'amu-ui/icon'
 import { usePermissionStore, type MenuNode } from '../../store/permission'
 import { useAppStore } from '../../store/app'
 import { useLayout } from '../composables/useLayout'
+import MenuTreeNode from './MenuTreeNode.vue'
+import { collectAncestorKeys, findMenuNode, findRootMenuByKey, normalizeAccordionKeys, resolveFirstLeafKey } from '../../utils/menu-tree'
 
 const props = withDefaults(defineProps<{
   compactPrimary?: boolean
@@ -140,10 +114,7 @@ const secondaryMenuTheme = computed(() => {
 })
 
 const findRootByPath = (path: string) => {
-  return permissionStore.menuTree.find((item) => {
-    if (item.key === path) return true
-    return item.children?.some((child) => child.key === path)
-  })
+  return findRootMenuByKey(permissionStore.menuTree, path)
 }
 
 const resolveFirstLeaf = (node?: MenuNode): string => {
@@ -200,9 +171,8 @@ watch(
       return
     }
     activeRootKey.value = root.key
-    if (root.children?.length) {
-      openKeys.value = [root.children[0].key]
-    }
+    const nextMenu = root.children?.length ? root.children : [root]
+    openKeys.value = collectAncestorKeys(nextMenu, route.path)
   },
   { immediate: true }
 )
@@ -228,13 +198,14 @@ const handleRootSelect = (key: string) => {
 }
 
 const handleLeafSelect = (key: string) => {
-  router.push(key)
+  const firstLeaf = resolveFirstLeafKey(findMenuNode(secondaryMenu.value, key))
+  router.push(firstLeaf || key)
   emit('menu-select')
 }
 
 const handleOpenKeysChange = (keys: string[]) => {
   if (appStore.sidebarAccordion && keys.length > 1) {
-    openKeys.value = [keys[keys.length - 1]]
+    openKeys.value = normalizeAccordionKeys(keys)
     return
   }
   openKeys.value = keys
