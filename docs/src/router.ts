@@ -8,7 +8,7 @@ import ComponentDoc from './pages/ComponentDoc.vue'
 import nav from 'virtual:amu-docs-nav'
 
 export const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', component: Home },
     { path: '/guide/quick-start', component: GuideQuickStart },
