@@ -1,93 +1,212 @@
-# amu-ui
+<p align="right">
+	<a href="./README.md">English</a> | <a href="./README.zh-CN.md">简体中文</a>
+</p>
 
-基于 Vue 3 + TypeScript 的组件库仓库，包含组件库本体、文档站、演示沙盒，以及一套基于 amu-ui 的后台管理模板与配套服务端模板。
+<p align="center">
+	<img src="./assets/amu-ui-logo.svg" alt="amu-ui logo" width="720" />
+</p>
 
-## 仓库组成
+<p align="center">
+	UI foundation for Vue 3 admin systems and business applications
+</p>
 
-### 1. 组件库本体
+<p align="center">
+	<a href="./LICENSE"><img alt="license" src="https://img.shields.io/badge/license-MIT-84cc16?style=for-the-badge"></a>
+	<a href="https://www.npmjs.com/package/amu-ui"><img alt="npm version" src="https://img.shields.io/npm/v/amu-ui?style=for-the-badge&label=npm&color=2563eb"></a>
+	<a href="https://www.npmjs.com/package/amu-ui"><img alt="downloads" src="https://img.shields.io/npm/dm/amu-ui?style=for-the-badge&label=downloads&color=22c55e"></a>
+	<a href="https://vuejs.org/"><img alt="vue" src="https://img.shields.io/badge/Vue-3-42b883?style=for-the-badge"></a>
+	<a href="https://www.typescriptlang.org/"><img alt="typescript" src="https://img.shields.io/badge/TypeScript-Strict-3178c6?style=for-the-badge"></a>
+	<a href="https://pnpm.io/workspaces"><img alt="pnpm workspace" src="https://img.shields.io/badge/pnpm-workspace-f59e0b?style=for-the-badge"></a>
+</p>
 
-- 目录：`packages/*`
-- 内容：组件、图标、hooks、locale、theme、utils
-- 目标：产出可发布的 `amu-ui`、`@amu-ui/icons`、`@amu-ui/hooks`、`@amu-ui/locale`
+<p align="center">
+	<a href="#highlights">Highlights</a> ·
+	<a href="#packages">Packages</a> ·
+	<a href="#quick-start">Quick Start</a> ·
+	<a href="#workflow">Workflow</a> ·
+	<a href="#templates">Templates</a> ·
+	<a href="./templates/amu-admin/README.md">Admin Template README</a> ·
+	<a href="./templates/amu-admin-server/README.md">Admin Server README</a>
+</p>
 
-### 2. 文档与调试环境
+`amu-ui` is more than a single component package. It is a complete Vue 3 UI toolkit and engineering workspace built around components, icons, theme tokens, locale, documentation, playgrounds, and admin templates.
 
-- `docs`：组件文档站
-- `playground`：本地组件调试沙盒
+## Highlights
 
-### 3. 后台管理模板
+- Built with Vue 3 + TypeScript under a strict and maintainable engineering setup
+- Includes 45+ business-oriented components across form, data display, feedback, layout, and navigation scenarios
+- Supports both full installation and on-demand import for better DX and bundle control
+- Ships ESM, CJS, and type declarations for modern and legacy build pipelines
+- Uses CSS Variables for theming, including dark mode and semantic design tokens
+- Generates component API docs from source definitions to reduce documentation overhead
+- Splits icons, hooks, and locale into reusable packages for ecosystem growth
+- Provides admin frontend and NestJS backend templates for integrated business delivery
 
-- `templates/amu-admin`：基于 `Vue 3 + Pinia + Vue Router + amu-ui` 的后台管理前端模板
-- `templates/amu-admin-server`：基于 `NestJS + Prisma + MySQL` 的后台服务端模板
+## Packages
 
-这两个模板当前默认作为本仓库内的示例与脚手架资源维护，前端模板直接依赖本仓库 workspace 中的 `amu-ui` 和 `@amu-ui/icons` 源码，不等同于已经完全独立发布的外部模板仓库。
+| Package | Description |
+| --- | --- |
+| `amu-ui` | Main UI package with component exports, theme entry, and locale bridge |
+| `@amu-ui/icons` | Standalone icon package with full install and on-demand import |
+| `@amu-ui/hooks` | Reusable hooks package |
+| `@amu-ui/locale` | Locale package and i18n type definitions |
 
-## 快速开始
+## Quick Start
 
-安装依赖：
+Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-启动组件沙盒：
+### Full Installation
+
+```ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import AmuUI from 'amu-ui'
+import 'amu-ui/theme'
+
+createApp(App).use(AmuUI).mount('#app')
+```
+
+### On-demand Import
+
+```vue
+<script setup lang="ts">
+import { AmuButton } from 'amu-ui/button'
+</script>
+
+<template>
+	<AmuButton type="primary">Primary Button</AmuButton>
+</template>
+```
+
+### Local Development
+
+Start the playground:
 
 ```bash
 pnpm dev
 ```
 
-启动文档站：
+Start the docs site:
 
 ```bash
 pnpm docs:dev
 ```
 
-构建组件库：
+Build the full package ecosystem:
 
 ```bash
 pnpm build
 ```
 
-该命令会同时构建 `@amu-ui/icons`、`@amu-ui/hooks`、`@amu-ui/locale` 与主包 `amu-ui`，便于在仓库内验证“源码模式 / 包模式”两种模板依赖解析路径。
+This command builds `@amu-ui/icons`, `@amu-ui/hooks`, and `@amu-ui/locale`, then regenerates package exports and builds the main `amu-ui` package.
 
-运行测试：
+Run tests:
 
 ```bash
 pnpm test
 ```
 
-## 后台模板联调
+## Workflow
 
-启动服务端模板：
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Start playground for component development |
+| `pnpm docs:dev` | Start the docs site |
+| `pnpm build` | Build icons, hooks, locale, and the main package |
+| `pnpm build:lib` | Build only the main component package |
+| `pnpm type:check` | Run TypeScript type checking |
+| `pnpm gen:exports` | Scan component directories and regenerate package exports |
+| `pnpm test` | Run Vitest |
+| `pnpm coverage` | Generate coverage reports |
+
+## Repository Structure
+
+```text
+amu-ui
+├─ packages/                 # components, icons, hooks, locale, theme, utils
+├─ docs/                     # documentation site
+├─ playground/               # local development playground
+├─ templates/amu-admin       # admin frontend template
+└─ templates/amu-admin-server # admin backend template
+```
+
+### packages Overview
+
+- `packages/components`: Main component source and public export entry
+- `packages/icons`: SVG generation, icon components, and standalone build config
+- `packages/hooks`: Shared composable hooks
+- `packages/locale`: Locale resources and i18n typings
+- `packages/theme`: Theme tokens and style foundation
+- `packages/utils`: Installation helpers and shared internals
+
+## Engineering Design
+
+### Package Consumption
+
+- The main package exposes both full-entry and component-level subpath exports
+- Builds use preserveModules for tree-shaking and path-stable outputs
+- Component styles are injected through the build pipeline for consistent usage
+
+### Docs and API Automation
+
+- The docs site is built with Vite + Vue Router instead of an external docs framework
+- Component `props / emits / slots` are parsed at build time to generate API tables
+- Demos and navigation are auto-wired from conventions to reduce maintenance work
+
+### Theme and Locale
+
+- The theme system is based on CSS Variables with dark mode and scoped theme switching
+- Locale and hooks are split into standalone packages, with `ConfigProvider` handling injection
+
+## Templates
+
+This repository also maintains an admin template stack powered by `amu-ui`.
+
+- `templates/amu-admin`: Vue 3 + Pinia + Vue Router admin frontend template
+- `templates/amu-admin-server`: NestJS + Prisma + MySQL backend template
+
+Start the backend template:
 
 ```bash
 pnpm run admin-server:start
 ```
 
-查看服务端日志：
+View backend logs:
 
 ```bash
 pnpm run admin-server:logs
 ```
 
-停止服务端模板：
+Stop the backend template:
 
 ```bash
 pnpm run admin-server:stop
 ```
 
-前端模板启动方式见 `templates/amu-admin/README.md`，服务端模板启动方式见 `templates/amu-admin-server/README.md`。
+See more details in:
 
-## 当前状态说明
+- [templates/amu-admin/README.md](templates/amu-admin/README.md)
+- [templates/amu-admin-server/README.md](templates/amu-admin-server/README.md)
 
-- 组件库、前端模板、服务端模板均可独立构建
-- 模板相关单测已纳入仓库统一 Vitest 流程
-- 后台模板目前更适合作为本仓库生态示例和业务底座参考，而不是零依赖复制即可使用的通用脚手架
+## Current Status
+
+- The component library, admin frontend template, and backend template can all be built independently
+- Template-related tests are already included in the unified Vitest workflow
+- The templates currently work best as ecosystem examples, business foundations, and extraction candidates rather than zero-config scaffolds
+
+## Release and Maintenance
+
+Before publishing the `amu-ui` ecosystem packages, it is recommended to complete the following checks:
+
+- Build the main package and all standalone subpackages
+- Verify `exports` and on-demand import paths
+- Validate both workspace-source mode and package mode for templates
+- Confirm version bumps and dependency linkage are aligned
 
 ## License
 
-本仓库使用 MIT License，详见 `LICENSE`。
-
-## 发布检查
-
-如果你准备发布 `amu-ui` 生态包，可先参考 `RELEASE_CHECKLIST.md`。这份清单覆盖推荐发包顺序、导出面检查、模板联动验证和发包后版本跟进。
+Released under the MIT License. See `LICENSE` for details.
