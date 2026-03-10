@@ -1,1 +1,0 @@
-﻿import fs from 'fs';const c=fs.readFileSync('D:/workspace/amu-ui-new/templates/amu-admin/src/layouts/components/AppHeader.vue','utf8');const idx=c.indexOf('min-search-dialog');console.log(c.substring(idx-100,idx+100));
