@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@amu-ui/hooks':
-        specifier: workspace:*
-        version: link:packages/hooks
+        specifier: ^0.1.0
+        version: 0.1.0(vue@3.5.25(typescript@5.9.3))
       '@amu-ui/icons':
-        specifier: workspace:*
-        version: link:packages/icons
+        specifier: ^0.2.0
+        version: 0.2.0(vue@3.5.25(typescript@5.9.3))
       '@amu-ui/locale':
-        specifier: workspace:*
-        version: link:packages/locale
+        specifier: ^0.1.0
+        version: 0.1.0(vue@3.5.25(typescript@5.9.3))
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5
@@ -184,10 +184,10 @@ importers:
     dependencies:
       '@amu-ui/icons':
         specifier: ^0.2.0
-        version: link:../../packages/icons
+        version: 0.2.0(vue@3.5.25(typescript@5.8.3))
       amu-ui:
         specifier: ^2.1.0
-        version: link:../..
+        version: 2.1.2(vue@3.5.25(typescript@5.8.3))
       echarts:
         specifier: ^6.0.0
         version: 6.0.0
@@ -300,6 +300,21 @@ packages:
 
   '@acemir/cssom@0.9.29':
     resolution: {integrity: sha512-G90x0VW+9nW4dFajtjCoT+NM0scAfH9Mb08IcjgFHYbfiL/lU04dTF9JuVOi3/OH+DJCQdcIseSXkdCB9Ky6JA==}
+
+  '@amu-ui/hooks@0.1.0':
+    resolution: {integrity: sha512-042XTwGRMFnoWWop3q9IIfHrUKUcVwTy+bvkDAahzstS9n8DW7ms6k4UJOEiLvWTAjZkJkZAw69VcW3uMmWDeg==}
+    peerDependencies:
+      vue: ^3.4.0
+
+  '@amu-ui/icons@0.2.0':
+    resolution: {integrity: sha512-up7tyQV7JvxRQvC+Zrh1sDU0NGMqJ5XVU/6uJ29oKuQG992aMZWRcnXEcy1zgs/Th1aXFCn/BWMDN5S+dKzsbg==}
+    peerDependencies:
+      vue: ^3.5.13
+
+  '@amu-ui/locale@0.1.0':
+    resolution: {integrity: sha512-5+yYlL4FXfyasIyoafTqwgxlKullarIoG9cE6PGPxLU16WMjQNZB9SaEaB3h+RlO8R5oiM7ng2PPpWOvEpPjiQ==}
+    peerDependencies:
+      vue: ^3.4.0
 
   '@angular-devkit/core@19.2.17':
     resolution: {integrity: sha512-Ah008x2RJkd0F+NLKqIpA34/vUGwjlprRCkvddjDopAWRzYn6xCkz1Tqwuhn0nR1Dy47wTLKYD999TYl5ONOAQ==}
@@ -1933,6 +1948,11 @@ packages:
 
   alien-signals@3.1.2:
     resolution: {integrity: sha512-d9dYqZTS90WLiU0I5c6DHj/HcKkF8ZyGN3G5x8wSbslulz70KOxaqCT0hQCo9KOyhVqzqGojvNdJXoTumZOtcw==}
+
+  amu-ui@2.1.2:
+    resolution: {integrity: sha512-BYi5nSlh7YGXdK9L5msNVqs4bl5iEdzER+uQm2joiVtlTJyVqlGQ3BH3LydFViF04XfP/uI6aU2Fzqhy448sEw==}
+    peerDependencies:
+      vue: ^3.4.0
 
   ansi-colors@4.1.3:
     resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
@@ -4000,6 +4020,32 @@ snapshots:
 
   '@acemir/cssom@0.9.29': {}
 
+  '@amu-ui/hooks@0.1.0(vue@3.5.25(typescript@5.8.3))':
+    dependencies:
+      '@amu-ui/locale': 0.1.0(vue@3.5.25(typescript@5.8.3))
+      vue: 3.5.25(typescript@5.8.3)
+
+  '@amu-ui/hooks@0.1.0(vue@3.5.25(typescript@5.9.3))':
+    dependencies:
+      '@amu-ui/locale': 0.1.0(vue@3.5.25(typescript@5.9.3))
+      vue: 3.5.25(typescript@5.9.3)
+
+  '@amu-ui/icons@0.2.0(vue@3.5.25(typescript@5.8.3))':
+    dependencies:
+      vue: 3.5.25(typescript@5.8.3)
+
+  '@amu-ui/icons@0.2.0(vue@3.5.25(typescript@5.9.3))':
+    dependencies:
+      vue: 3.5.25(typescript@5.9.3)
+
+  '@amu-ui/locale@0.1.0(vue@3.5.25(typescript@5.8.3))':
+    dependencies:
+      vue: 3.5.25(typescript@5.8.3)
+
+  '@amu-ui/locale@0.1.0(vue@3.5.25(typescript@5.9.3))':
+    dependencies:
+      vue: 3.5.25(typescript@5.9.3)
+
   '@angular-devkit/core@19.2.17(chokidar@4.0.3)':
     dependencies:
       ajv: 8.17.1
@@ -5604,6 +5650,17 @@ snapshots:
   alien-signals@1.0.13: {}
 
   alien-signals@3.1.2: {}
+
+  amu-ui@2.1.2(vue@3.5.25(typescript@5.8.3)):
+    dependencies:
+      '@amu-ui/hooks': 0.1.0(vue@3.5.25(typescript@5.8.3))
+      '@amu-ui/icons': 0.2.0(vue@3.5.25(typescript@5.8.3))
+      '@amu-ui/locale': 0.1.0(vue@3.5.25(typescript@5.8.3))
+      async-validator: 4.2.5
+      dayjs: 1.11.19
+      lodash-es: 4.17.22
+      sortablejs: 1.15.6
+      vue: 3.5.25(typescript@5.8.3)
 
   ansi-colors@4.1.3: {}
 
