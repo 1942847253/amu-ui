@@ -3,6 +3,7 @@ import type { InjectionKey, Ref, ComputedRef } from 'vue'
 export interface MenuContext {
   mode: ComputedRef<'vertical' | 'horizontal' | 'inline'>
   theme: ComputedRef<'light' | 'dark'>
+  surface: ComputedRef<'base' | 'elevated'>
   collapsed: ComputedRef<boolean>
   // Whether to show as collapsed mode (vertical -> collapsed)
   isCollapsed: ComputedRef<boolean>

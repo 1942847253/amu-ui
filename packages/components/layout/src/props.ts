@@ -1,5 +1,7 @@
 import type { PropType } from 'vue'
 
+export type LayoutTheme = 'light' | 'dark'
+
 /**
  * Layout 组件的 Props
  * Layout component props
@@ -41,12 +43,20 @@ export const layoutSlots = {
  */
 export const headerProps = {
   /**
-   * 高度
+   * @description 高度
    * @en Height
    */
   height: {
     type: [String, Number],
     default: undefined
+  },
+  /**
+   * @description 头部主题
+   * @en Header theme
+   */
+  theme: {
+    type: String as PropType<LayoutTheme>,
+    default: 'light'
   }
 }
 
@@ -113,6 +123,14 @@ export const siderProps = {
   position: {
     type: String as PropType<'left' | 'right'>,
     default: 'left'
+  },
+  /**
+   * @description 侧栏主题
+   * @en Sider theme
+   */
+  theme: {
+    type: String as PropType<LayoutTheme>,
+    default: 'light'
   }
 }
 
@@ -171,12 +189,20 @@ export const contentSlots = {
  */
 export const footerProps = {
   /**
-   * 高度
+   * @description 高度
    * @en Height
    */
   height: {
     type: [String, Number],
     default: undefined
+  },
+  /**
+   * @description 底部主题
+   * @en Footer theme
+   */
+  theme: {
+    type: String as PropType<LayoutTheme>,
+    default: 'light'
   }
 }
 

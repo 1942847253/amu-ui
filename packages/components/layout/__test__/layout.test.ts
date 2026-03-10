@@ -52,6 +52,13 @@ describe('Header', () => {
     })
     expect(wrapper.attributes('style')).toContain('height: 100px')
   })
+
+  it('supports dark theme', () => {
+    const wrapper = mount(AmuHeader, {
+      props: { theme: 'dark' }
+    })
+    expect(wrapper.attributes('data-amu-theme')).toBe('dark')
+  })
 })
 
 describe('Sider', () => {
@@ -135,6 +142,13 @@ describe('Sider', () => {
     })
     expect(wrapper.find('.amu-layout-sider__trigger').text()).toBe('Custom Trigger')
   })
+
+  it('supports dark theme', () => {
+    const wrapper = mount(AmuSider, {
+      props: { theme: 'dark' }
+    })
+    expect(wrapper.attributes('data-amu-theme')).toBe('dark')
+  })
 })
 
 describe('Content', () => {
@@ -172,6 +186,13 @@ describe('Footer', () => {
       props: { height: '100px' }
     })
     expect(wrapper.attributes('style')).toContain('height: 100px')
+  })
+
+  it('supports dark theme', () => {
+    const wrapper = mount(AmuFooter, {
+      props: { theme: 'dark' }
+    })
+    expect(wrapper.attributes('data-amu-theme')).toBe('dark')
   })
 })
 

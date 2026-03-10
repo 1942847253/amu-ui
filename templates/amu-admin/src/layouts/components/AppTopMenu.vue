@@ -1,8 +1,9 @@
 <template>
-  <div class="app-top-menu" :data-amu-theme="appStore.headerDark ? 'dark' : undefined">
+  <div class="app-top-menu">
     <AmuMenu
       mode="horizontal"
       :theme="appStore.isDark || appStore.headerDark ? 'dark' : 'light'"
+      surface="elevated"
       :selected-keys="[selectedKey]"
       @select="handleMenuSelect"
     >

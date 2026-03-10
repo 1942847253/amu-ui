@@ -1,5 +1,5 @@
 <template>
-    <div class="app-sidebar-content" :data-amu-theme="sidebarTheme">
+    <div class="app-sidebar-content">
         <div class="admin-layout__logo">
             <div class="admin-layout__logo-mark">{{ logoMark }}</div>
             <span v-show="!collapsed" class="admin-layout__logo-text">{{ APP_META.name }}</span>
@@ -9,6 +9,8 @@
             class="app-sidebar-content__menu"
             mode="vertical"
             :theme="appStore.isDark || appStore.sidebarDark || appStore.sidebarChildDark ? 'dark' : 'light'"
+            surface="elevated"
+            scrollable
             trigger="click"
             :show-collapse-button="false"
             :collapsed="collapsed"
@@ -56,27 +58,35 @@ const appStore = useAppStore()
 const { resolveMenuIcon, translateRouteTitle } = useLayout()
 
 const logoMark = computed(() => APP_META.shortName.slice(0, 1).toUpperCase() || 'A')
-const sidebarTheme = computed(() => {
-    if (appStore.isDark || appStore.sidebarDark || appStore.sidebarChildDark) {
-        return 'dark'
-    }
-    return undefined
-})
 
 const activeKey = computed(() => route.path)
 const openKeys = ref<string[]>([])
+const hasInitializedOpenKeys = ref(false)
 
 watch(
     () => route.path,
     (path) => {
         const ancestors = collectAncestorKeys(permissionStore.menuTree, path)
         if (ancestors.length > 0) {
-            openKeys.value = ancestors
+            if (!hasInitializedOpenKeys.value) {
+                openKeys.value = ancestors
+                hasInitializedOpenKeys.value = true
+                return
+            }
+
+            const mergedKeys = new Set(openKeys.value)
+            ancestors.forEach((key) => mergedKeys.add(key))
+            openKeys.value = Array.from(mergedKeys)
+            return
+        }
+
+        if (hasInitializedOpenKeys.value) {
             return
         }
 
         const firstGroup = permissionStore.menuTree.find((item) => item.children?.length)
         openKeys.value = firstGroup ? [firstGroup.key] : []
+        hasInitializedOpenKeys.value = true
     },
     { immediate: true }
 )
@@ -143,7 +153,7 @@ const handleMenuSelect = (key: string) => {
     display: flex;
     flex-direction: column;
     min-height: 0;
-    background: var(--amu-color-bg);
+    background: transparent;
 }
 
 .app-sidebar-content__menu {

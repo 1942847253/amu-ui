@@ -3,6 +3,7 @@
     <AmuTabs
       v-model="activePath"
       type="card"
+      surface="elevated"
       closable
       @tab-click="handleTabClick"
       @tab-remove="handleTabRemove"
@@ -307,7 +308,7 @@ const tx = (zh: string, en: string) => (appStore.language === 'zh-CN' ? zh : en)
 }
 
 :deep(.amu-tabs--card .amu-tabs__item.is-active) {
-  background: var(--amu-color-bg-base);
+  background: var(--amu-color-bg-elevated);
 }
 
 :deep(.amu-tabs__content) {

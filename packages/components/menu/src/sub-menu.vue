@@ -4,8 +4,11 @@
     :class="{
       'is-opened': isOpened,
       'is-active': active,
-      'is-disabled': disabled
+      'is-disabled': disabled,
+      'amu-sub-menu--popup-mode': isPopup,
+      'amu-sub-menu--inline-mode': !isPopup
     }"
+    :data-level="level"
     role="menuitem"
     aria-haspopup="true"
     :aria-expanded="isOpened"
@@ -45,7 +48,7 @@
       </template>
 
       <template #overlay>
-         <AmuDropdownMenu :class="['amu-menu', 'amu-menu--popup', `amu-menu--${rootMenu.theme.value}`]">
+        <AmuDropdownMenu :class="['amu-menu', 'amu-menu--popup', `amu-menu--${rootMenu.theme.value}`, `amu-menu--surface-${rootMenu.surface.value}`]">
              <slot />
          </AmuDropdownMenu>
       </template>
@@ -66,7 +69,7 @@
           <slot name="title">{{ title }}</slot>
         </span>
 
-        <i class="amu-sub-menu__icon-arrow">
+        <i class="amu-sub-menu__icon-arrow" :class="inlineArrowClass">
             <svg viewBox="0 0 1024 1024" width="1em" height="1em">
                 <path d="M831.872 340.864 512 652.672 192.128 340.864a30.592 30.592 0 0 0-42.752 0 29.12 29.12 0 0 0 0 41.6L489.664 714.24a32 32 0 0 0 44.672 0l340.288-331.712a29.12 29.12 0 0 0 0-41.728 30.592 30.592 0 0 0-42.752 0z" fill="currentColor"></path>
             </svg>
@@ -82,7 +85,7 @@
         @leave="handleLeave"
         @after-leave="handleAfterLeave"
       >
-          <ul v-show="isOpened" :class="['amu-menu', 'amu-menu--inline', `amu-menu--${rootMenu.theme.value}`]" v-if="rootMenu.mode.value !== 'horizontal' && !rootMenu.isCollapsed.value">
+          <ul v-show="isOpened" :class="['amu-menu', 'amu-menu--inline', `amu-menu--${rootMenu.theme.value}`, `amu-menu--surface-${rootMenu.surface.value}`]" v-if="rootMenu.mode.value !== 'horizontal' && !rootMenu.isCollapsed.value">
              <slot />
           </ul>
       </transition>
@@ -173,9 +176,16 @@ const popupPlacement = computed(() => {
 
 const popupArrowClass = computed(() => {
    if (rootMenu.mode.value === 'horizontal' && level.value === 1) {
-       return 'is-horizontal-arrow' 
+       return 'amu-sub-menu__icon-arrow--popup-horizontal'
    }
-   return 'is-popup-arrow' 
+   return 'amu-sub-menu__icon-arrow--popup-vertical'
+})
+
+const inlineArrowClass = computed(() => {
+  return {
+    'amu-sub-menu__icon-arrow--inline': true,
+    'is-opened': isOpened.value
+  }
 })
 
 // Animation Hooks
@@ -240,12 +250,6 @@ const handleTitleClick = () => {
 </script>
 
 <style scoped>
-.is-popup-arrow {
-    transform: rotate(-90deg); 
-}
-.is-horizontal-arrow {
-    transform: rotate(0deg);
-}
 
 /* Ensure dropdown trigger takes full space */
 :deep(.amu-dropdown) {

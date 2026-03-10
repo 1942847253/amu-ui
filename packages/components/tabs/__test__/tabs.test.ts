@@ -105,4 +105,36 @@ describe('Tabs.vue', () => {
     await addBtn.trigger('click')
     expect(handleAdd).toHaveBeenCalled()
   })
+
+  test('supports elevated surface', async () => {
+    const wrapper = mount({
+      components: { AmuTabs, AmuTabPane },
+      template: `
+        <amu-tabs type="card" surface="elevated" modelValue="first">
+          <amu-tab-pane name="first" title="First Tab">Content 1</amu-tab-pane>
+        </amu-tabs>
+      `
+    })
+
+    await nextTick()
+    expect(wrapper.find('.amu-tabs').classes()).toContain('amu-tabs--surface-elevated')
+  })
+
+  test('applies gutter to non-card tabs', async () => {
+    const wrapper = mount({
+      components: { AmuTabs, AmuTabPane },
+      template: `
+        <amu-tabs modelValue="first" :gutter="12">
+          <amu-tab-pane name="first" title="First Tab">Content 1</amu-tab-pane>
+          <amu-tab-pane name="second" title="Second Tab">Content 2</amu-tab-pane>
+        </amu-tabs>
+      `
+    })
+
+    await nextTick()
+    await nextTick()
+
+    const items = wrapper.findAll('.amu-tabs__item')
+    expect(items[0].attributes('style')).toContain('margin-inline-end: 12px')
+  })
 })

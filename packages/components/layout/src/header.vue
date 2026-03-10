@@ -1,6 +1,7 @@
 <template>
   <header
     class="amu-layout-header"
+    :data-amu-theme="themeAttr"
     :style="headerStyle"
   >
     <slot />
@@ -16,6 +17,10 @@ defineOptions({
 })
 
 const props = defineProps(headerProps)
+
+const themeAttr = computed(() => {
+  return props.theme === 'dark' ? 'dark' : undefined
+})
 
 const headerStyle = computed(() => {
   if (!props.height) return undefined

@@ -3,6 +3,7 @@ import type { PropType, ExtractPropTypes, InjectionKey, Ref, Component } from 'v
 export type TabsType = 'line' | 'card' | 'button' | 'editable-card'
 export type TabsPosition = 'top' | 'bottom' | 'left' | 'right'
 export type TabsSize = 'sm' | 'md' | 'lg'
+export type TabsSurface = 'base' | 'elevated'
 
 export const tabsProps = {
   /**
@@ -42,6 +43,14 @@ export const tabsProps = {
   size: {
     type: String as PropType<TabsSize>,
     default: 'md'
+  },
+  /**
+   * @description 选项卡表面层级
+   * @en Tabs surface level
+   */
+  surface: {
+    type: String as PropType<TabsSurface>,
+    default: 'base'
   },
   /**
    * @description 是否可关闭标签

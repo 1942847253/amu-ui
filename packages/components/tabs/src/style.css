@@ -4,6 +4,15 @@
   display: flex;
   flex-direction: column;
   color: var(--amu-color-text);
+    --amu-tabs-nav-button-bg: var(--amu-color-bg);
+    --amu-tabs-card-bg: var(--amu-color-bg-fill);
+    --amu-tabs-card-active-bg: var(--amu-color-bg);
+    --amu-tabs-card-hover-bg: var(--amu-color-border);
+}
+
+.amu-tabs--surface-elevated {
+    --amu-tabs-nav-button-bg: var(--amu-color-bg-elevated);
+    --amu-tabs-card-active-bg: var(--amu-color-bg-elevated);
 }
 
 /* Position: Top (default) */
@@ -113,7 +122,7 @@
     align-items: center;
     justify-content: center;
     z-index: 2;
-    background-color: var(--amu-color-bg); /* Use bg color to overlay tabs */
+    background-color: var(--amu-tabs-nav-button-bg);
     box-shadow: var(--amu-shadow-popup-arrow);
     width: 20px; /* Fixed width */
     height: 100%; /* Full height of header */
@@ -281,14 +290,14 @@
 .amu-tabs--card > .amu-tabs__header {
     border-bottom: 1px solid var(--amu-color-border);
     border-top: 1px solid var(--amu-color-border);
-    background-color: var(--amu-color-bg-fill);
+    background-color: var(--amu-tabs-card-bg);
 }
 
 .amu-tabs--card .amu-tabs__item {
     padding: 0 16px;
     border: 1px solid var(--amu-color-border);
     border-bottom: none;
-    background-color: var(--amu-color-bg-fill);
+    background-color: var(--amu-tabs-card-bg);
     color: var(--amu-color-text-default);
     margin-right: -1px;
     margin-bottom: -1px;
@@ -302,21 +311,21 @@
 }
 
 .amu-tabs--card .amu-tabs__item.is-active {
-    background-color: var(--amu-color-bg);
-    border-bottom-color: var(--amu-color-bg);
+    background-color: var(--amu-tabs-card-active-bg);
+    border-bottom-color: var(--amu-tabs-card-active-bg);
     color: var(--amu-color-primary);
 }
 
 .amu-tabs--card .amu-tabs__item:hover:not(.is-active):not(.is-disabled) {
     color: var(--amu-color-text);
-    background-color: var(--amu-color-border);
+    background-color: var(--amu-tabs-card-hover-bg);
 }
 
 /* Type: Editable Card */
 .amu-tabs--editable-card > .amu-tabs__header {
     border-bottom: 1px solid var(--amu-color-border);
     border-top: 1px solid var(--amu-color-border);
-    background-color: var(--amu-color-bg-fill);
+    background-color: var(--amu-tabs-card-bg);
     padding: 0;
 }
 
@@ -324,7 +333,7 @@
     padding: 0 16px;
     border: 1px solid var(--amu-color-border);
     border-bottom: none;
-    background-color: var(--amu-color-bg-fill);
+    background-color: var(--amu-tabs-card-bg);
     color: var(--amu-color-text-default);
     margin-right: -1px;
     margin-bottom: -1px;
@@ -342,14 +351,14 @@
 }
 
 .amu-tabs--editable-card .amu-tabs__item.is-active {
-    background-color: var(--amu-color-bg);
-    border-bottom-color: var(--amu-color-bg);
+    background-color: var(--amu-tabs-card-active-bg);
+    border-bottom-color: var(--amu-tabs-card-active-bg);
     color: var(--amu-color-primary);
 }
 
 .amu-tabs--editable-card .amu-tabs__item:hover:not(.is-active):not(.is-disabled) {
     color: var(--amu-color-text);
-    background-color: var(--amu-color-border);
+    background-color: var(--amu-tabs-card-hover-bg);
 }
 
 /* Close Icon */

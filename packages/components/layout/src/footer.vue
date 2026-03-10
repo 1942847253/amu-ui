@@ -1,6 +1,7 @@
 <template>
   <footer
     class="amu-layout-footer"
+    :data-amu-theme="themeAttr"
     :style="footerStyle"
   >
     <slot />
@@ -16,6 +17,10 @@ defineOptions({
 })
 
 const props = defineProps(footerProps)
+
+const themeAttr = computed(() => {
+  return props.theme === 'dark' ? 'dark' : undefined
+})
 
 const footerStyle = computed(() => {
   if (!props.height) return undefined

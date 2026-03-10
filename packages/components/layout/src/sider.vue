@@ -8,6 +8,7 @@
         [`amu-layout-sider--${position}`]: position
       }
     ]"
+    :data-amu-theme="themeAttr"
     :style="siderStyle"
   >
     <div class="amu-layout-sider__content">
@@ -36,6 +37,10 @@ defineOptions({
 
 const props = defineProps(siderProps)
 const emit = defineEmits(siderEmits)
+
+const themeAttr = computed(() => {
+  return props.theme === 'dark' ? 'dark' : undefined
+})
 
 const innerCollapsed = ref(props.defaultCollapsed)
 

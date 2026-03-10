@@ -6,6 +6,7 @@ type RouteLocationRaw = string | Record<string, any>
 export type MenuMode = 'vertical' | 'horizontal' | 'inline'
 export type MenuTheme = 'light' | 'dark'
 export type MenuTrigger = 'hover' | 'click'
+export type MenuSurface = 'base' | 'elevated'
 
 export const menuProps = {
   /**
@@ -23,6 +24,14 @@ export const menuProps = {
   theme: {
     type: String as PropType<MenuTheme>,
     default: 'light'
+  },
+  /**
+   * @description 菜单背景层级
+   * @en Menu surface level
+   */
+  surface: {
+    type: String as PropType<MenuSurface>,
+    default: 'base'
   },
   /**
    * @description 是否水平折叠收起菜单（仅在 mode 为 vertical 时可用）
@@ -106,6 +115,38 @@ export const menuProps = {
    * @en Whether to show the collapse button (vertical mode only)
    */
   showCollapseButton: {
+    type: Boolean,
+    default: false
+  },
+  /**
+   * @description 是否启用菜单内容区滚动，仅根级垂直菜单生效
+   * @en Whether to enable scrolling for the menu content area, only effective for root vertical menus
+   */
+  scrollable: {
+    type: Boolean,
+    default: false
+  },
+  /**
+   * @description 菜单滚动容器高度
+   * @en Height of the menu scroll container
+   */
+  height: {
+    type: [String, Number],
+    default: undefined
+  },
+  /**
+   * @description 菜单滚动容器最大高度
+   * @en Max height of the menu scroll container
+   */
+  maxHeight: {
+    type: [String, Number],
+    default: undefined
+  },
+  /**
+   * @description 是否始终显示滚动条
+   * @en Whether to always show the scrollbar
+   */
+  scrollbarAlways: {
     type: Boolean,
     default: false
   }

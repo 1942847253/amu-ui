@@ -11,6 +11,7 @@
       :width="siderWidth"
       :collapsed-width="64"
       :collapsed="effectiveCollapsed"
+      :theme="siderTheme"
       @update:collapsed="handleSiderCollapse"
       class="admin-layout__sider"
       :class="{ 'is-collapsed': effectiveCollapsed }"
@@ -28,7 +29,7 @@
     </AmuSider>
 
     <AmuLayout class="admin-layout__main">
-      <AmuHeader height="auto" class="admin-layout__header-wrapper">
+      <AmuHeader height="auto" class="admin-layout__header-wrapper" :theme="headerTheme">
         <AppHeader
           @toggleSidebar="toggleSideBar"
           @refresh="handleRefresh"
@@ -125,6 +126,20 @@ const showSider = computed(() => {
   return appStore.showSidebar
     && appStore.layoutMode !== 'content-only'
     && appStore.layoutMode !== 'horizontal'
+})
+
+const siderTheme = computed(() => {
+  if (appStore.isDark || appStore.sidebarDark || appStore.sidebarChildDark) {
+    return 'dark'
+  }
+  return undefined
+})
+
+const headerTheme = computed(() => {
+  if (appStore.isDark || appStore.headerDark) {
+    return 'dark'
+  }
+  return undefined
 })
 
 const effectiveCollapsed = computed(() => {

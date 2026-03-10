@@ -3,13 +3,14 @@
     <div
       v-if="!compactPrimary"
       class="app-mixed-sidebar__primary"
-      :data-amu-theme="primarySidebarTheme"
     >
       <div class="app-mixed-sidebar__logo">A</div>
       <AmuMenu
         class="app-mixed-sidebar__primary-menu"
         mode="vertical"
         :theme="primaryMenuTheme"
+        surface="elevated"
+        scrollable
         :show-collapse-button="false"
         :selected-keys="[activeRootKey]"
         @select="handleRootSelect"
@@ -27,13 +28,14 @@
     <div
       v-if="showSecondary"
       class="app-mixed-sidebar__secondary"
-      :data-amu-theme="secondarySidebarTheme"
     >
       <div class="app-mixed-sidebar__title">{{ activeRootTitle }}</div>
       <AmuMenu
         class="app-mixed-sidebar__secondary-menu"
         mode="vertical"
         :theme="secondaryMenuTheme"
+        surface="elevated"
+        scrollable
         :show-collapse-button="false"
         :selected-keys="[activeLeafKey]"
         :open-keys="openKeys"
@@ -86,31 +88,18 @@ const { resolveMenuIcon, translateRouteTitle } = useLayout()
 
 const activeRootKey = ref('')
 const openKeys = ref<string[]>([])
-
-const primarySidebarTheme = computed(() => {
-  if (appStore.isDark || appStore.sidebarDark) {
-    return 'dark'
-  }
-  return undefined
-})
-
-const secondarySidebarTheme = computed(() => {
-  if (
-    appStore.isDark
-    || appStore.sidebarChildDark
-    || (appStore.layoutMode === 'mixed-nav' && appStore.sidebarDark)
-  ) {
-    return 'dark'
-  }
-  return undefined
-})
+const hasInitializedOpenKeys = ref(false)
 
 const primaryMenuTheme = computed(() => {
-  return primarySidebarTheme.value === 'dark' ? 'dark' : 'light'
+  return appStore.isDark || appStore.sidebarDark ? 'dark' : 'light'
 })
 
 const secondaryMenuTheme = computed(() => {
-  return secondarySidebarTheme.value === 'dark' ? 'dark' : 'light'
+  return appStore.isDark
+    || appStore.sidebarChildDark
+    || (appStore.layoutMode === 'mixed-nav' && appStore.sidebarDark)
+    ? 'dark'
+    : 'light'
 })
 
 const findRootByPath = (path: string) => {
@@ -172,7 +161,17 @@ watch(
     }
     activeRootKey.value = root.key
     const nextMenu = root.children?.length ? root.children : [root]
-    openKeys.value = collectAncestorKeys(nextMenu, route.path)
+    const ancestors = collectAncestorKeys(nextMenu, route.path)
+
+    if (!hasInitializedOpenKeys.value) {
+      openKeys.value = ancestors
+      hasInitializedOpenKeys.value = true
+      return
+    }
+
+    const mergedKeys = new Set(openKeys.value)
+    ancestors.forEach((key) => mergedKeys.add(key))
+    openKeys.value = Array.from(mergedKeys)
   },
   { immediate: true }
 )
@@ -222,7 +221,7 @@ const handleOpenKeysChange = (keys: string[]) => {
 .app-mixed-sidebar__primary {
   width: 64px;
   border-right: 1px solid var(--amu-color-border);
-  background: var(--amu-color-bg);
+  background: transparent;
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -230,7 +229,7 @@ const handleOpenKeysChange = (keys: string[]) => {
 
 .app-mixed-sidebar__secondary {
   width: 216px;
-  background: var(--amu-color-bg);
+  background: transparent;
   overflow: hidden;
   display: flex;
   flex-direction: column;

@@ -18,6 +18,7 @@
         :class="['amu-popup', overlayClassName]"
         v-bind="$attrs"
         :style="popupStyle"
+        :data-amu-theme="resolvedTheme"
         :data-placement="currentPlacement"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
@@ -52,9 +53,24 @@ const position = ref({ top: 0, left: 0 })
 const isPositioned = ref(false)
 const currentZIndex = ref(props.zIndex || nextZIndex())
 const isHovering = ref(false)
+const inheritedTheme = ref<string | undefined>(undefined)
 
 let timer: ReturnType<typeof setTimeout> | null = null
 let resizeObserver: ResizeObserver | null = null
+
+const resolveThemeFromElement = (target: unknown) => {
+  if (!(target instanceof Element)) return undefined
+  const themeContainer = target.closest('[data-amu-theme]')
+  const theme = themeContainer?.getAttribute('data-amu-theme')
+  return theme || undefined
+}
+
+const updateInheritedTheme = () => {
+  const targetRef = props.virtualRef || referenceRef.value
+  inheritedTheme.value = resolveThemeFromElement(targetRef)
+}
+
+const resolvedTheme = computed(() => inheritedTheme.value)
 
 // Hierarchy logic
 const activeChildren = ref(0)
@@ -135,6 +151,7 @@ watch(
 watch(
   () => props.virtualRef,
   (val) => {
+    updateInheritedTheme()
     if (visible.value) {
       // Re-observe if virtualRef changes while visible
        if (resizeObserver) {
@@ -154,9 +171,14 @@ watch(
   }
 )
 
+watch(referenceRef, () => {
+  updateInheritedTheme()
+})
+
 const show = () => {
   if (props.disabled) return
   clearTimer()
+  updateInheritedTheme()
   if (props.zIndex !== undefined) {
     currentZIndex.value = props.zIndex
   } else {
@@ -273,6 +295,10 @@ const clearTimer = () => {
 const onAfterLeave = () => {
   // Cleanup if needed
 }
+
+onMounted(() => {
+  updateInheritedTheme()
+})
 
 const getTeleportTargetRect = () => {
   if (!props.teleportTo) return { top: 0, left: 0 }

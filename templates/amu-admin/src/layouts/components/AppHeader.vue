@@ -1,5 +1,5 @@
 <template>
-  <div class="app-header-content" :data-amu-theme="appStore.headerDark ? 'dark' : undefined">
+  <div class="app-header-content">
     <div class="admin-layout__header-left">
       <div v-if="props.showMenuToggle" class="admin-layout__header-icon" @click="emit('toggleSidebar')">
         <AmuIcon>
@@ -227,7 +227,7 @@
                 <div class="admin-search__item-content">
                   <div class="admin-search__item-title" v-html="highlightKeyword(translateRouteTitle(item.title))"></div>
                 </div>
-                <div class="admin-search__item-enter">
+                <div class="admin-search__item-enter" @click.stop="handleSearchItemClose(item.key)">
                   <AmuIcon size="14">
                     <IconX />
                   </AmuIcon>
@@ -248,7 +248,7 @@
                 <div class="admin-search__item-content">
                   <div class="admin-search__item-title" v-html="highlightKeyword(translateRouteTitle(item.title))"></div>
                 </div>
-                <div class="admin-search__item-enter">
+                <div class="admin-search__item-enter" @click.stop="handleSearchItemClose(item.key)">
                   <AmuIcon size="14">
                     <IconX />
                   </AmuIcon>
@@ -276,7 +276,7 @@
                 <div class="admin-search__item-content">
                   <div class="admin-search__item-title">{{ translateRouteTitle(item.title) }}</div>
                 </div>
-                <div class="admin-search__item-enter">
+                <div class="admin-search__item-enter" @click.stop="handleSearchItemClose(item.key)">
                   <AmuIcon :size="14">
                     <IconX />
                   </AmuIcon>
@@ -677,6 +677,25 @@ const handleSearchSelect = (path: string) => {
   router.push(path)
   searchVisible.value = false
   searchKeyword.value = ''
+}
+
+const handleSearchItemClose = (path: string) => {
+  searchHistory.value = searchHistory.value.filter((item) => item.key !== path)
+
+  const visitedTab = tabsStore.visitedTabs.find((item) => item.path === path)
+  if (visitedTab?.closable && route.fullPath !== path) {
+    tabsStore.removeTab(path)
+  }
+
+  const currentLength = displaySearchList.value.length
+  if (currentLength === 0) {
+    searchSelectedIndex.value = 0
+    return
+  }
+
+  if (searchSelectedIndex.value >= currentLength) {
+    searchSelectedIndex.value = Math.max(0, currentLength - 1)
+  }
 }
 
 const handleSearchKeydown = (event: KeyboardEvent) => {

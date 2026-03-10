@@ -4,7 +4,8 @@
     :class="[
       `amu-tabs--${type}`,
       `amu-tabs--${position}`,
-      `amu-tabs--${size}`
+      `amu-tabs--${size}`,
+      `amu-tabs--surface-${surface}`
     ]"
   >
     <div class="amu-tabs__header" :class="[tabBarClass]">
@@ -53,6 +54,7 @@
                  :tabindex="pane.props.disabled ? -1 : 0"
                  @click="handleTabClick(pane, $event)"
                  @keydown="handleKeyDown($event, index)"
+                  :style="getTabStyle(index)"
                  :ref="el => setTabRef(el, pane.name)"
               >
                  <!-- Case: Line Type (Use AmuButton with Icon) -->
@@ -294,6 +296,22 @@ const isClosable = (pane: TabPaneContext) => {
   if (pane.props.closable !== undefined) return pane.props.closable
   if (props.type === 'editable-card' || props.editable) return true
   return props.closable
+}
+
+const getTabStyle = (index: number) => {
+  if (props.gutter <= 0) return undefined
+  if (props.type === 'card' || props.type === 'editable-card') return undefined
+  if (index === panes.value.length - 1) return undefined
+
+  if (props.position === 'left' || props.position === 'right') {
+    return {
+      marginBottom: `${props.gutter}px`
+    }
+  }
+
+  return {
+    marginInlineEnd: `${props.gutter}px`
+  }
 }
 
 // Active Bar Logic

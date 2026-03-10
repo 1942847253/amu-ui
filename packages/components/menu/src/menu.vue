@@ -1,20 +1,27 @@
 <template>
-  <ul :class="[
-    'amu-menu',
-    `amu-menu--${computedMode}`,
-    `amu-menu--${props.theme}`,
-    {
-      'amu-menu--collapsed': isCollapsed
-    }
-  ]" role="menubar">
-    <li v-if="$slots.logo" class="amu-menu__logo">
+  <div :class="rootClasses" :data-amu-theme="themeAttr" role="menubar">
+    <div v-if="$slots.logo" class="amu-menu__logo">
       <slot name="logo" :collapsed="isCollapsed" />
-    </li>
-    <slot />
-    <li v-if="$slots.operations" class="amu-menu__operations">
+    </div>
+    <AmuScrollbar
+      v-if="shouldUseScrollbar"
+      class="amu-menu__scrollbar"
+      tag="ul"
+      :height="props.height"
+      :max-height="props.maxHeight"
+      :always="props.scrollbarAlways"
+      :wrap-style="scrollbarWrapStyle"
+      :view-class="contentClasses"
+    >
+      <slot />
+    </AmuScrollbar>
+    <ul v-else :class="contentClasses">
+      <slot />
+    </ul>
+    <div v-if="$slots.operations" class="amu-menu__operations">
       <slot name="operations" />
-    </li>
-    <li v-if="showCollapseButton && computedMode === 'vertical'" class="amu-menu__collapse-trigger"
+    </div>
+    <div v-if="showCollapseButton && computedMode === 'vertical'" class="amu-menu__collapse-trigger"
       @click="toggleCollapse">
       <svg v-if="isCollapsed" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
         <path d="M2 11h12v2H2v-2zm0-4h12v2H2V7zm0-4h12v2H2V3z" fill-opacity="0.9" />
@@ -23,14 +30,15 @@
         <path
           d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
       </svg>
-    </li>
-  </ul>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { provide, toRef, computed, watch, reactive, ref } from 'vue'
 import { menuProps, menuEmits } from './props'
 import { MenuContextKey } from './context'
+import { AmuScrollbar } from '../../scrollbar'
 import './style.css'
 
 defineOptions({
@@ -39,6 +47,36 @@ defineOptions({
 
 const props = defineProps(menuProps)
 const emit = defineEmits(menuEmits)
+
+const themeAttr = computed(() => {
+  return props.theme === 'dark' ? 'dark' : undefined
+})
+
+const rootClasses = computed(() => ([
+  'amu-menu',
+  `amu-menu--${computedMode.value}`,
+  `amu-menu--${props.theme}`,
+  `amu-menu--surface-${props.surface}`,
+  {
+    'amu-menu--collapsed': isCollapsed.value,
+    'amu-menu--scrollable': shouldUseScrollbar.value
+  }
+]))
+
+const contentClasses = computed(() => ([
+  'amu-menu__content',
+  `amu-menu__content--${computedMode.value}`
+]))
+
+const shouldUseScrollbar = computed(() => {
+  return props.scrollable && props.mode !== 'horizontal'
+})
+
+const scrollbarWrapStyle = computed(() => {
+  return {
+    overflowX: 'hidden'
+  }
+})
 
 // 计算显示折叠按钮
 const getInitialSelectedKeys = () => {
@@ -136,6 +174,7 @@ const removeSubMenu = (item: any) => {
 provide(MenuContextKey, {
   mode: computedMode,
   theme: computed(() => props.theme),
+  surface: computed(() => props.surface),
   collapsed: computed(() => props.collapsed),
   isCollapsed,
   selectedKeys,
