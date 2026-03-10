@@ -12,7 +12,7 @@
           <RouterLink class="btn btn-primary" to="/guide/quick-start"
             >{{ t.home.getStarted }}</RouterLink
           >
-          <a class="btn btn-outline" href="https://github.com" target="_blank"
+          <a class="btn btn-outline" href="https://github.com/1942847253/amu-ui" target="_blank" rel="noreferrer"
             >GitHub</a
           >
         </div>
