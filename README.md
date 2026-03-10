@@ -11,12 +11,24 @@
 </p>
 
 <p align="center">
-	<a href="./LICENSE"><img alt="license" src="https://img.shields.io/badge/license-MIT-84cc16?style=for-the-badge"></a>
-	<a href="https://www.npmjs.com/package/amu-ui"><img alt="npm version" src="https://img.shields.io/npm/v/amu-ui?style=for-the-badge&label=npm&color=2563eb"></a>
-	<a href="https://www.npmjs.com/package/amu-ui"><img alt="downloads" src="https://img.shields.io/npm/dm/amu-ui?style=for-the-badge&label=downloads&color=22c55e"></a>
-	<a href="https://vuejs.org/"><img alt="vue" src="https://img.shields.io/badge/Vue-3-42b883?style=for-the-badge"></a>
-	<a href="https://www.typescriptlang.org/"><img alt="typescript" src="https://img.shields.io/badge/TypeScript-Strict-3178c6?style=for-the-badge"></a>
-	<a href="https://pnpm.io/workspaces"><img alt="pnpm workspace" src="https://img.shields.io/badge/pnpm-workspace-f59e0b?style=for-the-badge"></a>
+	<a href="https://github.com/1942847253/amu-ui/blob/main/LICENSE">
+		<img src="https://img.shields.io/npm/l/amu-ui.svg?sanitize=true" alt="License">
+	</a>
+	<a href="https://www.npmjs.com/package/amu-ui">
+		<img src="https://img.shields.io/npm/v/amu-ui.svg?sanitize=true" alt="Version">
+	</a>
+	<a href="https://www.npmjs.com/package/amu-ui">
+		<img src="https://img.shields.io/npm/dm/amu-ui" alt="Downloads">
+	</a>
+	<a href="https://github.com/1942847253/amu-ui/stargazers">
+		<img src="https://img.shields.io/github/stars/1942847253/amu-ui?style=flat" alt="Stars">
+	</a>
+	<a href="https://github.com/1942847253/amu-ui/issues">
+		<img src="https://img.shields.io/github/issues/1942847253/amu-ui?style=flat" alt="Issues">
+	</a>
+	<a href="https://amu-environment.github.io/amu-ui/">
+		<img src="https://img.shields.io/badge/docs-online-2563eb?style=flat" alt="Docs">
+	</a>
 </p>
 
 <p align="center">
