@@ -15,7 +15,7 @@ export const APP_META = {
   title: resolveEnvText(import.meta.env.VITE_APP_TITLE, '企业级后台管理系统模板'),
   description: resolveEnvText(import.meta.env.VITE_APP_DESCRIPTION, '面向大型业务系统的前端基础底座，内置权限、路由、主题、标签页与请求链路最佳实践。'),
   copyright: resolveEnvText(import.meta.env.VITE_APP_COPYRIGHT, 'Copyright © 2026 Amu UI Team.'),
-  repositoryUrl: resolveEnvText(import.meta.env.VITE_APP_REPOSITORY_URL, 'https://github.com/Amu-UI/amu-ui')
+  repositoryUrl: resolveEnvText(import.meta.env.VITE_APP_REPOSITORY_URL, 'https://github.com/1942847253/amu-ui')
 } as const
 
 export const DEMO_ACCOUNTS: DemoAccountRecord[] = [
