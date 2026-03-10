@@ -26,7 +26,7 @@
 	<a href="https://github.com/1942847253/amu-ui/issues">
 		<img src="https://img.shields.io/github/issues/1942847253/amu-ui?style=flat" alt="Issues">
 	</a>
-	<a href="https://amu-environment.github.io/amu-ui/">
+	<a href="https://1942847253.github.io/amu-ui/">
 		<img src="https://img.shields.io/badge/docs-online-2563eb?style=flat" alt="Docs">
 	</a>
 </p>
