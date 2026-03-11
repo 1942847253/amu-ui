@@ -1,6 +1,30 @@
 
-export function openInStackBlitz(code: string, title: string = 'App') {
-  const filename = title.endsWith('.vue') ? title : `${title}.vue`
+import sdk from '@stackblitz/sdk'
+import { resolveDemoSourceFiles } from './demo-source'
+
+function createStackBlitzEntry(entryFile: string) {
+  return `<script setup lang="ts">
+import DemoEntry from './${entryFile}'
+</script>
+
+<template>
+  <DemoEntry />
+</template>
+`
+}
+
+export async function openInStackBlitz(options: {
+  componentName: string
+  demoKey: string
+  code: string
+  title?: string
+  popup?: Window | null
+}) {
+  const resolved = await resolveDemoSourceFiles(
+    options.componentName,
+    options.demoKey,
+    options.code,
+  )
 
   const files = {
     'package.json': JSON.stringify({
@@ -13,9 +37,11 @@ export function openInStackBlitz(code: string, title: string = 'App') {
         preview: 'vite preview'
       },
       dependencies: {
-        vue: '^3.4.0',
+        vue: '^3.5.0',
         'amu-ui': 'latest',
-        '@amu-ui/icons': 'latest'
+        '@amu-ui/hooks': 'latest',
+        '@amu-ui/icons': 'latest',
+        '@amu-ui/locale': 'latest'
       },
       devDependencies: {
         '@vitejs/plugin-vue': '^5.2.0',
@@ -38,7 +64,7 @@ export function openInStackBlitz(code: string, title: string = 'App') {
   </body>
 </html>`,
     'src/main.ts': `import { createApp } from 'vue'
-import App from './${filename}'
+import App from './App.vue'
 import AmuUI from 'amu-ui'
 import AmuIcons from '@amu-ui/icons'
 import 'amu-ui/theme'
@@ -47,7 +73,10 @@ const app = createApp(App)
 app.use(AmuUI)
 app.use(AmuIcons)
 app.mount('#app')`,
-    [`src/${filename}`]: code,
+    'src/App.vue': createStackBlitzEntry(resolved.entryFile),
+    ...Object.fromEntries(
+      Object.entries(resolved.files).map(([path, content]) => [`src/${path}`, content]),
+    ),
     'vite.config.ts': `import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
@@ -56,32 +85,18 @@ export default defineConfig({
 })`
   }
 
-  const form = document.createElement('form')
-  form.method = 'post'
-  form.action = `https://stackblitz.com/run?file=src/${filename}`
-  form.target = '_blank'
+  await sdk.openProject(
+    {
+      title: 'Amu UI Demo',
+      description: 'Generated from amu-ui docs.',
+      template: 'node',
+      files,
+    },
+    {
+      newWindow: true,
+      openFile: 'src/App.vue',
+    },
+  )
 
-  const titleInput = document.createElement('input')
-  titleInput.type = 'hidden'
-  titleInput.name = 'project[title]'
-  titleInput.value = 'Amu UI Demo'
-  form.appendChild(titleInput)
-
-  const templateInput = document.createElement('input')
-  templateInput.type = 'hidden'
-  templateInput.name = 'project[template]'
-  templateInput.value = 'node'
-  form.appendChild(templateInput)
-
-  Object.entries(files).forEach(([path, content]) => {
-    const input = document.createElement('input')
-    input.type = 'hidden'
-    input.name = `project[files][${path}]`
-    input.value = content
-    form.appendChild(input)
-  })
-
-  document.body.appendChild(form)
-  form.submit()
-  document.body.removeChild(form)
+  options.popup?.close()
 }

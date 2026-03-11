@@ -33,7 +33,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { AmuDialog, AmuButton, AmuSpace } from 'amu-ui'
-import type { DialogPlacement } from 'amu-ui/dialog/src/props'
+
+type DialogPlacement = 'top' | 'center' | 'bottom' | 'top-start' | 'top-end'
 
 const visible = ref(false)
 const visibleCustom = ref(false)

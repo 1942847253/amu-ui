@@ -10,7 +10,7 @@
       <section v-for="d in entry.demos" :key="d.key" class="doc-section">
         <h2>{{ d.title }}</h2>
         <p v-if="d.description" v-html="formatDescription(d.description)"></p>
-        <DemoTabs :demos="[d]" />
+        <DemoTabs :demos="[d]" :component-name="name" />
       </section>
 
       <section class="doc-section" v-if="Object.keys(apiData).length > 0">

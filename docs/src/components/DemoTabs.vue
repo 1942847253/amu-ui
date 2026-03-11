@@ -145,6 +145,7 @@ export type DemoItem = {
 
 const props = defineProps<{
   demos: DemoItem[];
+  componentName: string;
 }>();
 
 const expanded = ref(false);
@@ -168,19 +169,49 @@ const onCopy = async () => {
   }
 };
 
-const handleOpenStackBlitz = () => {
-  if (!activeDemo.value) return;
-  const toPascalCase = (str: string) =>
-    str.replace(/(^\w|-\w)/g, (match) =>
-      match.replace("-", "").toUpperCase(),
-    );
-  const filename = toPascalCase(activeDemo.value.key);
-  openInStackBlitz(activeDemo.value.code, filename);
+const openSandboxWindow = () => {
+  const popup = window.open("about:blank", "_blank");
+  if (popup?.document) {
+    popup.document.write("<title>Loading demo...</title><p style=\"font-family: sans-serif; padding: 16px;\">Opening online demo...</p>");
+  }
+  return popup;
 };
 
-const handleOpenVuePlayground = () => {
+const handleOpenStackBlitz = async () => {
   if (!activeDemo.value) return;
-  openInVuePlayground(activeDemo.value.code, activeDemo.value.key);
+  const popup = openSandboxWindow();
+
+  try {
+    await openInStackBlitz({
+      componentName: props.componentName,
+      demoKey: activeDemo.value.key,
+      code: activeDemo.value.code,
+      title: activeDemo.value.key,
+      popup,
+    });
+  } catch (error) {
+    popup?.close();
+    console.error(error);
+  }
+};
+
+const handleOpenVuePlayground = async () => {
+  if (!activeDemo.value) return;
+
+  const popup = openSandboxWindow();
+
+  try {
+    await openInVuePlayground({
+      componentName: props.componentName,
+      demoKey: activeDemo.value.key,
+      code: activeDemo.value.code,
+      title: activeDemo.value.key,
+      popup,
+    });
+  } catch (error) {
+    popup?.close();
+    console.error(error);
+  }
 };
 </script>
 

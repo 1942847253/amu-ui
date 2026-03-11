@@ -87,6 +87,9 @@ importers:
       '@amu-ui/icons':
         specifier: workspace:*
         version: link:../packages/icons
+      '@stackblitz/sdk':
+        specifier: ^1.11.0
+        version: 1.11.0
       '@vueuse/core':
         specifier: ^14.1.0
         version: 14.1.0(vue@3.5.25(typescript@5.9.3))
@@ -1544,6 +1547,9 @@ packages:
 
   '@scarf/scarf@1.4.0':
     resolution: {integrity: sha512-xxeapPiUXdZAE3che6f3xogoJPeZgig6omHEy1rIY5WVsB3H2BHNnZH+gHG6x91SCWyQCzWGsuL2Hh3ClO5/qQ==}
+
+  '@stackblitz/sdk@1.11.0':
+    resolution: {integrity: sha512-DFQGANNkEZRzFk1/rDP6TcFdM82ycHE+zfl9C/M/jXlH68jiqHWHFMQURLELoD8koxvu/eW5uhg94NSAZlYrUQ==}
 
   '@standard-schema/spec@1.0.0':
     resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
@@ -5102,6 +5108,8 @@ snapshots:
       - '@types/node'
 
   '@scarf/scarf@1.4.0': {}
+
+  '@stackblitz/sdk@1.11.0': {}
 
   '@standard-schema/spec@1.0.0': {}
 
