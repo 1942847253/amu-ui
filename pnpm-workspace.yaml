@@ -1,6 +1,7 @@
 packages:
   - "."
   - "playground"
+  - "sfc-playground"
   - "docs"
   - "packages/*"
   - "templates/*"

@@ -1,0 +1,20 @@
+{
+  "name": "sfc-playground",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --dir .. run sfc-playground:sync-runtime && vite",
+    "build": "pnpm --dir .. run sfc-playground:sync-runtime && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vue/repl": "^4.7.1",
+    "fflate": "^0.8.2",
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.0"
+  }
+}

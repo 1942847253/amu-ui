@@ -116,7 +116,7 @@
               </svg>
             </button>
           </template>
-          <div class="demo-tooltip-content">Open in Vue Playground</div>
+          <div class="demo-tooltip-content">Open in Local Playground</div>
         </AmuPopup>
       </div>
     </div>
@@ -172,7 +172,7 @@ const onCopy = async () => {
 const openSandboxWindow = () => {
   const popup = window.open("about:blank", "_blank");
   if (popup?.document) {
-    popup.document.write("<title>Loading demo...</title><p style=\"font-family: sans-serif; padding: 16px;\">Opening online demo...</p>");
+    popup.document.write("<title>Loading demo...</title><p style=\"font-family: sans-serif; padding: 16px;\">Opening local demo...</p>");
   }
   return popup;
 };

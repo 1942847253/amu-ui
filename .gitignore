@@ -39,4 +39,7 @@ pnpm-debug.log*
 .temp/
 .tmp/
 
+# Generated playground runtime
+sfc-playground/public/repl-runtime/
+
 npm_recovery_codes.txt

@@ -1,9 +1,9 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { defineConfig } from "vite";
 import type { Plugin } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
-import { resolve } from "node:path";
+import { extname, resolve } from "node:path";
 import { amuDocsApiPlugin } from "./vite.api-plugin";
 
 function resolveDocsBase(command: string) {
@@ -32,12 +32,79 @@ function githubPagesSpaFallbackPlugin(): Plugin {
   };
 }
 
+function getMimeType(filePath: string) {
+  const extension = extname(filePath).toLowerCase();
+
+  if (extension === ".html") return "text/html; charset=utf-8";
+  if (extension === ".js") return "text/javascript; charset=utf-8";
+  if (extension === ".css") return "text/css; charset=utf-8";
+  if (extension === ".json") return "application/json; charset=utf-8";
+  if (extension === ".svg") return "image/svg+xml";
+  if (extension === ".mjs") return "text/javascript; charset=utf-8";
+
+  return "application/octet-stream";
+}
+
+function sfcPlaygroundBridgePlugin(): Plugin {
+  const routeBase = "/sfc-playground";
+  const playgroundDistDir = resolve(__dirname, "../sfc-playground/dist");
+
+  return {
+    name: "amu-docs-sfc-playground-bridge",
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const requestUrl = req.url?.split("?")[0] ?? "";
+        if (!requestUrl.startsWith(routeBase)) {
+          next();
+          return;
+        }
+
+        if (!existsSync(playgroundDistDir)) {
+          res.statusCode = 503;
+          res.setHeader("Content-Type", "text/plain; charset=utf-8");
+          res.end("sfc-playground 尚未构建，请先执行 pnpm run docs:dev 或 pnpm run sfc-playground:build。");
+          return;
+        }
+
+        const relativePath = requestUrl.slice(routeBase.length).replace(/^\/+/, "");
+        const targetPath = relativePath ? resolve(playgroundDistDir, relativePath) : resolve(playgroundDistDir, "index.html");
+
+        if (targetPath.startsWith(playgroundDistDir) && existsSync(targetPath)) {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", getMimeType(targetPath));
+          res.end(readFileSync(targetPath));
+          return;
+        }
+
+        const indexPath = resolve(playgroundDistDir, "index.html");
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "text/html; charset=utf-8");
+        res.end(readFileSync(indexPath, "utf-8"));
+      });
+    },
+    writeBundle() {
+      if (!existsSync(playgroundDistDir)) {
+        throw new Error("缺少 sfc-playground/dist，请先执行 pnpm run sfc-playground:build。");
+      }
+
+      const docsOutputDir = resolve(__dirname, "dist/sfc-playground");
+      cpSync(playgroundDistDir, docsOutputDir, { recursive: true, force: true });
+    },
+  };
+}
+
 export default defineConfig(({ command }) => ({
   base: resolveDocsBase(command),
   build: {
     target: "esnext",
   },
-  plugins: [vue(), vueJsx(), amuDocsApiPlugin(), githubPagesSpaFallbackPlugin()],
+  plugins: [
+    vue(),
+    vueJsx(),
+    amuDocsApiPlugin(),
+    sfcPlaygroundBridgePlugin(),
+    githubPagesSpaFallbackPlugin(),
+  ],
   resolve: {
     alias: [
       // docs 开发时直接指向源码，保证 HMR 与调试体验
