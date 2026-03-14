@@ -20,7 +20,7 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
-    "db:seed": "prisma db seed",
+    "db:seed": "node prisma/seed-runner.cjs",
     "db:reset": "prisma migrate reset --force",
     "type:check": "tsc --project tsconfig.build.json --noEmit",
     "test": "pnpm --dir . exec vitest run --config vitest.config.ts"
