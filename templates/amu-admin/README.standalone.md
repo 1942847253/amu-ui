@@ -45,10 +45,28 @@ pnpm dev
 
 - `VITE_DEV_PORT`：前端 dev server 端口，默认 `5174`
 - `VITE_API_PROXY_TARGET`：本地开发时 `/api` 代理目标
+- `VITE_API_BASE_URL`：生产环境后端地址；当前端部署到 GitHub Pages、Cloudflare Pages 等静态托管平台时使用
 - `VITE_USE_WORKSPACE_SOURCE`：独立仓库中建议固定为 `false`
+- `VITE_APP_BASE_PATH`：前端访问基路径；GitHub Pages 默认地址通常填 `/<repo>/`
 - `VITE_APP_NAME`、`VITE_APP_SHORT_NAME`：应用名称与简写
 - `VITE_APP_TITLE`、`VITE_APP_DESCRIPTION`：品牌文案与页面基础说明
 - `VITE_APP_COPYRIGHT`、`VITE_APP_REPOSITORY_URL`：页脚版权与仓库地址
+
+## GitHub Pages 部署
+
+如果你要把前端部署到 GitHub Pages，请在 `.env.production` 或构建环境变量中设置：
+
+```bash
+VITE_API_BASE_URL=https://your-api.example.com
+VITE_APP_BASE_PATH=/your-repo/
+VITE_USE_WORKSPACE_SOURCE=false
+```
+
+其中：
+
+- `VITE_API_BASE_URL` 指向真实后端服务
+- `VITE_APP_BASE_PATH` 在默认 GitHub Pages 地址下通常等于仓库名路径
+- 如果你给 GitHub Pages 绑定了自定义域名，`VITE_APP_BASE_PATH` 通常改为 `/`
 
 ## 常用命令
 

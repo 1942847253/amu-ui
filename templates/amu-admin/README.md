@@ -36,7 +36,9 @@
 
 - `VITE_DEV_PORT`：前端 dev server 端口，默认 `5174`
 - `VITE_API_PROXY_TARGET`：本地开发时 `/api` 代理目标，默认 `http://localhost:3000`
+- `VITE_API_BASE_URL`：生产环境后端地址；当你把前端单独部署到 GitHub Pages、Cloudflare Pages 等静态托管平台时使用
 - `VITE_USE_WORKSPACE_SOURCE`：是否直接使用当前 monorepo 中的 `amu-ui` 与 `@amu-ui/icons` 源码；未显式配置时会自动探测当前目录是否存在 workspace 源码
+- `VITE_APP_BASE_PATH`：前端访问基路径；根路径部署填 `/`，子路径部署可填 `/amu-admin/` 或 GitHub Pages 的 `/<repo>/`
 - `VITE_APP_NAME`、`VITE_APP_SHORT_NAME`：应用名称与简写
 - `VITE_APP_TITLE`、`VITE_APP_DESCRIPTION`：登录页和品牌展示文案的基础元信息
 - `VITE_APP_COPYRIGHT`、`VITE_APP_REPOSITORY_URL`：页脚版权与仓库地址
@@ -89,6 +91,30 @@ pnpm --filter amu-admin-template dev
 ```
 
 默认开发地址通常为 `http://localhost:5174`，如果你修改了 `VITE_DEV_PORT`，请按新的端口访问；前端会将 `/api` 代理到 `VITE_API_PROXY_TARGET`。
+
+### GitHub Pages 部署
+
+如果你准备把前端单独部署到 GitHub Pages，而后端继续放在云服务器，请至少配置这两个变量：
+
+- `VITE_API_BASE_URL`：填你的后端地址，例如 `http://124.220.71.44` 或 `https://api.example.com`
+- `VITE_APP_BASE_PATH`：
+	- 使用默认 GitHub Pages 地址时，填 `/<repo>/`，例如 `/amu-ui-new/`
+	- 使用自定义域名时，通常填 `/`
+
+示例：
+
+```bash
+VITE_API_BASE_URL=http://124.220.71.44
+VITE_APP_BASE_PATH=/amu-ui-new/
+VITE_USE_WORKSPACE_SOURCE=false
+```
+
+这样构建后的前端会从独立后端地址请求 `/api/*`，不会再把请求错误地发到 `github.io` 自身域名。
+
+如果你使用仓库根目录下新增的 GitHub Actions 自动发布工作流，还需要在 GitHub 仓库的 `Settings -> Secrets and variables -> Actions -> Variables` 中配置：
+
+- `AMU_ADMIN_API_BASE_URL`：后端地址，例如 `http://124.220.71.44`
+- `AMU_ADMIN_PAGES_BASE_PATH`：可选；如果不填，工作流默认使用 `/<repo>/`
 
 ## 演示账号
 

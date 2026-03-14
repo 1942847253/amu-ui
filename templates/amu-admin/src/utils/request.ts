@@ -62,6 +62,18 @@ const defaultErrorMessageMap: Record<number, string> = {
   500: '服务器繁忙，请稍后重试'
 }
 
+const resolveApiBaseUrl = () => {
+  const nextValue = import.meta.env.VITE_API_BASE_URL?.trim()
+  if (!nextValue) return ''
+  return nextValue.replace(/\/+$/g, '')
+}
+
+const joinUrl = (baseUrl: string, requestUrl: string) => {
+  if (!baseUrl) return requestUrl
+  const normalizedPath = requestUrl.startsWith('/') ? requestUrl : `/${requestUrl}`
+  return `${baseUrl}${normalizedPath}`
+}
+
 const buildUrl = (url: string, params: ResolvedRequestConfig['params']) => {
   const search = new URLSearchParams()
   Object.entries(params).forEach(([key, value]) => {
@@ -69,7 +81,8 @@ const buildUrl = (url: string, params: ResolvedRequestConfig['params']) => {
     search.append(key, String(value))
   })
   const query = search.toString()
-  const nextUrl = query ? `${url}${url.includes('?') ? '&' : '?'}${query}` : url
+  const requestUrl = /^https?:\/\//.test(url) ? url : joinUrl(resolveApiBaseUrl(), url)
+  const nextUrl = query ? `${requestUrl}${requestUrl.includes('?') ? '&' : '?'}${query}` : requestUrl
   if (/^https?:\/\//.test(nextUrl)) return nextUrl
 
   const fallbackOrigin = typeof window !== 'undefined' && window.location?.origin
