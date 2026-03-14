@@ -25,6 +25,7 @@
 - 已安装 Docker Desktop
 - Docker Engine 处于运行状态
 - 当前终端能够正常执行 `docker version` 和 `docker compose version`
+- 如果要直接一键部署整套前后端，还需要预留一个前端访问端口，默认使用 `80`
 
 ### 本地开发路径
 
@@ -48,12 +49,16 @@ SEED_MODE="demo"
 - `docker compose` 会自动读取当前目录下的 `.env`
 - 本地 CLI 使用 `DATABASE_URL`
 - 容器内 `DATABASE_URL` 由 `MYSQL_DATABASE`、`MYSQL_USER`、`MYSQL_PASSWORD` 组合生成
+- `MYSQL_BIND_HOST=127.0.0.1` 可以把数据库端口限制在宿主机本机，避免直接暴露到公网
+- `WEB_PORT` 用于整套前后端一键部署时的外部访问端口，默认 `80`
 - `SEED_MODE=demo` 会写入演示账号与演示审计日志
 - `SEED_MODE=base` 仅写入基础 RBAC 数据和一个平台管理员，此时必须提供 `SEED_ADMIN_PASSWORD`
 
 ## 启动方式
 
 ### 方式一：Docker 一键启动
+
+这条路径只启动 MySQL 与服务端，适合本地联调或前后端分开部署。
 
 在当前目录执行：
 
@@ -85,7 +90,68 @@ pnpm run logs:docker
 pnpm run admin-server:start
 ```
 
-### 方式二：本地 MySQL + 本地 Node
+### 方式二：整套前后端一键部署
+
+这条路径会同时启动：
+
+- MySQL
+- amu-admin-server
+- amu-admin 前端静态站点（内置 Nginx，自动把 `/api` 反向代理到服务端）
+
+如果你想直接按独立部署说明执行，也可以查看 `ONE_CLICK_DEPLOY.md`。
+
+第一次使用前，建议先复制环境变量：
+
+```bash
+cp .env.example .env
+```
+
+至少修改以下字段：
+
+- `AMU_ADMIN_ACCESS_SECRET`
+- `AMU_ADMIN_REFRESH_SECRET`
+- `MYSQL_PASSWORD`
+- `MYSQL_ROOT_PASSWORD`
+- `SEED_MODE`
+- `SEED_ADMIN_PASSWORD`
+
+前台启动：
+
+```bash
+pnpm run start:full
+```
+
+后台启动：
+
+```bash
+pnpm run start:full:detached
+```
+
+停止：
+
+```bash
+pnpm run stop:full
+```
+
+查看整套日志：
+
+```bash
+pnpm run logs:full
+```
+
+如果你在仓库根目录执行，也可以直接使用：
+
+```bash
+pnpm run admin-stack:start:detached
+```
+
+部署完成后：
+
+- 前端首页：`http://<your-host>:${WEB_PORT:-80}`
+- Swagger：`http://<your-host>:${WEB_PORT:-80}/api/docs`
+- 就绪检查：`http://<your-host>:${WEB_PORT:-80}/api/health/ready`
+
+### 方式三：本地 MySQL + 本地 Node
 
 ```bash
 pnpm install
@@ -109,6 +175,12 @@ docker compose up -d mysql
 
 ```bash
 docker compose up --build
+```
+
+使用全栈 compose 一键启动前后端：
+
+```bash
+docker compose -f docker-compose.full.yml up -d --build
 ```
 
 容器健康状态接口：
