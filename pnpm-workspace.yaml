@@ -4,4 +4,3 @@ packages:
   - "sfc-playground"
   - "docs"
   - "packages/*"
-  - "templates/*"

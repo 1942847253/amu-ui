@@ -35,13 +35,10 @@
 	<a href="#特性亮点">特性亮点</a> ·
 	<a href="#包生态">包生态</a> ·
 	<a href="#快速开始">快速开始</a> ·
-	<a href="#开发工作流">开发工作流</a> ·
-	<a href="#后台模板联调">后台模板</a> ·
-	<a href="./templates/amu-admin/README.md">前端模板 README</a> ·
-	<a href="./templates/amu-admin-server/README.md">服务端模板 README</a>
+	<a href="#开发工作流">开发工作流</a>
 </p>
 
-`amu-ui` 不只是单一组件包，而是一套围绕组件、图标、主题、国际化、文档站、调试沙盒，以及后台前后端模板构建起来的完整工作台。
+`amu-ui` 不只是单一组件包，而是一套围绕组件、图标、主题、国际化、文档站与调试沙盒构建起来的完整工作台。
 
 ## 特性亮点
 
@@ -52,7 +49,6 @@
 - 主题系统基于 CSS Variables，支持暗黑模式与语义化设计令牌
 - 组件文档站与 Demo 系统内建 API 自动解析能力，降低维护成本
 - 图标、hooks、locale 独立拆包，便于生态复用与版本管理
-- 附带后台管理前端模板与 NestJS 服务端模板，方便联调与业务落地
 
 ## 包生态
 
@@ -142,8 +138,7 @@ amu-ui
 ├─ packages/                 # 组件、图标、hooks、locale、theme、utils
 ├─ docs/                     # 文档站
 ├─ playground/               # 本地调试沙盒
-├─ templates/amu-admin       # 后台管理前端模板
-└─ templates/amu-admin-server # 后台管理服务端模板
+└─ sfc-playground/           # 交互式 SFC Playground
 ```
 
 ### packages 说明
@@ -174,41 +169,11 @@ amu-ui
 - 主题系统基于 CSS Variables，支持暗黑模式与局部主题切换
 - locale 与 hooks 独立拆包，组件通过 `ConfigProvider` 注入语言上下文
 
-## 后台模板联调
-
-仓库内同时维护了一套基于 `amu-ui` 的后台模板生态：
-
-- `templates/amu-admin`：Vue 3 + Pinia + Vue Router 的前端后台模板
-- `templates/amu-admin-server`：NestJS + Prisma + MySQL 的服务端模板
-
-启动服务端模板：
-
-```bash
-pnpm run admin-server:start
-```
-
-查看服务端日志：
-
-```bash
-pnpm run admin-server:logs
-```
-
-停止服务端模板：
-
-```bash
-pnpm run admin-server:stop
-```
-
-更多说明可查看：
-
-- [templates/amu-admin/README.md](templates/amu-admin/README.md)
-- [templates/amu-admin-server/README.md](templates/amu-admin-server/README.md)
-
 ## 当前状态
 
-- 组件库、前端模板、服务端模板均可独立构建
-- 模板相关测试已纳入仓库统一 Vitest 流程
-- 当前模板更适合作为仓库生态示例、业务底座和独立模板候选，而非零配置通用脚手架
+- 组件库、文档站与调试沙盒均可独立构建
+- 组件测试已纳入仓库统一 Vitest 流程
+- 当前仓库聚焦于 UI 组件生态与文档工具链本身
 
 ## 发布与维护
 
@@ -216,7 +181,6 @@ pnpm run admin-server:stop
 
 - 构建主包与独立子包
 - 校验主包 `exports` 与按需路径是否正确
-- 验证模板在源码模式与包模式下都可正常运行
 - 确认版本变更与联动依赖一致
 
 ## License

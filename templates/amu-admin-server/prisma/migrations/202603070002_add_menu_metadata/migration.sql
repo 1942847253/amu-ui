@@ -1,4 +1,0 @@
-ALTER TABLE `menus`
-  ADD COLUMN `menuType` VARCHAR(32) NOT NULL DEFAULT 'MENU' AFTER `icon`,
-  ADD COLUMN `componentPath` VARCHAR(191) NULL AFTER `menuType`,
-  ADD COLUMN `status` VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' AFTER `componentPath`;

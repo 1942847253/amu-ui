@@ -35,13 +35,10 @@
 	<a href="#highlights">Highlights</a> ·
 	<a href="#packages">Packages</a> ·
 	<a href="#quick-start">Quick Start</a> ·
-	<a href="#workflow">Workflow</a> ·
-	<a href="#templates">Templates</a> ·
-	<a href="./templates/amu-admin/README.md">Admin Template README</a> ·
-	<a href="./templates/amu-admin-server/README.md">Admin Server README</a>
+	<a href="#workflow">Workflow</a>
 </p>
 
-`amu-ui` is more than a single component package. It is a complete Vue 3 UI toolkit and engineering workspace built around components, icons, theme tokens, locale, documentation, playgrounds, and admin templates.
+`amu-ui` is more than a single component package. It is a complete Vue 3 UI toolkit and engineering workspace built around components, icons, theme tokens, locale, documentation, and playgrounds.
 
 ## Highlights
 
@@ -52,7 +49,6 @@
 - Uses CSS Variables for theming, including dark mode and semantic design tokens
 - Generates component API docs from source definitions to reduce documentation overhead
 - Splits icons, hooks, and locale into reusable packages for ecosystem growth
-- Provides admin frontend and NestJS backend templates for integrated business delivery
 
 ## Packages
 
@@ -142,8 +138,7 @@ amu-ui
 ├─ packages/                 # components, icons, hooks, locale, theme, utils
 ├─ docs/                     # documentation site
 ├─ playground/               # local development playground
-├─ templates/amu-admin       # admin frontend template
-└─ templates/amu-admin-server # admin backend template
+└─ sfc-playground/           # interactive SFC playground
 ```
 
 ### packages Overview
@@ -174,41 +169,11 @@ amu-ui
 - The theme system is based on CSS Variables with dark mode and scoped theme switching
 - Locale and hooks are split into standalone packages, with `ConfigProvider` handling injection
 
-## Templates
-
-This repository also maintains an admin template stack powered by `amu-ui`.
-
-- `templates/amu-admin`: Vue 3 + Pinia + Vue Router admin frontend template
-- `templates/amu-admin-server`: NestJS + Prisma + MySQL backend template
-
-Start the backend template:
-
-```bash
-pnpm run admin-server:start
-```
-
-View backend logs:
-
-```bash
-pnpm run admin-server:logs
-```
-
-Stop the backend template:
-
-```bash
-pnpm run admin-server:stop
-```
-
-See more details in:
-
-- [templates/amu-admin/README.md](templates/amu-admin/README.md)
-- [templates/amu-admin-server/README.md](templates/amu-admin-server/README.md)
-
 ## Current Status
 
-- The component library, admin frontend template, and backend template can all be built independently
-- Template-related tests are already included in the unified Vitest workflow
-- The templates currently work best as ecosystem examples, business foundations, and extraction candidates rather than zero-config scaffolds
+- The component library, docs site, and playgrounds can all be built independently
+- Component tests are unified under the root Vitest workflow
+- The repository is focused on the UI package ecosystem and its documentation tooling
 
 ## Release and Maintenance
 
@@ -216,7 +181,6 @@ Before publishing the `amu-ui` ecosystem packages, it is recommended to complete
 
 - Build the main package and all standalone subpackages
 - Verify `exports` and on-demand import paths
-- Validate both workspace-source mode and package mode for templates
 - Confirm version bumps and dependency linkage are aligned
 
 ## License
