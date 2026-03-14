@@ -63,11 +63,15 @@ services:
     build:
       context: ../amu-admin
       dockerfile: Dockerfile
+      args:
+        APP_BASE_PATH: ${APP_BASE_PATH:-/amu-admin/}
     container_name: amu-admin-web
     restart: unless-stopped
     depends_on:
       app:
         condition: service_healthy
+    environment:
+      APP_BASE_PATH: ${APP_BASE_PATH:-/amu-admin/}
     ports:
       - "${WEB_PORT:-80}:80"
     healthcheck:

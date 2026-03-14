@@ -7,7 +7,7 @@ import { useAppStore } from '../store/app'
 import { findMenuNode, resolveFirstLeafKey } from '../utils/menu-tree'
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: staticRoutes
 })
 

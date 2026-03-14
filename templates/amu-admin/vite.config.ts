@@ -17,10 +17,19 @@ const parseBoolean = (value: string | undefined, fallback: boolean) => {
   return fallback
 }
 
+const normalizeBasePath = (value: string | undefined, fallback = '/') => {
+  const nextValue = value?.trim() || fallback
+  if (nextValue === '/') return '/'
+
+  const sanitized = nextValue.replace(/^\/+|\/+$/g, '')
+  return sanitized ? `/${sanitized}/` : '/'
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname, '')
   const devPort = parsePort(env.VITE_DEV_PORT, 5174)
   const apiProxyTarget = env.VITE_API_PROXY_TARGET?.trim() || 'http://localhost:3000'
+  const basePath = normalizeBasePath(env.VITE_APP_BASE_PATH, '/')
   const workspaceEntry = resolve(__dirname, '../../packages/components/index.ts')
   const useWorkspaceSource = parseBoolean(env.VITE_USE_WORKSPACE_SOURCE, existsSync(workspaceEntry))
   const workspaceAliases = [
@@ -55,6 +64,7 @@ export default defineConfig(({ mode }) => {
   ]
 
   return {
+    base: basePath,
     plugins: [vue(), vueJsx()],
     css: {
       preprocessorOptions: {

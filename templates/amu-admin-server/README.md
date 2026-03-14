@@ -51,6 +51,7 @@ SEED_MODE="demo"
 - 容器内 `DATABASE_URL` 由 `MYSQL_DATABASE`、`MYSQL_USER`、`MYSQL_PASSWORD` 组合生成
 - `MYSQL_BIND_HOST=127.0.0.1` 可以把数据库端口限制在宿主机本机，避免直接暴露到公网
 - `WEB_PORT` 用于整套前后端一键部署时的外部访问端口，默认 `80`
+- `APP_BASE_PATH` 用于配置前端挂载路径；例如 `"/amu-admin/"` 表示通过 `/amu-admin` 访问后台
 - `SEED_MODE=demo` 会写入演示账号与演示审计日志
 - `SEED_MODE=base` 仅写入基础 RBAC 数据和一个平台管理员，此时必须提供 `SEED_ADMIN_PASSWORD`
 
@@ -147,7 +148,7 @@ pnpm run admin-stack:start:detached
 
 部署完成后：
 
-- 前端首页：`http://<your-host>:${WEB_PORT:-80}`
+- 前端首页：`http://<your-host>:${WEB_PORT:-80}${APP_BASE_PATH:-/amu-admin/}`
 - Swagger：`http://<your-host>:${WEB_PORT:-80}/api/docs`
 - 就绪检查：`http://<your-host>:${WEB_PORT:-80}/api/health/ready`
 

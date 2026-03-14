@@ -48,12 +48,14 @@ cp .env.example .env
 - `SEED_MODE`
 - `SEED_ADMIN_PASSWORD`
 - `WEB_PORT`
+- `APP_BASE_PATH`
 
 推荐生产配置：
 
 ```bash
 MYSQL_BIND_HOST="127.0.0.1"
 WEB_PORT="80"
+APP_BASE_PATH="/amu-admin/"
 SEED_MODE="base"
 SEED_ADMIN_USERNAME="admin"
 SEED_ADMIN_PASSWORD="请改成强密码"
@@ -101,9 +103,9 @@ docker compose -f docker-compose.full.yml down
 
 ## 第五步：访问地址
 
-假设你的服务器 IP 是 `1.2.3.4`，且 `WEB_PORT=80`：
+假设你的服务器 IP 是 `1.2.3.4`，且 `WEB_PORT=80`、`APP_BASE_PATH=/amu-admin/`：
 
-- 前端首页：`http://1.2.3.4/`
+- 前端首页：`http://1.2.3.4/amu-admin/`
 - Swagger：`http://1.2.3.4/api/docs`
 - 就绪检查：`http://1.2.3.4/api/health/ready`
 
